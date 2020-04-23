@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1;netstandard2.0</TargetFrameworks>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
+    <RepositoryType>gitee</RepositoryType>
+    <Description>分布式唯一ID生成器</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <Authors>JMacro</Authors>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageReleaseNotes>分布式唯一ID生成器</PackageReleaseNotes>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+  </ItemGroup>
+
+</Project>

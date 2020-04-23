@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Flash.Extersions.CQRS</name>
+    </assembly>
+    <members>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionExtersion.RegisterValidatorBehavior(Autofac.ContainerBuilder)">
+            <summary>
+            注册验证器
+            </summary>
+            <param name="container"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extersions.CQRS.BaseAbstractValidator`1">
+            <summary>
+            基础验证器
+            </summary>
+            <typeparam name="TCommand">请求类</typeparam>
+        </member>
+        <member name="M:Flash.Extersions.CQRS.BaseAbstractValidator`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="T:Flash.Extersions.CQRS.BaseCommand`1">
+            <summary>
+            MediatR基础命令抽象类
+            </summary>
+            <typeparam name="TResponse">响应实体</typeparam>
+        </member>
+        <member name="T:Flash.Extersions.CQRS.BaseCommandHandler`2">
+            <summary>
+            基础命令处理基类
+            </summary>
+            <typeparam name="TRequest">继承BaseCommand的实体类</typeparam>
+            <typeparam name="TResponse">响应实体</typeparam>
+        </member>
+        <member name="T:Flash.Extersions.CQRS.Implements.ValidatorBehavior`2">
+            <summary>
+            验证器校验行为
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+    </members>
+</doc>

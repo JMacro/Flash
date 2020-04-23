@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Authors>JMacro</Authors>
+    <Description>加密解密相关操作</Description>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
+    <RepositoryType>gitee</RepositoryType>
+    <PackageReleaseNotes>加密解密相关操作</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>

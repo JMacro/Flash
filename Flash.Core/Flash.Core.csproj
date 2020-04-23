@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Version>1.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Core</RootNamespace>
+    <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
+    <RepositoryType>gitee</RepositoryType>
+    <Authors>JMacro</Authors>
+    <Description>Flash核心文件</Description>
+    <PackageReleaseNotes>Flash核心文件</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
