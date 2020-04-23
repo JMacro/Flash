@@ -6,7 +6,7 @@ namespace System
     public static class EnumExtensions
     {
         /// <summary>
-        /// 获取枚举类型描述 
+        /// 获取枚举类型描述
         /// </summary>
         /// <param name="enumType">枚举类型</param>
         /// <returns></returns>
