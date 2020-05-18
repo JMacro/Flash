@@ -9,7 +9,16 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashHostBuilder AddRedis(this IFlashHostBuilder hostBuilder, Action<RedisCacheConfig> action)
         {
             action = action ?? throw new ArgumentNullException(nameof(action));
-            hostBuilder.Services.AddSingleton(CacheFactory.Build(action));
+
+            var option = new RedisCacheConfig();
+            action(option);
+
+            if (option.HealthyCheck)
+            {
+                //TODO 健康检查代码实现
+            }
+
+            hostBuilder.Services.AddSingleton(CacheFactory.Build(option));
             return hostBuilder;
         }
     }
