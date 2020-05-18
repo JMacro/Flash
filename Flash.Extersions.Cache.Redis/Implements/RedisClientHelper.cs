@@ -1193,7 +1193,10 @@ namespace Flash.Extersions.Cache.Redis
 
         private string ConvertJson<T>(T value)
         {
-
+            if (typeof(T).IsValueType || typeof(T).FullName == "System.String")
+            {
+                return value.ToString();
+            }
             string result = JsonConvert.SerializeObject(value);
             return result;
 

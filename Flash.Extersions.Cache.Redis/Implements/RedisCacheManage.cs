@@ -382,10 +382,7 @@ namespace Flash.Extersions.Cache.Redis
             if (!string.IsNullOrEmpty(cacheKey) && cacheValue != null)
             {
                 return GetPooledClientManager(cacheKey).StringSet<T>(cacheKey, cacheValue);
-
-
             }
-
             return false;
         }
 
