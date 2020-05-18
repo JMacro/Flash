@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{E3F3C44D-EF02-4794-AFC3-93F26BDAFC1F}"
 	ProjectSection(SolutionItems) = preProject
 		build-nuget.cmd = build-nuget.cmd
+		build-nuget.sh = build-nuget.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.System", "Flash.Extersions.System\Flash.Extersions.System.csproj", "{57A3EB9F-AA0F-4498-9C58-333F0F960BB7}"
