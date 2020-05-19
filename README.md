@@ -5,6 +5,8 @@
 |:-------------------------------|:----------------------|
 |  Flash.Extersions.System       | System基础数据类型扩展 | 
 |  Flash.Extersions.UidGenerator | 分布式唯一ID生成器     | 
+|  Flash.Extersions.DistributedLock | 分布式锁           |
+|  Flash.Extersions.Cache.Redis | Nosql redis           |
 
 #### 使用说明
 
