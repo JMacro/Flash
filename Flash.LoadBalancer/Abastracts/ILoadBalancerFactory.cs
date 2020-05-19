@@ -6,6 +6,6 @@ namespace Flash.LoadBalancer
 {
     public interface ILoadBalancerFactory<T>
     {
-        ILoadBalancer<T> Get(Func<List<T>> func, LoadBalancerType Type);
+        ILoadBalancer<T> Resolve(Func<List<T>> func, LoadBalancerType Type);
     }
 }

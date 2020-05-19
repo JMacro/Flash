@@ -291,7 +291,7 @@ namespace Flash.Extersions.Cache.Redis
         {
             var factory = new DefaultLoadBalancerFactory<ClientHelper>();
 
-            return factory.Get(() =>
+            return factory.Resolve(() =>
             {
                 var clients = new List<ClientHelper>();
                 for (int i = 0; i < this._NumberOfConnections; i++)

@@ -8,6 +8,6 @@ namespace Flash.LoadBalancer
     {
         T Resolve();
 
-        T Resolve(IEnumerable<T> connections);
+        T Resolve(List<T> connections);
     }
 }

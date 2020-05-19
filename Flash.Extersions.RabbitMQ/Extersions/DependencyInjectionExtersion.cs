@@ -243,8 +243,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     senderConnections.Add(connection);
                 }
 
-                var receiveLoadBlancer = rabbitMQPersisterConnectionLoadBalancerFactory.Get(() => receiveConnections, option.ReceiverLoadBalancer);
-                var senderLoadBlancer = rabbitMQPersisterConnectionLoadBalancerFactory.Get(() => senderConnections, option.SenderLoadBalancer);
+                var receiveLoadBlancer = rabbitMQPersisterConnectionLoadBalancerFactory.Resolve(() => receiveConnections, option.ReceiverLoadBalancer);
+                var senderLoadBlancer = rabbitMQPersisterConnectionLoadBalancerFactory.Resolve(() => senderConnections, option.SenderLoadBalancer);
 
                 return new RabbitMQBus(
                     receiveLoadBlancer,
