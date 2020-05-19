@@ -1,5 +1,5 @@
 ﻿using Flash.Core;
-using Flash.Extersions.OpenTracting;
+using Flash.Extersions.Cache;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,13 +9,15 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionExtersion
     {
         /// <summary>
-        /// 添加日志追踪
+        /// 添加缓存
         /// </summary>
         /// <param name="hostBuilder"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        public static IFlashHostBuilder AddLinkTrack(this IFlashHostBuilder hostBuilder)
+        public static IFlashHostBuilder AddCache(this IFlashHostBuilder hostBuilder, Action<IFlashCacheBuilder> action)
         {
-            hostBuilder.Services.AddSingleton<ILinkTrack, LinkTrack>();
+            var builder = new FlashCacheBuilder(hostBuilder.Services);
+            action(builder);
             return hostBuilder;
         }
     }

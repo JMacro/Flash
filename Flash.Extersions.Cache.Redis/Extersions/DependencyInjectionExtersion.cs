@@ -10,10 +10,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 注册Redis缓存管理，实例对象ICacheManager
         /// </summary>
-        /// <param name="hostBuilder"></param>
+        /// <param name="cacheBuilder"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static IFlashHostBuilder AddRedis(this IFlashHostBuilder hostBuilder, Action<ICacheConfig> action)
+        public static IFlashCacheBuilder AddRedis(this IFlashCacheBuilder cacheBuilder, Action<ICacheConfig> action)
         {
             action = action ?? throw new ArgumentNullException(nameof(action));
 
@@ -27,8 +27,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 //TODO 健康检查代码实现
             }
 
-            hostBuilder.Services.AddSingleton<ICacheManager>(cacheManager);
-            return hostBuilder;
+            cacheBuilder.Services.AddSingleton<ICacheManager>(cacheManager);
+            return cacheBuilder;
         }
     }
 }

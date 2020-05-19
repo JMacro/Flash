@@ -48,6 +48,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.Cache.Redi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extersions.DistributedLock", "Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj", "{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.OpenTracting.Jaeger", "Flash.Extersions.OpenTracting.Jaeger\Flash.Extersions.OpenTracting.Jaeger.csproj", "{E7312165-4281-41AB-A2DA-F426CEACC8FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7312165-4281-41AB-A2DA-F426CEACC8FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7312165-4281-41AB-A2DA-F426CEACC8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7312165-4281-41AB-A2DA-F426CEACC8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7312165-4281-41AB-A2DA-F426CEACC8FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{299C3EF0-A2B1-4E35-99B8-46152F5021E7} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{0F1B410C-1FC0-4AD1-9507-B174B8B8975A} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{D2B694A0-52BF-4F75-ABF4-986AA564BDB4} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{E7312165-4281-41AB-A2DA-F426CEACC8FD} = {AB151676-5329-47DD-974B-646648B41FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

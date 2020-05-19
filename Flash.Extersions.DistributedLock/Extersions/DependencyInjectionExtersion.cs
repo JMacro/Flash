@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="hostBuilder"></param>
         /// <returns></returns>
-        public static IFlashHostBuilder AddDistributedLock(this IFlashHostBuilder hostBuilder)
+        public static IFlashCacheBuilder AddDistributedLock(this IFlashCacheBuilder hostBuilder)
         {
             var provider = hostBuilder.Services.BuildServiceProvider();
             hostBuilder.Services.AddSingleton<IDistributedLock>(new RedisDistributedLock(provider.GetService<ICacheManager>()));

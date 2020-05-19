@@ -14,17 +14,29 @@ namespace Flash.Test
             var services = new ServiceCollection();
             services.AddFlash(setup =>
             {
-                setup.AddRedis(option =>
+                setup.AddCache(cache =>
                 {
-                    option.WithDb(10);
-                    option.WithKeyPrefix("SystemClassName:TypeClassName");
-                    option.WithPassword("tY7cRu9HG_jyDw2r");
-                    option.WithReadServerList("192.168.109.237:63100");
-                    option.WithWriteServerList("192.168.109.237:63100");
-                    option.WithSsl(false);
-                    option.WithHealthyCheck(false);
-                })
-                .AddDistributedLock();
+                    cache.AddRedis(option =>
+                    {
+                        option.WithDb(10);
+                        option.WithKeyPrefix("SystemClassName:TypeClassName");
+                        option.WithPassword("tY7cRu9HG_jyDw2r");
+                        option.WithReadServerList("192.168.109.237:63100");
+                        option.WithWriteServerList("192.168.109.237:63100");
+                        option.WithSsl(false);
+                        option.WithHealthyCheck(false);
+                    })
+                    .AddDistributedLock();
+                });
+
+                setup.AddOpenTracing(option =>
+                {
+                    option.AddJaeger(ation =>
+                    {
+                        
+                    });
+                });
+
             });
 
             //构建ServiceProvider对象
