@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Flash.Extersions.Cache.Redis
 {
-    class RedisConnectionHelp
+    class ConnectionHelp
     {
         private static readonly object Locker = new object();
         private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> ConnectionCache = new ConcurrentDictionary<string, ConnectionMultiplexer>();
-        private RedisConnectionHelp()
+        private ConnectionHelp()
         { }
 
         /// <summary>

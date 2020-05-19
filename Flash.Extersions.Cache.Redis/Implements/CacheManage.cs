@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Flash.Extersions.Cache.Redis
 {
-    public class RedisCacheManage : ICacheManager
+    public class CacheManage : ICacheManager
     {
         #region 全局变量
         private static object _syncCreateInstance = new Object();
@@ -29,7 +29,7 @@ namespace Flash.Extersions.Cache.Redis
 
         private static Dictionary<string, ConfigurationOptions> _clusterConfigOptions = new Dictionary<string, ConfigurationOptions>();
 
-        private static Dictionary<string, Dictionary<int, ILoadBalancer<RedisClientHelper>>> _nodeClients = new Dictionary<string, Dictionary<int, ILoadBalancer<RedisClientHelper>>>();
+        private static Dictionary<string, Dictionary<int, ILoadBalancer<ClientHelper>>> _nodeClients = new Dictionary<string, Dictionary<int, ILoadBalancer<ClientHelper>>>();
         #endregion
 
         #region 实例变量
@@ -41,7 +41,7 @@ namespace Flash.Extersions.Cache.Redis
 
         #endregion
 
-        private RedisCacheManage(int DbNum = 0, int NumberOfConnections = 10)
+        private CacheManage(int DbNum = 0, int NumberOfConnections = 10)
         {
             this._DbNum = DbNum;
             this._NumberOfConnections = NumberOfConnections;
@@ -51,7 +51,7 @@ namespace Flash.Extersions.Cache.Redis
         /// <summary>
         /// 创建链接池管理对象
         /// </summary>
-        public static ICacheManager Create(RedisCacheConfig config)
+        public static ICacheManager Create(CacheConfig config)
         {
             ThreadPool.SetMinThreads(200, 200);
 
@@ -75,8 +75,8 @@ namespace Flash.Extersions.Cache.Redis
                             //Redis服务器相关配置
                             string writeServerList = config.WriteServerList;
                             string readServerList = config.ReadServerList;
-                            var writeServerArray = RedisCacheConfigHelper.SplitString(writeServerList, ",").ToList();
-                            var readServerArray = RedisCacheConfigHelper.SplitString(readServerList, ",").ToList();
+                            var writeServerArray = CacheConfigHelper.SplitString(writeServerList, ",").ToList();
+                            var readServerArray = CacheConfigHelper.SplitString(readServerList, ",").ToList();
                             var Nodes = new List<string>();
 
                             //只有一个写,多个读的情况
@@ -121,14 +121,14 @@ namespace Flash.Extersions.Cache.Redis
                                     if (writeServerArray[i].IndexOf("@") > 0)
                                     {
                                         //集群名称()
-                                        var NodeName = RedisCacheConfigHelper.GetServerClusterName(writeServerArray[i]);
+                                        var NodeName = CacheConfigHelper.GetServerClusterName(writeServerArray[i]);
                                         //主服务器名称
-                                        var masterServer = RedisCacheConfigHelper.GetServerHost(writeServerArray[i]);
+                                        var masterServer = CacheConfigHelper.GetServerHost(writeServerArray[i]);
 
                                         //主服务器列表
-                                        var masterServerIPAndPortArray = RedisCacheConfigHelper.GetServerList(config.WriteServerList, NodeName);
+                                        var masterServerIPAndPortArray = CacheConfigHelper.GetServerList(config.WriteServerList, NodeName);
                                         //从服务器列表
-                                        var slaveServerIPAndPortArray = RedisCacheConfigHelper.GetServerList(config.ReadServerList, NodeName);
+                                        var slaveServerIPAndPortArray = CacheConfigHelper.GetServerList(config.ReadServerList, NodeName);
 
                                         //当前集群的配置不存在
                                         if (!_clusterConfigOptions.ContainsKey(NodeName))
@@ -145,7 +145,7 @@ namespace Flash.Extersions.Cache.Redis
 
                                             foreach (var ipAndPort in masterServerIPAndPortArray.Union(slaveServerIPAndPortArray).Distinct())
                                             {
-                                                configOption.EndPoints.Add(RedisCacheConfigHelper.GetIP(ipAndPort), RedisCacheConfigHelper.GetPort(ipAndPort));
+                                                configOption.EndPoints.Add(CacheConfigHelper.GetIP(ipAndPort), CacheConfigHelper.GetPort(ipAndPort));
                                             }
 
                                             _clusterConfigOptions.Add(NodeName, configOption);
@@ -172,7 +172,7 @@ namespace Flash.Extersions.Cache.Redis
                                             configOption.ResponseTimeout = 15000;
 
 
-                                            configOption.EndPoints.Add(RedisCacheConfigHelper.GetIP(NodeName), RedisCacheConfigHelper.GetPort(NodeName));
+                                            configOption.EndPoints.Add(CacheConfigHelper.GetIP(NodeName), CacheConfigHelper.GetPort(NodeName));
                                             _clusterConfigOptions.Add(NodeName, configOption);
                                         }
 
@@ -187,14 +187,14 @@ namespace Flash.Extersions.Cache.Redis
                         {
                             List<string> sentinelMasterNameList = new List<string>();
                             List<string> sentinelServerHostList = new List<string>();
-                            var SentineList = RedisCacheConfigHelper.SplitString(config.SentineList, ",").ToList();
+                            var SentineList = CacheConfigHelper.SplitString(config.SentineList, ",").ToList();
                             for (int i = 0; i < SentineList.Count; i++)
                             {
-                                var args = RedisCacheConfigHelper.SplitString(SentineList[i], "@").ToList();
+                                var args = CacheConfigHelper.SplitString(SentineList[i], "@").ToList();
 
                                 var ServiceName = args[0];
                                 var hostName = args[1];
-                                var endPoint = RedisCacheConfigHelper.SplitString(hostName, ":").ToList();
+                                var endPoint = CacheConfigHelper.SplitString(hostName, ":").ToList();
                                 var ip = endPoint[0]; //IP
                                 var port = int.Parse(endPoint[1]); //端口 
 
@@ -229,7 +229,7 @@ namespace Flash.Extersions.Cache.Redis
             }
 
 
-            return new RedisCacheManage(config.DBNum, config.NumberOfConnections);
+            return new CacheManage(config.DBNum, config.NumberOfConnections);
         }
 
         #region 辅助方法
@@ -239,7 +239,7 @@ namespace Flash.Extersions.Cache.Redis
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
-        private RedisClientHelper GetPooledClientManager(string cacheKey)
+        private ClientHelper GetPooledClientManager(string cacheKey)
         {
             var nodeName = _Locator.GetPrimary(_KeyPrefix + cacheKey);
 
@@ -263,7 +263,7 @@ namespace Flash.Extersions.Cache.Redis
         }
 
 
-        private RedisClientHelper GetClientHelper(string nodeName)
+        private ClientHelper GetClientHelper(string nodeName)
         {
             lock (_syncCreateClient)
             {
@@ -278,7 +278,7 @@ namespace Flash.Extersions.Cache.Redis
                 }
                 else
                 {
-                    var node = new Dictionary<int, ILoadBalancer<RedisClientHelper>>();
+                    var node = new Dictionary<int, ILoadBalancer<ClientHelper>>();
                     node[_DbNum] = GetConnectionLoadBalancer(nodeName);
                     _nodeClients[nodeName] = node;
                 }
@@ -287,16 +287,16 @@ namespace Flash.Extersions.Cache.Redis
             }
         }
 
-        private ILoadBalancer<RedisClientHelper> GetConnectionLoadBalancer(string nodeName)
+        private ILoadBalancer<ClientHelper> GetConnectionLoadBalancer(string nodeName)
         {
-            var factory = new DefaultLoadBalancerFactory<RedisClientHelper>();
+            var factory = new DefaultLoadBalancerFactory<ClientHelper>();
 
             return factory.Get(() =>
             {
-                var clients = new List<RedisClientHelper>();
+                var clients = new List<ClientHelper>();
                 for (int i = 0; i < this._NumberOfConnections; i++)
                 {
-                    clients.Add(new RedisClientHelper(_DbNum, _clusterConfigOptions[nodeName], _KeyPrefix));
+                    clients.Add(new ClientHelper(_DbNum, _clusterConfigOptions[nodeName], _KeyPrefix));
                 }
                 return clients;
             });

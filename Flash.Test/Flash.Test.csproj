@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
+    <ProjectReference Include="..\Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Security\Flash.Extersions.Security.csproj" />
     <ProjectReference Include="..\Flash.Extersions.System\Flash.Extersions.System.csproj" />
   </ItemGroup>

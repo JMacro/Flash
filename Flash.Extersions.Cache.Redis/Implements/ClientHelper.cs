@@ -10,7 +10,7 @@ namespace Flash.Extersions.Cache.Redis
     /// <summary>
     /// Redis客户端帮助类
     /// </summary>
-    public class RedisClientHelper
+    public class ClientHelper
     {
         /// <summary>
         /// 缓存数据库
@@ -23,18 +23,18 @@ namespace Flash.Extersions.Cache.Redis
 
         #region 构造函数
 
-        public RedisClientHelper(int dbNum, string connectionString, string KeyPrefix)
+        public ClientHelper(int dbNum, string connectionString, string KeyPrefix)
         {
             this.DbNum = dbNum;
             this.KeyPrefix = KeyPrefix;
-            this._conn = RedisConnectionHelp.CreateConnect(connectionString);
+            this._conn = ConnectionHelp.CreateConnect(connectionString);
         }
 
-        public RedisClientHelper(int dbNum, ConfigurationOptions configOptions, string KeyPrefix)
+        public ClientHelper(int dbNum, ConfigurationOptions configOptions, string KeyPrefix)
         {
             this.DbNum = dbNum;
             this.KeyPrefix = KeyPrefix;
-            this._conn = RedisConnectionHelp.CreateConnect(configOptions);
+            this._conn = ConnectionHelp.CreateConnect(configOptions);
         }
         #endregion 构造函数
 

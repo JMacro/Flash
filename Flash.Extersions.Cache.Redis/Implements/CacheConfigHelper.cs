@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flash.Extersions.Cache.Redis
 {
-    static class RedisCacheConfigHelper
+    static class CacheConfigHelper
     {
         /// <summary>
         /// 分割服务器列表
@@ -65,7 +65,7 @@ namespace Flash.Extersions.Cache.Redis
 
         public static string GetIP(string IPAndPort)
         {
-            var endPoint = RedisCacheConfigHelper.SplitString(IPAndPort, ":").ToList();
+            var endPoint = CacheConfigHelper.SplitString(IPAndPort, ":").ToList();
             var ip = endPoint[0]; //IP
             var port = int.Parse(endPoint[1]); //端口 
 
@@ -74,7 +74,7 @@ namespace Flash.Extersions.Cache.Redis
 
         public static int GetPort(string IPAndPort)
         {
-            var endPoint = RedisCacheConfigHelper.SplitString(IPAndPort, ":").ToList();
+            var endPoint = CacheConfigHelper.SplitString(IPAndPort, ":").ToList();
             var ip = endPoint[0]; //IP
             var port = int.Parse(endPoint[1]); //端口 
 

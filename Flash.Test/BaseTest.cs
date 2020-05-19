@@ -22,7 +22,9 @@ namespace Flash.Test
                     option.WithReadServerList("192.168.109.237:63100");
                     option.WithWriteServerList("192.168.109.237:63100");
                     option.WithSsl(false);
-                });
+                    option.WithHealthyCheck(false);
+                })
+                .AddDistributedLock();
             });
 
             //构建ServiceProvider对象
