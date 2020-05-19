@@ -10,6 +10,10 @@
     <RepositoryType>github</RepositoryType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Flash.Extersions.Cache.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="..\icon.png">
       <Pack>True</Pack>

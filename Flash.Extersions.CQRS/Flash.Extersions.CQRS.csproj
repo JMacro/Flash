@@ -8,6 +8,10 @@
     <DocumentationFile>Flash.Extersions.CQRS.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Flash.Extersions.CQRS.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Implements\LoggingBehavior.cs" />
   </ItemGroup>
