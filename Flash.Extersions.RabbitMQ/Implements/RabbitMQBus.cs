@@ -146,7 +146,7 @@ namespace Flash.Extersions.RabbitMQ
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
-            var connection = _subscribeLoadBlancer.Get();
+            var connection = _subscribeLoadBlancer.Resolve();
             if (!connection.IsConnected) connection.TryConnect();
 
             for (int i = 0; i < _reveiverMaxDegreeOfParallelism; i++)
@@ -331,7 +331,7 @@ namespace Flash.Extersions.RabbitMQ
 
         private async Task<bool> EnqueueConfirm(List<MessageRequest> messages)
         {
-            var connection = _publishLoadBlancer.Get();
+            var connection = _publishLoadBlancer.Resolve();
             try
             {
                 if (!connection.IsConnected) connection.TryConnect();

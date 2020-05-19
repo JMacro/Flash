@@ -15,13 +15,13 @@ namespace Flash.LoadBalancer
 
         private readonly object _lock = new object();
 
-        public T Get()
+        public T Resolve()
         {
             var connections = _func();
-            return Get(connections);
+            return Resolve(connections);
         }
 
-        public T Get(IEnumerable<T> connections)
+        public T Resolve(IEnumerable<T> connections)
         {
             int _last = new Random(Guid.NewGuid().GetHashCode()).Next(connections.Count() - 1);
             lock (_lock)

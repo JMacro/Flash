@@ -249,7 +249,7 @@ namespace Flash.Extersions.Cache.Redis
 
                 if (dbs.ContainsKey(_DbNum))
                 {
-                    return dbs[_DbNum].Get();
+                    return dbs[_DbNum].Resolve();
                 }
                 else
                 {
@@ -283,7 +283,7 @@ namespace Flash.Extersions.Cache.Redis
                     _nodeClients[nodeName] = node;
                 }
 
-                return _nodeClients[nodeName][_DbNum].Get();
+                return _nodeClients[nodeName][_DbNum].Resolve();
             }
         }
 

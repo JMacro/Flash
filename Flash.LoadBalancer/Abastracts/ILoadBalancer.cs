@@ -6,8 +6,8 @@ namespace Flash.LoadBalancer
 {
     public interface ILoadBalancer<T>
     {
-        T Get();
+        T Resolve();
 
-        T Get(IEnumerable<T> connections);
+        T Resolve(IEnumerable<T> connections);
     }
 }
