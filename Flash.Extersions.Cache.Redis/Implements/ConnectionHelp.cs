@@ -39,6 +39,11 @@ namespace Flash.Extersions.Cache.Redis
             return ConnectionCache[option.ServiceName];
         }
 
+        public static ConcurrentDictionary<string, ConnectionMultiplexer> GetConnections()
+        {
+            return ConnectionCache;
+        }
+
         private static ConnectionMultiplexer GetManager(string connectionString)
         {
 

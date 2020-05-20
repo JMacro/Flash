@@ -5,4 +5,12 @@
   </PropertyGroup>
   <ItemGroup>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extersions\" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
+  </ItemGroup>
 </Project>
