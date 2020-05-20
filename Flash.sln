@@ -46,11 +46,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.Cache", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.Cache.Redis", "Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj", "{0F1B410C-1FC0-4AD1-9507-B174B8B8975A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extersions.DistributedLock", "Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj", "{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.DistributedLock", "Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj", "{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.OpenTracting.Jaeger", "Flash.Extersions.OpenTracting.Jaeger\Flash.Extersions.OpenTracting.Jaeger.csproj", "{E7312165-4281-41AB-A2DA-F426CEACC8FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extersions.Configuration.Json", "Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj", "{2B06F236-E183-4DDD-975D-5E4E87574979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.Configuration.Json", "Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj", "{2B06F236-E183-4DDD-975D-5E4E87574979}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.HealthChecks.Redis", "Flash.Extersions.HealthChecks.Redis\Flash.Extersions.HealthChecks.Redis.csproj", "{39CB8CB2-FE17-463E-8782-F7EE67004387}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +124,10 @@ Global
 		{2B06F236-E183-4DDD-975D-5E4E87574979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B06F236-E183-4DDD-975D-5E4E87574979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B06F236-E183-4DDD-975D-5E4E87574979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39CB8CB2-FE17-463E-8782-F7EE67004387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39CB8CB2-FE17-463E-8782-F7EE67004387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39CB8CB2-FE17-463E-8782-F7EE67004387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39CB8CB2-FE17-463E-8782-F7EE67004387}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,6 +153,7 @@ Global
 		{D2B694A0-52BF-4F75-ABF4-986AA564BDB4} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{E7312165-4281-41AB-A2DA-F426CEACC8FD} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{2B06F236-E183-4DDD-975D-5E4E87574979} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{39CB8CB2-FE17-463E-8782-F7EE67004387} = {AB151676-5329-47DD-974B-646648B41FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}
