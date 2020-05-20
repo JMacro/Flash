@@ -1,6 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
 
 namespace Flash.Test
 {
@@ -10,6 +13,15 @@ namespace Flash.Test
 
         public BaseTest()
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetEnvironmentVariable("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
+                .AddJsonFileEx("Config/appsettings.json", false, true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            var d = configuration.GetSection("ConnectionStrings:RedisConnectionString").Value;
+
             //创建服务容器对象
             var services = new ServiceCollection();
             services.AddFlash(setup =>
@@ -33,7 +45,7 @@ namespace Flash.Test
                 {
                     option.AddJaeger(ation =>
                     {
-                        
+
                     });
                 });
 

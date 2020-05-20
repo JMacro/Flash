@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Flash.Test": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "dev"
+      }
+    }
+  }
+}

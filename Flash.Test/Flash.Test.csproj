@@ -20,10 +20,20 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
+    <ProjectReference Include="..\Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj" />
     <ProjectReference Include="..\Flash.Extersions.OpenTracting.Jaeger\Flash.Extersions.OpenTracting.Jaeger.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Security\Flash.Extersions.Security.csproj" />
     <ProjectReference Include="..\Flash.Extersions.System\Flash.Extersions.System.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Config\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\redis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
