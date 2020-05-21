@@ -54,7 +54,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.Configurat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.HealthChecks.Redis", "Flash.Extersions.HealthChecks.Redis\Flash.Extersions.HealthChecks.Redis.csproj", "{39CB8CB2-FE17-463E-8782-F7EE67004387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extersions.Cache.Memcached", "Flash.Extersions.Cache.Memcached\Flash.Extersions.Cache.Memcached.csproj", "{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extersions.Cache.Memcached", "Flash.Extersions.Cache.Memcached\Flash.Extersions.Cache.Memcached.csproj", "{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extersions.HealthChecks", "Flash.Extersions.HealthChecks\Flash.Extersions.HealthChecks.csproj", "{BA529852-ABD6-4559-B7F1-D64F809E31E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +136,10 @@ Global
 		{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA529852-ABD6-4559-B7F1-D64F809E31E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA529852-ABD6-4559-B7F1-D64F809E31E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA529852-ABD6-4559-B7F1-D64F809E31E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA529852-ABD6-4559-B7F1-D64F809E31E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,6 +167,7 @@ Global
 		{2B06F236-E183-4DDD-975D-5E4E87574979} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{39CB8CB2-FE17-463E-8782-F7EE67004387} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{BA529852-ABD6-4559-B7F1-D64F809E31E7} = {AB151676-5329-47DD-974B-646648B41FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}
