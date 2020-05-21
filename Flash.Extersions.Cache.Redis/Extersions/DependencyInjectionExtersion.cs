@@ -1,6 +1,7 @@
 ﻿using Flash.Core;
 using Flash.Extersions.Cache;
 using Flash.Extersions.Cache.Redis;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -17,14 +18,19 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             action = action ?? throw new ArgumentNullException(nameof(action));
 
-            var option = new CacheConfig();
+            var option = new RedisCacheConfig();
             action(option);
 
             var cacheManager = CacheFactory.Build(option);
 
-            if (option.HealthyCheck)
+            if (option.HealthCheck)
             {
-                //TODO 健康检查代码实现
+                cacheBuilder.Services.AddHealthChecks().AddRedis(ConnectionHelp.GetConnections());
+            }
+
+            if (option.DistributedLock)
+            {
+                cacheBuilder.Services.TryAddSingleton<IDistributedLock>(new DistributedLock(cacheManager));
             }
 
             cacheBuilder.Services.AddSingleton<ICacheManager>(cacheManager);
@@ -39,16 +45,16 @@ namespace Flash.Extersions.Cache.Redis
     {
         public static ICacheManager Build(Action<ICacheConfig> action)
         {
-            var option = new CacheConfig();
+            var option = new RedisCacheConfig();
             action(option);
 
-            var cacheManager = CacheManage.Create(option);
+            var cacheManager = RedisCacheManage.Create(option);
             return cacheManager;
         }
 
-        public static ICacheManager Build(CacheConfig option)
+        public static ICacheManager Build(RedisCacheConfig option)
         {
-            var cacheManager = CacheManage.Create(option);
+            var cacheManager = RedisCacheManage.Create(option);
             return cacheManager;
         }
     }

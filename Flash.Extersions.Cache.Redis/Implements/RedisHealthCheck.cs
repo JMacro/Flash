@@ -9,14 +9,14 @@ using StackExchange.Redis;
 
 namespace Flash.Extersions.Cache.Redis
 {
-    public class HealthCheck : IHealthCheck
+    public class RedisHealthCheck : IHealthCheck
     {
         private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> _connections = ConnectionHelp.GetConnections();
         private readonly string _redisConnectionString;
         private readonly DefaultLoadBalancerFactory<ConnectionMultiplexer> _factory;
         private readonly ILoadBalancer<ConnectionMultiplexer> _loadBalancer;
 
-        public HealthCheck()
+        public RedisHealthCheck()
         {
             _factory = new DefaultLoadBalancerFactory<ConnectionMultiplexer>();
             _loadBalancer = _factory.Resolve(() =>
@@ -25,7 +25,7 @@ namespace Flash.Extersions.Cache.Redis
             });
         }
 
-        public HealthCheck(string redisConnectionString) : this()
+        public RedisHealthCheck(string redisConnectionString) : this()
         {
             _redisConnectionString = redisConnectionString ?? throw new ArgumentNullException(nameof(redisConnectionString));
         }

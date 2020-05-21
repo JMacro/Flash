@@ -50,11 +50,17 @@
         /// <returns></returns>
         ICacheConfig WithDb(int num);
         /// <summary>
-        /// 健康检查
+        /// 健康检测
         /// </summary>
-        /// <param name="isCheck"></param>
+        /// <param name="isHealthCheck"></param>
         /// <returns></returns>
-        ICacheConfig WithHealthyCheck(bool isCheck);
+        ICacheConfig WithHealthCheck(bool isHealthCheck);
+        /// <summary>
+        /// 分布式锁
+        /// </summary>
+        /// <param name="isDistributedLock"></param>
+        /// <returns></returns>
+        ICacheConfig WithDistributedLock(bool isDistributedLock);
 
         /// <summary>
         /// 读服务器列表
@@ -89,8 +95,12 @@
         /// </summary>
         int NumberOfConnections { get; }
         /// <summary>
-        /// 健康检查
+        /// 健康检测
         /// </summary>
-        bool HealthyCheck { get; }
+        bool HealthCheck { get; }
+        /// <summary>
+        /// 分布式锁
+        /// </summary>
+        bool DistributedLock { get; }
     }
 }

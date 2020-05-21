@@ -1,17 +1,16 @@
 ﻿using Flash.Extersions.Cache;
-using Flash.Extersions.DistributedLock;
 using Polly;
 using System;
 
-namespace Flash.Extersions.DistributedLock
+namespace Flash.Extersions.Cache.Redis
 {
     /// <summary>
     /// 分布式锁
     /// </summary>
-    public class RedisDistributedLock : IDistributedLock
+    public class DistributedLock : IDistributedLock
     {
         private readonly ICacheManager _cacheManager;
-        public RedisDistributedLock(ICacheManager cacheManager)
+        public DistributedLock(ICacheManager cacheManager)
         {
             this._cacheManager = cacheManager;
         }

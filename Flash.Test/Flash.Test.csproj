@@ -9,6 +9,9 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.4" />
@@ -16,12 +19,14 @@
     <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
+    <PackageReference Include="FluentAssertions" Version="5.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj" />
+    <ProjectReference Include="..\Flash.Extersions.HealthChecks.Redis\Flash.Extersions.HealthChecks.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extersions.OpenTracting.Jaeger\Flash.Extersions.OpenTracting.Jaeger.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Security\Flash.Extersions.Security.csproj" />
     <ProjectReference Include="..\Flash.Extersions.System\Flash.Extersions.System.csproj" />

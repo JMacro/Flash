@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashHostBuilder AddCache(this IFlashHostBuilder hostBuilder, Action<IFlashCacheBuilder> action)
         {
-            var builder = new FlashCacheBuilder(hostBuilder.Services);
+            var builder = new FlashCacheBuilder(hostBuilder.Services, hostBuilder);
             action(builder);
             return hostBuilder;
         }

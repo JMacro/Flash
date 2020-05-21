@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Flash.Extersions.DistributedLock
+namespace Flash.Extersions.Cache
 {
     /// <summary>
     /// 分布式锁

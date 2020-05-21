@@ -1,11 +1,9 @@
-﻿using Flash.Extersions.Cache;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Flash.Extersions.DistributedLock.Implements
+﻿namespace Flash.Extersions.Cache.Redis
 {
-    public class RedisConfig : ICacheConfig
+    /// <summary>
+    /// Redis服务配置
+    /// </summary>
+    public class RedisCacheConfig : ICacheConfig
     {
         /// <summary>
         /// 连接数
@@ -92,13 +90,24 @@ namespace Flash.Extersions.DistributedLock.Implements
         }
 
         /// <summary>
-        /// 健康检查
+        /// //健康检测
         /// </summary>
-        /// <param name="isCheck"></param>
+        /// <param name="isHealthCheck"></param>
         /// <returns></returns>
-        public ICacheConfig WithHealthyCheck(bool isCheck)
+        public ICacheConfig WithHealthCheck(bool isHealthCheck)
         {
-            this.HealthyCheck = isCheck;
+            this.HealthCheck = isHealthCheck;
+            return this;
+        }
+
+        /// <summary>
+        /// 分布式锁，实例对象IDistributedLock
+        /// </summary>
+        /// <param name="isDistributedLock"></param>
+        /// <returns></returns>
+        public ICacheConfig WithDistributedLock(bool isDistributedLock)
+        {
+            this.DistributedLock = isDistributedLock;
             return this;
         }
 
@@ -135,8 +144,12 @@ namespace Flash.Extersions.DistributedLock.Implements
         /// </summary>
         public int NumberOfConnections { get; private set; } = 10;
         /// <summary>
-        /// 健康检查
+        /// 健康检测
         /// </summary>
-        public bool HealthyCheck { get; private set; } = false;
+        public bool HealthCheck { get; private set; } = false;
+        /// <summary>
+        /// 分布式锁
+        /// </summary>
+        public bool DistributedLock { get; private set; } = false;        
     }
 }

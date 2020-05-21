@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Flash.Extersions.Cache.Redis
 {
-    public class CacheManage : ICacheManager
+    public class RedisCacheManage : ICacheManager
     {
         #region 全局变量
         private static object _syncCreateInstance = new Object();
@@ -41,7 +41,7 @@ namespace Flash.Extersions.Cache.Redis
 
         #endregion
 
-        private CacheManage(int DbNum = 0, int NumberOfConnections = 10)
+        private RedisCacheManage(int DbNum = 0, int NumberOfConnections = 10)
         {
             this._DbNum = DbNum;
             this._NumberOfConnections = NumberOfConnections;
@@ -51,7 +51,7 @@ namespace Flash.Extersions.Cache.Redis
         /// <summary>
         /// 创建链接池管理对象
         /// </summary>
-        public static ICacheManager Create(CacheConfig config)
+        public static ICacheManager Create(RedisCacheConfig config)
         {
             ThreadPool.SetMinThreads(200, 200);
 
@@ -229,7 +229,7 @@ namespace Flash.Extersions.Cache.Redis
             }
 
 
-            return new CacheManage(config.DBNum, config.NumberOfConnections);
+            return new RedisCacheManage(config.DBNum, config.NumberOfConnections);
         }
 
         #region 辅助方法

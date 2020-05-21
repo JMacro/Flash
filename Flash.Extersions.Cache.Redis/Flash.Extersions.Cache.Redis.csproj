@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Implements\RedisHealthCheck.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -46,6 +50,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Cache\Flash.Extersions.Cache.csproj" />
+    <ProjectReference Include="..\Flash.Extersions.HealthChecks.Redis\Flash.Extersions.HealthChecks.Redis.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
   </ItemGroup>
 </Project>

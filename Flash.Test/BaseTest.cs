@@ -10,6 +10,7 @@ namespace Flash.Test
     public class BaseTest
     {
         protected IContainer container;
+        protected IServiceCollection services;
 
         public BaseTest()
         {
@@ -23,9 +24,22 @@ namespace Flash.Test
             var d = configuration.GetSection("ConnectionStrings:RedisConnectionString").Value;
 
             //创建服务容器对象
-            var services = new ServiceCollection();
+            services = new ServiceCollection();
+            
+
             services.AddFlash(setup =>
             {
+                //setup.AddRedisDistributedLock(option =>
+                //{
+                //    option.WithDb(10);
+                //    option.WithKeyPrefix("SystemClassName:TypeClassName");
+                //    option.WithPassword("tY7cRu9HG_jyDw2r");
+                //    option.WithReadServerList("192.168.109.237:63100");
+                //    option.WithWriteServerList("192.168.109.237:63100");
+                //    option.WithSsl(false);
+                //    option.WithDistributedLock(true);
+                //});
+
                 setup.AddCache(cache =>
                 {
                     cache.AddRedis(option =>
@@ -36,9 +50,9 @@ namespace Flash.Test
                         option.WithReadServerList("192.168.109.237:63100");
                         option.WithWriteServerList("192.168.109.237:63100");
                         option.WithSsl(false);
-                        option.WithHealthyCheck(false);
-                    })
-                    .AddDistributedLock();
+                        option.WithHealthCheck(true);
+                        option.WithDistributedLock(true);
+                    });
                 });
 
                 setup.AddOpenTracing(option =>
