@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (option.HealthCheck)
             {
-                cacheBuilder.Services.AddHealthChecks().AddRedis(ConnectionHelp.GetConnections());
+                //cacheBuilder.Services.AddHealthChecks().AddRedis(ConnectionHelp.GetConnections());
             }
 
             if (option.DistributedLock)

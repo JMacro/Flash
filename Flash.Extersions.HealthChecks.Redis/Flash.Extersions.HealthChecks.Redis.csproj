@@ -5,12 +5,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extersions\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Commons\Guard.cs" Link="Helpers\Internal\Guard.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Extersions.HealthChecks\Flash.Extersions.HealthChecks.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
   </ItemGroup>
 </Project>
