@@ -43,6 +43,12 @@ namespace Flash.Test
         }
 
         [TestMethod]
+        public void DistributedLock()
+        {
+            var ddd = this._distributedLock.Enter("122", "AAAAA", TimeSpan.FromSeconds(60));
+        }
+
+        [TestMethod]
         public async Task HealthCheck()
         {
             var webHostBuilder = new WebHostBuilder()
