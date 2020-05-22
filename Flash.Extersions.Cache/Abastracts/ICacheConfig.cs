@@ -50,12 +50,6 @@
         /// <returns></returns>
         ICacheConfig WithDb(int num);
         /// <summary>
-        /// 健康检测
-        /// </summary>
-        /// <param name="isHealthCheck"></param>
-        /// <returns></returns>
-        ICacheConfig WithHealthCheck(bool isHealthCheck);
-        /// <summary>
         /// 分布式锁
         /// </summary>
         /// <param name="isDistributedLock"></param>
@@ -94,10 +88,6 @@
         /// 连接数
         /// </summary>
         int NumberOfConnections { get; }
-        /// <summary>
-        /// 健康检测
-        /// </summary>
-        bool HealthCheck { get; }
         /// <summary>
         /// 分布式锁
         /// </summary>

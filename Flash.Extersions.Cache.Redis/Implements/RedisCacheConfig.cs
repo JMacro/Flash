@@ -90,17 +90,6 @@
         }
 
         /// <summary>
-        /// //健康检测
-        /// </summary>
-        /// <param name="isHealthCheck"></param>
-        /// <returns></returns>
-        public ICacheConfig WithHealthCheck(bool isHealthCheck)
-        {
-            this.HealthCheck = isHealthCheck;
-            return this;
-        }
-
-        /// <summary>
         /// 分布式锁，实例对象IDistributedLock
         /// </summary>
         /// <param name="isDistributedLock"></param>
@@ -143,10 +132,6 @@
         /// 连接数
         /// </summary>
         public int NumberOfConnections { get; private set; } = 10;
-        /// <summary>
-        /// 健康检测
-        /// </summary>
-        public bool HealthCheck { get; private set; } = false;
         /// <summary>
         /// 分布式锁
         /// </summary>

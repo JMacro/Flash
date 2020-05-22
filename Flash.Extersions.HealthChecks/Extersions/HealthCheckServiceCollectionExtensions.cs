@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using Flash.Extersions.HealthChecks;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -17,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var builder = new HealthCheckBuilder();
 
-            services.AddSingleton<IHealthCheckService, HealthCheckService>(serviceProvider =>
+            services.TryAddSingleton<IHealthCheckService>(serviceProvider =>
             {
                 var serviceScopeFactory = serviceProvider.GetService<IServiceScopeFactory>();
                 return new HealthCheckService(builder, serviceProvider, serviceScopeFactory);

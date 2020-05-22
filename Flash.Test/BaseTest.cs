@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -50,7 +52,6 @@ namespace Flash.Test
                         option.WithReadServerList("192.168.109.237:63100");
                         option.WithWriteServerList("192.168.109.237:63100");
                         option.WithSsl(false);
-                        option.WithHealthCheck(true);
                         option.WithDistributedLock(true);
                     });
                 });
@@ -71,6 +72,26 @@ namespace Flash.Test
             ContainerBuilder containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
             container = containerBuilder.Build();
+        }
+    }
+
+    public class Startup
+    {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+
         }
     }
 }

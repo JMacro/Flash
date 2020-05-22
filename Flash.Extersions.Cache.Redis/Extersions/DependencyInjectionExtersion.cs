@@ -22,18 +22,12 @@ namespace Microsoft.Extensions.DependencyInjection
             action(option);
 
             var cacheManager = CacheFactory.Build(option);
-
-            if (option.HealthCheck)
-            {
-                //cacheBuilder.Services.AddHealthChecks().AddRedis(ConnectionHelp.GetConnections());
-            }
+            cacheBuilder.Services.AddSingleton<ICacheManager>(cacheManager);
 
             if (option.DistributedLock)
             {
                 cacheBuilder.Services.TryAddSingleton<IDistributedLock>(new DistributedLock(cacheManager));
             }
-
-            cacheBuilder.Services.AddSingleton<ICacheManager>(cacheManager);
             return cacheBuilder;
         }
     }
@@ -47,15 +41,9 @@ namespace Flash.Extersions.Cache.Redis
         {
             var option = new RedisCacheConfig();
             action(option);
-
-            var cacheManager = RedisCacheManage.Create(option);
-            return cacheManager;
+            return Build(option);
         }
 
-        public static ICacheManager Build(RedisCacheConfig option)
-        {
-            var cacheManager = RedisCacheManage.Create(option);
-            return cacheManager;
-        }
+        public static ICacheManager Build(RedisCacheConfig option) => RedisCacheManage.Create(option);
     }
 }
