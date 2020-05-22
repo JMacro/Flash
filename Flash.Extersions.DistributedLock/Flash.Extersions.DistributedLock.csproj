@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
+    <RepositoryType>gitee</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <Authors>JMacro</Authors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DocumentationFile>Flash.Extersions.DistributedLock.xml</DocumentationFile>
@@ -9,6 +14,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extersions.Cache.Memcached\Flash.Extersions.Cache.Memcached.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

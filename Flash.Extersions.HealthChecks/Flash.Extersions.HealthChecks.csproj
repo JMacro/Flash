@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
+    <RepositoryType>gitee</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <Authors>JMacro</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,5 +21,12 @@
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
