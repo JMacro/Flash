@@ -7,6 +7,7 @@
 |  Flash.Extersions.UidGenerator | 分布式唯一ID生成器     | 
 |  Flash.Extersions.DistributedLock | 分布式锁           |
 |  Flash.Extersions.Cache.Redis | Nosql redis           |
+|  Flash.Extersions.HealthChecks.Redis | redis健康检测           |
 
 #### 使用说明
 
