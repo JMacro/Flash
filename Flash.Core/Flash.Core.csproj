@@ -6,9 +6,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RootNamespace>Flash.Core</RootNamespace>
-    <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
-    <RepositoryType>gitee</RepositoryType>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
     <Authors>JMacro</Authors>
     <Description>Flash核心文件</Description>
     <PackageReleaseNotes>Flash核心文件</PackageReleaseNotes>
