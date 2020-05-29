@@ -1,13 +1,14 @@
 # Flash :zap: 
 
+
 #### 介绍
-|                        解决方案 |                  说明 |
-|:-------------------------------|:----------------------|
-|  Flash.Extersions.System       | System基础数据类型扩展 | 
-|  Flash.Extersions.UidGenerator | 分布式唯一ID生成器     | 
-|  Flash.Extersions.DistributedLock | 分布式锁           |
-|  Flash.Extersions.Cache.Redis | Nosql redis           |
-|  Flash.Extersions.HealthChecks.Redis | redis健康检测           |
+|                        解决方案 |                  说明 |                   |
+|:-------------------------------|:----------------------|:----------------------|
+|  Flash.Extersions.System       | System基础数据类型扩展 | [![NuGet version (Flash.Extersions.System)](https://img.shields.io/nuget/v/Flash.Extersions.System?style=flat)](https://www.nuget.org/packages/Flash.Extersions.System/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extersions.System) |
+|  Flash.Extersions.UidGenerator | 分布式唯一ID生成器     |  [![NuGet version (Flash.Extersions.System)](https://img.shields.io/nuget/v/Flash.Extersions.UidGenerator?style=flat)](https://www.nuget.org/packages/Flash.Extersions.UidGenerator/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extersions.UidGenerator)|
+|  Flash.Extersions.DistributedLock | 分布式锁           | [![NuGet version (Flash.Extersions.System)](https://img.shields.io/nuget/v/Flash.Extersions.DistributedLock?style=flat)](https://www.nuget.org/packages/Flash.Extersions.DistributedLock/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extersions.DistributedLock)|
+|  Flash.Extersions.Cache.Redis | Nosql redis           | [![NuGet version (Flash.Extersions.System)](https://img.shields.io/nuget/v/Flash.Extersions.Cache.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extersions.Cache.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extersions.Cache.Redis)|
+|  Flash.Extersions.HealthChecks.Redis | redis健康检测           | [![NuGet version (Flash.Extersions.System)](https://img.shields.io/nuget/v/Flash.Extersions.HealthChecks.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extersions.HealthChecks.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extersions.HealthChecks.Redis)|
 
 #### 使用说明
 
