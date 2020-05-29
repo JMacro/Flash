@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extersions.OpenTracting\Flash.Extersions.OpenTracting.csproj" />
   </ItemGroup>
 
