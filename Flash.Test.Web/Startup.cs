@@ -37,18 +37,18 @@ namespace Flash.Test.Web
                     setup.Encoding = Encoding.UTF8;
                     setup.SecretKey = "sdfdsfsdf";
                 });
-                flash.AddRabbitMQ(rabbitmq =>
-                {
-                    rabbitmq.WithEndPoint(Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(Configuration["RabbitMQ:Port"] ?? "5672"))
-                    .WithAuth(Configuration["RabbitMQ:UserName"] ?? "guest", Configuration["RabbitMQ:Password"] ?? "guest")
-                    .WithExchange(Configuration["RabbitMQ:VirtualHost"] ?? "/")
-                    .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
-                    .WithReceiver(
-                        ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
-                        ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
-                        ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
+                //flash.AddRabbitMQ(rabbitmq =>
+                //{
+                //    rabbitmq.WithEndPoint(Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(Configuration["RabbitMQ:Port"] ?? "5672"))
+                //    .WithAuth(Configuration["RabbitMQ:UserName"] ?? "guest", Configuration["RabbitMQ:Password"] ?? "guest")
+                //    .WithExchange(Configuration["RabbitMQ:VirtualHost"] ?? "/")
+                //    .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
+                //    .WithReceiver(
+                //        ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
+                //        ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
+                //        ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
 
-                });
+                //});
             });
             ContainerBuilder containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
@@ -68,13 +68,13 @@ namespace Flash.Test.Web
                 app.UseHsts();
             }
 
-            var eventBus = app.ApplicationServices.GetRequiredService<Extersions.RabbitMQ.IBus>();
+            //var eventBus = app.ApplicationServices.GetRequiredService<Extersions.RabbitMQ.IBus>();
             app.UseFlash(flash =>
             {
-                flash.UseRabbitMQ(rabbitmq =>
-                {
-                    rabbitmq.Register<Controllers.OrderInfo, OrderInfoHandler>(queueName: typeof(OrderInfoHandler).FullName);
-                });
+                //flash.UseRabbitMQ(rabbitmq =>
+                //{
+                //    rabbitmq.Register<Controllers.OrderInfo, OrderInfoHandler>(queueName: typeof(OrderInfoHandler).FullName);
+                //});
             });
 
             app.UseMvc(routes =>

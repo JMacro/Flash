@@ -7,12 +7,12 @@
     <RepositoryType>gitee</RepositoryType>
     <PackageIcon>icon.png</PackageIcon>
     <Authors>JMacro</Authors>
+    <Version>1.0.1</Version>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DocumentationFile>Flash.Extersions.DistributedLock.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Flash.Extersions.Cache.Memcached\Flash.Extersions.Cache.Memcached.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
   </ItemGroup>
   <ItemGroup>
