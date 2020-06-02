@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace Flash.Test.Web
 {
     public class Program
@@ -24,14 +25,14 @@ namespace Flash.Test.Web
             .UseKestrel()
             .ConfigureAppConfiguration((context, config) =>
             {
-                var rootConfig = config.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFileEx("Config/appsettings.json", false, true)               
+                config.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFileEx("Config/appsettings.json", false, true)
                 .AddJsonFileEx("Config/metrics.json", false, true)
                 .AddJsonFileEx("Config/redis.json", false, true)
                 .AddEnvironmentVariables()
                 .AddCommandLine(args).Build();
-
             })
+            .UseMetrics()
             .UseStartup<Startup>();
     }
 }

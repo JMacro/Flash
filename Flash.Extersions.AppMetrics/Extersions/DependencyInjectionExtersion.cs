@@ -1,4 +1,6 @@
 ﻿using App.Metrics;
+using App.Metrics.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -15,7 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMetrics(this IServiceCollection services, IConfigurationSection configurationSection)
         {
             var metricsBuilder = App.Metrics.AppMetrics.CreateDefaultBuilder();
-            services.AddSingleton<App.Metrics.IMetricsRoot>(metricsBuilder.AddReport(configurationSection).Build());
+            services.AddMetrics(metricsBuilder.AddReport(configurationSection).Build());
+            services.AddMetricsEndpoints();
             return services;
         }
 
@@ -66,6 +69,18 @@ namespace Microsoft.Extensions.DependencyInjection
             #endregion
 
             return metricsBuilder;
+        }
+
+        public static IWebHostBuilder UseMetrics(this IWebHostBuilder hostBuilder, string metricsConfigurationKey = "AppMetrics")
+        {
+            hostBuilder.ConfigureMetricsWithDefaults((hostingContext, builder) =>
+            {
+                builder.AddReport(hostingContext.Configuration.GetSection(metricsConfigurationKey));
+            });
+
+            hostBuilder.UseMetricsWebTracking();
+            hostBuilder.UseMetrics();
+            return hostBuilder;
         }
     }
 }
