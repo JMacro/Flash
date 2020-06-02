@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Test.Web
 {
@@ -21,6 +22,16 @@ namespace Flash.Test.Web
             WebHost.CreateDefaultBuilder(args)
             .UseIISIntegration()
             .UseKestrel()
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                var rootConfig = config.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFileEx("Config/appsettings.json", false, true)               
+                .AddJsonFileEx("Config/metrics.json", false, true)
+                .AddJsonFileEx("Config/redis.json", false, true)
+                .AddEnvironmentVariables()
+                .AddCommandLine(args).Build();
+
+            })
             .UseStartup<Startup>();
     }
 }

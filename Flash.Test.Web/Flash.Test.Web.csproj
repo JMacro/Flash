@@ -6,6 +6,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Config\appsettings.json" />
+    <Content Remove="Config\metrics.json" />
+    <Content Remove="Config\redis.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Config\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\metrics.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\redis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App">
@@ -17,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flash.Extersions.AppMetrics\Flash.Extersions.AppMetrics.csproj" />
+    <ProjectReference Include="..\Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extersions.RabbitMQ\Flash.Extersions.RabbitMQ.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Security\Flash.Extersions.Security.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />

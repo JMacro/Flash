@@ -1,0 +1,11 @@
+{
+  "AppMetrics": {
+    "Influxdb": {
+      "Enable": true,
+      "Address": "http://dev.metrics.com:8086",
+      "Database": "AppMetrics",
+      "UserName": "dev_influx",
+      "Password": "dev_influx"
+    }
+  }
+}

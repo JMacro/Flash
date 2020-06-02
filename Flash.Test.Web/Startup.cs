@@ -30,6 +30,7 @@ namespace Flash.Test.Web
         {
             services.AddMvc();
             services.AddAutofac();
+            services.AddMetrics(Configuration.GetSection("AppMetrics"));
             services.AddFlash(flash =>
             {
                 flash.AddSecurity3DES(setup =>
