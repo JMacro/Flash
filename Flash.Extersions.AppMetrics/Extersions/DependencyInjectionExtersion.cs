@@ -71,7 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return metricsBuilder;
         }
 
-        public static IWebHostBuilder UseMetrics(this IWebHostBuilder hostBuilder, string metricsConfigurationKey = "AppMetrics")
+        public static IWebHostBuilder UseMetrics(this IWebHostBuilder hostBuilder, string metricsConfigurationKey)
         {
             hostBuilder.ConfigureMetricsWithDefaults((hostingContext, builder) =>
             {

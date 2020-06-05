@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flash.Extersions.AppMetrics\Flash.Extersions.AppMetrics.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Cache.Redis\Flash.Extersions.Cache.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extersions.DistributedLock\Flash.Extersions.DistributedLock.csproj" />
@@ -33,6 +34,9 @@
 
   <ItemGroup>
     <None Update="Config\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\metrics.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Config\redis.json">

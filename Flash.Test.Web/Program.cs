@@ -32,7 +32,7 @@ namespace Flash.Test.Web
                 .AddEnvironmentVariables()
                 .AddCommandLine(args).Build();
             })
-            .UseMetrics()
+            .UseMetrics("AppMetrics")
             .UseStartup<Startup>();
     }
 }

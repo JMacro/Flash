@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extersions.AppMetrics\Flash.Extersions.AppMetrics.csproj" />
     <ProjectReference Include="..\Flash.Extersions.Configuration.Json\Flash.Extersions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extersions.RabbitMQ\Flash.Extersions.RabbitMQ.csproj" />
