@@ -58,6 +58,20 @@ namespace System
             return StringExtensions.ToInt(value.ToString(), 0);
         }
 
+        public static int ToInt<T>(this T value) where T : Enum
+        {
+            if (value == null) return Int32.MinValue;
+            try
+            {
+                int enumValue = Convert.ToInt32(value);
+                return enumValue;
+            }
+            catch (Exception)
+            {
+                return Int32.MinValue;
+            }
+        }
+
         /// <summary>
         /// Int32类型转换，如转换失败返回0
         /// </summary>

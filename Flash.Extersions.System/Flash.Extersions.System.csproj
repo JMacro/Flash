@@ -7,11 +7,11 @@
     <RepositoryType>gitee</RepositoryType>
     <Authors>JMacro</Authors>
     <Description>System基础数据类型扩展</Description>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
     <PackageReleaseNotes>System基础数据类型扩展</PackageReleaseNotes>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

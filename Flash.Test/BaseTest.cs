@@ -14,8 +14,16 @@ namespace Flash.Test
         protected IContainer container;
         protected IServiceCollection services;
 
+        public enum TestEnum
+        {
+            AA = 0,
+            BB = 1
+        }
+
         public BaseTest()
         {
+            TestEnum.BB.ToInt();
+
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .SetEnvironmentVariable("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
