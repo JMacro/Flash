@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
 #endif
 
         /// <summary>
-        /// 订阅事件
+        /// 使用消息事件总线订阅
         /// </summary>
         /// <param name="appBuilder"></param>
         /// <param name="setup"></param>
