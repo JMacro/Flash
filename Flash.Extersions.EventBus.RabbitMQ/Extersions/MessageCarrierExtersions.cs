@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Flash.Extersions.EventBus
+namespace Flash.Extersions.EventBus.RabbitMQ
 {
     public static class MessageCarrierExtersions
     {

@@ -76,10 +76,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     logger.LogError(obj.Exception, obj.Exception.Message);
                 }
 
-                var events = obj.Messages.Select(message => message.WaitAndRetry(a => 5, 3)).ToList();
-                var ret = !(await eventBus.PublishAsync(events));
-
-                return ret;
+                return true;
             });
 
             setup?.Invoke(eventBus);
