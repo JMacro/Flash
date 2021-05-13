@@ -6,12 +6,13 @@
     <Authors>JMacro</Authors>
     <Description>RabbitMQ消息队列帮助类</Description>
     <PackageReleaseNotes>RabbitMQ消息队列帮助类</PackageReleaseNotes>
-    <RepositoryType>gitee</RepositoryType>
-    <RepositoryUrl>https://gitee.com/jmacro/Flash</RepositoryUrl>
-    <PackageProjectUrl>https://gitee.com/jmacro/Flash</PackageProjectUrl>
+    <RepositoryType>github</RepositoryType>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <Version>2.0.0</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
