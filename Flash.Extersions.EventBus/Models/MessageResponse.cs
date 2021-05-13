@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flash.Extersions.RabbitMQ
+namespace Flash.Extersions.EventBus
 {
     public class MessageResponse
     {

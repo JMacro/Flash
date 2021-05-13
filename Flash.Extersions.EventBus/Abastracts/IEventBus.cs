@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Flash.Extersions.RabbitMQ
+namespace Flash.Extersions.EventBus
 {
-    /// <summary>
-    /// 消息总线接口
-    /// </summary>
-    public interface IBus
+    public interface IEventBus
     {
         /// <summary>
         /// 发布消息
@@ -31,7 +28,7 @@ namespace Flash.Extersions.RabbitMQ
         /// <param name="queueName">队列名称</param>
         /// <param name="routeKey">路由名称</param>
         /// <returns></returns>
-        IBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "") where TMessage : class where TProcessMessageHandler : IProcessMessageHandler<TMessage>;
+        IEventBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "") where TMessage : class where TProcessMessageHandler : IProcessMessageHandler<TMessage>;
 
         /// <summary>
         /// 订阅消息
@@ -39,6 +36,6 @@ namespace Flash.Extersions.RabbitMQ
         /// <param name="ackHandler">Ack应答处理程序</param>
         /// <param name="nackHandler">NAck应答处理程序</param>
         /// <returns></returns>
-        IBus Subscribe(Action<MessageResponse[]> ackHandler, Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> nackHandler);
+        IEventBus Subscriber(Action<MessageResponse[]> ackHandler, Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> nackHandler);
     }
 }

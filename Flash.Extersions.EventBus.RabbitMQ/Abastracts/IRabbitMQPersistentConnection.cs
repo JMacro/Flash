@@ -1,9 +1,7 @@
 ﻿using RabbitMQ.Client;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Flash.Extersions.RabbitMQ
+namespace Flash.Extersions.EventBus.RabbitMQ
 {
     /// <summary>
     /// RabbitMQ持久化连接接口

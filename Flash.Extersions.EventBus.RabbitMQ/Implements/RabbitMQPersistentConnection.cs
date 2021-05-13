@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 
-namespace Flash.Extersions.RabbitMQ
+namespace Flash.Extersions.EventBus.RabbitMQ
 {
     /// <summary>
     /// RabbitMQ持久化连接

@@ -1,5 +1,6 @@
 ﻿using Flash.Core;
-using Flash.Extersions.RabbitMQ;
+using Flash.Extersions.EventBus;
+using Flash.Extersions.EventBus.RabbitMQ;
 using Flash.LoadBalancer;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -187,7 +188,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
     public static partial class DependencyInjectionExtersion
     {
-        public static IFlashHostBuilder AddRabbitMQ(this IFlashHostBuilder hostBuilder, Action<RabbitMQOption> setup)
+        public static IEventBusHostBuilder AddRabbitMQ(this IEventBusHostBuilder hostBuilder, Action<RabbitMQOption> setup)
         {
             setup = setup ?? throw new ArgumentNullException(nameof(setup));
 
@@ -215,9 +216,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new DefaultLoadBalancerFactory<IRabbitMQPersistentConnection>();
             });
 
-            hostBuilder.Services.AddSingleton<IBus, RabbitMQBus>(sp =>
+            hostBuilder.Services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
             {
-                var logger = sp.GetRequiredService<ILogger<IBus>>();
+                var logger = sp.GetRequiredService<ILogger<IEventBus>>();
                 var loggerConnection = sp.GetRequiredService<ILogger<IRabbitMQPersistentConnection>>();
                 var rabbitMQPersisterConnectionLoadBalancerFactory = sp.GetRequiredService<ILoadBalancerFactory<IRabbitMQPersistentConnection>>();
                 var connectionFactory = sp.GetRequiredService<IConnectionFactory>();
@@ -260,77 +261,6 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             return hostBuilder;
-        }
-
-        public static IFlashApplicationBuilder UseRabbitMQ(this IFlashApplicationBuilder appBuilder, Action<IBus> setup)
-        {
-            var eventBus = appBuilder.app.ApplicationServices.GetRequiredService<IBus>();
-            var logger = appBuilder.app.ApplicationServices.GetRequiredService<ILogger<IBus>>();
-
-            eventBus.Subscribe((Messages) =>
-            {
-                foreach (var message in Messages)
-                {
-                    logger.LogDebug($"ACK: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                }
-
-            }, async (obj) =>
-             {
-                 foreach (var message in obj.Messages)
-                 {
-                     logger.LogError($"NAck: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                 }
-
-                 //消息消费失败执行以下代码
-                 if (obj.Exception != null)
-                 {
-                     logger.LogError(obj.Exception, obj.Exception.Message);
-                 }
-
-                 var events = obj.Messages.Select(message => message.WaitAndRetry(a => 5, 3)).ToList();
-                 var ret = !(await eventBus.PublishAsync(events));
-
-                 return ret;
-             });
-
-            setup?.Invoke(eventBus);
-            return appBuilder;
-        }
-
-        public static IServiceProvider UseRabbitMQ(this IServiceProvider serviceProvider, Action<IBus> setup)
-        {
-            var eventBus = serviceProvider.GetRequiredService<IBus>();
-            var logger = serviceProvider.GetRequiredService<ILogger<IBus>>();
-
-            //订阅消息
-            eventBus.Subscribe((Messages) =>
-            {
-                foreach (var message in Messages)
-                {
-                    logger.LogDebug($"ACK: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                }
-
-            }, async (obj) =>
-            {
-                foreach (var message in obj.Messages)
-                {
-                    logger.LogError($"NAck: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                }
-
-                //消息消费失败执行以下代码
-                if (obj.Exception != null)
-                {
-                    logger.LogError(obj.Exception, obj.Exception.Message);
-                }
-
-                var events = obj.Messages.Select(message => message.WaitAndRetry(a => 5, 3)).ToList();
-                var ret = !(await eventBus.PublishAsync(events));
-
-                return ret;
-            });
-
-            setup?.Invoke(eventBus);
-            return serviceProvider;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Flash.Extersions.RabbitMQ
+namespace Flash.Extersions.EventBus
 {
     /// <summary>
     /// 消息处理接口

@@ -1,4 +1,5 @@
-﻿using Flash.LoadBalancer;
+﻿using Flash.Extersions.EventBus;
+using Flash.LoadBalancer;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
@@ -16,12 +17,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Flash.Extersions.RabbitMQ
+namespace Flash.Extersions.EventBus.RabbitMQ
 {
     /// <summary>
     /// RabbitMQ总线
     /// </summary>
-    public class RabbitMQBus : IBus
+    public class RabbitMQBus : IEventBus
     {
         /// <summary>
         /// 消息参数体
@@ -57,7 +58,7 @@ namespace Flash.Extersions.RabbitMQ
         /// <summary>
         /// 日志收集器
         /// </summary>
-        private readonly ILogger<IBus> _logger;
+        private readonly ILogger<IEventBus> _logger;
         /// <summary>
         /// 发布均衡机
         /// </summary>
@@ -121,7 +122,7 @@ namespace Flash.Extersions.RabbitMQ
             ILoadBalancer<IRabbitMQPersistentConnection> publishLoadBlancer,
             ILoadBalancer<IRabbitMQPersistentConnection> subscribeLoadBlancer,
             IServiceProvider serviceProvider,
-            ILogger<IBus> logger,
+            ILogger<IEventBus> logger,
             int reveiverMaxDegreeOfParallelism = 10,
             int subscribeRetryCount = 0,
             int receiverHandlerTimeoutMillseconds = 0,
@@ -202,7 +203,7 @@ namespace Flash.Extersions.RabbitMQ
         /// <param name="queueName">队列名称</param>
         /// <param name="routeKey">路由名称</param>
         /// <returns></returns>
-        public IBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "")
+        public IEventBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "")
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
@@ -509,7 +510,7 @@ namespace Flash.Extersions.RabbitMQ
         /// <param name="ackHandler"></param>
         /// <param name="nackHandler"></param>
         /// <returns></returns>
-        public IBus Subscribe(Action<MessageResponse[]> ackHandler, Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> nackHandler)
+        public IEventBus Subscriber(Action<MessageResponse[]> ackHandler, Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> nackHandler)
         {
             _ackHandler = ackHandler;
             _nackHandler = nackHandler;
