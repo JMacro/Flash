@@ -18,12 +18,15 @@ using System.Threading.Tasks;
 
 namespace Flash.Extersions.RabbitMQ
 {
+    /// <summary>
+    /// RabbitMQ总线
+    /// </summary>
     public class RabbitMQBus : IBus
     {
         /// <summary>
         /// 消息参数体
         /// </summary>
-        public struct MessageRequest
+        internal struct MessageRequest
         {
             /// <summary>
             /// 载具编号
@@ -47,23 +50,73 @@ namespace Flash.Extersions.RabbitMQ
             public IDictionary<string, object> Headers { get; set; }
         }
 
-
-
+        /// <summary>
+        /// DI容器
+        /// </summary>
         private readonly IServiceProvider _serviceProvider;
+        /// <summary>
+        /// 日志收集器
+        /// </summary>
         private readonly ILogger<IBus> _logger;
+        /// <summary>
+        /// 发布均衡机
+        /// </summary>
         private readonly ILoadBalancer<IRabbitMQPersistentConnection> _publishLoadBlancer;
+        /// <summary>
+        /// 订阅均衡机
+        /// </summary>
         private readonly ILoadBalancer<IRabbitMQPersistentConnection> _subscribeLoadBlancer;
+        /// <summary>
+        /// 订阅的信道列表
+        /// </summary>
         private static List<IModel> _subscribeChannels = new List<IModel>();
-
+        /// <summary>
+        /// 订阅最大并行数
+        /// </summary>
         private readonly int _reveiverMaxDegreeOfParallelism;
+        /// <summary>
+        /// Qos策略（默认为1，同一时刻服务器最大接收1个消息，如未确认则不会收到下一个消息）
+        /// </summary>
         private readonly ushort _prefetchCount = 1;
+        /// <summary>
+        /// 交换机名称
+        /// </summary>
         private readonly string _exchange = "amq.topic";
+        /// <summary>
+        /// 交换机类型
+        /// </summary>
         private readonly string _exchangeType = "topic";
+        /// <summary>
+        /// 事件总线发布策略
+        /// </summary>
         private readonly RetryPolicy _eventBusPublishRetryPolicy = null;
+        /// <summary>
+        /// 事件总线订阅策略
+        /// </summary>
         private readonly IAsyncPolicy _eventBusReceiverPolicy = null;
+        /// <summary>
+        /// 应答处理程序
+        /// </summary>
         private Action<MessageResponse[]> _ackHandler = null;
+        /// <summary>
+        /// 未应答处理程序
+        /// </summary>
         private Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> _nackHandler = null;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="publishLoadBlancer"></param>
+        /// <param name="subscribeLoadBlancer"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="logger"></param>
+        /// <param name="reveiverMaxDegreeOfParallelism"></param>
+        /// <param name="subscribeRetryCount"></param>
+        /// <param name="receiverHandlerTimeoutMillseconds"></param>
+        /// <param name="publishRetryCount"></param>
+        /// <param name="prefetchCount"></param>
+        /// <param name="exchange"></param>
+        /// <param name="exchangeType"></param>
         public RabbitMQBus(
             ILoadBalancer<IRabbitMQPersistentConnection> publishLoadBlancer,
             ILoadBalancer<IRabbitMQPersistentConnection> subscribeLoadBlancer,
@@ -121,27 +174,34 @@ namespace Flash.Extersions.RabbitMQ
             #endregion
         }
 
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="messages">消息内容</param>
+        /// <returns></returns>
         public async Task<bool> PublishAsync(List<MessageCarrier> messages)
         {
-            var messageCarrier = messages.Select(item => new MessageRequest
-            {
-                Body = item.Content,
-                Headers = item.Headers ?? new Dictionary<string, object>(),
-                MessageId = Guid.NewGuid().ToString("N"),
-                RouteKey = item.RouteKey,
-                CarrierId = item.CarrierId
-            }).ToList();
-
-            messageCarrier.ForEach(item =>
-            {
-                if (!item.Headers.ContainsKey("x-ts"))
-                {
-                    item.Headers.Add("x-ts", DateTime.UtcNow.ToTimestamp());
-                }
-            });
-            return await EnqueueConfirm(messageCarrier);
+            return await EnqueueConfirm(Convert4MessageRequest(messages));
         }
 
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="messages">消息内容</param>
+        /// <returns></returns>
+        public async Task<bool> PublishAsync(params MessageCarrier[] messages)
+        {
+            return await EnqueueConfirm(Convert4MessageRequest(messages.ToList()));
+        }
+
+        /// <summary>
+        /// 注册订阅处理程序
+        /// </summary>
+        /// <typeparam name="TMessage">消息类型</typeparam>
+        /// <typeparam name="TProcessMessageHandler">消息处理程序</typeparam>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="routeKey">路由名称</param>
+        /// <returns></returns>
         public IBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "")
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
@@ -329,6 +389,11 @@ namespace Flash.Extersions.RabbitMQ
             return this;
         }
 
+        /// <summary>
+        /// 排队入队确认
+        /// </summary>
+        /// <param name="messages">消息载体</param>
+        /// <returns></returns>
         private async Task<bool> EnqueueConfirm(List<MessageRequest> messages)
         {
             var connection = _publishLoadBlancer.Resolve();
@@ -410,6 +475,32 @@ namespace Flash.Extersions.RabbitMQ
                 throw ex;
 
             }
+        }
+
+        /// <summary>
+        /// 转换为MessageRequest消息载体对象
+        /// </summary>
+        /// <param name="messages"></param>
+        /// <returns></returns>
+        private List<MessageRequest> Convert4MessageRequest(List<MessageCarrier> messages)
+        {
+            var messageCarrier = messages.Select(item => new MessageRequest
+            {
+                Body = item.Content,
+                Headers = item.Headers ?? new Dictionary<string, object>(),
+                MessageId = Guid.NewGuid().ToString("N"),
+                RouteKey = item.RouteKey,
+                CarrierId = item.CarrierId
+            }).ToList();
+
+            messageCarrier.ForEach(item =>
+            {
+                if (!item.Headers.ContainsKey("x-ts"))
+                {
+                    item.Headers.Add("x-ts", DateTime.UtcNow.ToTimestamp());
+                }
+            });
+            return messageCarrier;
         }
 
         /// <summary>

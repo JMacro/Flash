@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Flash.Extersions.RabbitMQ
@@ -13,9 +12,16 @@ namespace Flash.Extersions.RabbitMQ
         /// <summary>
         /// 发布消息
         /// </summary>
-        /// <param name="Events">消息内容</param>
+        /// <param name="messages">消息内容</param>
         /// <returns></returns>
         Task<bool> PublishAsync(List<MessageCarrier> messages);
+
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="messages">消息内容</param>
+        /// <returns></returns>
+        Task<bool> PublishAsync(params MessageCarrier[] messages);
 
         /// <summary>
         /// 注册订阅处理程序

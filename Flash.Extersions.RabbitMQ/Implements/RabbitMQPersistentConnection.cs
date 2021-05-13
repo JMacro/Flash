@@ -5,10 +5,8 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Flash.Extersions.RabbitMQ
 {
