@@ -76,4 +76,60 @@ class Program
 }
 ```
 
+3.  RabbitMQ消息总线-客户端订阅
+
+```
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+	.....
+	services.AddFlash(flash =>
+	{
+		//添加消息队列总线
+		flash.AddRabbitMQ(rabbitmq =>
+		{
+			rabbitmq.WithEndPoint(hostContext.Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(hostContext.Configuration["RabbitMQ:Port"] ?? "5672"))
+			.WithAuth(hostContext.Configuration["RabbitMQ:UserName"] ?? "guest", hostContext.Configuration["RabbitMQ:Password"] ?? "guest")
+			.WithExchange(hostContext.Configuration["RabbitMQ:VirtualHost"] ?? "/")
+			.WithSender(int.Parse(hostContext.Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(hostContext.Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
+			.WithReceiver(
+				ReceiverMaxConnections: int.Parse(hostContext.Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
+				ReveiverMaxDegreeOfParallelism: int.Parse(hostContext.Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
+				ReceiverAcquireRetryAttempts: int.Parse(hostContext.Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
+
+		});
+	});
+	....
+	return services;
+}
+
+internal class ServiceContainerFactory : IServiceProviderFactory<ContainerBuilder>
+{
+	private readonly ContainerBuilder containerBuilder;
+
+	public ServiceContainerFactory(
+		ContainerBuilder containerBuilder)
+	{
+		this.containerBuilder = containerBuilder;
+	}
+	public ContainerBuilder CreateBuilder(IServiceCollection services)
+	{
+		containerBuilder.Populate(services);
+		return containerBuilder;
+	}
+
+	public IServiceProvider CreateServiceProvider(ContainerBuilder containerBuilder)
+	{
+		var container = containerBuilder.Build();
+		var sp = new AutofacServiceProvider(container);
+		sp.UseRabbitMQ(rabbitmq =>
+		{
+			//注册订阅处理逻辑
+			rabbitmq.Register<Application.Events.FaceAnalysisEvent, Application.Events.FaceAnalysisEventHandler>(queueName: typeof(Application.Events.FaceAnalysisEventHandler).FullName);
+			rabbitmq.Register<Application.Events.FaceAnalysisNoticeEvent, Application.Events.FaceAnalysisNoticeEventHandler>(queueName: typeof(Application.Events.FaceAnalysisNoticeEventHandler).FullName);
+		});
+		return sp;
+	}
+}
+```
+
 ![img-source-from-https://github.com/docker/dockercraft](https://github.com/docker/dockercraft/raw/master/docs/img/contribute.png?raw=true)
