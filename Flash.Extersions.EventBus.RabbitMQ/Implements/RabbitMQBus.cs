@@ -1,4 +1,5 @@
 ﻿using Flash.Extersions.EventBus;
+using Flash.Extersions.OpenTracting;
 using Flash.LoadBalancer;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -214,6 +215,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
             {
                 System.Threading.Tasks.Task.Run(() =>
                 {
+
                     try
                     {
                         var _channel = connection.GetModel();
@@ -238,126 +240,140 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                         EventingBasicConsumer consumer = new EventingBasicConsumer(_channel);
                         consumer.Received += async (ch, ea) =>
                         {
-
-                            #region AMQP Received
-                            try
+                            var tracerFactory = _serviceProvider.GetService(typeof(ITracerFactory)) as ITracerFactory;
+                            using (var tracer = tracerFactory.CreateTracer("AMQP Received"))
                             {
-                                #region Ensure IsConnected
-                                if (!connection.IsConnected)
-                                {
-                                    connection.TryConnect();
-                                }
-                                #endregion
-
-                                string carrierId = "";
-                                if (ea.BasicProperties.Headers != null && ea.BasicProperties.Headers.ContainsKey("x-carrier-id"))
-                                {
-                                    carrierId = Encoding.UTF8.GetString((ea.BasicProperties.Headers["x-carrier-id"] as byte[]));
-                                }
-
-                                var messageResponse = new MessageResponse()
-                                {
-                                    MessageId = string.IsNullOrEmpty(ea.BasicProperties.MessageId) ? Guid.NewGuid().ToString("N") : ea.BasicProperties.MessageId,
-                                    Headers = ea.BasicProperties.Headers ?? new Dictionary<string, object>(),
-                                    Body = default(TMessage),
-                                    QueueName = _queueName,
-                                    RouteKey = _routeKey,
-                                    BodySource = Encoding.UTF8.GetString(ea.Body),
-                                    CarrierId = carrierId
-                                };
-
+                                #region AMQP Received
                                 try
                                 {
-                                    messageResponse.Body = JsonConvert.DeserializeObject<TMessage>(messageResponse.BodySource);
-                                }
-                                catch (Exception ex)
-                                {
-                                    _logger.LogError(ex, ex.Message);
-                                }
-
-                                if (!messageResponse.Headers.ContainsKey("x-exchange"))
-                                {
-                                    messageResponse.Headers.Add("x-exchange", _exchange);
-                                }
-
-                                if (!messageResponse.Headers.ContainsKey("x-exchange-type"))
-                                {
-                                    messageResponse.Headers.Add("x-exchange-type", _exchangeType);
-                                }
-
-                                #region AMQP ExecuteAsync
-
-                                try
-                                {
-                                    var handlerOK = await _eventBusReceiverPolicy.ExecuteAsync(async (cancellationToken) =>
+                                    #region Ensure IsConnected
+                                    if (!connection.IsConnected)
                                     {
-                                        return await EventAction.Handle(messageResponse.Body, (Dictionary<string, object>)messageResponse.Headers, cancellationToken);
-
-                                    }, CancellationToken.None);
-
-                                    if (handlerOK)
-                                    {
-                                        if (_ackHandler != null)
-                                        {
-                                            _ackHandler(new MessageResponse[] { messageResponse });
-                                        }
-
-                                        //确认消息
-                                        _channel.BasicAck(ea.DeliveryTag, false);
-
+                                        connection.TryConnect();
                                     }
-                                    else
+                                    #endregion
+
+                                    var MessageId = string.IsNullOrEmpty(ea.BasicProperties.MessageId) ? Guid.NewGuid().ToString("N") : ea.BasicProperties.MessageId;
+
+                                    string carrierId = "";
+                                    if (ea.BasicProperties.Headers != null && ea.BasicProperties.Headers.ContainsKey("x-carrier-id"))
                                     {
-                                        //重新入队，默认：是
-                                        var requeue = true;
-
-                                        try
-                                        {
-                                            //执行回调，等待业务层确认是否重新入队
-                                            if (_nackHandler != null)
-                                            {
-                                                requeue = await _nackHandler((new MessageResponse[] { messageResponse }, null));
-                                            }
-                                        }
-                                        catch (Exception innterEx)
-                                        {
-                                            _logger.LogError(innterEx, innterEx.Message);
-                                        }
-
-                                        //确认消息
-                                        _channel.BasicReject(ea.DeliveryTag, requeue);
-
+                                        carrierId = Encoding.UTF8.GetString((ea.BasicProperties.Headers["x-carrier-id"] as byte[]));
+                                        tracer.SetTag("x-carrier-id", carrierId);
                                     }
-                                }
-                                catch (Exception ex)
-                                {
 
-                                    //重新入队，默认：是
-                                    var requeue = true;
+                                    tracer.SetTag("x-queue-name", _queueName);
+                                    tracer.SetTag("x-message-id", MessageId);
+                                    tracer.SetTag("x-router-key", _routeKey);
+                                    tracer.SetTag("x-exchange-name", _exchange);
+                                    tracer.SetTag("x-exchange-type", _exchangeType);
+
+                                    var messageResponse = new MessageResponse()
+                                    {
+                                        MessageId = MessageId,
+                                        Headers = ea.BasicProperties.Headers ?? new Dictionary<string, object>(),
+                                        Body = default(TMessage),
+                                        QueueName = _queueName,
+                                        RouteKey = _routeKey,
+                                        BodySource = Encoding.UTF8.GetString(ea.Body),
+                                        CarrierId = carrierId
+                                    };
 
                                     try
                                     {
-                                        //执行回调，等待业务层的处理结果
-                                        if (_nackHandler != null)
-                                        {
-                                            requeue = await _nackHandler((new MessageResponse[] { messageResponse }, ex));
-                                        }
+                                        messageResponse.Body = JsonConvert.DeserializeObject<TMessage>(messageResponse.BodySource);
                                     }
-                                    catch (Exception innterEx)
+                                    catch (Exception ex)
                                     {
-                                        _logger.LogError(innterEx, innterEx.Message);
+                                        _logger.LogError(ex, ex.Message);
                                     }
 
-                                    //确认消息
-                                    _channel.BasicReject(ea.DeliveryTag, requeue);
+                                    if (!messageResponse.Headers.ContainsKey("x-exchange"))
+                                    {
+                                        messageResponse.Headers.Add("x-exchange", _exchange);
+                                    }
+
+                                    if (!messageResponse.Headers.ContainsKey("x-exchange-type"))
+                                    {
+                                        messageResponse.Headers.Add("x-exchange-type", _exchangeType);
+                                    }
+
+                                    #region AMQP ExecuteAsync
+                                    using (var tracerExecute = tracerFactory.CreateTracer("AMQP Execute"))
+                                    {
+                                        var handlerException = default(Exception);
+
+                                        var handlerOK = false;
+                                        tracerExecute.SetTag("x-queue-name", _queueName);
+                                        tracerExecute.SetTag("x-message-id", MessageId);
+                                        tracerExecute.SetTag("x-router-key", _routeKey);
+                                        tracerExecute.SetTag("x-exchange-name", _exchange);
+                                        tracerExecute.SetTag("x-exchange-type", _exchangeType);
+
+                                        try
+                                        {
+                                            handlerOK = await _eventBusReceiverPolicy.ExecuteAsync(async (cancellationToken) =>
+                                            {
+                                                return await EventAction.Handle(messageResponse.Body, (Dictionary<string, object>)messageResponse.Headers, cancellationToken);
+
+                                            }, CancellationToken.None);
+
+                                            if (handlerOK)
+                                            {
+                                                if (_ackHandler != null)
+                                                {
+                                                    _ackHandler(new MessageResponse[] { messageResponse });
+                                                }
+
+                                                //确认消息
+                                                _channel.BasicAck(ea.DeliveryTag, false);
+
+                                            }
+                                            else
+                                            {
+                                                tracerExecute.SetError();
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            tracerExecute.SetError();
+                                            handlerException = ex;
+                                            _logger.LogError(ex, ex.Message);
+                                        }
+                                        finally
+                                        {
+                                            if (!handlerOK)
+                                            {
+                                                //重新入队，默认：是
+                                                var requeue = true;
+
+                                                try
+                                                {
+                                                    //执行回调，等待业务层的处理结果
+                                                    if (_nackHandler != null)
+                                                    {
+                                                        requeue = await _nackHandler((new MessageResponse[] { messageResponse }, handlerException));
+                                                    }
+                                                }
+                                                catch (Exception innterEx)
+                                                {
+                                                    _logger.LogError(innterEx, innterEx.Message);
+                                                }
+
+                                                //确认消息
+                                                _channel.BasicReject(ea.DeliveryTag, requeue);
+                                            }
+                                        }
+                                    }
+                                    #endregion
+                                }
+                                catch (Exception ex)
+                                {
+                                    tracer.SetError();
+                                    _logger.LogError(ex.Message, ex);
                                 }
                                 #endregion
                             }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError(ex.Message, ex);
-                            }
-                            #endregion
                         };
                         consumer.Unregistered += (ch, ea) =>
                         {
@@ -385,6 +401,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                     {
                         _logger.LogError(ex, ex.Message);
                     }
+
                 });
             }
             return this;

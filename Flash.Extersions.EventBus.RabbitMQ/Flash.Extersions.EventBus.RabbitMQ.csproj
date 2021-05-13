@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extersions.EventBus\Flash.Extersions.EventBus.csproj" />
+    <ProjectReference Include="..\Flash.Extersions.OpenTracting\Flash.Extersions.OpenTracting.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
   </ItemGroup>
   <ItemGroup>

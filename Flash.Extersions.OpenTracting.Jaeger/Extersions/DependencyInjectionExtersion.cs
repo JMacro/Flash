@@ -89,7 +89,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddOpenTracing(openTracingBuilder);
-            services.AddSingleton<ITracer>(serviceProvider =>
+            services.AddSingleton(serviceProvider =>
             {
                 var config = serviceProvider.GetService<TracingConfiguration>();
                 var serviceName = config.SerivceName ?? serviceProvider.GetRequiredService<IHostingEnvironment>().ApplicationName;
@@ -118,7 +118,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     .WithSender(senderConfiguration);
 
 
-                ITracer tracer = null;
+                OpenTracing.ITracer tracer = null;
                 if (config.Open)
                 {
                     tracer = new Jaeger.Configuration(serviceName, loggerFactory)

@@ -1,5 +1,6 @@
 ﻿using Flash.Core;
 using Flash.Extersions.EventBus;
+using Flash.Extersions.OpenTracting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 hostBuilder.Services.AddSingleton(type);
             }
 
+            hostBuilder.Services.AddSingleton<ITracerFactory, TracerFactory>();
+
             var builder = new EventBusHostBuilder(hostBuilder.Services);
             setup(builder);
 
@@ -38,7 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static IFlashApplicationBuilder UseEventBus(this IFlashApplicationBuilder builder,Action<IServiceProvider> action)
+        public static IFlashApplicationBuilder UseEventBus(this IFlashApplicationBuilder builder, Action<IServiceProvider> action)
         {
             action(builder.app.ApplicationServices);
             return builder;
