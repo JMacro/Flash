@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -27,6 +28,11 @@ namespace Flash.Test.Web
                     .AddJsonFileEx("Config/redis.json", false, true)
                     .AddEnvironmentVariables()
                     .AddCommandLine(args).Build();
+                })
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.AddDebug();
+                    logging.AddConsole();
                 })
                 .UseMetrics("AppMetrics")
                 .UseStartup<Startup>();

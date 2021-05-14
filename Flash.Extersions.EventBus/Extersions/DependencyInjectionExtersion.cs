@@ -51,13 +51,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 使用消息事件总线订阅
         /// </summary>
-        /// <param name="appBuilder"></param>
+        /// <param name="serviceProvider"></param>
         /// <param name="setup"></param>
         /// <returns></returns>
-        public static IFlashApplicationBuilder UseSubscriber(this IFlashApplicationBuilder appBuilder, Action<IEventBus> setup)
+        public static IServiceProvider UseSubscriber(this IServiceProvider serviceProvider, Action<IEventBus> setup)
         {
-            var eventBus = appBuilder.app.ApplicationServices.GetRequiredService<IEventBus>();
-            var logger = appBuilder.app.ApplicationServices.GetRequiredService<ILogger<IEventBus>>();
+            var eventBus = serviceProvider.GetRequiredService<IEventBus>();
+            var logger = serviceProvider.GetRequiredService<ILogger<IEventBus>>();
 
             eventBus.Subscriber((Messages) =>
             {
@@ -83,7 +83,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             setup?.Invoke(eventBus);
-            return appBuilder;
+            return serviceProvider;
         }
 
 

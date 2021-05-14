@@ -198,7 +198,10 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// <returns></returns>
         public async Task<bool> PublishAsync(List<MessageCarrier> messages, bool confirm = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await EnqueueConfirm(Convert4MessageRequest(messages), true, cancellationToken);
+            using (var tracer = _tracerFactory.CreateTracer("AMQP"))
+            {
+                return await EnqueueConfirm(Convert4MessageRequest(messages), true, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -210,7 +213,10 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// <returns></returns>
         public async Task<bool> PublishAsync(MessageCarrier message, bool confirm = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await EnqueueConfirm(Convert4MessageRequest(new List<MessageCarrier> { message }), true, cancellationToken);
+            using (var tracer = _tracerFactory.CreateTracer("AMQP"))
+            {
+                return await EnqueueConfirm(Convert4MessageRequest(new List<MessageCarrier> { message }), true, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -453,46 +459,53 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                         properties.Headers["x-carrier-id"] = messages[i].CarrierId;
 
 
-                        foreach (var key in messages[i].Headers.Keys)
+                        using (var tracer = this._tracerFactory.CreateTracer("AMQP Publish"))
                         {
-                            if (!properties.Headers.ContainsKey(key))
+                            tracer.SetTag("x-message-id", properties.MessageId);
+                            tracer.SetTag("x-exchange-name", _exchange);
+                            tracer.SetTag("x-exchange-type", _exchangeType);
+
+                            foreach (var key in messages[i].Headers.Keys)
                             {
-                                properties.Headers.Add(key, messages[i].Headers[key]);
+                                if (!properties.Headers.ContainsKey(key))
+                                {
+                                    properties.Headers.Add(key, messages[i].Headers[key]);
+                                }
                             }
+
+                            if (messages[i].Headers.ContainsKey("x-first-death-queue"))
+                            {
+                                //延时队列或者直接写死信的情况
+                                var newQueue = messages[i].Headers["x-first-death-queue"].ToString();
+
+                                //创建一个队列                         
+                                _channel.QueueDeclare(
+                                               queue: newQueue,
+                                               durable: true,
+                                               exclusive: false,
+                                               autoDelete: false,
+                                               arguments: messages[i].Headers);
+
+                                _batchPublish.Add(
+                                        exchange: "",
+                                        mandatory: true,
+                                        routingKey: newQueue,
+                                        properties: properties,
+                                        body: bytes);
+                            }
+                            else
+                            {
+                                //发送到正常队列
+                                _batchPublish.Add(
+                                           exchange: _exchange,
+                                           mandatory: true,
+                                           routingKey: routeKey,
+                                           properties: properties,
+                                           body: bytes);
+                            }
+
+                            return Task.FromResult(true);
                         }
-
-                        if (messages[i].Headers.ContainsKey("x-first-death-queue"))
-                        {
-                            //延时队列或者直接写死信的情况
-                            var newQueue = messages[i].Headers["x-first-death-queue"].ToString();
-
-                            //创建一个队列                         
-                            _channel.QueueDeclare(
-                                           queue: newQueue,
-                                           durable: true,
-                                           exclusive: false,
-                                           autoDelete: false,
-                                           arguments: messages[i].Headers);
-
-                            _batchPublish.Add(
-                                    exchange: "",
-                                    mandatory: true,
-                                    routingKey: newQueue,
-                                    properties: properties,
-                                    body: bytes);
-                        }
-                        else
-                        {
-                            //发送到正常队列
-                            _batchPublish.Add(
-                                       exchange: _exchange,
-                                       mandatory: true,
-                                       routingKey: routeKey,
-                                       properties: properties,
-                                       body: bytes);
-                        }
-
-                        return Task.FromResult(true);
                     }, cancellationToken);
                 }
 

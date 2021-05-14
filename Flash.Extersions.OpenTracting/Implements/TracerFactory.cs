@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 
 namespace Flash.Extersions.OpenTracting
 {
@@ -21,7 +22,7 @@ namespace Flash.Extersions.OpenTracting
             var tracer = this._serviceProvider.GetService(typeof(ITracer)) as ITracer;
             if (tracer == null)
             {
-                tracer = new DefaultTracer();
+                tracer = new DefaultTracer(this._serviceProvider.GetService(typeof(ILogger<DefaultTracer>)) as ILogger<DefaultTracer>);
             }
             tracer.SetTracerName(tracerName);
             return tracer;
