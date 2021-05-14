@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Flash.Extersions.EventBus
@@ -10,15 +11,19 @@ namespace Flash.Extersions.EventBus
         /// 发布消息
         /// </summary>
         /// <param name="messages">消息内容</param>
+        /// <param name="confirm">是否采用发布确认机制</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        Task<bool> PublishAsync(List<MessageCarrier> messages);
+        Task<bool> PublishAsync(List<MessageCarrier> messages, bool confirm = true, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 发布消息
         /// </summary>
-        /// <param name="messages">消息内容</param>
+        /// <param name="message">消息内容</param>
+        /// <param name="confirm">是否采用发布确认机制</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        Task<bool> PublishAsync(params MessageCarrier[] messages);
+        Task<bool> PublishAsync(MessageCarrier message, bool confirm = true, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 注册订阅处理程序

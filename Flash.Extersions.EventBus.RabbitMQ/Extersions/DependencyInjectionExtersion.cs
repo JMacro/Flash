@@ -1,12 +1,10 @@
-﻿using Flash.Core;
-using Flash.Extersions.EventBus;
+﻿using Flash.Extersions.EventBus;
 using Flash.Extersions.EventBus.RabbitMQ;
 using Flash.LoadBalancer;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -182,7 +180,6 @@ namespace Microsoft.Extensions.DependencyInjection
             this.PreFetch = PreFetch;
             this.ReceiverLoadBalancer = LoadBalancer;
             return this;
-
         }
     }
 
@@ -246,18 +243,19 @@ namespace Microsoft.Extensions.DependencyInjection
                 var senderLoadBlancer = rabbitMQPersisterConnectionLoadBalancerFactory.Resolve(() => senderConnections, option.SenderLoadBalancer);
 
                 return new RabbitMQBus(
-                    receiveLoadBlancer,
-                    senderLoadBlancer,
-                    sp,
-                    logger,
-                    option.ReveiverMaxDegreeOfParallelism,
-                    option.ReceiverAcquireRetryAttempts,
-                    option.ReceiverHandlerTimeoutMillseconds,
-                    option.SenderAcquireRetryAttempts,
-                    option.PreFetch,
-                    option.Exchange,
-                    option.ExchangeType
-                    );
+                    senderLoadBlancer: senderLoadBlancer,
+                    receiveLoadBlancer: receiveLoadBlancer,
+                    serviceProvider: sp,
+                    logger: logger,
+                    reveiverMaxDegreeOfParallelism: option.ReveiverMaxDegreeOfParallelism,
+                    reveiverRetryCount: option.ReceiverAcquireRetryAttempts,
+                    receiverHandlerTimeoutMillseconds: option.ReceiverHandlerTimeoutMillseconds,
+                    senderRetryCount: option.SenderAcquireRetryAttempts,
+                    senderConfirmTimeoutMillseconds: 500,
+                    prefetchCount: option.PreFetch,
+                    exchange: option.Exchange,
+                    exchangeType: option.ExchangeType
+                );
             });
 
             return hostBuilder;

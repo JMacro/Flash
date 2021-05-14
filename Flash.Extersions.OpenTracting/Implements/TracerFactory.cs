@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Flash.Extersions.OpenTracting
 {
@@ -13,6 +11,11 @@ namespace Flash.Extersions.OpenTracting
             this._serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// 创建链路追踪器，默认返回系统默认链路追踪器
+        /// </summary>
+        /// <param name="tracerName">追踪器名称</param>
+        /// <returns></returns>
         public ITracer CreateTracer(string tracerName)
         {
             var tracer = this._serviceProvider.GetService(typeof(ITracer)) as ITracer;

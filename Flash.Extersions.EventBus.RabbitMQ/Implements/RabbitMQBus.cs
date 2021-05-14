@@ -1,10 +1,8 @@
-﻿using Flash.Extersions.EventBus;
-using Flash.Extersions.OpenTracting;
+﻿using Flash.Extersions.OpenTracting;
 using Flash.LoadBalancer;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
-using Polly.Retry;
 using Polly.Timeout;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -60,22 +58,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// 日志收集器
         /// </summary>
         private readonly ILogger<IEventBus> _logger;
-        /// <summary>
-        /// 发布均衡机
-        /// </summary>
-        private readonly ILoadBalancer<IRabbitMQPersistentConnection> _publishLoadBlancer;
-        /// <summary>
-        /// 订阅均衡机
-        /// </summary>
-        private readonly ILoadBalancer<IRabbitMQPersistentConnection> _subscribeLoadBlancer;
-        /// <summary>
-        /// 订阅的信道列表
-        /// </summary>
-        private static List<IModel> _subscribeChannels = new List<IModel>();
-        /// <summary>
-        /// 订阅最大并行数
-        /// </summary>
-        private readonly int _reveiverMaxDegreeOfParallelism;
+
         /// <summary>
         /// Qos策略（默认为1，同一时刻服务器最大接收1个消息，如未确认则不会收到下一个消息）
         /// </summary>
@@ -88,14 +71,37 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// 交换机类型
         /// </summary>
         private readonly string _exchangeType = "topic";
+
+        #region 消费者参数
         /// <summary>
-        /// 事件总线发布策略
+        /// 消费者均衡机
         /// </summary>
-        private readonly RetryPolicy _eventBusPublishRetryPolicy = null;
+        private readonly ILoadBalancer<IRabbitMQPersistentConnection> _receiveLoadBlancer;
         /// <summary>
-        /// 事件总线订阅策略
+        /// 消费者最大并行数
         /// </summary>
-        private readonly IAsyncPolicy _eventBusReceiverPolicy = null;
+        private readonly int _reveiverMaxDegreeOfParallelism;
+        /// <summary>
+        /// 事件总线消费者策略
+        /// </summary>
+        private readonly IAsyncPolicy _receiverPolicy = null;
+        #endregion
+
+        #region 生产者参数
+        /// <summary>
+        /// 生产者均衡机
+        /// </summary>
+        private readonly ILoadBalancer<IRabbitMQPersistentConnection> _senderLoadBlancer;
+        /// <summary>
+        /// 事件总线生产者策略
+        /// </summary>
+        private readonly IAsyncPolicy _senderRetryPolicy = null;
+        /// <summary>
+        /// 生产者确认超时时间（单位毫秒）
+        /// </summary>
+        private readonly int _senderConfirmTimeoutMillseconds;
+        #endregion
+
         /// <summary>
         /// 应答处理程序
         /// </summary>
@@ -104,62 +110,69 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// 未应答处理程序
         /// </summary>
         private Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> _nackHandler = null;
+        private ITracerFactory _tracerFactory = null;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="publishLoadBlancer"></param>
-        /// <param name="subscribeLoadBlancer"></param>
+        /// <param name="senderLoadBlancer"></param>
+        /// <param name="receiveLoadBlancer"></param>
         /// <param name="serviceProvider"></param>
         /// <param name="logger"></param>
-        /// <param name="reveiverMaxDegreeOfParallelism"></param>
-        /// <param name="subscribeRetryCount"></param>
-        /// <param name="receiverHandlerTimeoutMillseconds"></param>
-        /// <param name="publishRetryCount"></param>
-        /// <param name="prefetchCount"></param>
-        /// <param name="exchange"></param>
-        /// <param name="exchangeType"></param>
+        /// <param name="reveiverMaxDegreeOfParallelism">消费者最大并行数</param>
+        /// <param name="reveiverRetryCount">消费者处理程序异常重试次数</param>
+        /// <param name="receiverHandlerTimeoutMillseconds">消费者处理程序超时时间（单位毫秒）</param>
+        /// <param name="senderRetryCount">生产者策略重试次数</param>
+        /// <param name="senderConfirmTimeoutMillseconds">生产者发送消息确认超时时间（单位毫秒）</param>
+        /// <param name="prefetchCount">Qos策略（默认为1，同一时刻服务器最大接收1个消息，如未确认则不会收到下一个消息）</param>
+        /// <param name="exchange">交换机名称</param>
+        /// <param name="exchangeType">交换机类型</param>
         public RabbitMQBus(
-            ILoadBalancer<IRabbitMQPersistentConnection> publishLoadBlancer,
-            ILoadBalancer<IRabbitMQPersistentConnection> subscribeLoadBlancer,
+            ILoadBalancer<IRabbitMQPersistentConnection> senderLoadBlancer,
+            ILoadBalancer<IRabbitMQPersistentConnection> receiveLoadBlancer,
             IServiceProvider serviceProvider,
             ILogger<IEventBus> logger,
             int reveiverMaxDegreeOfParallelism = 10,
-            int subscribeRetryCount = 0,
-            int receiverHandlerTimeoutMillseconds = 0,
-            int publishRetryCount = 3,
+            int reveiverRetryCount = 0,
+            int receiverHandlerTimeoutMillseconds = 5000,
+            int senderRetryCount = 3,
+            int senderConfirmTimeoutMillseconds = 500,
             ushort prefetchCount = 1,
             string exchange = "amp.topic",
             string exchangeType = "topic")
         {
-            this._publishLoadBlancer = publishLoadBlancer;
-            this._subscribeLoadBlancer = subscribeLoadBlancer;
-            this._serviceProvider = serviceProvider;
-            this._logger = logger;
+            this._serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
             this._reveiverMaxDegreeOfParallelism = reveiverMaxDegreeOfParallelism;
             this._prefetchCount = prefetchCount;
             this._exchange = exchange;
             this._exchangeType = exchangeType;
 
+            this._tracerFactory = _serviceProvider.GetService(typeof(ITracerFactory)) as ITracerFactory;
+
             #region 生产者策略
-            this._eventBusPublishRetryPolicy = RetryPolicy.Handle<BrokerUnreachableException>()
+            this._senderLoadBlancer = senderLoadBlancer;
+            this._senderConfirmTimeoutMillseconds = senderConfirmTimeoutMillseconds;
+            this._senderRetryPolicy = Policy.NoOpAsync();
+            this._senderRetryPolicy = _senderRetryPolicy.WrapAsync(Policy.Handle<BrokerUnreachableException>()
                     .Or<SocketException>()
                     .Or<IOException>()
                     .Or<AlreadyClosedException>()
-                    .WaitAndRetry(publishRetryCount, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt)), (ex, time) =>
+                    .WaitAndRetryAsync(senderRetryCount, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt)), (ex, time) =>
                     {
                         _logger.LogError(ex.ToString());
-                    });
+                    }));
             #endregion
 
             #region 消费者策略
-            _eventBusReceiverPolicy = Policy.NoOpAsync();//创建一个空的Policy
-
-            if (subscribeRetryCount > 0)
+            this._receiveLoadBlancer = receiveLoadBlancer;
+            this._receiverPolicy = Policy.NoOpAsync();//创建一个空的Policy
+            if (reveiverRetryCount > 0)
             {
                 //设置重试策略
-                _eventBusReceiverPolicy = _eventBusReceiverPolicy.WrapAsync(Policy.Handle<Exception>()
-                    .RetryAsync(subscribeRetryCount, (ex, time) =>
+                this._receiverPolicy = _receiverPolicy.WrapAsync(Policy.Handle<Exception>()
+                    .RetryAsync(reveiverRetryCount, (ex, time) =>
                     {
                         _logger.LogError(ex, ex.ToString());
                     }));
@@ -168,7 +181,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
             if (receiverHandlerTimeoutMillseconds > 0)
             {
                 // 设置超时
-                _eventBusReceiverPolicy = _eventBusReceiverPolicy.WrapAsync(Policy.TimeoutAsync(TimeSpan.FromSeconds(receiverHandlerTimeoutMillseconds), TimeoutStrategy.Pessimistic, (context, timespan, task) =>
+                this._receiverPolicy = _receiverPolicy.WrapAsync(Policy.TimeoutAsync(TimeSpan.FromSeconds(receiverHandlerTimeoutMillseconds), TimeoutStrategy.Pessimistic, (context, timespan, task) =>
                 {
                     return Task.FromResult(true);
                 }));
@@ -180,27 +193,31 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// 发布消息
         /// </summary>
         /// <param name="messages">消息内容</param>
+        /// <param name="confirm">是否采用发布确认机制</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        public async Task<bool> PublishAsync(List<MessageCarrier> messages)
+        public async Task<bool> PublishAsync(List<MessageCarrier> messages, bool confirm = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await EnqueueConfirm(Convert4MessageRequest(messages));
+            return await EnqueueConfirm(Convert4MessageRequest(messages), true, cancellationToken);
         }
 
         /// <summary>
         /// 发布消息
         /// </summary>
-        /// <param name="messages">消息内容</param>
+        /// <param name="message">消息内容</param>
+        /// <param name="confirm">是否采用发布确认机制</param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
-        public async Task<bool> PublishAsync(params MessageCarrier[] messages)
+        public async Task<bool> PublishAsync(MessageCarrier message, bool confirm = true, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await EnqueueConfirm(Convert4MessageRequest(messages.ToList()));
+            return await EnqueueConfirm(Convert4MessageRequest(new List<MessageCarrier> { message }), true, cancellationToken);
         }
 
         /// <summary>
         /// 注册订阅处理程序
         /// </summary>
         /// <typeparam name="TMessage">消息类型</typeparam>
-        /// <typeparam name="TProcessMessageHandler">消息处理程序</typeparam>
+        /// <typeparam name="TProcessMessageHandler">消息处理程序（此处存在消息重复被消费问题，客户端需做好幂等操作）</typeparam>
         /// <param name="queueName">队列名称</param>
         /// <param name="routeKey">路由名称</param>
         /// <returns></returns>
@@ -208,14 +225,13 @@ namespace Flash.Extersions.EventBus.RabbitMQ
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
-            var connection = _subscribeLoadBlancer.Resolve();
+            var connection = _receiveLoadBlancer.Resolve();
             if (!connection.IsConnected) connection.TryConnect();
 
             for (int i = 0; i < _reveiverMaxDegreeOfParallelism; i++)
             {
                 System.Threading.Tasks.Task.Run(() =>
                 {
-
                     try
                     {
                         var _channel = connection.GetModel();
@@ -240,8 +256,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                         EventingBasicConsumer consumer = new EventingBasicConsumer(_channel);
                         consumer.Received += async (ch, ea) =>
                         {
-                            var tracerFactory = _serviceProvider.GetService(typeof(ITracerFactory)) as ITracerFactory;
-                            using (var tracer = tracerFactory.CreateTracer("AMQP Received"))
+                            using (var tracer = _tracerFactory.CreateTracer("AMQP Received"))
                             {
                                 #region AMQP Received
                                 try
@@ -299,7 +314,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                                     }
 
                                     #region AMQP ExecuteAsync
-                                    using (var tracerExecute = tracerFactory.CreateTracer("AMQP Execute"))
+                                    using (var tracerExecute = _tracerFactory.CreateTracer("AMQP Execute"))
                                     {
                                         var handlerException = default(Exception);
 
@@ -312,10 +327,10 @@ namespace Flash.Extersions.EventBus.RabbitMQ
 
                                         try
                                         {
-                                            handlerOK = await _eventBusReceiverPolicy.ExecuteAsync(async (cancellationToken) =>
+                                            handlerOK = await _receiverPolicy.ExecuteAsync(async (cancellationToken) =>
                                             {
+                                                //开始执行客户端处理程序，并获得执行结果，此处存在消息重复被消费问题。客户端需做好幂等操作
                                                 return await EventAction.Handle(messageResponse.Body, (Dictionary<string, object>)messageResponse.Headers, cancellationToken);
-
                                             }, CancellationToken.None);
 
                                             if (handlerOK)
@@ -394,8 +409,6 @@ namespace Flash.Extersions.EventBus.RabbitMQ
 
                         //消费队列，并设置应答模式为程序主动应答
                         _channel.BasicConsume(_queueName, false, consumer);
-
-                        _subscribeChannels.Add(_channel);
                     }
                     catch (Exception ex)
                     {
@@ -412,9 +425,9 @@ namespace Flash.Extersions.EventBus.RabbitMQ
         /// </summary>
         /// <param name="messages">消息载体</param>
         /// <returns></returns>
-        private async Task<bool> EnqueueConfirm(List<MessageRequest> messages)
+        private async Task<bool> EnqueueConfirm(List<MessageRequest> messages, bool confirm, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var connection = _publishLoadBlancer.Resolve();
+            var connection = _senderLoadBlancer.Resolve();
             try
             {
                 if (!connection.IsConnected) connection.TryConnect();
@@ -424,33 +437,34 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                 // 提交走批量通道
                 var _batchPublish = _channel.CreateBasicPublishBatch();
 
-                return await System.Threading.Tasks.Task<bool>.Run(() =>
+                for (int i = 0; i < messages.Count; i++)
                 {
-                    messages.ForEach(item =>
+                    await this._senderRetryPolicy.ExecuteAsync((e) =>
                     {
-                        var routeKey = item.RouteKey;
-                        byte[] bytes = Encoding.UTF8.GetBytes(item.Body);
+
+                        var routeKey = messages[i].RouteKey;
+                        byte[] bytes = Encoding.UTF8.GetBytes(messages[i].Body);
 
                         //设置消息持久化
                         IBasicProperties properties = _channel.CreateBasicProperties();
                         properties.DeliveryMode = 2;
-                        properties.MessageId = item.MessageId;
+                        properties.MessageId = messages[i].MessageId;
                         properties.Headers = new Dictionary<string, Object>();
-                        properties.Headers["x-carrier-id"] = item.CarrierId;
+                        properties.Headers["x-carrier-id"] = messages[i].CarrierId;
 
 
-                        foreach (var key in item.Headers.Keys)
+                        foreach (var key in messages[i].Headers.Keys)
                         {
                             if (!properties.Headers.ContainsKey(key))
                             {
-                                properties.Headers.Add(key, item.Headers[key]);
+                                properties.Headers.Add(key, messages[i].Headers[key]);
                             }
                         }
 
-                        if (item.Headers.ContainsKey("x-first-death-queue"))
+                        if (messages[i].Headers.ContainsKey("x-first-death-queue"))
                         {
                             //延时队列或者直接写死信的情况
-                            var newQueue = item.Headers["x-first-death-queue"].ToString();
+                            var newQueue = messages[i].Headers["x-first-death-queue"].ToString();
 
                             //创建一个队列                         
                             _channel.QueueDeclare(
@@ -458,7 +472,7 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                                            durable: true,
                                            exclusive: false,
                                            autoDelete: false,
-                                           arguments: item.Headers);
+                                           arguments: messages[i].Headers);
 
                             _batchPublish.Add(
                                     exchange: "",
@@ -478,20 +492,23 @@ namespace Flash.Extersions.EventBus.RabbitMQ
                                        body: bytes);
                         }
 
+                        return Task.FromResult(true);
+                    }, cancellationToken);
+                }
 
-                    });
+                //批量提交
+                _batchPublish.Publish();
 
-                    //批量提交
-                    _batchPublish.Publish();
-
+                if (confirm)
+                {
                     return _channel.WaitForConfirms(TimeSpan.FromMilliseconds(500));
-                });
+                }
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw ex;
-
             }
         }
 
