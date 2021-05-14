@@ -22,14 +22,14 @@ namespace Flash.Test.Web.Controllers
         [HttpGet("Test1")]
         public async Task<string> Test1()
         {
-            var item1 = new MessageCarrier("TestEventHandler", new TestEvent
+            var item1 = new MessageCarrier("routerkey.log.error", new TestEvent
             {
-                EventName = "Test1"
+                EventName = "routerkey.log.error"
             });
 
-            var item2 = new MessageCarrier("TestEventHandler2", new TestEvent
+            var item2 = new MessageCarrier("routerkey.log.info", new TestEvent
             {
-                EventName = "Test2"
+                EventName = "routerkey.log.info"
             });
 
 

@@ -79,8 +79,8 @@ namespace Flash.Test.Web
                 {
                     sp.UseSubscriber(eventbus =>
                     {
-                        eventbus.Register<TestEvent, TestEventHandler>("TestEventHandler", "routerkey.log.*");
-                        eventbus.Register<TestEvent, TestEventHandler>("TestEventHandler2", "routerkey.log.*");
+                        eventbus.Register<TestEvent, TestEventHandler>("TestEventHandler", "routerkey.log.error");
+                        eventbus.Register<TestEvent2, TestEvent2Handler>("TestEventHandler2", "routerkey.log.info");
 
                         //订阅消息
                         eventbus.Subscriber((Messages) =>
