@@ -4,7 +4,7 @@
 #### 介绍
 |                        解决方案 |                  说明 |                   |
 |:-------------------------------|:----------------------|:----------------------|
-|  Flash.Extensions.System       | System基础数据类型扩展 | [![NuGet version (Flash.Extensions.System)](https://img.shields.io/nuget/v/Flash.Extersions.System?style=flat)](https://www.nuget.org/packages/Flash.Extensions.System/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.System) |
+|  Flash.Extensions.System       | System基础数据类型扩展 | [![NuGet version (Flash.Extensions.System)](https://img.shields.io/nuget/v/Flash.Extensions.System?style=flat)](https://www.nuget.org/packages/Flash.Extensions.System/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.System) |
 |  Flash.Extensions.UidGenerator | 分布式唯一ID生成器     |  [![NuGet version (Flash.Extensions.UidGenerator)](https://img.shields.io/nuget/v/Flash.Extensions.UidGenerator?style=flat)](https://www.nuget.org/packages/Flash.Extensions.UidGenerator/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.UidGenerator)|
 |  Flash.Extensions.DistributedLock | 分布式锁           | [![NuGet version (Flash.Extensions.DistributedLock)](https://img.shields.io/nuget/v/Flash.Extensions.DistributedLock?style=flat)](https://www.nuget.org/packages/Flash.Extensions.DistributedLock/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.DistributedLock)|
 |  Flash.Extensions.Cache.Redis | Nosql redis           | [![NuGet version (Flash.Extersions.Cache.Redis)](https://img.shields.io/nuget/v/Flash.Extensions.Cache.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Cache.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Cache.Redis)|
