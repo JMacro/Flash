@@ -7,7 +7,7 @@
     <RepositoryType>github</RepositoryType>
     <Description>分布式唯一ID生成器</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0</Version>
+    <Version>10.0.0</Version>
     <Authors>JMacro</Authors>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
@@ -26,6 +26,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Flash.Core" Version="2.0.0" />
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
   </ItemGroup>
 </Project>

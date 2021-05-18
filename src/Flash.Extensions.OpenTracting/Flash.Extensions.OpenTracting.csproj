@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
     <RepositoryType>github</RepositoryType>
-    <Version>1.0.0</Version>
+    <Version>10.0.0</Version>
     <Description>日志链路追踪</Description>
   </PropertyGroup>
 
