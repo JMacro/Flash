@@ -30,12 +30,7 @@ namespace Flash.LoadBalancer
             int _last = new Random(Guid.NewGuid().GetHashCode()).Next(connections.Count() - 1);
             lock (_lock)
             {
-                if (_last < connections.Count())
-                {
-                    _last = 0;
-                }
-
-                if (_last > connections.Count())
+                if (_last > connections.Count() || _last <= 0)
                 {
                     _last = 0;
                 }

@@ -37,9 +37,32 @@ namespace Flash.Test.Web
                     setup.SecretKey = "sdfdsfsdf";
                 });
 
+                flash.AddUniqueIdGenerator(setup =>
+                {
+                    setup.CenterId = 0;
+                    setup.UseStaticWorkIdCreateStrategy(0);
+                });
+
+                flash.AddCache(cache =>
+                {
+                    var host = Environment.GetEnvironmentVariable("Redis_Host", EnvironmentVariableTarget.Machine);
+                    var password = Environment.GetEnvironmentVariable("Redis_Password", EnvironmentVariableTarget.Machine);
+
+                    cache.UseRedis(option =>
+                    {
+                        option.WithNumberOfConnections(5)
+                        .WithWriteServerList(host)
+                        .WithReadServerList(host)
+                        .WithDb(0)
+                        .WithDistributedLock(true)
+                        .WithPassword(password);
+                    });
+                });
+
+
                 flash.AddEventBus(bus =>
                 {
-                    bus.AddRabbitMQ(rabbitmq =>
+                    bus.UseRabbitMQ(rabbitmq =>
                     {
                         rabbitmq.WithEndPoint(Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(Configuration["RabbitMQ:Port"] ?? "5672"))
                         .WithAuth(Configuration["RabbitMQ:UserName"] ?? "guest", Configuration["RabbitMQ:Password"] ?? "guest")

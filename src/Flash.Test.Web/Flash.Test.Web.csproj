@@ -15,11 +15,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extensions.AppMetrics\Flash.Extensions.AppMetrics.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.DistributedLock\Flash.Extensions.DistributedLock.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

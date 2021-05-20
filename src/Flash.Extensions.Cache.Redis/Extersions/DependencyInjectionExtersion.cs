@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="cacheBuilder"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static IFlashCacheBuilder AddRedis(this IFlashCacheBuilder cacheBuilder, Action<ICacheConfig> action)
+        public static IFlashCacheBuilder UseRedis(this IFlashCacheBuilder cacheBuilder, Action<ICacheConfig> action)
         {
             action = action ?? throw new ArgumentNullException(nameof(action));
 

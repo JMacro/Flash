@@ -1,8 +1,6 @@
 using Autofac;
-using Flash.Extersions.Cache;
-using Flash.Extersions.Cache.Redis;
-using Flash.Extersions.HealthChecks;
-using Flash.Extersions.HealthChecks.Redis;
+using Flash.Extensions.Cache;
+using Flash.Extensions.Cache.Redis;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,12 +70,13 @@ namespace Flash.Test
                      });
                  });
 
-                 services.AddHealthChecks(check =>
-                 {
-                     check.AddRedisCheck("192.168.109.237:63100", "192.168.109.237:63100,password=tY7cRu9HG_jyDw2r,allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
-                 });
+                 //services.AddHealthChecks(check =>
+                 //{
+                 //    check.AddRedisCheck("192.168.109.237:63100", "192.168.109.237:63100,password=tY7cRu9HG_jyDw2r,allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
+                 //});
              })
-             .UseHealthChecks("/healthcheck");
+             //.UseHealthChecks("/healthcheck")
+             ;
 
 
             var server = new TestServer(webHostBuilder);

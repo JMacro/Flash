@@ -185,7 +185,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
     public static partial class DependencyInjectionExtersion
     {
-        public static IEventBusHostBuilder AddRabbitMQ(this IEventBusHostBuilder hostBuilder, Action<RabbitMQOption> setup)
+        /// <summary>
+        /// 使用RabbitMQ消息总线
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <param name="setup"></param>
+        /// <returns></returns>
+        public static IEventBusHostBuilder UseRabbitMQ(this IEventBusHostBuilder hostBuilder, Action<RabbitMQOption> setup)
         {
             setup = setup ?? throw new ArgumentNullException(nameof(setup));
 

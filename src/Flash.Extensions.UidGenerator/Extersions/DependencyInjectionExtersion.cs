@@ -7,9 +7,7 @@ using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员“IdGeneratorOption”的 XML 注释
     public class IdGeneratorOption
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员“IdGeneratorOption”的 XML 注释
     {
 
         /// <summary>
@@ -23,14 +21,15 @@ namespace Microsoft.Extensions.DependencyInjection
         internal IWorkIdCreateStrategy WorkIdCreateStrategy { get; set; }
     }
 
-
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员“DependencyInjectionExtersion”的 XML 注释
     public static partial class DependencyInjectionExtersion
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员“DependencyInjectionExtersion”的 XML 注释
     {
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员“DependencyInjectionExtersion.AddUniqueIdGenerator(IFlashHostBuilder, Action<IdGeneratorOption>)”的 XML 注释
+        /// <summary>
+        /// 添加唯一Id生成器
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <param name="setup"></param>
+        /// <returns></returns>
         public static IFlashHostBuilder AddUniqueIdGenerator(this IFlashHostBuilder hostBuilder, Action<IdGeneratorOption> setup)
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员“DependencyInjectionExtersion.AddUniqueIdGenerator(IFlashHostBuilder, Action<IdGeneratorOption>)”的 XML 注释
         {
             var option = new IdGeneratorOption();
             setup(option);
@@ -43,12 +42,19 @@ namespace Microsoft.Extensions.DependencyInjection
             return hostBuilder;
         }
 
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员“DependencyInjectionExtersion.UseStaticWorkIdCreateStrategy(IdGeneratorOption, int)”的 XML 注释
+        /// <summary>
+        /// 使用静态机器标识
+        /// </summary>
+        /// <param name="option"></param>
+        /// <param name="WorkId"></param>
         public static void UseStaticWorkIdCreateStrategy(this IdGeneratorOption option, int WorkId)
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员“DependencyInjectionExtersion.UseStaticWorkIdCreateStrategy(IdGeneratorOption, int)”的 XML 注释
         {
             option.WorkIdCreateStrategy = new StaticWorkIdCreateStrategy(WorkId);
         }
     }
 
 }
+
+
+//TODO 动态获取机器标识码
+//TODO 版本号提升并发布

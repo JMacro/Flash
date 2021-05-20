@@ -36,7 +36,7 @@ namespace Flash.Test
             //创建服务容器对象
             services = new ServiceCollection();
 
-            services.AddMetrics(configuration.GetSection("AppMetrics"));
+            //services.AddMetrics(configuration.GetSection("AppMetrics"));
             services.AddFlash(setup =>
             {
                 //setup.AddRedisDistributedLock(option =>
@@ -66,10 +66,10 @@ namespace Flash.Test
 
                 setup.AddOpenTracing(option =>
                 {
-                    option.AddJaeger(ation =>
-                    {
+                    //option.AddJaeger(ation =>
+                    //{
 
-                    });
+                    //});
                 });
 
             });

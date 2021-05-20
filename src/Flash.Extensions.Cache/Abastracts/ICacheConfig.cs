@@ -50,7 +50,7 @@
         /// <returns></returns>
         ICacheConfig WithDb(int num);
         /// <summary>
-        /// 分布式锁
+        /// 分布式锁，对象使用IDistributedLock
         /// </summary>
         /// <param name="isDistributedLock"></param>
         /// <returns></returns>
