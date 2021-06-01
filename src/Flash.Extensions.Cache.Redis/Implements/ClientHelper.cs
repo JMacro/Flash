@@ -16,7 +16,7 @@ namespace Flash.Extensions.Cache.Redis
         /// 缓存数据库
         /// </summary>
         private int DbNum { get; }
-        private readonly ConnectionMultiplexer _conn;        
+        private readonly ConnectionMultiplexer _conn;
         private string KeyPrefix = "";
 
         public string CustomKey;
@@ -322,29 +322,37 @@ namespace Flash.Extensions.Cache.Redis
             });
         }
 
+        ///// <summary>
+        ///// 移除hash中的某值
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <param name="dataKey"></param>
+        ///// <returns></returns>
+        //public bool HashDelete(string key, string dataKey)
+        //{
+        //    key = AddSysCustomKey(key);
+        //    return Do(db => db.HashDelete(key, dataKey));
+        //}
+
         /// <summary>
         /// 移除hash中的某值
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="dataKey"></param>
-        /// <returns></returns>
-        public bool HashDelete(string key, string dataKey)
-        {
-            key = AddSysCustomKey(key);
-            return Do(db => db.HashDelete(key, dataKey));
-        }
-
-        /// <summary>
-        /// 移除hash中的多个值
-        /// </summary>
-        /// <param name="key"></param>
         /// <param name="dataKeys"></param>
         /// <returns></returns>
-        public long HashDelete(string key, List<RedisValue> dataKeys)
+        public bool HashDelete(string key, params string[] dataKeys)
         {
+            if (dataKeys == null && dataKeys.Length <= 0)
+            {
+                return false;
+            }
+
             key = AddSysCustomKey(key);
-            //List<RedisValue> dataKeys1 = new List<RedisValue>() {"1","2"};
-            return Do(db => db.HashDelete(key, dataKeys.ToArray()));
+            if (dataKeys.Length == 1)
+            {
+                return Do(db => db.HashDelete(key, dataKeys.FirstOrDefault()));
+            }
+            return Do(db => db.HashDelete(key, dataKeys.Select(p => new RedisValue(p)).ToArray())) > 0;
         }
 
         /// <summary>

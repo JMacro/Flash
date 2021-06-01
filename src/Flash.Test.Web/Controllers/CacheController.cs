@@ -32,5 +32,24 @@ namespace Flash.Test.Web.Controllers
             Thread.Sleep(50000);
             return result;
         }
+
+        [HttpGet("test3")]
+        public string Test3()
+        {
+            var hashKey = "企业id_123123123";
+            var dataKey = "业务参数/价格/推荐价比例";
+
+            Random r1 = new Random(Guid.NewGuid().GetHashCode());
+            Random r2 = new Random(Guid.NewGuid().GetHashCode());
+
+            this._cache.HashKeys(hashKey, dataKey, new { a = r1.Next(), b = r1.Next() });
+            this._cache.HashKeys(hashKey, "业务参数/价格/推荐价比例1", new { a = r2.Next(), b = r2.Next() });
+
+
+            this._cache.HashDelete(hashKey, dataKey);
+
+
+            return this._cache.HashGet<string>(hashKey, dataKey);
+        }
     }
 }

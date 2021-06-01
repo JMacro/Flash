@@ -557,6 +557,12 @@ namespace Flash.Extensions.Cache.Redis
             return GetPooledClientManager(cacheKey).HashSet(cacheKey, dataKey, value);
         }
 
+        public bool HashDelete(string cacheKey,params string[] dataKey)
+        {
+            return GetPooledClientManager(cacheKey).HashDelete(cacheKey, dataKey);
+        }
+        
+
 
         #region Lock
 

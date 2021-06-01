@@ -116,6 +116,7 @@ namespace Flash.Extensions.Cache
         /// 设置Key的时间
         /// </summary>
         /// <param name="key">redis key</param>
+        /// <param name="lockValue"></param>
         /// <param name="expiry"></param>
         /// <returns></returns>
         bool LockTake(string key, string lockValue, TimeSpan expiry);
@@ -132,7 +133,7 @@ namespace Flash.Extensions.Cache
         /// 设置Key的时间
         /// </summary>
         /// <param name="key">redis key</param>
-        /// <param name="expiry"></param>
+        /// <param name="lockValue"></param>
         /// <returns></returns>
         bool LockRelease(string key, string lockValue);
         #endregion
@@ -165,17 +166,60 @@ namespace Flash.Extensions.Cache
         #endregion
 
         #region Hash
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="dataKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         double HashIncrement(string cacheKey, string dataKey, double value = 1);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="dataKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         double HashDecrement(string cacheKey, string dataKey, double value = 1);
-
+        /// <summary>
+        /// 获得指定的哈希key的哈希列表内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey">指定的哈希key</param>
+        /// <returns></returns>
         List<T> HashKeys<T>(string cacheKey);
-
+        /// <summary>
+        /// 获得指定的哈希key及数据key的内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey">指定的哈希key</param>
+        /// <param name="dataKey">数据Key（具有唯一性）</param>
+        /// <returns></returns>
         T HashGet<T>(string cacheKey, string dataKey);
-
+        /// <summary>
+        /// 获得指定的哈希key的哈希列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey">指定的哈希key</param>
+        /// <returns></returns>
         IDictionary<string, T> HashGetAll<T>(string cacheKey);
-
+        /// <summary>
+        /// 设置哈希Item内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey">指定的哈希key</param>
+        /// <param name="dataKey">数据Key（具有唯一性）</param>
+        /// <param name="value">数据内容</param>
+        /// <returns></returns>
         bool HashKeys<T>(string cacheKey, string dataKey, T value);
+        /// <summary>
+        /// 删除指定的哈希数据
+        /// </summary>
+        /// <param name="cacheKey">指定的哈希key</param>
+        /// <param name="dataKey">数据Key（具有唯一性）</param>
+        /// <returns></returns>
+        bool HashDelete(string cacheKey, params string[] dataKey);
         #endregion
 
         #region List
