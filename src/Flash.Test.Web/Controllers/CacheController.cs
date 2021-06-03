@@ -42,8 +42,8 @@ namespace Flash.Test.Web.Controllers
             Random r1 = new Random(Guid.NewGuid().GetHashCode());
             Random r2 = new Random(Guid.NewGuid().GetHashCode());
 
-            this._cache.HashKeys(hashKey, dataKey, new { a = r1.Next(), b = r1.Next() });
-            this._cache.HashKeys(hashKey, "业务参数/价格/推荐价比例1", new { a = r2.Next(), b = r2.Next() });
+            this._cache.HashSet(hashKey, dataKey, new { a = r1.Next(), b = r1.Next() });
+            this._cache.HashSet(hashKey, "业务参数/价格/推荐价比例1", new { a = r2.Next(), b = r2.Next() });
 
 
             this._cache.HashDelete(hashKey, dataKey);

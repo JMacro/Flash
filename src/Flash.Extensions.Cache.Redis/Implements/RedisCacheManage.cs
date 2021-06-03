@@ -552,16 +552,21 @@ namespace Flash.Extensions.Cache.Redis
             return GetPooledClientManager(cacheKey).HashGet<T>(cacheKey, dataKey);
         }
 
-        public bool HashKeys<T>(string cacheKey, string dataKey, T value)
+        public bool HashSet<T>(string cacheKey, string dataKey, T value)
         {
             return GetPooledClientManager(cacheKey).HashSet(cacheKey, dataKey, value);
         }
+                
+        public void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs)
+        {
+            GetPooledClientManager(cacheKey).HashSet(cacheKey, keyValuePairs);
+        }
 
-        public bool HashDelete(string cacheKey,params string[] dataKey)
+        public bool HashDelete(string cacheKey, params string[] dataKey)
         {
             return GetPooledClientManager(cacheKey).HashDelete(cacheKey, dataKey);
         }
-        
+
 
 
         #region Lock

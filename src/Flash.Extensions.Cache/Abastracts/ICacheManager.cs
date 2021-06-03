@@ -212,7 +212,15 @@ namespace Flash.Extensions.Cache
         /// <param name="dataKey">数据Key（具有唯一性）</param>
         /// <param name="value">数据内容</param>
         /// <returns></returns>
-        bool HashKeys<T>(string cacheKey, string dataKey, T value);
+        bool HashSet<T>(string cacheKey, string dataKey, T value);
+        /// <summary>
+        /// 存储数据到hash表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey"></param>
+        /// <param name="keyValuePairs"></param>
+        /// <returns></returns>
+        void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs);
         /// <summary>
         /// 删除指定的哈希数据
         /// </summary>

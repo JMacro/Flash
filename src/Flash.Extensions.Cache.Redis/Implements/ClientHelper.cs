@@ -322,6 +322,22 @@ namespace Flash.Extensions.Cache.Redis
             });
         }
 
+        /// <summary>
+        /// 存储数据到hash表
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="keyValuePairs"></param>
+        /// <returns></returns>
+        public void HashSet<TSource>(string key, IDictionary<string, TSource> keyValuePairs)
+        {
+            key = AddSysCustomKey(key);
+            Do(db =>
+            {
+                db.HashSet(key, keyValuePairs.Select(p => new HashEntry(p.Key, ConvertJson(p.Value))).ToArray());
+            });
+        }
+
         ///// <summary>
         ///// 移除hash中的某值
         ///// </summary>
@@ -1188,7 +1204,6 @@ namespace Flash.Extensions.Cache.Redis
 
         private T Do<T>(Func<IDatabase, T> func)
         {
-
             if (_conn != null)
             {
                 var database = _conn.GetDatabase(DbNum);
@@ -1196,7 +1211,15 @@ namespace Flash.Extensions.Cache.Redis
             }
             else
                 return default(T);
+        }
 
+        private void Do(Action<IDatabase> func)
+        {
+            if (_conn != null)
+            {
+                var database = _conn.GetDatabase(DbNum);
+                func(database);
+            }
         }
 
         private string ConvertJson<T>(T value)
