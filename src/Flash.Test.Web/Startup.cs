@@ -2,6 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Flash.Extensions.EventBus;
 using Flash.Extensions.EventBus.RabbitMQ;
+using Flash.Test.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,20 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Text;
+
+
+[assembly: HostingStartup(typeof(SkyApmHostingStartup))]
+
+namespace Flash.Test.Web
+{
+    internal class SkyApmHostingStartup : IHostingStartup
+    {
+        public void Configure(IWebHostBuilder builder)
+        {
+            var dd = 12;
+        }
+    }
+}
 
 namespace Flash.Test.Web
 {
@@ -73,6 +88,12 @@ namespace Flash.Test.Web
                             ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
                             ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
                     });
+                });
+
+
+                flash.AddOpenTracing(tracer =>
+                {
+                    tracer.UseSkywalking("Flash.Test.Web");
                 });
             });
             ContainerBuilder containerBuilder = new ContainerBuilder();

@@ -31,15 +31,27 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashHostBuilder AddUniqueIdGenerator(this IFlashHostBuilder hostBuilder, Action<IdGeneratorOption> setup)
         {
+            hostBuilder.Services.AddUniqueIdGenerator(setup);
+            return hostBuilder;
+        }
+
+        /// <summary>
+        /// 添加唯一Id生成器
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="setup"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddUniqueIdGenerator(this IServiceCollection services, Action<IdGeneratorOption> setup)
+        {
             var option = new IdGeneratorOption();
             setup(option);
 
-            hostBuilder.Services.AddSingleton<IUniqueIdGenerator>(sp =>
+            services.AddSingleton<IUniqueIdGenerator>(sp =>
             {
                 var workId = option.WorkIdCreateStrategy.NextId();
                 return new SnowflakeUniqueIdGenerator(workId, option.CenterId);
             });
-            return hostBuilder;
+            return services;
         }
 
         /// <summary>

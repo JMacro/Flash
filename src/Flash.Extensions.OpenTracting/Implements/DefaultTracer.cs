@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Flash.Extensions.OpenTracting
+namespace Flash.Extensions.Tracting
 {
     public class DefaultTracer : ITracer
     {

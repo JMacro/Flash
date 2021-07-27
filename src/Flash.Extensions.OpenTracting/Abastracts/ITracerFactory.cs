@@ -1,4 +1,4 @@
-﻿namespace Flash.Extensions.OpenTracting
+﻿namespace Flash.Extensions.Tracting
 {
     public interface ITracerFactory
     {

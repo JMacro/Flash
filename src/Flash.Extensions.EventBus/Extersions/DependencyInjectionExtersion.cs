@@ -1,6 +1,6 @@
 ﻿using Flash.Core;
 using Flash.Extensions.EventBus;
-using Flash.Extensions.OpenTracting;
+using Flash.Extensions.Tracting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;

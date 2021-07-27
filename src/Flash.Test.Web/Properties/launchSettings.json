@@ -21,7 +21,8 @@
       "commandName": "Project",
       "launchUrl": "api/values",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "dev"
+        "ASPNETCORE_ENVIRONMENT": "dev",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Flash.Extensions.Tracting.Skywalking"
       },
       "applicationUrl": "http://localhost:5000"
     }

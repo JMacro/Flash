@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flash.Extensions.OpenTracting
+namespace Flash.Extensions.Tracting
 {
     /// <summary>
     /// 链路追踪

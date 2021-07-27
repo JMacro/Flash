@@ -1,5 +1,5 @@
-﻿using Flash.Extensions.OpenTracting;
-using Flash.Extensions.OpenTracting.Jaeger;
+﻿using Flash.Extensions.Tracting;
+using Flash.Extensions.Tracting.Jaeger;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

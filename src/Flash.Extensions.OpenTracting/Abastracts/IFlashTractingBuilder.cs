@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Flash.Extensions.OpenTracting
+namespace Flash.Extensions.Tracting
 {
     public interface IFlashTractingBuilder
     {

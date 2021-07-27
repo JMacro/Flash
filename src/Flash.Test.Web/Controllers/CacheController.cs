@@ -1,6 +1,7 @@
 ﻿using Flash.Extensions.Cache;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,7 +47,9 @@ namespace Flash.Test.Web.Controllers
             this._cache.HashSet(hashKey, "业务参数/价格/推荐价比例1", new { a = r2.Next(), b = r2.Next() });
 
 
-            this._cache.HashDelete(hashKey, dataKey);
+            Dictionary<string, dynamic> keyValuePairs = new Dictionary<string, dynamic>();
+            keyValuePairs.Add("dataKey", new { a = r1.Next(), b = r1.Next() });
+            this._cache.HashSet(hashKey, keyValuePairs);
 
 
             return this._cache.HashGet<string>(hashKey, dataKey);

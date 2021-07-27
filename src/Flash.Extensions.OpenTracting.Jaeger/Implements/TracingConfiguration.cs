@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flash.Extensions.OpenTracting.Jaeger
+namespace Flash.Extensions.Tracting.Jaeger
 {
     public class TracingConfiguration
     {

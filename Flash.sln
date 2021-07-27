@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{FDE27D0B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.LoadBalancer", "src\Flash.LoadBalancer\Flash.LoadBalancer.csproj", "{3FF70F71-10DD-4B2E-93D1-4D83BC228008}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.OpenTracting", "src\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj", "{4FF43316-7CFD-4A73-888A-C5EE3D96D21C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Tracting", "src\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj", "{4FF43316-7CFD-4A73-888A-C5EE3D96D21C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.CQRS", "src\Flash.Extensions.CQRS\Flash.Extensions.CQRS.csproj", "{8580EE83-E2AF-4F56-BAAA-52A2E1CABE7E}"
 EndProject
@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Cache.Redi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.DistributedLock", "src\Flash.Extensions.DistributedLock\Flash.Extensions.DistributedLock.csproj", "{D2B694A0-52BF-4F75-ABF4-986AA564BDB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.OpenTracting.Jaeger", "src\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj", "{E7312165-4281-41AB-A2DA-F426CEACC8FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Tracting.Jaeger", "src\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.Tracting.Jaeger.csproj", "{E7312165-4281-41AB-A2DA-F426CEACC8FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Configuration.Json", "src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj", "{2B06F236-E183-4DDD-975D-5E4E87574979}"
 EndProject
@@ -71,6 +71,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{CA8B169F-048A-4B5A-AA07-FEF81F565CF2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenTracting", "OpenTracting", "{61535032-56EB-40AF-8288-CA3EC1EDC852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.Tracting.Skywalking", "src\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.Tracting.Skywalking.csproj", "{A56C5D56-C9E3-430A-A8BA-45661788891A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +168,10 @@ Global
 		{7A8601D0-A69C-4828-BE78-490F94830B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A8601D0-A69C-4828-BE78-490F94830B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A8601D0-A69C-4828-BE78-490F94830B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,6 +207,7 @@ Global
 		{7A8601D0-A69C-4828-BE78-490F94830B5F} = {CA8B169F-048A-4B5A-AA07-FEF81F565CF2}
 		{CA8B169F-048A-4B5A-AA07-FEF81F565CF2} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{61535032-56EB-40AF-8288-CA3EC1EDC852} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{A56C5D56-C9E3-430A-A8BA-45661788891A} = {61535032-56EB-40AF-8288-CA3EC1EDC852}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

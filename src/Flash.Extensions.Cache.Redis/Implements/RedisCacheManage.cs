@@ -20,11 +20,14 @@ namespace Flash.Extensions.Cache.Redis
 
         private static string _KeyPrefix = "";
 
-
-        //虚拟节点数量
+        /// <summary>
+        /// 虚拟节点数量
+        /// </summary>
         private static readonly int _VIRTUAL_NODE_COUNT = 1024;
 
-        //Redis集群分片存储定位器
+        /// <summary>
+        /// Redis集群分片存储定位器
+        /// </summary>
         private static Helpers.KetamaHash.KetamaNodeLocator _Locator;
 
         private static Dictionary<string, ConfigurationOptions> _clusterConfigOptions = new Dictionary<string, ConfigurationOptions>();

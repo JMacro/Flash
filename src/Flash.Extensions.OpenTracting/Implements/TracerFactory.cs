@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace Flash.Extensions.OpenTracting
+namespace Flash.Extensions.Tracting
 {
     public class TracerFactory : ITracerFactory
     {

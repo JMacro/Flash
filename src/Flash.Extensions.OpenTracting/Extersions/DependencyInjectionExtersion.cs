@@ -1,5 +1,5 @@
 ﻿using Flash.Core;
-using Flash.Extensions.OpenTracting;
+using Flash.Extensions.Tracting;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection

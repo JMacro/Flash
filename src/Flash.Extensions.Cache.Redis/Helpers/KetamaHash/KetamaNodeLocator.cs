@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 
 namespace Flash.Extensions.Cache.Redis.Helpers.KetamaHash
 {
+    /// <summary>
+    /// 一致性哈希
+    /// </summary>
     public class KetamaNodeLocator
     {
         //原文中的JAVA类TreeMap实现了Comparator方法，这里我图省事，直接用了net下的SortedList，其中Comparer接口方法）
         private SortedList<long, string> ketamaNodes = new SortedList<long, string>();
         private int numReps = 160;
 
-        //此处参数与JAVA版中有区别，因为使用的静态方法，所以不再传递HashAlgorithm alg参数
+        /// <summary>
+        /// 此处参数与JAVA版中有区别，因为使用的静态方法，所以不再传递HashAlgorithm alg参数
+        /// </summary>
+        /// <param name="nodes">服务器节点</param>
+        /// <param name="nodeCopies">虚拟节点数</param>
         public KetamaNodeLocator(List<string> nodes, int nodeCopies)
         {
             ketamaNodes = new SortedList<long, string>();
