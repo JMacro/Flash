@@ -72,7 +72,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{CA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenTracting", "OpenTracting", "{61535032-56EB-40AF-8288-CA3EC1EDC852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.Tracting.Skywalking", "src\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.Tracting.Skywalking.csproj", "{A56C5D56-C9E3-430A-A8BA-45661788891A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Tracting.Skywalking", "src\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.Tracting.Skywalking.csproj", "{A56C5D56-C9E3-430A-A8BA-45661788891A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.ORM", "src\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj", "{A4808934-328A-4520-BC24-AE7992CDFB15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.ORM.EntityFrameworkCore", "src\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj", "{F2F50A64-9A99-40B3-99D1-2CA92A067E73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,6 +176,14 @@ Global
 		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A56C5D56-C9E3-430A-A8BA-45661788891A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4808934-328A-4520-BC24-AE7992CDFB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4808934-328A-4520-BC24-AE7992CDFB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4808934-328A-4520-BC24-AE7992CDFB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4808934-328A-4520-BC24-AE7992CDFB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F50A64-9A99-40B3-99D1-2CA92A067E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F50A64-9A99-40B3-99D1-2CA92A067E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F50A64-9A99-40B3-99D1-2CA92A067E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F50A64-9A99-40B3-99D1-2CA92A067E73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +220,8 @@ Global
 		{CA8B169F-048A-4B5A-AA07-FEF81F565CF2} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{61535032-56EB-40AF-8288-CA3EC1EDC852} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{A56C5D56-C9E3-430A-A8BA-45661788891A} = {61535032-56EB-40AF-8288-CA3EC1EDC852}
+		{A4808934-328A-4520-BC24-AE7992CDFB15} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{F2F50A64-9A99-40B3-99D1-2CA92A067E73} = {AB151676-5329-47DD-974B-646648B41FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}
