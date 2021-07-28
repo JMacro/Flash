@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
@@ -10,6 +10,8 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />   
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="3.1.14" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,7 @@
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.Tracting.Skywalking.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
     <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />

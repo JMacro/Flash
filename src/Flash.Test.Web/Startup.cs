@@ -3,13 +3,16 @@ using Autofac.Extensions.DependencyInjection;
 using Flash.Extensions.EventBus;
 using Flash.Extensions.EventBus.RabbitMQ;
 using Flash.Test.Web;
+using Flash.Test.Web.EFCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 
@@ -95,6 +98,16 @@ namespace Flash.Test.Web
                 {
                     tracer.UseSkywalking("Flash.Test.Web");
                 });
+
+                flash.AddORM(orm =>
+                {
+                    orm.UseEFCore<TestDbContext>(option =>
+                    {
+                        var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
+                        option.UseMySql(connection);
+                    });
+                });
+
             });
             ContainerBuilder containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
