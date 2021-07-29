@@ -1,4 +1,5 @@
 ﻿using Flash.Extensions.ORM.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +9,8 @@ namespace Flash.Test.Web.EFCore
 {
     public class TestDbContext : BaseDbContext
     {
+        public TestDbContext(DbContextOptions options) : base(options)
+        {
+        }
     }
 }
