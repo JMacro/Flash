@@ -13,14 +13,13 @@ namespace Flash.Extensions.ORM
         TEntity GetById(object id);
         ValueTask<TEntity> GetByIdAsync(object id);
         void Insert(TEntity entity);
-        void Insert(IEnumerable<TEntity> entities);
-        void InsertAsync(TEntity entity);
-        Task InsertAsync(IEnumerable<TEntity> entities);
+        void Insert(params TEntity[] entities);
+        Task InsertAsync(params TEntity[] entities);
         void Update(TEntity entity);
-        void Update(IEnumerable<TEntity> entities);
+        void Update(params TEntity[] entities);
         void Update(TEntity entity, params Expression<Func<TEntity, object>>[] properties);
         void Delete(TEntity entity);
-        void Delete(IEnumerable<TEntity> entities);
+        void Delete(params TEntity[] entities);
         void Delete(Expression<Func<TEntity, bool>> predicate);
     }
 }
