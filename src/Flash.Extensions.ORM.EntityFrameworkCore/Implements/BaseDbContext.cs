@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
 {
     public class BaseDbContext : DbContext
     {
+        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole().AddDebug(); });
+
         protected BaseDbContext()
         {
         }
@@ -40,6 +43,12 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             }
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseLoggerFactory(loggerFactory);
         }
 
         private List<Assembly> GetCurrentPathAssembly()
