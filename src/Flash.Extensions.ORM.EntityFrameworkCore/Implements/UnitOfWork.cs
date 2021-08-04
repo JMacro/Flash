@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Flash.Extensions.ORM.EntityFrameworkCore
@@ -13,24 +11,34 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         private readonly DbContext _context;
 
         private bool _disposed = false;
+        private bool _isTransaction = false;
 
         public UnitOfWork(DbContext context)
         {
             _context = context;
         }
 
-        public int SaveChanges()
+        public bool SaveChanges()
         {
-            return _context.SaveChanges();
+            if (!_isTransaction)
+            {
+                return _context.SaveChanges() > 0;
+            }
+            return true;
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            return _context.SaveChangesAsync();
+            if (!_isTransaction)
+            {
+                return await _context.SaveChangesAsync() > 0;
+            }
+            return true;
         }
-        
+
         public IDbContextTransaction BeginTransaction()
         {
+            this._isTransaction = true;
             return _context.Database.BeginTransaction();
         }
 
