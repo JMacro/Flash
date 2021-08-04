@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -12,10 +10,10 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
     {
         private readonly DbContext _context;
         private DbSet<TEntity> _entities;
-        
-        public virtual IQueryable<TEntity> Table => throw new NotImplementedException();
 
-        public virtual IQueryable<TEntity> TableNoTracking => throw new NotImplementedException();
+        public virtual IQueryable<TEntity> Table => Entities;
+
+        public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
         protected virtual DbSet<TEntity> Entities => _entities ?? (_entities = _context.Set<TEntity>());
 
         public Repository(DbContext context)
@@ -53,7 +51,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             Entities.Add(entity);
         }
 
-        public void Insert(IEnumerable<TEntity> entities)
+        public void Insert(params TEntity[] entities)
         {
             if (!entities.Any())
             {
@@ -63,16 +61,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             Entities.AddRange(entities);
         }
 
-        public void InsertAsync(TEntity entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException("entity");
-            }
-            Entities.AddAsync(entity);
-        }
-
-        public Task InsertAsync(IEnumerable<TEntity> entities)
+        public Task InsertAsync(params TEntity[] entities)
         {
             if (!entities.Any())
             {
@@ -93,7 +82,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             _context.Update(entity);
         }
 
-        public void Update(IEnumerable<TEntity> entities)
+        public void Update(params TEntity[] entities)
         {
             if (!entities.Any())
             {
@@ -132,7 +121,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             _context.Remove(entity);
         }
 
-        public void Delete(IEnumerable<TEntity> entities)
+        public void Delete(params TEntity[] entities)
         {
             if (!entities.Any())
             {
