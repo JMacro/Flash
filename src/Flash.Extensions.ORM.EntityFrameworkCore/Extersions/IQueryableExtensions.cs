@@ -79,8 +79,14 @@ namespace System.Linq
                     queryable = (page.OrderBy == PageOrderBy.DESC ? queryable.OrderByDescending(orderBy) : queryable.OrderBy(orderBy));
                 }
 
-                queryable = queryable.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
-                var list = await queryable.ToListAsync();
+                var list = default(List<TQueryableEntity>);
+
+                if (count > 0)
+                {
+                    queryable = queryable.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
+                    list = await queryable.ToListAsync();
+                }               
+
                 return new PageCountResponse<TQueryableEntity>(list, page.PageIndex, page.PageSize, count);
             }
             else
