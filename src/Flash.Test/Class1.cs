@@ -13,6 +13,10 @@ namespace Flash.Test
         {
             decimal value = 123456789.23m;
             var dfdf = value.ToUpper();
+
+            var s = "1101019003079691";
+            var d =s.ValidCardId();
+            var f = s.ToMaskCardId();
         }
     }
 }

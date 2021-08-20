@@ -7,6 +7,15 @@ namespace System.ComponentModel.DataAnnotations
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = true)]
     public sealed class IdentityCardAttribute : ValidationAttribute
     {
+        public IdentityCardAttribute()
+        {
+            this.ErrorMessage = "身份证号验证不通过";
+        }
+
+        public IdentityCardAttribute(string errorMessage) : base(errorMessage)
+        {
+        }
+
         public override bool IsValid(object value)
         {
             if (value == null)

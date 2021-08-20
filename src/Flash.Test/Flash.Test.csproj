@@ -16,7 +16,7 @@
     <PackageReference Include="Flash.Extensions.EventBus" Version="10.0.0" />
     <PackageReference Include="Flash.Extensions.EventBus.RabbitMQ" Version="10.0.0" />
     <PackageReference Include="Flash.Extensions.OpenTracting" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.System" Version="10.0.0" />
+    <PackageReference Include="Flash.Extensions.System" Version="10.0.1" />
     <PackageReference Include="Flash.Extensions.UidGenerator" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />

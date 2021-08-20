@@ -299,13 +299,38 @@ namespace System
                 return string.Join("", array);
             }
         }
-
         /// <summary>
         /// 身份证号校验
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static bool ValidCardId(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+
+            if (value.Length == 18)
+            {
+                return ValidCardId18(value);
+            }
+            else if (value.Length == 16)
+            {
+                return ValidCardId16(value);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 18位身份证号校验
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool ValidCardId18(this string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -344,6 +369,35 @@ namespace System
                 return false;//校验码验证  
             }
             return true;//符合GB11643-1999标准
+        }
+
+        /// <summary>  
+        /// 16位身份证号码验证  
+        /// </summary>  
+        public static bool ValidCardId16(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+
+            long n = 0;
+            if (long.TryParse(value, out n) == false || n < Math.Pow(10, 14))
+            {
+                return false;//数字验证  
+            }
+            string address = "11x22x35x44x53x12x23x36x45x54x13x31x37x46x61x14x32x41x50x62x15x33x42x51x63x21x34x43x52x64x65x71x81x82x91";
+            if (address.IndexOf(value.Remove(2)) == -1)
+            {
+                return false;//省份验证  
+            }
+            string birth = value.Substring(6, 6).Insert(4, "-").Insert(2, "-");
+            DateTime time = new DateTime();
+            if (DateTime.TryParse(birth, out time) == false)
+            {
+                return false;//生日验证  
+            }
+            return true;
         }
     }
 }
