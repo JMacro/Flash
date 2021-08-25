@@ -11,7 +11,7 @@
     <PackageReleaseNotes>System基础数据类型扩展</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
-    <Version>10.0.2</Version>
+    <Version>10.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
