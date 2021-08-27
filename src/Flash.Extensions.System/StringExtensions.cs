@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Xml;
@@ -398,6 +399,26 @@ namespace System
                 return false;//生日验证  
             }
             return true;
+        }
+
+        /// <summary>
+        /// 转换为枚举类型
+        /// </summary>
+        /// <typeparam name="TSource">枚举类型</typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TSource? ConverToEnum<TSource>(this string value) where TSource : struct, Enum
+        {
+            var fields = typeof(TSource).GetFields();
+            foreach (var item in fields)
+            {
+                var descriptionAttribute = Attribute.GetCustomAttribute(item, typeof(DescriptionAttribute), inherit: false) as DescriptionAttribute;
+                if (descriptionAttribute != null && descriptionAttribute.Description == value)
+                {
+                    return (TSource)item.GetValue(null);
+                }
+            }
+            return default;
         }
     }
 }

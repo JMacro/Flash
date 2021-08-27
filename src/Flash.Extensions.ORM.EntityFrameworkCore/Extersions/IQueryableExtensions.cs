@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace System.Linq
@@ -85,7 +86,7 @@ namespace System.Linq
                 {
                     queryable = queryable.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
                     list = await queryable.ToListAsync();
-                }               
+                }
 
                 return new PageCountResponse<TQueryableEntity>(list, page.PageIndex, page.PageSize, count);
             }
@@ -122,6 +123,12 @@ namespace System.Linq
             Func<TConditionSource, TConditionProperty> rightProperty,
             OperatorType operatorType)
         {
+            var propertyName = (leftProperty.Body as MemberExpression).Member as PropertyInfo;
+            if (propertyName is null)
+            {
+                return queryable;
+            }
+
             var conditionValue = rightProperty(searchData);
             if (conditionValue == null)
             {
@@ -166,14 +173,29 @@ namespace System.Linq
                     binaryExpression = Expression.LessThanOrEqual(leftProperty.Body, Expression.Constant(conditionValue));
                     break;
                 case OperatorType.Like:
+                    if (propertyName.PropertyType != typeof(String))
+                    {
+                        throw new ArgumentException($"The specified property must be of type {typeof(string)}.", nameof(propertyName));
+                    }
 
-                    break;
+                    queryable = queryable.Where(BuilderLikeExpression<TSource>($"%{conditionValue}%", propertyName));
+                    return queryable;
                 case OperatorType.LeftLike:
+                    if (propertyName.PropertyType != typeof(String))
+                    {
+                        throw new ArgumentException($"The specified property must be of type {typeof(string)}.", nameof(propertyName));
+                    }
 
-                    break;
+                    queryable = queryable.Where(BuilderLikeExpression<TSource>($"%{conditionValue}", propertyName));
+                    return queryable;
                 case OperatorType.RightLike:
+                    if (propertyName.PropertyType != typeof(String))
+                    {
+                        throw new ArgumentException($"The specified property must be of type {typeof(string)}.", nameof(propertyName));
+                    }
 
-                    break;
+                    queryable = queryable.Where(BuilderLikeExpression<TSource>($"{conditionValue}%", propertyName));
+                    return queryable;
                 case OperatorType.In:
                     var collection = (conditionValue as IList);
                     if (collection.Count == 1)
@@ -193,6 +215,18 @@ namespace System.Linq
 
             queryable = queryable.Where(Expression.Lambda<Func<TSource, bool>>(binaryExpression, leftProperty.Parameters));
             return queryable;
+        }
+
+        private static Expression<Func<TSource, bool>> BuilderLikeExpression<TSource>(string searchPattern, PropertyInfo propertyName)
+        {
+            var itemParameter = Expression.Parameter(typeof(TSource), "item");
+
+            var functions = Expression.Property(null, typeof(EF).GetProperty(nameof(EF.Functions)));
+            var likeFunction = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new Type[] { functions.Type, typeof(string), typeof(string) });
+
+            Expression selectorExpression = Expression.Property(itemParameter, propertyName.Name);
+            selectorExpression = Expression.Call(null, likeFunction, functions, selectorExpression, Expression.Constant(searchPattern));
+            return Expression.Lambda<Func<TSource, bool>>(selectorExpression, itemParameter);
         }
     }
 }
