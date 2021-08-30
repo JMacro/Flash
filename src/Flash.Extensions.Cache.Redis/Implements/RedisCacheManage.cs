@@ -559,7 +559,7 @@ namespace Flash.Extensions.Cache.Redis
         {
             return GetPooledClientManager(cacheKey).HashSet(cacheKey, dataKey, value);
         }
-                
+
         public void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs)
         {
             GetPooledClientManager(cacheKey).HashSet(cacheKey, keyValuePairs);
@@ -746,6 +746,54 @@ namespace Flash.Extensions.Cache.Redis
         public Task<dynamic> ExecuteAsync(string command, params object[] objs)
         {
             return GetPooledClientManager(command).ExecuteAsync(command, objs);
+        }
+
+        #endregion
+
+
+        #region 布隆过滤器
+        /// <summary>
+        /// 添加到布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public dynamic BF4ADD(string cacheKey, string value)
+        {
+            return GetPooledClientManager(cacheKey).Execute("BF.ADD", cacheKey, value);
+        }
+
+        /// <summary>
+        /// 添加到布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<dynamic> BF4ADDAsync(string cacheKey, string value)
+        {
+            return await GetPooledClientManager(cacheKey).ExecuteAsync("BF.ADD", cacheKey, value);
+        }
+
+        /// <summary>
+        /// 是否存在布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public dynamic BF4EXISTS(string cacheKey, string value)
+        {
+            return GetPooledClientManager(cacheKey).Execute("BF.EXISTS", cacheKey, value);
+        }
+
+        /// <summary>
+        /// 是否存在布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<dynamic> BF4EXISTSAsync(string cacheKey, string value)
+        {
+            return await GetPooledClientManager(cacheKey).ExecuteAsync("BF.EXISTS", cacheKey, value);
         }
 
         #endregion

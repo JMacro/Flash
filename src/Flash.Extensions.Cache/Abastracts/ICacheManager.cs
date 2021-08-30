@@ -331,5 +331,39 @@ namespace Flash.Extensions.Cache
 
         Task<dynamic> ExecuteAsync(string script, params object[] objs);
         #endregion
+
+        #region 布隆过滤器
+        /// <summary>
+        /// 添加到布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        dynamic BF4ADD(string cacheKey, string value);
+
+        /// <summary>
+        /// 添加到布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<dynamic> BF4ADDAsync(string cacheKey, string value);
+
+        /// <summary>
+        /// 是否存在布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        dynamic BF4EXISTS(string cacheKey, string value);
+
+        /// <summary>
+        /// 是否存在布隆过滤器
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<dynamic> BF4EXISTSAsync(string cacheKey, string value); 
+        #endregion
     }
 }
