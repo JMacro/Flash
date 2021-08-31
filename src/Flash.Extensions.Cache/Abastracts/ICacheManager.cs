@@ -336,34 +336,34 @@ namespace Flash.Extensions.Cache
         /// <summary>
         /// 添加到布隆过滤器
         /// </summary>
-        /// <param name="cacheKey"></param>
+        /// <param name="bloomFilterName">布隆过滤器名称</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        dynamic BF4ADD(string cacheKey, string value);
+        bool BF4ADD(string bloomFilterName, string value);
 
         /// <summary>
         /// 添加到布隆过滤器
         /// </summary>
-        /// <param name="cacheKey"></param>
+        /// <param name="bloomFilterName">布隆过滤器名称</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<dynamic> BF4ADDAsync(string cacheKey, string value);
+        Task<bool> BF4ADDAsync(string bloomFilterName, string value);
 
         /// <summary>
         /// 是否存在布隆过滤器
         /// </summary>
-        /// <param name="cacheKey"></param>
+        /// <param name="bloomFilterName">布隆过滤器名称</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        dynamic BF4EXISTS(string cacheKey, string value);
+        bool BF4EXISTS(string bloomFilterName, string value);
 
         /// <summary>
         /// 是否存在布隆过滤器
         /// </summary>
-        /// <param name="cacheKey"></param>
+        /// <param name="bloomFilterName">布隆过滤器名称</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<dynamic> BF4EXISTSAsync(string cacheKey, string value); 
+        Task<bool> BF4EXISTSAsync(string bloomFilterName, string value); 
         #endregion
     }
 }

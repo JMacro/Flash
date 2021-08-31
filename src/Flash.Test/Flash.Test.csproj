@@ -10,13 +10,9 @@
     <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Flash.Core" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.Cache" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.Cache.Redis" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.Configuration.Json" Version="10.0.0" />
     <PackageReference Include="Flash.Extensions.EventBus" Version="10.0.0" />
     <PackageReference Include="Flash.Extensions.EventBus.RabbitMQ" Version="10.0.0" />
     <PackageReference Include="Flash.Extensions.OpenTracting" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.System" Version="10.0.1" />
     <PackageReference Include="Flash.Extensions.UidGenerator" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
@@ -31,7 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Cache.Redis.DependencyInjection\Flash.Extensions.Cache.Redis.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

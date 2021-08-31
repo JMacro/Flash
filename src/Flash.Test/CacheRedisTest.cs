@@ -57,7 +57,7 @@ namespace Flash.Test
                  {
                      setup.AddCache(cache =>
                      {
-                         cache.AddRedis(option =>
+                         cache.UseRedis(option =>
                          {
                              option.WithDb(10);
                              option.WithKeyPrefix("SystemClassName:TypeClassName");
@@ -85,6 +85,20 @@ namespace Flash.Test
             var df = await response.Content.ReadAsStringAsync();
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [TestMethod]
+        public void BloomFilterTest()
+        {
+            var dfdf = Guid.NewGuid().ToString();
+
+            var dfde = this._cacheManager.GetString4BloomFilter("111", TimeSpan.FromSeconds(60), () => dfdf);
+
+            var dd = this._cacheManager.BF4ADD("垃圾邮件布隆过滤器", dfdf);
+            var ddd = this._cacheManager.BF4ADDAsync("垃圾邮件布隆过滤器", "bbbb");
+
+            var v1 = this._cacheManager.BF4EXISTS("垃圾邮件布隆过滤器", "bbbb");
+
         }
     }
 

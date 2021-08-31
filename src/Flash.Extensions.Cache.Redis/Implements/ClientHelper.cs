@@ -70,6 +70,29 @@ namespace Flash.Extensions.Cache.Redis
             return await Do(db => db.ExecuteAsync(command, objs));
         }
 
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public dynamic ScriptEvaluate(string command, object parameters = null)
+        {
+            var lua = LuaScript.Prepare(command);
+            return Do(db => db.ScriptEvaluate(lua, parameters));
+        }
+
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<dynamic> ScriptEvaluateAsync(string command, object parameters = null)
+        {
+            var lua = LuaScript.Prepare(command);
+            return await Do(db => db.ScriptEvaluateAsync(lua, parameters));
+        }
 
         #endregion 异步方法
 

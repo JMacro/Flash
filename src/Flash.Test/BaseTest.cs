@@ -52,25 +52,27 @@ namespace Flash.Test
 
                 setup.AddCache(cache =>
                 {
-                    cache.AddRedis(option =>
+                    var host = Environment.GetEnvironmentVariable("Redis_Host", EnvironmentVariableTarget.Machine);
+                    var password = Environment.GetEnvironmentVariable("Redis_Password", EnvironmentVariableTarget.Machine);
+
+                    cache.UseRedis(option =>
                     {
-                        option.WithDb(10);
-                        option.WithKeyPrefix("SystemClassName:TypeClassName");
-                        option.WithPassword("tY7cRu9HG_jyDw2r");
-                        option.WithReadServerList("192.168.109.237:63100");
-                        option.WithWriteServerList("192.168.109.237:63100");
-                        option.WithSsl(false);
-                        option.WithDistributedLock(true);
+                        option.WithNumberOfConnections(5)
+                        .WithWriteServerList(host)
+                        .WithReadServerList(host)
+                        .WithDb(0)
+                        .WithDistributedLock(true)
+                        .WithPassword(password);
                     });
                 });
 
-                setup.AddOpenTracing(option =>
-                {
-                    //option.AddJaeger(ation =>
-                    //{
+                //setup.AddOpenTracing(option =>
+                //{
+                //    //option.AddJaeger(ation =>
+                //    //{
 
-                    //});
-                });
+                //    //});
+                //});
 
             });
 
