@@ -9,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -100,7 +102,44 @@ namespace Flash.Test
             var v1 = this._cacheManager.BF4EXISTS("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", "bbbb");
 
         }
+
+        [TestMethod]
+        public void TreeTest()
+        {
+            String key = "RoleInherit";
+            RoleInherit tree = new RoleInherit();
+            List<long> childIds = new List<long>();
+            int max = 100;
+            tree.ChildIds = childIds;
+            for (int i = 0; i < max; i++)
+            {
+                tree.RoleId = i;
+                tree.Name = ("½ÇÉ«" + i);               
+                childIds.Clear();
+                if (i < (max - 1))
+                {
+                    childIds.Add(i + 1);
+                }
+
+                this._cacheManager.HashSet(key, i.ToString(), tree);
+            }
+        }
+        string command = System.IO.File.ReadAllText(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Lua", "get-tree-childs.lua"));
+
+        [TestMethod]
+        public void GetTreeTest()
+        {
+
+            var df = this._cacheManager.ScriptEvaluate(command, new { CacheKey = "RoleInherit", DataKey = 99 }) as RedisResult;
+            
+        }
+
     }
 
-
+    public class RoleInherit
+    {
+        public long RoleId { get; set; }
+        public string Name { get; set; }
+        public List<long> ChildIds { get; set; }
+    }
 }

@@ -737,7 +737,9 @@ namespace Flash.Extensions.Cache.Redis
         {
             return GetPooledClientManager(key).SetRemove(key, values);
         }
+        #endregion
 
+        #region Script
         public dynamic Execute(string command, params object[] objs)
         {
             return GetPooledClientManager(command).Execute(command, objs);
@@ -748,8 +750,28 @@ namespace Flash.Extensions.Cache.Redis
             return GetPooledClientManager(command).ExecuteAsync(command, objs);
         }
 
-        #endregion
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public dynamic ScriptEvaluate(string command, object parameters = null)
+        {
+            return GetPooledClientManager(command).ScriptEvaluate(command, parameters);
+        }
 
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<dynamic> ScriptEvaluateAsync(string command, object parameters = null)
+        {
+            return await GetPooledClientManager(command).ScriptEvaluateAsync(command, parameters);
+        }
+        #endregion
 
         #region 布隆过滤器
         public bool BF4ADD(string bloomFilterName, string value)

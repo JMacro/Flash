@@ -330,6 +330,10 @@ namespace Flash.Extensions.Cache
         dynamic Execute(string script, params object[] objs);
 
         Task<dynamic> ExecuteAsync(string script, params object[] objs);
+
+        dynamic ScriptEvaluate(string command, object parameters = null);
+
+        Task<dynamic> ScriptEvaluateAsync(string command, object parameters = null);
         #endregion
 
         #region 布隆过滤器
