@@ -114,7 +114,7 @@ namespace Flash.Test
             for (int i = 0; i < max; i++)
             {
                 tree.RoleId = i;
-                tree.Name = ("½ÇÉ«" + i);               
+                tree.Name = ("½ÇÉ«" + i);
                 childIds.Clear();
                 if (i < (max - 1))
                 {
@@ -129,9 +129,14 @@ namespace Flash.Test
         [TestMethod]
         public void GetTreeTest()
         {
+            var ed = this._cacheManager.ScriptEvaluate($"SCRIPT EXISTS @Script", new { Script = command });
 
-            var df = this._cacheManager.ScriptEvaluate(command, new { CacheKey = "RoleInherit", DataKey = 99 }) as RedisResult;
-            
+
+            var df = this._cacheManager.ScriptEvaluate(command, new { CacheKey = "RoleInherit", DataKey = 1 }) as RedisResult;
+
+
+
+
         }
 
     }

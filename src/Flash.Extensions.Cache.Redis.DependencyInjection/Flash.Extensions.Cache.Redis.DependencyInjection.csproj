@@ -13,6 +13,10 @@
     <PackageIconUrl />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Flash.Extensions.Cache.Redis.DependencyInjection.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
   </ItemGroup>

@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class CacheManagerExtersion
     {
         /// <summary>
-        /// 获得缓存数据
+        /// 获得缓存数据（基于Redis的布隆过滤）
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="cache"></param>
@@ -36,7 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 获得缓存数据
+        /// 获得缓存数据（基于Redis的布隆过滤）
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="cache"></param>
