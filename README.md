@@ -10,6 +10,7 @@
 |  Flash.Extensions.Cache.Redis | Nosql redis           | [![NuGet version (Flash.Extersions.Cache.Redis)](https://img.shields.io/nuget/v/Flash.Extensions.Cache.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Cache.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Cache.Redis)|
 |  Flash.Extensions.HealthChecks.Redis | redis健康检测           | [![NuGet version (Flash.Extensions.HealthChecks.Redis)](https://img.shields.io/nuget/v/Flash.Extensions.HealthChecks.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extensions.HealthChecks.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.HealthChecks.Redis)|
 |  Flash.Extensions.EventBus.RabbitMQ | RabbitMQ消息总线  | [![NuGet version (Flash.Extensions.EventBus.RabbitMQ)](https://img.shields.io/nuget/v/Flash.Extensions.EventBus.RabbitMQ?style=flat)](https://www.nuget.org/packages/Flash.Extensions.EventBus.RabbitMQ/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.EventBus.RabbitMQ)|
+|  Flash.Extensions.ORM.EntityFrameworkCore | EF ORM  | [![NuGet version (Flash.Extensions.ORM.EntityFrameworkCore)](https://img.shields.io/nuget/v/Flash.Extensions.ORM.EntityFrameworkCore?style=flat)](https://www.nuget.org/packages/Flash.Extensions.ORM.EntityFrameworkCore/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.ORM.EntityFrameworkCore)|
 
 #### 使用说明
 
