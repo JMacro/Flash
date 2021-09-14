@@ -133,3 +133,4 @@ internal class ServiceContainerFactory : IServiceProviderFactory<ContainerBuilde
 ```
 
 ![img-source-from-https://github.com/docker/dockercraft](https://github.com/docker/dockercraft/raw/master/docs/img/contribute.png?raw=true)
+![img-source-from-https://github.com/JMacro/Flash/blob/master/src/icon.png](https://github.com/JMacro/Flash/blob/master/src/icon.png)
