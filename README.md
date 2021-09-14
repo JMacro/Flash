@@ -1,4 +1,4 @@
-# Flash ![img-source-from-https://github.com/JMacro/Flash/blob/master/src/icon.png](https://github.com/JMacro/Flash/blob/master/src/icon.png) 
+# Flash ⚡ 
 
 
 #### 介绍
