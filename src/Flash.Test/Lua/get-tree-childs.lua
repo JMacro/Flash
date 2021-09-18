@@ -5,24 +5,24 @@
 
   local nextNode = nil
   local nextType = nil
-  if t == "RoleId" and (type(currentnode) == "number" or type(currentnode) == "string") then
-    local treeNode = redis.call("HGET", @CacheKey, currentnode)
+  if t == 'RoleId' and (type(currentnode) == 'number' or type(currentnode) == 'string') then
+    local treeNode = redis.call('HGET', @CacheKey, currentnode)
     if treeNode then
       local node = cjson.decode(treeNode)
       table.insert(res, treeNode)
       if node and node.ChildIds then
         nextNode = node.ChildIds
-        nextType = "ChildIds"
+        nextType = 'ChildIds'
       end
     end
-  elseif t == "ChildIds" then
+  elseif t == 'ChildIds' then
     nextNode = {}
-    nextType = "ChildIds"
+    nextType = 'ChildIds'
     local treeNode  = nil
     local node = nil
     local cnt = 0
     for _, val in ipairs(currentnode) do
-      treeNode = redis.call("HGET", @CacheKey, tostring(val))
+      treeNode = redis.call('HGET', @CacheKey, tostring(val))
       if treeNode then
         node = cjson.decode(treeNode)
         table.insert(res, treeNode)
@@ -44,7 +44,7 @@ end
 
 
 if @CacheKey and @DataKey then
-  return getChild(@DataKey, "RoleId", {})
+  return getChild(@DataKey, 'RoleId', {})
 end
 
 return {}

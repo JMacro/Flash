@@ -48,7 +48,7 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="command"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public dynamic Execute(string command, params object[] objs)
+        public RedisResult Execute(string command, params object[] objs)
         {
             var r = Do(db => db.Execute(command, objs));
 
@@ -65,7 +65,7 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="command"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public async Task<dynamic> ExecuteAsync(string command, params object[] objs)
+        public async Task<RedisResult> ExecuteAsync(string command, params object[] objs)
         {
             return await Do(db => db.ExecuteAsync(command, objs));
         }
@@ -76,7 +76,7 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="command"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public dynamic ScriptEvaluate(string command, object parameters = null)
+        public RedisResult ScriptEvaluate(string command, object parameters = null)
         {
             var lua = LuaScript.Prepare(command);
             return Do(db => db.ScriptEvaluate(lua, parameters));
@@ -88,7 +88,7 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="command"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<dynamic> ScriptEvaluateAsync(string command, object parameters = null)
+        public async Task<RedisResult> ScriptEvaluateAsync(string command, object parameters = null)
         {
             var lua = LuaScript.Prepare(command);
             return await Do(db => db.ScriptEvaluateAsync(lua, parameters));
@@ -1245,7 +1245,7 @@ namespace Flash.Extensions.Cache.Redis
             }
         }
 
-        private string ConvertJson<T>(T value)
+        public static string ConvertJson<T>(T value)
         {
             if (typeof(T).IsValueType || typeof(T).FullName == "System.String")
             {
@@ -1256,7 +1256,7 @@ namespace Flash.Extensions.Cache.Redis
 
         }
 
-        private T ConvertObj<T>(RedisValue value)
+        public static T ConvertObj<T>(RedisValue value)
         {
             if (value.IsNull)
             {
@@ -1269,7 +1269,7 @@ namespace Flash.Extensions.Cache.Redis
 
         }
 
-        private List<T> ConvetList<T>(RedisValue[] values)
+        public static List<T> ConvetList<T>(RedisValue[] values)
         {
             List<T> result = new List<T>();
             foreach (var item in values)

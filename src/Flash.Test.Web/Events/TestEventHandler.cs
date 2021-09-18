@@ -20,6 +20,8 @@ namespace Flash.Test.Web
         public Task<bool> Handle(TestEvent message, Dictionary<string, object> headers, CancellationToken cancellationToken)
         {
             this._logger.LogInformation(Newtonsoft.Json.JsonConvert.SerializeObject(message));
+            headers.TryGetValue("x-carrier-id", out var carrierId);
+            this._logger.LogInformation(System.Text.Encoding.UTF8.GetString(carrierId as byte[]));
             Thread.Sleep(5000);
             return Task.FromResult(true);
         }

@@ -327,13 +327,66 @@ namespace Flash.Extensions.Cache
         #endregion
 
         #region Execute
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="script"></param>
+        /// <param name="objs"></param>
+        /// <returns>RedisResult</returns>
         dynamic Execute(string script, params object[] objs);
-
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="script"></param>
+        /// <param name="objs"></param>
+        /// <returns>泛型数据类型</returns>
+        dynamic Execute<T>(string script, params object[] objs);
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="script"></param>
+        /// <param name="objs"></param>
+        /// <returns>RedisResult</returns>
         Task<dynamic> ExecuteAsync(string script, params object[] objs);
-
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="script"></param>
+        /// <param name="objs"></param>
+        /// <returns>泛型数据类型</returns>
+        Task<dynamic> ExecuteAsync<T>(string script, params object[] objs);
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns>RedisResult</returns>
         dynamic ScriptEvaluate(string command, object parameters = null);
-
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns>泛型数据类型</returns>
+        dynamic ScriptEvaluate<T>(string command, object parameters = null);
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns>RedisResult</returns>
         Task<dynamic> ScriptEvaluateAsync(string command, object parameters = null);
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns>泛型数据类型</returns>
+        Task<dynamic> ScriptEvaluateAsync<T>(string command, object parameters = null);
         #endregion
 
         #region 布隆过滤器

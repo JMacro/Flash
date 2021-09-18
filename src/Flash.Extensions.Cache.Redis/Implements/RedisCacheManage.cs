@@ -745,17 +745,28 @@ namespace Flash.Extensions.Cache.Redis
             return GetPooledClientManager(command).Execute(command, objs);
         }
 
-        public Task<dynamic> ExecuteAsync(string command, params object[] objs)
+        public dynamic Execute<T>(string command, params object[] objs)
         {
-            return GetPooledClientManager(command).ExecuteAsync(command, objs);
+            var redisResult = GetPooledClientManager(command).Execute(command, objs);
+            return RedisResultHandler<T>(redisResult);
         }
 
+        public async Task<dynamic> ExecuteAsync(string command, params object[] objs)
+        {
+            return await GetPooledClientManager(command).ExecuteAsync(command, objs);
+        }
+
+        public async Task<dynamic> ExecuteAsync<T>(string command, params object[] objs)
+        {
+            var redisResult = await GetPooledClientManager(command).ExecuteAsync(command, objs);
+            return RedisResultHandler<T>(redisResult);
+        }
         /// <summary>
         /// 执行一段命令
         /// </summary>
         /// <param name="command"></param>
         /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <returns>RedisResult</returns>
         public dynamic ScriptEvaluate(string command, object parameters = null)
         {
             return GetPooledClientManager(command).ScriptEvaluate(command, parameters);
@@ -767,9 +778,47 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="command"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
+        public dynamic ScriptEvaluate<T>(string command, object parameters = null)
+        {
+            var redisResult = GetPooledClientManager(command).ScriptEvaluate(command, parameters);
+            return RedisResultHandler<T>(redisResult);
+        }
+
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns>RedisResult</returns>
         public async Task<dynamic> ScriptEvaluateAsync(string command, object parameters = null)
         {
             return await GetPooledClientManager(command).ScriptEvaluateAsync(command, parameters);
+        }
+
+        /// <summary>
+        /// 执行一段命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<dynamic> ScriptEvaluateAsync<T>(string command, object parameters = null)
+        {
+            var redisResult = await GetPooledClientManager(command).ScriptEvaluateAsync(command, parameters);
+            return RedisResultHandler<T>(redisResult);
+        }
+
+        private dynamic RedisResultHandler<T>(RedisResult  redisResult)
+        {
+            switch (redisResult.Type)
+            {
+                case ResultType.SimpleString:
+                case ResultType.Integer:
+                case ResultType.BulkString:
+                    return ClientHelper.ConvertObj<T>((RedisValue)redisResult);
+                case ResultType.MultiBulk:
+                    return ClientHelper.ConvetList<T>((RedisValue[])redisResult);
+            }
+            return default(T);
         }
         #endregion
 

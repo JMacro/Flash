@@ -124,18 +124,71 @@ namespace Flash.Test
                 this._cacheManager.HashSet(key, i.ToString(), tree);
             }
         }
-        string command = System.IO.File.ReadAllText(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Lua", "get-tree-childs.lua"));
 
         [TestMethod]
         public void GetTreeTest()
         {
-            var ed = this._cacheManager.ScriptEvaluate($"SCRIPT EXISTS @Script", new { Script = command });
+            StringBuilder lua = new StringBuilder();
+            lua.AppendLine("local function getChild(currentnode, t, res)");
+            lua.AppendLine("  if currentnode == nil or t == nil  then");
+            lua.AppendLine("    return res");
+            lua.AppendLine("  end");
+            lua.AppendLine("  local nextNode = nil");
+            lua.AppendLine("  local nextType = nil");
+            lua.AppendLine("  if t == 'RoleId' and (type(currentnode) == 'number' or type(currentnode) == 'string') then");
+            lua.AppendLine("    local treeNode = redis.call('HGET', @CacheKey, currentnode)");
+            lua.AppendLine("    if treeNode then");
+            lua.AppendLine("      local node = cjson.decode(treeNode)");
+            lua.AppendLine("      table.insert(res, treeNode)");
+            lua.AppendLine("      if node and node.ChildIds then");
+            lua.AppendLine("        nextNode = node.ChildIds");
+            lua.AppendLine("        nextType = 'ChildIds'");
+            lua.AppendLine("      end");
+            lua.AppendLine("    end");
+            lua.AppendLine("  elseif t == 'ChildIds' then");
+            lua.AppendLine("    nextNode = {}");
+            lua.AppendLine("    nextType = 'ChildIds'");
+            lua.AppendLine("    local treeNode  = nil");
+            lua.AppendLine("    local node = nil");
+            lua.AppendLine("    local cnt = 0");
+            lua.AppendLine("    for _, val in ipairs(currentnode) do");
+            lua.AppendLine("      treeNode = redis.call('HGET', @CacheKey, tostring(val))");
+            lua.AppendLine("      if treeNode then");
+            lua.AppendLine("        node = cjson.decode(treeNode)");
+            lua.AppendLine("        table.insert(res, treeNode)");
+            lua.AppendLine("        if node and node.ChildIds then");
+            lua.AppendLine("          for _, val2 in ipairs(node.ChildIds) do");
+            lua.AppendLine("            table.insert(nextNode, val2)");
+            lua.AppendLine("            cnt = cnt + 1");
+            lua.AppendLine("          end");
+            lua.AppendLine("        end");
+            lua.AppendLine("      end");
+            lua.AppendLine("    end");
+            lua.AppendLine("    if cnt == 0 then");
+            lua.AppendLine("      nextNode = nil");
+            lua.AppendLine("      nextType = nil");
+            lua.AppendLine("    end");
+            lua.AppendLine("  end");
+            lua.AppendLine("  return getChild(nextNode, nextType, res)");
+            lua.AppendLine("end");
+            lua.AppendLine("if @CacheKey and @DataKey then");
+            lua.AppendLine("  return getChild(@DataKey, 'RoleId', {})");
+            lua.AppendLine("end");
+            lua.AppendLine("return {}");
 
+            var df = this._cacheManager.ScriptEvaluate<string>("return redis.call('GET',@key)", new { key = "DD" });
+            var ddd = this._cacheManager.ScriptEvaluate<string>("return redis.call('SET',@key,@value)", new { key = "DD", value = 0 });
 
-            var df = this._cacheManager.ScriptEvaluate(command, new { CacheKey = "RoleInherit", DataKey = 1 }) as RedisResult;
+            var redisResult = this._cacheManager.ScriptEvaluate<RoleInherit>(lua.ToString(), new { CacheKey = "RoleInherit", DataKey = 0 });
 
+            //var dd = redisResult.Type;
 
-
+            //var redisValues = ((RedisValue[])redisResult);
+            //var result = new List<RoleInherit>();
+            //foreach (var item in redisValues)
+            //{
+            //    result.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<RoleInherit>(item.ToString()));
+            //}
 
         }
 
