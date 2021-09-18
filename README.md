@@ -1,4 +1,4 @@
-# Flash :zap: 
+# Flash ⚡ 
 
 
 #### 介绍
@@ -6,10 +6,10 @@
 |:-------------------------------|:----------------------|:----------------------|
 |  Flash.Extensions.System       | System基础数据类型扩展 | [![NuGet version (Flash.Extensions.System)](https://img.shields.io/nuget/v/Flash.Extensions.System?style=flat)](https://www.nuget.org/packages/Flash.Extensions.System/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.System) |
 |  Flash.Extensions.UidGenerator | 分布式唯一ID生成器     |  [![NuGet version (Flash.Extensions.UidGenerator)](https://img.shields.io/nuget/v/Flash.Extensions.UidGenerator?style=flat)](https://www.nuget.org/packages/Flash.Extensions.UidGenerator/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.UidGenerator)|
-|  Flash.Extensions.DistributedLock | 分布式锁           | [![NuGet version (Flash.Extensions.DistributedLock)](https://img.shields.io/nuget/v/Flash.Extensions.DistributedLock?style=flat)](https://www.nuget.org/packages/Flash.Extensions.DistributedLock/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.DistributedLock)|
 |  Flash.Extensions.Cache.Redis | Nosql redis           | [![NuGet version (Flash.Extersions.Cache.Redis)](https://img.shields.io/nuget/v/Flash.Extensions.Cache.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Cache.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Cache.Redis)|
-|  Flash.Extensions.HealthChecks.Redis | redis健康检测           | [![NuGet version (Flash.Extensions.HealthChecks.Redis)](https://img.shields.io/nuget/v/Flash.Extensions.HealthChecks.Redis?style=flat)](https://www.nuget.org/packages/Flash.Extensions.HealthChecks.Redis/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.HealthChecks.Redis)|
+|  Flash.Extensions.Cache.Redis.DependencyInjection | redis扩展           | [![NuGet version (Flash.Extensions.Cache.Redis.DependencyInjection)](https://img.shields.io/nuget/v/Flash.Extensions.Cache.Redis.DependencyInjection?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Cache.Redis.DependencyInjection/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Cache.Redis.DependencyInjection)|
 |  Flash.Extensions.EventBus.RabbitMQ | RabbitMQ消息总线  | [![NuGet version (Flash.Extensions.EventBus.RabbitMQ)](https://img.shields.io/nuget/v/Flash.Extensions.EventBus.RabbitMQ?style=flat)](https://www.nuget.org/packages/Flash.Extensions.EventBus.RabbitMQ/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.EventBus.RabbitMQ)|
+|  Flash.Extensions.ORM.EntityFrameworkCore | EF ORM  | [![NuGet version (Flash.Extensions.ORM.EntityFrameworkCore)](https://img.shields.io/nuget/v/Flash.Extensions.ORM.EntityFrameworkCore?style=flat)](https://www.nuget.org/packages/Flash.Extensions.ORM.EntityFrameworkCore/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.ORM.EntityFrameworkCore)|
 
 #### 使用说明
 
@@ -133,3 +133,4 @@ internal class ServiceContainerFactory : IServiceProviderFactory<ContainerBuilde
 ```
 
 ![img-source-from-https://github.com/docker/dockercraft](https://github.com/docker/dockercraft/raw/master/docs/img/contribute.png?raw=true)
+![img-source-from-https://github.com/JMacro/Flash/blob/master/src/icon.png](https://github.com/JMacro/Flash/blob/master/src/icon.png)
