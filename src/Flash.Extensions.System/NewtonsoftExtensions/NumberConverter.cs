@@ -68,7 +68,7 @@ namespace Newtonsoft.Json
         /// <returns>对象值。</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return AsType(reader.Value.ToString(), objectType);
+            return AsType(reader.Value?.ToString(), objectType);
         }
 
         /// <summary>
