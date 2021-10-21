@@ -23,15 +23,18 @@ namespace Flash.Test.Web.Controllers
         [HttpGet("test1")]
         public async Task<string> Test1()
         {
-            await this._cache.StringSetAsync<string>("11111111-1111-1111-1111-111111111111_Product_10d34c0d-ac63-4179-b22f-0031dc7d18c8","1");
+            await this._cache.StringSetAsync<string>("11111111-1111-1111-1111-111111111111_Product_10d34c0d-ac63-4179-b22f-0031dc7d18c8", "1");
             return await this._cache.StringGetAsync<string>("11111111-1111-1111-1111-111111111111_Product_10d34c0d-ac63-4179-b22f-0031dc7d18c8");
         }
 
         [HttpGet("test2")]
         public bool Test2()
         {
-            var result = this._distributedLock.Enter("", "", TimeSpan.FromSeconds(5));
+            var key = Guid.NewGuid().ToString();
+            var value = Guid.NewGuid().ToString();
+            var result = this._distributedLock.Enter(key, value, TimeSpan.FromSeconds(60));
             Thread.Sleep(50000);
+            this._distributedLock.Exit(key, value);
             return result;
         }
 

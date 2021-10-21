@@ -94,7 +94,7 @@
         /// </summary>
         /// <param name="isDistributedLock"></param>
         /// <returns></returns>
-        public ICacheConfig WithDistributedLock(bool isDistributedLock)
+        public ICacheConfig WithDistributedLock(bool isDistributedLock = true)
         {
             this.DistributedLock = isDistributedLock;
             return this;
@@ -135,6 +135,6 @@
         /// <summary>
         /// 分布式锁
         /// </summary>
-        public bool DistributedLock { get; private set; } = false;        
+        public bool DistributedLock { get; private set; } = false;
     }
 }

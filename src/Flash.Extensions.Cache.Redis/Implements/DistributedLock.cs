@@ -1,4 +1,5 @@
 ﻿using Flash.Extensions.Cache;
+using Microsoft.Extensions.Logging;
 using Polly;
 using System;
 
@@ -10,9 +11,15 @@ namespace Flash.Extensions.Cache.Redis
     public class DistributedLock : IDistributedLock
     {
         private readonly ICacheManager _cacheManager;
-        public DistributedLock(ICacheManager cacheManager)
+        private readonly IDistributedLockRenewalScheduler _distributedLockRenewalScheduler;
+        private readonly ILogger<DistributedLock> _logger;
+        private readonly string _KeyPrefix = "Lock";
+
+        public DistributedLock(ICacheManager cacheManager, IDistributedLockRenewalScheduler distributedLockRenewalScheduler, ILogger<DistributedLock> logger)
         {
             this._cacheManager = cacheManager;
+            this._distributedLockRenewalScheduler = distributedLockRenewalScheduler;
+            this._logger = logger;
         }
 
         /// <summary>
@@ -28,11 +35,11 @@ namespace Flash.Extensions.Cache.Redis
         {
             if (_cacheManager != null)
             {
-                var cacheKey = "Lock:" + LockName;
                 //自旋锁
                 do
                 {
-                    if (!_cacheManager.LockTake(cacheKey, LockValue, LockOutTime))
+                    var keyName = AddSysCustomKey(LockName);
+                    if (!_cacheManager.LockTake(keyName, LockValue, LockOutTime))
                     {
                         retryTimes--;
                         if (retryTimes < 0)
@@ -42,13 +49,14 @@ namespace Flash.Extensions.Cache.Redis
 
                         if (retryAttemptMillseconds > 0)
                         {
-                            Console.WriteLine($"Wait Lock {LockName} to {retryAttemptMillseconds} millseconds");
+                            this._logger.LogInformation($"Wait Lock {keyName} to {retryAttemptMillseconds} millseconds");
                             //获取锁失败则进行锁等待
                             System.Threading.Thread.Sleep(retryAttemptMillseconds);
                         }
                     }
                     else
                     {
+                        this._distributedLockRenewalScheduler.Add(LockName, LockValue, LockOutTime);
                         return true;
                     }
                 }
@@ -71,14 +79,39 @@ namespace Flash.Extensions.Cache.Redis
                 var polly = Policy.Handle<Exception>()
                     .WaitAndRetry(10, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt)), (exception, timespan, retryCount, context) =>
                     {
-                        Console.WriteLine($"执行异常,重试次数：{retryCount},【异常来自：{exception.GetType().Name}】.");
+                        this._logger.LogError($"执行异常,重试次数：{retryCount},【异常来自：{exception.GetType().Name}】.");
                     });
 
                 polly.Execute(() =>
                 {
-                    _cacheManager.LockRelease("Lock:" + LockName, LockValue);
+                    var keyName = AddSysCustomKey(LockName);
+                    this._distributedLockRenewalScheduler.Remove(keyName, LockValue);
+                    _cacheManager.LockRelease(keyName, LockValue);
                 });
             }
+        }
+
+        /// <summary>
+        /// 锁续期
+        /// </summary>
+        /// <param name="LockName">锁名称</param>
+        /// <param name="LockValue">锁的值</param>
+        /// <param name="renewalTime">续期时间</param>
+        /// <returns></returns>
+        public void LockRenewal(string LockName, string LockValue, TimeSpan renewalTime)
+        {
+            //TODO 待优化：可通过Lua脚本，校验缓存中指定的锁的值是否为要续期锁的值
+            if (_cacheManager != null)
+            {
+                var keyName = AddSysCustomKey(LockName);
+                this._logger.LogInformation($"Renewal Lock {keyName} to {renewalTime.TotalMilliseconds} millseconds");
+                _cacheManager.ExpireEntryAt(keyName, renewalTime);
+            }
+        }
+
+        private string AddSysCustomKey(string oldKey)
+        {
+            return $"{_KeyPrefix}:{oldKey}";
         }
     }
 }

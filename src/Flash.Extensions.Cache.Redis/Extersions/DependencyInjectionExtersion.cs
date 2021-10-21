@@ -21,12 +21,13 @@ namespace Microsoft.Extensions.DependencyInjection
             var option = new RedisCacheConfig();
             action(option);
 
-            var cacheManager = CacheFactory.Build(option);
-            cacheBuilder.Services.AddSingleton<ICacheManager>(cacheManager);
+            cacheBuilder.Services.AddSingleton(CacheFactory.Build(option));
 
             if (option.DistributedLock)
             {
-                cacheBuilder.Services.TryAddSingleton<IDistributedLock>(new DistributedLock(cacheManager));
+                cacheBuilder.Services.TryAddSingleton<IDistributedLockRenewalScheduler, DistributedLockRenewalScheduler>();
+                cacheBuilder.Services.TryAddSingleton<IDistributedLock, DistributedLock>();
+                cacheBuilder.Services.AddHostedService<DistributedLockRenewalService>();
             }
             return cacheBuilder;
         }
