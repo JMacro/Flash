@@ -1,0 +1,49 @@
+﻿@* Generator: Template TypeVisibility: Internal GeneratePrettyNames: True *@
+@using Flash.Extensions.EventBus.Dashboard
+@using Flash.Extensions.EventBus.Dashboard.Pages
+@using Flash.Extensions.EventBus.Dashboard.Resources
+@inherits RazorPage
+@{
+    Layout = new LayoutPage(Strings.NavigationMenu_Queues);
+    var list = this.Monitor.GetFailedQueues().ConfigureAwait(false).GetAwaiter().GetResult();
+
+}
+
+<div class="row">
+    <div class="col-md-3">
+        @Html.QueueSidebar()
+    </div>
+    <div class="col-md-9">
+        <h1 class="page-header">@Strings.QueuesPage_FailedQueues</h1>
+        @if (list.Count == 0)
+        {
+            <div class="alert alert-success">
+                @Strings.QueuesPage_NoQueues
+            </div>
+        }
+        else
+        {
+            <div class="js-jobs-list">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="min-width-200p">@Strings.QueuesPage_Table_Queue</th>
+                                <th>@Strings.QueuesPage_Table_Messages</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var queue in list)
+                            {
+                                <tr>
+                                    <td>@Html.QueueLabel(queue.QueueName)</td>
+                                    <td>@queue.MessageCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

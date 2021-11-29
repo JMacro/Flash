@@ -1,0 +1,78 @@
+﻿@* Generator: Template TypeVisibility: Public GeneratePrettyNames: True *@
+@using System
+@using System.Globalization
+@using System.Reflection
+@using Flash.Extensions.EventBus.Dashboard
+@using Flash.Extensions.EventBus.Dashboard.Pages
+@using Flash.Extensions.EventBus.Dashboard.Resources
+@inherits RazorPage
+
+<!DOCTYPE html>
+
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <title>@Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="none">
+    @{ var version = GetType().GetTypeInfo().Assembly.GetName().Version; }
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <link rel="stylesheet" href="@Url.To($"/css{version.Major}{version.Minor}{version.Build}0")">
+</head>
+<body>
+    <div id="wrap">
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="@Url.Home()">@Html.Raw(DashboardOptions.DashboardTitle)</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    @Html.RenderPartial(new Navigation())
+                    @if (@AppPath != null)
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="@AppPath">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                    <span class="hidden-sm">
+                                        @Strings.LayoutPage_Back
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+            <!-- Error alert when polling fails -->
+            @Html.RenderPartial(new ErrorAlert())
+        </div>
+
+        <!-- Begin page content -->
+        <div class="container js-page-container margin-bottom-20p">
+            @RenderBody()
+        </div>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <ul class="list-inline credit">
+                <li>
+                    <a href="https://www.hangfire.io/" target="_blank" rel="noopener noreferrer">
+                        Hangfire @($"{version.Major}.{version.Minor}.{version.Build}")
+                    </a>
+                </li>
+                <li>@Strings.LayoutPage_Footer_Time @Html.LocalTime(DateTime.UtcNow)</li>
+                <li>@String.Format(Strings.LayoutPage_Footer_Generatedms, GenerationTime.Elapsed.TotalMilliseconds.ToString("N"))</li>
+            </ul>
+        </div>
+    </div>
+    <script src="@Url.To($"/js{version.Major}{version.Minor}{version.Build}0")"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 ﻿using Flash.Core;
 using Flash.Extensions.EventBus;
+using Flash.Extensions.EventBus.Dashboard;
 using Flash.Extensions.Tracting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -23,10 +25,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             foreach (var type in types)
             {
-                hostBuilder.Services.AddSingleton(type);
+                hostBuilder.Services.TryAddSingleton(type);
             }
 
-            hostBuilder.Services.AddSingleton<ITracerFactory, TracerFactory>();
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
+            hostBuilder.Services.TryAddSingleton(_ => DashboardRoutes.Routes);
 
             var builder = new EventBusHostBuilder(hostBuilder.Services);
             setup(builder);

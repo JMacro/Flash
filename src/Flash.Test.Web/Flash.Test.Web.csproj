@@ -17,8 +17,10 @@
     <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extensions.DistributedLock\Flash.Extensions.DistributedLock.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus.Dashboard.AspNetCore\Flash.Extensions.EventBus.Dashboard.AspNetCore.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.Tracting.Skywalking.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />
     <ProjectReference Include="..\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />

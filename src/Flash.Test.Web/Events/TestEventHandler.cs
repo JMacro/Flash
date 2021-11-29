@@ -22,7 +22,9 @@ namespace Flash.Test.Web
             this._logger.LogInformation(Newtonsoft.Json.JsonConvert.SerializeObject(message));
             headers.TryGetValue("x-carrier-id", out var carrierId);
             this._logger.LogInformation(System.Text.Encoding.UTF8.GetString(carrierId as byte[]));
-            Thread.Sleep(5000);
+
+            throw new Exception("模拟异常抛出");
+
             return Task.FromResult(true);
         }
     }

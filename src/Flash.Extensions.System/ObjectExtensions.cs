@@ -11,6 +11,7 @@ namespace System
         /// <returns></returns>
         public static bool ToBoolean(this object value)
         {
+            if (value == null) return false;
             return StringExtensions.ToBoolean(value.ToString(), false);
         }
 
@@ -21,6 +22,11 @@ namespace System
         /// <returns></returns>
         public static bool ToBoolean(this object value, object defaultValue)
         {
+            if (value == null)
+            {
+                if (defaultValue == null) return false;
+                else return ToBoolean(defaultValue);
+            }
             return StringExtensions.ToBoolean(value.ToString(), ToBoolean(defaultValue));
         }
 

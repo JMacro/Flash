@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45' or '$(TargetFramework)'=='net46'">
+    <DebugType>full</DebugType>
+    <DefineConstants>$(DefineConstants);FEATURE_CRONDESCRIPTOR;FEATURE_OWIN;</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+  
+  <!-- Full MSBuild is required to generate Razor classes -->
+  <PropertyGroup>
+    <MSBuild14FullPath>$(MSBuildProgramFiles32)\MSBuild\14.0\bin\MSBuild.exe</MSBuild14FullPath>
+    <MSBuildCurrentFullPath>$(MSBuildBinPath)\MSBuild.exe</MSBuildCurrentFullPath>
+    <RazorProjectFile>Razor.build</RazorProjectFile>
+    <InnerTargets>GenerateRazorClasses;Build</InnerTargets>
+  </PropertyGroup>
+
+  <Target Name="GenerateRazorClasses">
+    <Exec Command="&quot;$(MSBuildCurrentFullPath)&quot; $(RazorProjectFile) /v:quiet /nologo" Condition="Exists('$(MSBuildCurrentFullPath)')" />
+    <Exec Command="&quot;$(MSBuild14FullPath)&quot; $(RazorProjectFile) /v:quiet /nologo" Condition="Exists('$(MSBuild14FullPath)') and !Exists('$(MSBuildCurrentFullPath)')" />
+    <Warning Text="Classes for Razor files (*.cshtml) weren't re-generated: couldn't find the '$(MSBuild14FullPath)' or '$(MSBuildCurrentFullPath)' file" Condition="!Exists('$(MSBuild14FullPath)') and !Exists('$(MSBuildCurrentFullPath)')" />
+  </Target>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\css\bootstrap.min.css" />
+    <EmbeddedResource Include="Content\css\Chart.min.css" />
+    <EmbeddedResource Include="Content\css\hangfire.css" />
+    <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <EmbeddedResource Include="Content\js\bootstrap.min.js" />
+    <EmbeddedResource Include="Content\js\hangfire.js" />
+    <EmbeddedResource Include="Content\js\jquery-3.6.0.min.js" />
+    <EmbeddedResource Include="Content\js\moment-with-locales.min.js" />
+    <EmbeddedResource Include="Content\js\Chart.min.js" />
+    <EmbeddedResource Include="Content\js\chartjs-plugin-streaming.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Content\resx\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Content\resx\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Flash.Extensions.EventBus.Dashboard.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Content\resx\Strings.zh.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\LayoutPage.cs">
+      <DependentUpon>LayoutPage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\LayoutPage.cshtml.cs">
+      <DependentUpon>LayoutPage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\_ErrorAlert.cshtml.cs">
+      <DependentUpon>_ErrorAlert.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\_Navigation.cshtml.cs">
+      <DependentUpon>_Navigation.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\HomePage.cshtml.cs">
+      <DependentUpon>HomePage.cshtml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

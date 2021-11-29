@@ -20,6 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Polly" Version="7.2.0" />
     <PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
@@ -28,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Resilience.Http\Flash.Extensions.Resilience.Http.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
   </ItemGroup>

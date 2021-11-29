@@ -19,6 +19,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 端口（默认：5672）
         /// </summary>
         internal int Port { get; set; } = 5672;
+        /// <summary>
+        /// 仪表盘管理协议
+        /// </summary>
+        internal string DashboardProtocol = "http";
+        /// <summary>
+        /// 仪表盘管理端口（默认：15672）
+        /// </summary>
+        internal int DashboardPort { get; set; } = 15672;
         #endregion
 
         #region Auth
@@ -114,6 +122,19 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 仪表盘管理设置
+        /// </summary>
+        /// <param name="dashboardProtocol">协议</param>
+        /// <param name="dashboardPort">端口</param>
+        /// <returns></returns>
+        public RabbitMQOption WithDashboard(string dashboardProtocol = "http", int dashboardPort = 15672)
+        {
+            this.DashboardProtocol = dashboardProtocol;
+            this.DashboardPort = dashboardPort;
+            return this;
+        }
+
+        /// <summary>
         /// 设置认证信息
         /// </summary>
         /// <param name="UserName">账号</param>
@@ -197,6 +218,16 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var option = new RabbitMQOption();
             setup(option);
+            hostBuilder.Services.AddSingleton(sp =>
+            {
+                return option;
+            });
+            hostBuilder.Services.AddSingleton<IMonitoringApi, RabbitMqMonitoringApi>();
+            hostBuilder.Services.AddAutoMapper(config =>
+            {
+                config.CreateMap<RabbitMqMonitoringPageResponse<RabbitMqQueueWithAllEnqueuedDto>, MonitoringPageResponse<QueueWithAllEnqueuedDto>>();
+                config.CreateMap<RabbitMqQueueWithAllEnqueuedDto, QueueWithAllEnqueuedDto>();
+            });
 
             hostBuilder.Services.AddSingleton<IConnectionFactory>(sp =>
             {

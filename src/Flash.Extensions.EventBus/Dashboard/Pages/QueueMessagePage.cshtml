@@ -1,0 +1,47 @@
+﻿@* Generator: Template TypeVisibility: Internal GeneratePrettyNames: True *@
+@using Flash.Extensions.EventBus.Dashboard
+@using Flash.Extensions.EventBus.Dashboard.Pages
+@using Flash.Extensions.EventBus.Dashboard.Resources
+@inherits RazorPage
+@{
+    Layout = new LayoutPage(Strings.NavigationMenu_Queues);
+    var list = this.Monitor.GetMessages(this.Queue).ConfigureAwait(false).GetAwaiter().GetResult();
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">@this.Queue</h1>
+        @if (list.Count == 0)
+        {
+            <div class="alert alert-success">
+                @Strings.QueuesPage_NoMessages
+            </div>
+        }
+        else
+        {
+            <div class="js-jobs-list">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="min-width-200p">@Strings.QueueMessagesPage_Table_MessageId</th>
+                                <th>@Strings.QueueMessagesPage_Table_NormalQueueName</th>
+                                <th>@Strings.QueueMessagesPage_Table_Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var queue in list)
+                            {
+                                <tr>
+                                    <td>@queue.MessageId</td>
+                                    <td>@queue.NormalQueueName</td>
+                                    <td>@queue.Message</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -18,7 +18,70 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>Flash.Extensions.EventBus.xml</DocumentationFile>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\css\bootstrap.min.css" />
+    <EmbeddedResource Include="Dashboard\Content\css\Chart.min.css" />
+    <EmbeddedResource Include="Dashboard\Content\css\hangfire.css" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.woff2" />
+    <EmbeddedResource Include="Dashboard\Content\js\bootstrap.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\Chart.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\chartjs-plugin-streaming.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\hangfire.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\jquery-3.6.0.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\moment-with-locales.min.js" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Content\resx\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Content\resx\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\NormalQueuePage - 复制.cshtml.cs">
+      <DependentUpon>NormalQueuePage.cshtml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Content\resx\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Flash.Extensions.EventBus.Dashboard.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Content\resx\Strings.zh.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dashboard\Content\resx\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Flash.Extensions.EventBus.Dashboard.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- Full MSBuild is required to generate Razor classes -->
+  <PropertyGroup>
+    <MSBuild14FullPath>$(MSBuildProgramFiles32)\MSBuild\14.0\bin\MSBuild.exe</MSBuild14FullPath>
+    <MSBuildCurrentFullPath>$(MSBuildBinPath)\MSBuild.exe</MSBuildCurrentFullPath>
+    <RazorProjectFile>Razor.build</RazorProjectFile>
+    <InnerTargets>GenerateRazorClasses;Build</InnerTargets>
+  </PropertyGroup>
+
+  <Target Name="GenerateRazorClasses">
+    <Exec Command="&quot;$(MSBuildCurrentFullPath)&quot; $(RazorProjectFile) /v:quiet /nologo" Condition="Exists('$(MSBuildCurrentFullPath)')" />
+    <Exec Command="&quot;$(MSBuild14FullPath)&quot; $(RazorProjectFile) /v:quiet /nologo" Condition="Exists('$(MSBuild14FullPath)') and !Exists('$(MSBuildCurrentFullPath)')" />
+    <Warning Text="Classes for Razor files (*.cshtml) weren't re-generated: couldn't find the '$(MSBuild14FullPath)' or '$(MSBuildCurrentFullPath)' file" Condition="!Exists('$(MSBuild14FullPath)') and !Exists('$(MSBuildCurrentFullPath)')" />
+  </Target>
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
@@ -35,6 +98,63 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dashboard\Pages\LayoutPage.cs">
+      <DependentUpon>LayoutPage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\LayoutPage.cshtml.cs">
+      <DependentUpon>LayoutPage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_ErrorAlert.cshtml.cs">
+      <DependentUpon>_ErrorAlert.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_Navigation.cshtml.cs">
+      <DependentUpon>_Navigation.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\HomePage.cshtml.cs">
+      <DependentUpon>HomePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\NormalQueuePage.cshtml.cs">
+      <DependentUpon>NormalQueuePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\RetryQueuePage.cshtml.cs">
+      <DependentUpon>RetryQueuePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\FailedQueuePage.cshtml.cs">
+      <DependentUpon>FailedQueuePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\QueueMessagePage.cs">
+      <DependentUpon>QueueMessagePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\QueueMessagePage.cshtml.cs">
+      <DependentUpon>QueueMessagePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_SidebarMenu.cs">
+      <DependentUpon>_SidebarMenu.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_SidebarMenu.cshtml.cs">
+      <DependentUpon>_SidebarMenu.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_InlineMetric.cshtml.cs">
+      <DependentUpon>_InlineMetric.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_InlineMetric.cs">
+      <DependentUpon>_InlineMetric.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_PerPageSelector.cs">
+      <DependentUpon>_PerPageSelector.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_PerPageSelector.cshtml.cs">
+      <DependentUpon>_PerPageSelector.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_Paginator.cs">
+      <DependentUpon>_Paginator.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_Paginator.cshtml.cs">
+      <DependentUpon>_Paginator.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

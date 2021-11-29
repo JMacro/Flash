@@ -124,6 +124,13 @@ namespace Flash.Test.Web
                     });
                 });
 
+                flash.AddResilientHttpClient((aorign, option) =>
+                {
+                    option.DurationSecondsOfBreak = 30;
+                    option.ExceptionsAllowedBeforeBreaking = 5;
+                    option.RetryCount = 5;
+                    option.TimeoutMillseconds = 10000;
+                });
             });
             ContainerBuilder containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
@@ -185,10 +192,9 @@ namespace Flash.Test.Web
                     });
                 });
             });
-
+            app.UseEventBusDashboard();
             app.UseHttpsRedirection();
             //app.UseMvc();
-
             app.UseRouting();
 
             app.UseEndpoints(option =>

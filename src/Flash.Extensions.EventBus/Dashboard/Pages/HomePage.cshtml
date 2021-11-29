@@ -1,0 +1,22 @@
+﻿@* Generator: Template TypeVisibility: Internal GeneratePrettyNames: True *@
+@using System
+@using System.Collections.Generic
+@using Flash.Extensions.EventBus.Dashboard
+@using Flash.Extensions.EventBus.Dashboard.Pages
+@using Flash.Extensions.EventBus.Dashboard.Resources
+@using Newtonsoft.Json
+@inherits RazorPage
+@{
+    Layout = new LayoutPage(Strings.HomePage_Title);
+    IDictionary<DateTime, long> succeeded = null;
+    IDictionary<DateTime, long> failed = null;
+
+    var period = Query("period") ?? "day";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">@Strings.HomePage_Title</h1>
+    </div>
+</div>

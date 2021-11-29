@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Flash.Extensions.Resilience.Http</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Polly" Version="7.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\Flash.DynamicRoute\Flash.DynamicRoute.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />
+    <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
+  </ItemGroup>
+
+</Project>
