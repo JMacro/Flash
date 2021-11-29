@@ -10,6 +10,7 @@
 |  Flash.Extensions.Cache.Redis.DependencyInjection | redis扩展           | [![NuGet version (Flash.Extensions.Cache.Redis.DependencyInjection)](https://img.shields.io/nuget/v/Flash.Extensions.Cache.Redis.DependencyInjection?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Cache.Redis.DependencyInjection/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Cache.Redis.DependencyInjection)|
 |  Flash.Extensions.EventBus.RabbitMQ | RabbitMQ消息总线  | [![NuGet version (Flash.Extensions.EventBus.RabbitMQ)](https://img.shields.io/nuget/v/Flash.Extensions.EventBus.RabbitMQ?style=flat)](https://www.nuget.org/packages/Flash.Extensions.EventBus.RabbitMQ/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.EventBus.RabbitMQ)|
 |  Flash.Extensions.ORM.EntityFrameworkCore | EF ORM  | [![NuGet version (Flash.Extensions.ORM.EntityFrameworkCore)](https://img.shields.io/nuget/v/Flash.Extensions.ORM.EntityFrameworkCore?style=flat)](https://www.nuget.org/packages/Flash.Extensions.ORM.EntityFrameworkCore/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.ORM.EntityFrameworkCore)|
+|  Flash.Extensions.Resilience.Http | 弹性Http  | [![NuGet version (Flash.Extensions.Resilience.Http)](https://img.shields.io/nuget/v/Flash.Extensions.Resilience.Http?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Resilience.Http/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Resilience.Http)|
 
 #### 使用说明
 

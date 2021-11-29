@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Flash.Extensions.Resilience.Http</AssemblyName>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <Description>Http弹性连接</Description>
+    <Authors>JMacro</Authors>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageReleaseNotes>Http弹性连接</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +27,13 @@
     <ProjectReference Include="..\Flash.DynamicRoute\Flash.DynamicRoute.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
