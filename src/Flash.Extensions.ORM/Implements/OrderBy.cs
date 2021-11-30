@@ -63,6 +63,21 @@ namespace Flash.Extensions.ORM
         }
 
         /// <summary>
+        /// 新增排序
+        /// </summary>
+        /// <typeparam name="TQueryableEntity">实体</typeparam>
+        /// <typeparam name="TKey">排序字段</typeparam>
+        /// <param name="entity"></param>
+        /// <param name="orderField">字段排序表达式</param>
+        /// <param name="orderMode">排序方式</param>
+        /// <returns></returns>
+        public OrderByCollection Add<TQueryableEntity, TKey>(TQueryableEntity entity, Expression<Func<TQueryableEntity, TKey>> orderField, PageOrderBy orderMode)
+        {
+            this.Add(OrderBy.Create(entity, orderField, orderMode));
+            return this;
+        }
+
+        /// <summary>
         /// 获得排序收集器
         /// </summary>
         /// <returns></returns>

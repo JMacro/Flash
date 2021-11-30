@@ -67,7 +67,11 @@ namespace Flash.Test.Web.Controllers
 
             await this._testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, p => p.Account, false);
 
-            return await this._testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, (e, p) => p.Add(OrderBy.Create(e, s => s.Id, PageOrderBy.ASC)).Add(OrderBy.Create(e, s => s.EName, PageOrderBy.DESC)));
+            return await this._testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, (e, p) =>
+                p.Add(OrderBy.Create(e, s => s.Id, PageOrderBy.ASC))
+                .Add(OrderBy.Create(e, s => s.EName, PageOrderBy.DESC))
+                .Add(e, s => s.Account, PageOrderBy.ASC)
+                );
         }
     }
 }
