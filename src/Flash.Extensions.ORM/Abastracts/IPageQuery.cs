@@ -1,4 +1,6 @@
-﻿namespace Flash.Extensions.ORM
+﻿using System;
+
+namespace Flash.Extensions.ORM
 {
     public enum PageOrderBy
     {
@@ -19,6 +21,7 @@
         /// <summary>
         /// 排序类型
         /// </summary>
+        [Obsolete("不再使用")]
         PageOrderBy OrderBy { get; set; }
     }
 
@@ -35,6 +38,7 @@
         /// <summary>
         /// 排序类型
         /// </summary>
+        [Obsolete("不再使用")]
         public PageOrderBy OrderBy { get; set; } = PageOrderBy.DESC;
     }
 

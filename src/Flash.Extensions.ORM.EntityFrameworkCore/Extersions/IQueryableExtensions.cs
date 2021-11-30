@@ -62,6 +62,7 @@ namespace System.Linq
         /// <param name="page">分页参数</param>
         /// <param name="isCount">是否计算总数</param>
         /// <returns></returns>
+        [Obsolete("不再使用")]
         public static async Task<IBasePageResponse<TQueryableEntity>> QueryPageAsync<TQueryableEntity, TKey>(this IQueryable<TQueryableEntity> queryable,
             IPageQuery page,
             Expression<Func<TQueryableEntity, TKey>> orderBy,
@@ -95,6 +96,60 @@ namespace System.Linq
                 if (orderBy != null)
                 {
                     queryable = (page.OrderBy == PageOrderBy.DESC ? queryable.OrderByDescending(orderBy) : queryable.OrderBy(orderBy));
+                }
+
+                queryable = queryable.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
+                var list = await queryable.ToListAsync();
+                return new PageNotCountResponse<TQueryableEntity>(list, page.PageIndex, page.PageSize);
+            }
+        }
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <typeparam name="TQueryableEntity"></typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="page">分页参数</param>
+        /// <param name="isCount">是否计算总数</param>
+        /// <returns></returns>
+        public static async Task<IBasePageResponse<TQueryableEntity>> QueryPageAsync<TQueryableEntity>(this IQueryable<TQueryableEntity> queryable,
+            IPageQuery page,
+            Func<TQueryableEntity, OrderByCollection, OrderByCollection> orderByCollectionFun = null,
+            bool isCount = false)
+        {
+            page = page ?? throw new ArgumentNullException("分页参数不允许为空");
+            page.PageIndex = page.PageIndex <= 0 ? 1 : page.PageIndex;
+            page.PageSize = page.PageSize <= 0 ? 20 : page.PageSize;
+
+            var orderByCollection = new OrderByCollection();
+            if (orderByCollectionFun != null)
+            {
+                orderByCollectionFun(default(TQueryableEntity), orderByCollection);
+            }
+
+            if (isCount)
+            {
+                var count = await queryable.CountAsync();
+                foreach (var item in orderByCollection.ToList())
+                {
+                    queryable = queryable.ApplyOrder(item.OrderField as LambdaExpression, item.OrderMode);
+                }
+
+                var list = default(List<TQueryableEntity>);
+
+                if (count > 0)
+                {
+                    queryable = queryable.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
+                    list = await queryable.ToListAsync();
+                }
+
+                return new PageCountResponse<TQueryableEntity>(list, page.PageIndex, page.PageSize, count);
+            }
+            else
+            {
+                foreach (var item in orderByCollection.ToList())
+                {
+                    queryable = queryable.ApplyOrder(item.OrderField as LambdaExpression, item.OrderMode);
                 }
 
                 queryable = queryable.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
@@ -215,6 +270,34 @@ namespace System.Linq
 
             queryable = queryable.Where(Expression.Lambda<Func<TSource, bool>>(binaryExpression, leftProperty.Parameters));
             return queryable;
+        }
+
+        static IQueryable<TQueryableEntity> ApplyOrder<TQueryableEntity>(this IQueryable<TQueryableEntity> queryable, LambdaExpression lambda, PageOrderBy orderBy)
+        {
+            var expression = queryable.Expression;
+            var orderedQueryableType = typeof(IOrderedQueryable<TQueryableEntity>);
+            var hasOrdered = expression.Type == orderedQueryableType;
+
+            string methodName = "OrderBy";
+            switch (orderBy)
+            {
+                case PageOrderBy.DESC:
+                    methodName = hasOrdered ? "ThenByDescending" : "OrderByDescending";
+                    break;
+                case PageOrderBy.ASC:
+                    methodName = hasOrdered ? "ThenBy" : "OrderBy";
+                    break;
+            }
+
+            var propertyInfo = (lambda.Body as MemberExpression).Member as PropertyInfo;
+            object result = typeof(Queryable).GetMethods().Single(
+                                method => method.Name == methodName
+                                  && method.IsGenericMethodDefinition
+                                  && method.GetGenericArguments().Length == 2
+                                  && method.GetParameters().Length == 2)
+                                .MakeGenericMethod(typeof(TQueryableEntity), propertyInfo.PropertyType)
+                                .Invoke(null, new object[] { queryable, lambda });
+            return (IQueryable<TQueryableEntity>)result;
         }
 
         private static Expression<Func<TSource, bool>> BuilderLikeExpression<TSource>(string searchPattern, PropertyInfo propertyName)

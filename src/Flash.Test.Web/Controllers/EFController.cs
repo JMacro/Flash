@@ -1,4 +1,5 @@
-﻿using Flash.Test.Web.EFCore;
+﻿using Flash.Extensions.ORM;
+using Flash.Test.Web.EFCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,19 @@ namespace Flash.Test.Web.Controllers
             var df = this._testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.RightLike).ToList();
 
             return "";
+        }
+
+        [HttpGet("test4")]
+        public async Task<object> Test4(string q)
+        {
+            var query = new
+            {
+                CName = q
+            };
+
+            var dff = this._testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.RightLike).ToList();
+                        
+            return await this._testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, (e, p) => p.Add(OrderBy.Create(e, s => s.Id, PageOrderBy.ASC)).Add(OrderBy.Create(e, s => s.EName, PageOrderBy.DESC)));
         }
     }
 }
