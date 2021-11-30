@@ -2,12 +2,24 @@
 
 namespace Flash.Extensions.ORM
 {
+    /// <summary>
+    /// 分页排序
+    /// </summary>
     public enum PageOrderBy
     {
+        /// <summary>
+        /// 降序
+        /// </summary>
         DESC,
+        /// <summary>
+        /// 升序
+        /// </summary>
         ASC
     }
 
+    /// <summary>
+    /// 分页查询
+    /// </summary>
     public interface IPageQuery
     {
         /// <summary>
@@ -25,6 +37,9 @@ namespace Flash.Extensions.ORM
         PageOrderBy OrderBy { get; set; }
     }
 
+    /// <summary>
+    /// 分页查询
+    /// </summary>
     public class PageQuery : IPageQuery
     {
         /// <summary>

@@ -60,6 +60,7 @@ namespace System.Linq
         /// <typeparam name="TQueryableEntity"></typeparam>
         /// <param name="queryable"></param>
         /// <param name="page">分页参数</param>
+        /// <param name="orderBy"></param>
         /// <param name="isCount">是否计算总数</param>
         /// <returns></returns>
         [Obsolete("不再使用")]
@@ -110,6 +111,7 @@ namespace System.Linq
         /// <typeparam name="TQueryableEntity"></typeparam>
         /// <param name="queryable"></param>
         /// <param name="page">分页参数</param>
+        /// <param name="orderByCollectionFun">排序收集器</param>
         /// <param name="isCount">是否计算总数</param>
         /// <returns></returns>
         public static async Task<IBasePageResponse<TQueryableEntity>> QueryPageAsync<TQueryableEntity>(this IQueryable<TQueryableEntity> queryable,
@@ -272,6 +274,14 @@ namespace System.Linq
             return queryable;
         }
 
+        /// <summary>
+        /// 应用排序
+        /// </summary>
+        /// <typeparam name="TQueryableEntity">实体</typeparam>
+        /// <param name="queryable"></param>
+        /// <param name="lambda">排序表达式</param>
+        /// <param name="orderBy">排序方式</param>
+        /// <returns></returns>
         static IQueryable<TQueryableEntity> ApplyOrder<TQueryableEntity>(this IQueryable<TQueryableEntity> queryable, LambdaExpression lambda, PageOrderBy orderBy)
         {
             var expression = queryable.Expression;
