@@ -2,10 +2,24 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <Authors>JMacro</Authors>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

@@ -2,7 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <Authors>JMacro</Authors>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <Description>ORM.EntityFrameworkCore</Description>
+    <PackageTags>ORM EntityFrameworkCore</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +28,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
