@@ -64,7 +64,9 @@ namespace Flash.Test.Web.Controllers
             };
 
             var dff = this._testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.RightLike).ToList();
-                        
+
+            await this._testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, p => p.Account, false);
+
             return await this._testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, (e, p) => p.Add(OrderBy.Create(e, s => s.Id, PageOrderBy.ASC)).Add(OrderBy.Create(e, s => s.EName, PageOrderBy.DESC)));
         }
     }

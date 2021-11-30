@@ -63,7 +63,7 @@ namespace System.Linq
         /// <param name="orderBy"></param>
         /// <param name="isCount">是否计算总数</param>
         /// <returns></returns>
-        [Obsolete("不再使用")]
+        [Obsolete("请使用QueryPageAsync<TQueryableEntity>(IPageQuery page, Func < TQueryableEntity, OrderByCollection, OrderByCollection > orderByCollectionFun = null, bool isCount = false)")]
         public static async Task<IBasePageResponse<TQueryableEntity>> QueryPageAsync<TQueryableEntity, TKey>(this IQueryable<TQueryableEntity> queryable,
             IPageQuery page,
             Expression<Func<TQueryableEntity, TKey>> orderBy,
