@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using Flash.Extensions.HealthChecks;
 
 namespace Flash.Test.Web
 {
@@ -35,6 +36,7 @@ namespace Flash.Test.Web
                     logging.AddConsole();
                 })
                 .UseMetrics("AppMetrics")
+                .UseHealthChecks("/healthcheck")
                 .UseStartup<Startup>();
     }
 }

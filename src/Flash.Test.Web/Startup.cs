@@ -2,17 +2,16 @@
 using Autofac.Extensions.DependencyInjection;
 using Flash.Extensions.EventBus;
 using Flash.Extensions.EventBus.RabbitMQ;
+using Flash.Extensions.HealthChecks;
 using Flash.Test.Web;
 using Flash.Test.Web.EFCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 
@@ -47,6 +46,22 @@ namespace Flash.Test.Web
             services.AddControllers();
             services.AddAutofac();
             services.AddMetrics(Configuration.GetSection("AppMetrics"));
+            services.AddHealthChecks(checks =>
+            {
+                checks.WithDefaultCacheDuration(TimeSpan.FromSeconds(10));
+
+                var host = Environment.GetEnvironmentVariable("Redis_Host", EnvironmentVariableTarget.Machine);
+                var password = Environment.GetEnvironmentVariable("Redis_Password", EnvironmentVariableTarget.Machine);
+                checks.AddRedisCheck("redis1", $"{host},password={password},allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
+
+                var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
+                checks.AddMySqlCheck("MySql1", connection);
+
+                checks.AddRabbitMQCheck("RabbitMQ", setup =>
+                {
+
+                });
+            });
             services.AddFlash(flash =>
             {
                 flash.AddSecurity3DES(setup =>

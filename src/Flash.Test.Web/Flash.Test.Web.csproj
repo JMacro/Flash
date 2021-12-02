@@ -20,6 +20,9 @@
     <ProjectReference Include="..\Flash.Extensions.EventBus.Dashboard.AspNetCore\Flash.Extensions.EventBus.Dashboard.AspNetCore.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.HealthChecks.MySql\Flash.Extensions.HealthChecks.MySql.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.HealthChecks.RabbitMQ\Flash.Extensions.HealthChecks.RabbitMQ.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.HealthChecks.Redis\Flash.Extensions.HealthChecks.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.Tracting.Skywalking.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />

@@ -11,12 +11,19 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjectionExtersion
     {
+        /// <summary>
+        /// 弹性Http客户端
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static IFlashHostBuilder AddResilientHttpClient(this IFlashHostBuilder hostBuilder, Action<string, ResilientHttpClientConfigOption> func = null)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<ResilientHttpClient>>();
+                logger.LogInformation("Using ResilientHttpClient");
                 var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
                 var serviceLocator = sp.GetService<Flash.DynamicRoute.IServiceLocator>();
                 var tracerFactory = sp.GetService<ITracerFactory>();
@@ -32,12 +39,20 @@ namespace Microsoft.Extensions.DependencyInjection
 
         }
 
+        /// <summary>
+        /// 弹性Http客户端
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <param name="func"></param>
+        /// <param name="httpMessageHandler"></param>
+        /// <returns></returns>
         public static IFlashHostBuilder AddResilientHttpClient(this IFlashHostBuilder hostBuilder, Action<string, ResilientHttpClientConfigOption> func = null, HttpMessageHandler httpMessageHandler = null)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<ResilientHttpClient>>();
+                logger.LogInformation("Using ResilientHttpClient");
                 var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
                 var serviceLocator = sp.GetService<Flash.DynamicRoute.IServiceLocator>();
                 var tracerFactory = sp.GetService<ITracerFactory>();
@@ -53,12 +68,18 @@ namespace Microsoft.Extensions.DependencyInjection
 
         }
 
+        /// <summary>
+        /// 标准Http客户端
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <returns></returns>
         public static IFlashHostBuilder AddStandardHttpClient(this IFlashHostBuilder hostBuilder)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<StandardHttpClient>>();
+                logger.LogInformation("Using StandardHttpClient");
                 var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
                 var serviceLocator = sp.GetService<Flash.DynamicRoute.IServiceLocator>();
                 var tracerFactory = sp.GetService<ITracerFactory>();
@@ -70,12 +91,19 @@ namespace Microsoft.Extensions.DependencyInjection
 
         }
 
+        /// <summary>
+        /// 标准Http客户端
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <param name="httpMessageHandler"></param>
+        /// <returns></returns>
         public static IFlashHostBuilder AddStandardHttpClient(this IFlashHostBuilder hostBuilder, HttpMessageHandler httpMessageHandler)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<StandardHttpClient>>();
+                logger.LogInformation("Using StandardHttpClient");
                 var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
                 var serviceLocator = sp.GetService<Flash.DynamicRoute.IServiceLocator>();
                 var tracerFactory = sp.GetService<ITracerFactory>();

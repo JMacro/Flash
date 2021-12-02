@@ -46,7 +46,7 @@ namespace Flash.Extensions.HealthChecks
                     context.Response.StatusCode = 503;
 
                 context.Response.Headers.Add("content-type", "application/json");
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { status = status.ToString() , Description = result.Description }));
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { Status = status.ToString(), Description = result.Description }));
                 return;
             }
             else

@@ -2,11 +2,9 @@
 using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Flash.Extensions.HealthChecks.Redis
+namespace Flash.Extensions.HealthChecks
 {
     public static class HealthCheckBuilderRedisExtensions
     {
@@ -30,9 +28,7 @@ namespace Flash.Extensions.HealthChecks.Redis
                 {
                     using (ConnectionMultiplexer connect = ConnectionMultiplexer.Connect(ConfigurationOptions.Parse(connectionString)))
                     {
-                        var response = connect.GetStatus();
-
-                        if (response != null && response.Any())
+                        if (connect.IsConnected)
                         {
                             return HealthCheckResult.Healthy($"Healthy");
                         }
@@ -61,9 +57,7 @@ namespace Flash.Extensions.HealthChecks.Redis
                     });
 
                     var connect = loadBalancer.Resolve();
-                    var response = connect.GetStatus();
-
-                    if (response != null && response.Any())
+                    if (connect.IsConnected)
                     {
                         return HealthCheckResult.Healthy($"Healthy");
                     }

@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Flash.Extensions.Resilience.Http
 {
+    /// <summary>
+    /// 标准Http客户端
+    /// </summary>
     public class StandardHttpClient : IHttpClient
     {
         private readonly HttpClient _client;

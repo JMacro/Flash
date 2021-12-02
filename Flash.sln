@@ -82,7 +82,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Resilience
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.DynamicRoute", "src\Flash.DynamicRoute\Flash.DynamicRoute.csproj", "{3835F567-CC21-48C4-A384-BDD0FB0E8202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.EventBus.Dashboard.AspNetCore", "src\Flash.Extensions.EventBus.Dashboard.AspNetCore\Flash.Extensions.EventBus.Dashboard.AspNetCore.csproj", "{09D439B3-D696-45A7-90C2-0547C20EBA4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.EventBus.Dashboard.AspNetCore", "src\Flash.Extensions.EventBus.Dashboard.AspNetCore\Flash.Extensions.EventBus.Dashboard.AspNetCore.csproj", "{09D439B3-D696-45A7-90C2-0547C20EBA4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.HealthChecks.MySql", "src\Flash.Extensions.HealthChecks.MySql\Flash.Extensions.HealthChecks.MySql.csproj", "{B2600AD2-E311-4956-BE21-9BD329AB3398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.HealthChecks.RabbitMQ", "src\Flash.Extensions.HealthChecks.RabbitMQ\Flash.Extensions.HealthChecks.RabbitMQ.csproj", "{F543F481-9FF9-45E8-A620-5D238412A4D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -202,6 +206,14 @@ Global
 		{09D439B3-D696-45A7-90C2-0547C20EBA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D439B3-D696-45A7-90C2-0547C20EBA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D439B3-D696-45A7-90C2-0547C20EBA4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2600AD2-E311-4956-BE21-9BD329AB3398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2600AD2-E311-4956-BE21-9BD329AB3398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2600AD2-E311-4956-BE21-9BD329AB3398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2600AD2-E311-4956-BE21-9BD329AB3398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F543F481-9FF9-45E8-A620-5D238412A4D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F543F481-9FF9-45E8-A620-5D238412A4D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F543F481-9FF9-45E8-A620-5D238412A4D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F543F481-9FF9-45E8-A620-5D238412A4D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -243,6 +255,8 @@ Global
 		{92D25397-906B-46C4-ACA5-A965B901F7EA} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{3835F567-CC21-48C4-A384-BDD0FB0E8202} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{09D439B3-D696-45A7-90C2-0547C20EBA4A} = {CA8B169F-048A-4B5A-AA07-FEF81F565CF2}
+		{B2600AD2-E311-4956-BE21-9BD329AB3398} = {E1525F10-B944-400A-8176-051416C14CC7}
+		{F543F481-9FF9-45E8-A620-5D238412A4D9} = {E1525F10-B944-400A-8176-051416C14CC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}
