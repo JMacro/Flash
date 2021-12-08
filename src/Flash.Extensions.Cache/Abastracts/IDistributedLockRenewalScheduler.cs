@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Flash.Extensions.Cache
 {
@@ -8,10 +9,6 @@ namespace Flash.Extensions.Cache
     /// </summary>
     public interface IDistributedLockRenewalScheduler
     {
-        /// <summary>
-        /// 调度任务列表
-        /// </summary>
-        ConcurrentDictionary<string, DistributedLockRenewalConfig> SchedulerList { get; }
         /// <summary>
         /// 添加到自动续期调度器
         /// </summary>
@@ -27,5 +24,10 @@ namespace Flash.Extensions.Cache
         /// <param name="lockValue">锁的值</param>
         /// <returns></returns>
         bool Remove(string lockName, string lockValue);
+        /// <summary>
+        /// 获得调度列表
+        /// </summary>
+        /// <returns></returns>
+        IReadOnlyList<DistributedLockRenewalCheck> GetSchedulerList();
     }
 }

@@ -2,6 +2,7 @@
 using Flash.Extensions.Cache;
 using Flash.Extensions.Cache.Redis;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -25,9 +26,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (option.DistributedLock)
             {
-                cacheBuilder.Services.TryAddSingleton<IDistributedLockRenewalScheduler, DistributedLockRenewalScheduler>();
+                //cacheBuilder.Services.TryAddSingleton<IDistributedLockRenewalScheduler, DistributedLockRenewalScheduler>();
+                cacheBuilder.Services.TryAddSingleton((sp) => { return new DistributedLockRenewalCollection(sp); });
                 cacheBuilder.Services.TryAddSingleton<IDistributedLock, DistributedLock>();
-                cacheBuilder.Services.AddHostedService<DistributedLockRenewalService>();
+                cacheBuilder.Services.TryAddSingleton<IDistributedLockRenewalService, DistributedLockRenewalService>();
+                cacheBuilder.Services.AddHostedService<DistributedLockRenewalHostedService>();
             }
             return cacheBuilder;
         }

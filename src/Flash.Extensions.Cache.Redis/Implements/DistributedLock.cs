@@ -1,24 +1,26 @@
 ﻿using Flash.Extensions.Cache;
 using Microsoft.Extensions.Logging;
 using Polly;
+using StackExchange.Redis;
 using System;
+using System.Text;
 
 namespace Flash.Extensions.Cache.Redis
 {
     /// <summary>
     /// 分布式锁
     /// </summary>
-    public class DistributedLock : IDistributedLock
+    public sealed class DistributedLock : IDistributedLock
     {
         private readonly ICacheManager _cacheManager;
-        private readonly IDistributedLockRenewalScheduler _distributedLockRenewalScheduler;
+        private readonly DistributedLockRenewalCollection _distributedLockRenewalCollection;
         private readonly ILogger<DistributedLock> _logger;
         private readonly string _KeyPrefix = "Lock";
 
-        public DistributedLock(ICacheManager cacheManager, IDistributedLockRenewalScheduler distributedLockRenewalScheduler, ILogger<DistributedLock> logger)
+        public DistributedLock(ICacheManager cacheManager, DistributedLockRenewalCollection distributedLockRenewalCollection, ILogger<DistributedLock> logger)
         {
             this._cacheManager = cacheManager;
-            this._distributedLockRenewalScheduler = distributedLockRenewalScheduler;
+            this._distributedLockRenewalCollection = distributedLockRenewalCollection;
             this._logger = logger;
         }
 
@@ -56,7 +58,7 @@ namespace Flash.Extensions.Cache.Redis
                     }
                     else
                     {
-                        this._distributedLockRenewalScheduler.Add(LockName, LockValue, LockOutTime);
+                        this._distributedLockRenewalCollection.Add(LockName, LockValue, LockOutTime);
                         return true;
                     }
                 }
@@ -85,8 +87,8 @@ namespace Flash.Extensions.Cache.Redis
                 polly.Execute(() =>
                 {
                     var keyName = AddSysCustomKey(LockName);
-                    this._distributedLockRenewalScheduler.Remove(keyName, LockValue);
                     _cacheManager.LockRelease(keyName, LockValue);
+                    this._distributedLockRenewalCollection.Remove(keyName, LockValue);
                 });
             }
         }
@@ -100,12 +102,22 @@ namespace Flash.Extensions.Cache.Redis
         /// <returns></returns>
         public void LockRenewal(string LockName, string LockValue, TimeSpan renewalTime)
         {
-            //TODO 待优化：可通过Lua脚本，校验缓存中指定的锁的值是否为要续期锁的值
+            //优化：可通过Lua脚本，校验缓存中指定的锁的值是否为要续期锁的值
             if (_cacheManager != null)
             {
                 var keyName = AddSysCustomKey(LockName);
+
+                StringBuilder lua = new StringBuilder();
+                lua.AppendLine("local lockValue = redis.call('GET', @LockName)");
+                lua.AppendLine("if lockValue == @LockValue then");
+                lua.AppendLine("    redis.call('EXPIRE', @LockName, @RenewalTime)");
+                lua.AppendLine("    return 1");
+                lua.AppendLine("end");
+                lua.AppendLine("return 0");
+
                 this._logger.LogInformation($"Renewal Lock {keyName} to {renewalTime.TotalMilliseconds} millseconds");
-                _cacheManager.ExpireEntryAt(keyName, renewalTime);
+                _cacheManager.ScriptEvaluate(lua.ToString(), new { LockName = keyName, LockValue, RenewalTime = renewalTime.TotalSeconds });
+                //_cacheManager.ExpireEntryAt(keyName, renewalTime);
             }
         }
 

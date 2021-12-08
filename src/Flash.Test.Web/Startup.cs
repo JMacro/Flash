@@ -93,36 +93,36 @@ namespace Flash.Test.Web
                 });
 
 
-                flash.AddEventBus(bus =>
-                {
-                    bus.UseRabbitMQ(rabbitmq =>
-                    {
-                        //rabbitmq
-                        //.WithEndPoint(Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(Configuration["RabbitMQ:Port"] ?? "5672"))
-                        //.WithAuth(Configuration["RabbitMQ:UserName"] ?? "guest", Configuration["RabbitMQ:Password"] ?? "guest")
-                        //.WithExchange(Configuration["RabbitMQ:VirtualHost"] ?? "/")
-                        //.WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
-                        //.WithReceiver(
-                        //    ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
-                        //    ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
-                        //    ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
+                //flash.AddEventBus(bus =>
+                //{
+                //    bus.UseRabbitMQ(rabbitmq =>
+                //    {
+                //        //rabbitmq
+                //        //.WithEndPoint(Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(Configuration["RabbitMQ:Port"] ?? "5672"))
+                //        //.WithAuth(Configuration["RabbitMQ:UserName"] ?? "guest", Configuration["RabbitMQ:Password"] ?? "guest")
+                //        //.WithExchange(Configuration["RabbitMQ:VirtualHost"] ?? "/")
+                //        //.WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
+                //        //.WithReceiver(
+                //        //    ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
+                //        //    ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
+                //        //    ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
 
-                        var hostName = Environment.GetEnvironmentVariable("RabbitMQ:HostName", EnvironmentVariableTarget.Machine);
-                        var port = Environment.GetEnvironmentVariable("RabbitMQ:Port", EnvironmentVariableTarget.Machine);
-                        var userName = Environment.GetEnvironmentVariable("RabbitMQ:UserName", EnvironmentVariableTarget.Machine);
-                        var password = Environment.GetEnvironmentVariable("RabbitMQ:Password", EnvironmentVariableTarget.Machine);
-                        var virtualHost = Environment.GetEnvironmentVariable("RabbitMQ:VirtualHost", EnvironmentVariableTarget.Machine);
+                //        var hostName = Environment.GetEnvironmentVariable("RabbitMQ:HostName", EnvironmentVariableTarget.Machine);
+                //        var port = Environment.GetEnvironmentVariable("RabbitMQ:Port", EnvironmentVariableTarget.Machine);
+                //        var userName = Environment.GetEnvironmentVariable("RabbitMQ:UserName", EnvironmentVariableTarget.Machine);
+                //        var password = Environment.GetEnvironmentVariable("RabbitMQ:Password", EnvironmentVariableTarget.Machine);
+                //        var virtualHost = Environment.GetEnvironmentVariable("RabbitMQ:VirtualHost", EnvironmentVariableTarget.Machine);
 
-                        rabbitmq.WithEndPoint(hostName ?? "localhost", int.Parse(port ?? "5672"))
-                        .WithAuth(userName ?? "guest", password ?? "guest")
-                        .WithExchange(virtualHost ?? "/")
-                        .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
-                        .WithReceiver(
-                            ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
-                            ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
-                            ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
-                    });
-                });
+                //        rabbitmq.WithEndPoint(hostName ?? "localhost", int.Parse(port ?? "5672"))
+                //        .WithAuth(userName ?? "guest", password ?? "guest")
+                //        .WithExchange(virtualHost ?? "/")
+                //        .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
+                //        .WithReceiver(
+                //            ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
+                //            ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
+                //            ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
+                //    });
+                //});
 
 
                 flash.AddOpenTracing(tracer =>
@@ -170,44 +170,44 @@ namespace Flash.Test.Web
             var logger = app.ApplicationServices.GetRequiredService<ILogger<IEventBus>>();
             app.UseFlash(flash =>
             {
-                flash.UseEventBus(sp =>
-                {
-                    sp.UseSubscriber(eventbus =>
-                    {
-                        eventbus.Register<TestEvent, TestEventHandler>("TestEventHandler", "routerkey.log.error");
-                        eventbus.Register<TestEvent2, TestEvent2Handler>("TestEventHandler2", "routerkey.log.info");
+                //flash.UseEventBus(sp =>
+                //{
+                //    sp.UseSubscriber(eventbus =>
+                //    {
+                //        eventbus.Register<TestEvent, TestEventHandler>("TestEventHandler", "routerkey.log.error");
+                //        eventbus.Register<TestEvent2, TestEvent2Handler>("TestEventHandler2", "routerkey.log.info");
 
-                        //订阅消息
-                        eventbus.Subscriber((Messages) =>
-                        {
-                            foreach (var message in Messages)
-                            {
-                                logger.LogDebug($"ACK: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                            }
+                //        //订阅消息
+                //        eventbus.Subscriber((Messages) =>
+                //        {
+                //            foreach (var message in Messages)
+                //            {
+                //                logger.LogDebug($"ACK: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
+                //            }
 
-                        }, async (obj) =>
-                        {
-                            foreach (var message in obj.Messages)
-                            {
-                                logger.LogError($"NAck: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                            }
+                //        }, async (obj) =>
+                //        {
+                //            foreach (var message in obj.Messages)
+                //            {
+                //                logger.LogError($"NAck: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
+                //            }
 
-                            //消息消费失败执行以下代码
-                            if (obj.Exception != null)
-                            {
-                                logger.LogError(obj.Exception, obj.Exception.Message);
-                            }
+                //            //消息消费失败执行以下代码
+                //            if (obj.Exception != null)
+                //            {
+                //                logger.LogError(obj.Exception, obj.Exception.Message);
+                //            }
 
-                            var events = obj.Messages.Select(message => message.WaitAndRetry(a => 5, 3)).ToList();
+                //            var events = obj.Messages.Select(message => message.WaitAndRetry(a => 5, 3)).ToList();
 
-                            var ret = !(await eventbus.PublishAsync(events));
+                //            var ret = !(await eventbus.PublishAsync(events));
 
-                            return ret;
-                        });
-                    });
-                });
+                //            return ret;
+                //        });
+                //    });
+                //});
             });
-            app.UseEventBusDashboard();
+            //app.UseEventBusDashboard();
             app.UseHttpsRedirection();
             //app.UseMvc();
             app.UseRouting();
