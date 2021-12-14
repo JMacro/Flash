@@ -807,7 +807,7 @@ namespace Flash.Extensions.Cache.Redis
             return RedisResultHandler<T>(redisResult);
         }
 
-        private dynamic RedisResultHandler<T>(RedisResult  redisResult)
+        private dynamic RedisResultHandler<T>(RedisResult redisResult)
         {
             switch (redisResult.Type)
             {
@@ -823,32 +823,45 @@ namespace Flash.Extensions.Cache.Redis
         #endregion
 
         #region 布隆过滤器
+        /// <summary>
+        /// 添加布隆过滤
+        /// </summary>
+        /// <param name="bloomFilterName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool BF4ADD(string bloomFilterName, string value)
         {
-            var command = @"return redis.call('BF.ADD',@key,@value)";
-            var result = GetPooledClientManager(bloomFilterName).ScriptEvaluate(command, new { key = bloomFilterName, value = value }) as RedisResult;
-            return ((int)result) == 1;
+            return GetPooledClientManager(bloomFilterName).BF4ADD(bloomFilterName, value);
         }
-
+        /// <summary>
+        /// 添加布隆过滤
+        /// </summary>
+        /// <param name="bloomFilterName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public async Task<bool> BF4ADDAsync(string bloomFilterName, string value)
         {
-            var command = @"return redis.call('BF.ADD',@key,@value)";
-            var result = (await GetPooledClientManager(bloomFilterName).ScriptEvaluateAsync(command, new { key = bloomFilterName, value = value })) as RedisResult;
-            return ((int)result) == 1;
+            return await GetPooledClientManager(bloomFilterName).BF4ADDAsync(bloomFilterName, value);
         }
-
+        /// <summary>
+        /// 是否存在于布隆过滤
+        /// </summary>
+        /// <param name="bloomFilterName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool BF4EXISTS(string bloomFilterName, string value)
         {
-            var command = @"return redis.call('BF.EXISTS',@key,@value)";
-            var result = GetPooledClientManager(bloomFilterName).ScriptEvaluate(command, new { key = bloomFilterName, value = value }) as RedisResult;
-            return ((int)result) == 1;
+            return GetPooledClientManager(bloomFilterName).BF4EXISTS(bloomFilterName, value);
         }
-
+        /// <summary>
+        /// 是否存在于布隆过滤
+        /// </summary>
+        /// <param name="bloomFilterName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public async Task<bool> BF4EXISTSAsync(string bloomFilterName, string value)
         {
-            var command = @"return redis.call('BF.EXISTS',@key,@value)";
-            var result = (await GetPooledClientManager(bloomFilterName).ScriptEvaluateAsync(command, new { key = bloomFilterName, value = value })) as RedisResult;
-            return ((int)result) == 1;
+            return (await GetPooledClientManager(bloomFilterName).BF4EXISTSAsync(bloomFilterName, value));
         }
 
         #endregion

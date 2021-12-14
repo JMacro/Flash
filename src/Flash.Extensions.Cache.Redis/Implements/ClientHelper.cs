@@ -1217,6 +1217,65 @@ namespace Flash.Extensions.Cache.Redis
 
         #endregion 其他
 
+
+        #region 布隆过滤器
+        /// <summary>
+        /// 添加布隆过滤
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool BF4ADD(string key, string value)
+        {
+            var command = @"return redis.call('BF.ADD',@key,@value)";
+            key = AddSysCustomKey(key);
+            var result = ScriptEvaluate(command, new { key = key, value = value }) as RedisResult;
+            return ((int)result) == 1;
+        }
+
+        /// <summary>
+        /// 添加布隆过滤
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<bool> BF4ADDAsync(string key, string value)
+        {
+            var command = @"return redis.call('BF.ADD',@key,@value)";
+            key = AddSysCustomKey(key);
+            var result = (await ScriptEvaluateAsync(command, new { key = key, value = value })) as RedisResult;
+            return ((int)result) == 1;
+        }
+
+        /// <summary>
+        /// 是否存在于布隆过滤
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool BF4EXISTS(string key, string value)
+        {
+            var command = @"return redis.call('BF.EXISTS',@key,@value)";
+            key = AddSysCustomKey(key);
+            var result = ScriptEvaluate(command, new { key = key, value = value }) as RedisResult;
+            return ((int)result) == 1;
+        }
+
+        /// <summary>
+        /// 是否存在于布隆过滤
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<bool> BF4EXISTSAsync(string key, string value)
+        {
+            var command = @"return redis.call('BF.EXISTS',@key,@value)";
+            key = AddSysCustomKey(key);
+            var result = (await ScriptEvaluateAsync(command, new { key = key, value = value })) as RedisResult;
+            return ((int)result) == 1;
+        }
+        #endregion
+
         #region 辅助方法
 
         private string AddSysCustomKey(string oldKey)
