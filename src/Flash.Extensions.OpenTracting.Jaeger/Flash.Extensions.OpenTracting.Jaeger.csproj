@@ -9,7 +9,7 @@
     <RepositoryType>github</RepositoryType>
     <Authors>JMacro</Authors>
     <Description>Jeager日志链路追踪</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.2.100</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RootNamespace>Flash.Extensions.Tracting.Jaeger</RootNamespace>
   </PropertyGroup>

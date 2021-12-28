@@ -1,5 +1,6 @@
 ﻿using Flash.Core;
 using Flash.Extensions.Tracting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -16,6 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var builder = new FlashTractingBuilder(hostBuilder.Services);
             action(builder);
+
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
             return hostBuilder;
         }
     }
