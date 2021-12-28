@@ -1,8 +1,8 @@
 ﻿using Flash.Core;
 using Flash.Extensions.Cache;
+using Flash.Extensions.Tracting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -18,6 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var builder = new FlashCacheBuilder(hostBuilder.Services, hostBuilder);
             action(builder);
+
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
             return hostBuilder;
         }
     }

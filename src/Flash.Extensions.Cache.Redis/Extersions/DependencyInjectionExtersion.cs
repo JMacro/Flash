@@ -1,6 +1,7 @@
 ﻿using Flash.Core;
 using Flash.Extensions.Cache;
 using Flash.Extensions.Cache.Redis;
+using Flash.Extensions.Tracting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,7 +23,11 @@ namespace Microsoft.Extensions.DependencyInjection
             var option = new RedisCacheConfig();
             action(option);
 
-            cacheBuilder.Services.AddSingleton(CacheFactory.Build(option));
+            cacheBuilder.Services.AddSingleton(sp =>
+            {
+                var tracerFactory = sp.GetService<ITracerFactory>();
+                return CacheFactory.Build(option, tracerFactory);
+            });
 
             if (option.DistributedLock)
             {
@@ -41,13 +46,13 @@ namespace Flash.Extensions.Cache.Redis
 {
     public static class CacheFactory
     {
-        public static ICacheManager Build(Action<ICacheConfig> action)
+        public static ICacheManager Build(Action<ICacheConfig> action, ITracerFactory tracerFactory)
         {
             var option = new RedisCacheConfig();
             action(option);
-            return Build(option);
+            return Build(option, tracerFactory);
         }
 
-        public static ICacheManager Build(RedisCacheConfig option) => RedisCacheManage.Create(option);
+        public static ICacheManager Build(RedisCacheConfig option, ITracerFactory tracerFactory) => RedisCacheManage.Create(option, tracerFactory);
     }
 }
