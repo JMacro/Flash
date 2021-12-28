@@ -9,6 +9,9 @@
     <RepositoryType>github</RepositoryType>
     <Authors>JMacro</Authors>
     <Description>Jeager日志链路追踪</Description>
+    <Version>1.0.1</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.Tracting.Jaeger</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.Tracting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Abastracts\" />
   </ItemGroup>
 
@@ -34,6 +33,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj" />
   </ItemGroup>
 
 </Project>

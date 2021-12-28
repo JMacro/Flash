@@ -125,8 +125,9 @@ namespace Flash.Test.Web
                 //});
 
 
-                flash.AddOpenTracing(tracer =>
+                flash.AddLoggerTracing(tracer =>
                 {
+                    tracer.UseJaeger(Configuration.GetSection("Tracing"));
                     tracer.UseSkywalking("Flash.Test.Web");
                 });
 

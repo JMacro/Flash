@@ -3,7 +3,6 @@ using Flash.Extensions.Tracting.Jaeger;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using OpenTracing;
 using OpenTracing.Util;
 using System;
 
@@ -12,13 +11,13 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionExtersion
     {
         /// <summary>
-        /// 添加Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象ITracer
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configurationSection"></param>
         /// <param name="openTracingBuilder"></param>
         /// <returns></returns>
-        public static IFlashTractingBuilder AddJaeger(this IFlashTractingBuilder builder, IConfigurationSection configurationSection, Action<IOpenTracingBuilder> openTracingBuilder = null)
+        public static IFlashTractingBuilder UseJaeger(this IFlashTractingBuilder builder, IConfigurationSection configurationSection, Action<IOpenTracingBuilder> openTracingBuilder = null)
         {
             builder.Services.AddTransient<TracingConfiguration>(sp =>
             {
@@ -29,18 +28,18 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
                 return config;
             });
-            AddJaeger(builder.Services, openTracingBuilder);
+            UseJaeger(builder.Services, openTracingBuilder);
             return builder;
         }
 
         /// <summary>
-        /// 添加Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象ITracer
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="action"></param>
         /// <param name="openTracingBuilder"></param>
         /// <returns></returns>
-        public static IFlashTractingBuilder AddJaeger(this IFlashTractingBuilder builder, Action<TracingConfiguration> action, Action<IOpenTracingBuilder> openTracingBuilder = null)
+        public static IFlashTractingBuilder UseJaeger(this IFlashTractingBuilder builder, Action<TracingConfiguration> action, Action<IOpenTracingBuilder> openTracingBuilder = null)
         {
             var config = new TracingConfiguration() { Open = false };
             action = action ?? throw new ArgumentNullException(nameof(action));
@@ -50,17 +49,17 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 return config;
             });
-            AddJaeger(builder.Services, openTracingBuilder);
+            UseJaeger(builder.Services, openTracingBuilder);
             return builder;
         }
 
         /// <summary>
-        /// 添加Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象ITracer
         /// </summary>
         /// <param name="services"></param>
         /// <param name="openTracingBuilder"></param>
         /// <returns></returns>
-        public static IServiceCollection AddJaeger(this IServiceCollection services, Action<IOpenTracingBuilder> openTracingBuilder = null)
+        public static IServiceCollection UseJaeger(this IServiceCollection services, Action<IOpenTracingBuilder> openTracingBuilder = null)
         {
             if (openTracingBuilder == null)
             {

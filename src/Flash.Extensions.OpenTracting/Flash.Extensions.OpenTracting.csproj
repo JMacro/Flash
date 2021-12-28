@@ -8,12 +8,14 @@
     <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
     <RepositoryType>github</RepositoryType>
-    <Version>10.0.0</Version>
+    <Version>10.0.1</Version>
     <Description>日志链路追踪</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <AssemblyName>Flash.Extensions.OpenTracting</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.OpenTracting.xml</DocumentationFile>
+    <DocumentationFile>Flash.Extensions.Tracting.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

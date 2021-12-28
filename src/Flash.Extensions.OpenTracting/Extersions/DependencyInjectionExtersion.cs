@@ -6,7 +6,13 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjectionExtersion
     {
-        public static IFlashHostBuilder AddOpenTracing(this IFlashHostBuilder hostBuilder, Action<IFlashTractingBuilder> action)
+        /// <summary>
+        /// 添加日志追踪
+        /// </summary>
+        /// <param name="hostBuilder"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static IFlashHostBuilder AddLoggerTracing(this IFlashHostBuilder hostBuilder, Action<IFlashTractingBuilder> action)
         {
             var builder = new FlashTractingBuilder(hostBuilder.Services);
             action(builder);
