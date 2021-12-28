@@ -140,6 +140,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 return tracer;
             });
+
+            services.AddTransient<ITracer, JaegerTracer>();
             return services;
         }
     }
