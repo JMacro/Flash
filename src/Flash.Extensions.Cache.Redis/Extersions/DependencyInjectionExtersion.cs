@@ -1,9 +1,8 @@
-﻿using Flash.Core;
+﻿using Castle.DynamicProxy;
 using Flash.Extensions.Cache;
 using Flash.Extensions.Cache.Redis;
 using Flash.Extensions.Tracting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -25,8 +24,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             cacheBuilder.Services.AddSingleton(sp =>
             {
-                var tracerFactory = sp.GetService<ITracerFactory>();
-                return CacheFactory.Build(option, tracerFactory);
+                var target = CacheFactory.Build(option);
+                var interceptor = sp.GetService<TracerAsyncInterceptor>();
+                var generator = new ProxyGenerator();
+                return generator.CreateInterfaceProxyWithTarget(target, interceptor);
             });
 
             if (option.DistributedLock)
@@ -46,13 +47,13 @@ namespace Flash.Extensions.Cache.Redis
 {
     public static class CacheFactory
     {
-        public static ICacheManager Build(Action<ICacheConfig> action, ITracerFactory tracerFactory)
+        public static ICacheManager Build(Action<ICacheConfig> action)
         {
             var option = new RedisCacheConfig();
             action(option);
-            return Build(option, tracerFactory);
+            return Build(option);
         }
 
-        public static ICacheManager Build(RedisCacheConfig option, ITracerFactory tracerFactory) => RedisCacheManage.Create(option, tracerFactory);
+        public static ICacheManager Build(RedisCacheConfig option) => RedisCacheManage.Create(option);
     }
 }

@@ -20,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             action(builder);
 
             hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
+            hostBuilder.Services.TryAddTransient<TracerAsyncInterceptor>();
             return hostBuilder;
         }
     }

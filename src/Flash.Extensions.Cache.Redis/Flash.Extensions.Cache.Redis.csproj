@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net4.6.1;net4.7.2;netstandard2.0</TargetFrameworks>
-    <Version>10.0.5.100</Version>
+    <Version>10.0.5.300</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageIcon>icon.png</PackageIcon>

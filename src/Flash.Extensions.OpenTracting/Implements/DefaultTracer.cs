@@ -37,6 +37,11 @@ namespace Flash.Extensions.Tracting
             this._logger?.LogInformation($"{this._tracerName} ResponseData={value}");
         }
 
+        public void SetComponent(string componentName)
+        {
+            
+        }
+
         public void SetError()
         {
             this._logger?.LogError("error=true");

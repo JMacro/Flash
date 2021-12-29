@@ -4,7 +4,6 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,21 +41,19 @@ namespace Flash.Extensions.Cache.Redis
         /// 缓存连接数
         /// </summary>
         private readonly int _NumberOfConnections = 10;
-        private readonly ITracerFactory _tracerFactory;
 
         #endregion
 
-        private RedisCacheManage(int DbNum = 0, int NumberOfConnections = 10, ITracerFactory tracerFactory = null)
+        private RedisCacheManage(int DbNum = 0, int NumberOfConnections = 10)
         {
             this._DbNum = DbNum;
             this._NumberOfConnections = NumberOfConnections;
-            this._tracerFactory = tracerFactory;
         }
 
         /// <summary>
         /// 创建链接池管理对象
         /// </summary>
-        public static ICacheManager Create(RedisCacheConfig config, ITracerFactory tracerFactory)
+        public static ICacheManager Create(RedisCacheConfig config)
         {
             ThreadPool.SetMinThreads(200, 200);
 
@@ -234,7 +231,7 @@ namespace Flash.Extensions.Cache.Redis
             }
 
 
-            return new RedisCacheManage(config.DBNum, config.NumberOfConnections, tracerFactory);
+            return new RedisCacheManage(config.DBNum, config.NumberOfConnections);
         }
 
         #region 辅助方法
@@ -247,25 +244,23 @@ namespace Flash.Extensions.Cache.Redis
         private ClientHelper GetPooledClientManager(string cacheKey)
         {
             var nodeName = _Locator.GetPrimary(_KeyPrefix + cacheKey);
-            using (var tracer = this._tracerFactory.CreateTracer($"Redis({nodeName})"))
-            {
-                if (_nodeClients.ContainsKey(nodeName))
-                {
-                    var dbs = _nodeClients[nodeName];
 
-                    if (dbs.ContainsKey(_DbNum))
-                    {
-                        return dbs[_DbNum].Resolve();
-                    }
-                    else
-                    {
-                        return GetClientHelper(nodeName);
-                    }
+            if (_nodeClients.ContainsKey(nodeName))
+            {
+                var dbs = _nodeClients[nodeName];
+
+                if (dbs.ContainsKey(_DbNum))
+                {
+                    return dbs[_DbNum].Resolve();
                 }
                 else
                 {
                     return GetClientHelper(nodeName);
                 }
+            }
+            else
+            {
+                return GetClientHelper(nodeName);
             }
         }
 

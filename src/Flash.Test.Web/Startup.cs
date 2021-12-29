@@ -125,11 +125,11 @@ namespace Flash.Test.Web
                 //});
 
 
-                flash.AddLoggerTracing(tracer =>
-                {
-                    tracer.UseJaeger(Configuration.GetSection("Tracing"));
-                    tracer.UseSkywalking("Flash.Test.Web");
-                });
+                //flash.AddLoggerTracing(tracer =>
+                //{
+                //    tracer.UseJaeger(Configuration.GetSection("Tracing"));
+                //    tracer.UseSkywalking("Flash.Test.Web");
+                //});
 
                 flash.AddORM(orm =>
                 {

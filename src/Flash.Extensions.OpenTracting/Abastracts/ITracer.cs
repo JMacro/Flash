@@ -15,6 +15,11 @@ namespace Flash.Extensions.Tracting
         /// <param name="tracerName"></param>
         void SetTracerName(string tracerName);
         /// <summary>
+        /// 设置部件名称
+        /// </summary>
+        /// <param name="componentName"></param>
+        void SetComponent(string componentName);
+        /// <summary>
         /// 记录请求数据
         /// </summary>
         /// <param name="value"></param>
@@ -28,7 +33,7 @@ namespace Flash.Extensions.Tracting
         /// 记录异常数据
         /// </summary>
         /// <param name="ex"></param>
-        void LogException(Exception ex);        
+        void LogException(Exception ex);
         /// <summary>
         /// 自定义日志记录
         /// </summary>
