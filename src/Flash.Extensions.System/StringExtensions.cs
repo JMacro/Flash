@@ -279,16 +279,31 @@ namespace System
         /// 身份证信息掩盖
         /// </summary>
         /// <param name="value">身份证Id</param>
+        /// <param name="beginMaskIndex">开始遮罩位置</param>
         /// <param name="maskLength"></param>
         /// <returns></returns>
         public static string ToMaskCardId(this string value, int beginMaskIndex, int maskLength)
         {
-            if (value.Length <= maskLength)
+            return ToMask(value, beginMaskIndex, maskLength);
+        }
+
+        /// <summary>
+        /// 信息掩盖
+        /// </summary>
+        /// <param name="value">字符串</param>
+        /// <param name="beginMaskIndex">开始遮罩位置</param>
+        /// <param name="maskLength">遮罩长度</param>
+        /// <returns></returns>
+        public static string ToMask(this string value, int beginMaskIndex, int maskLength)
+        {
+            if (value.Length <= maskLength || beginMaskIndex < 0)
             {
-                return value;
+                return string.Join("", value.ToArray().Select(p => '*'));
             }
             else
             {
+                if (maskLength < 0) throw new ArgumentException($"{nameof(maskLength)}不允许小于0");
+
                 var array = value.ToArray();
                 for (int i = 0; i < array.Length; i++)
                 {
@@ -300,6 +315,7 @@ namespace System
                 return string.Join("", array);
             }
         }
+
         /// <summary>
         /// 身份证号校验
         /// </summary>

@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Newtonsoft.Json
 {
-    /// <inheritdoc />
     /// <summary>
     /// 大数据json序列化重写
     /// </summary>
@@ -32,7 +31,6 @@ namespace Newtonsoft.Json
             _ship = ship;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// 确定此实例是否可以转换指定的对象类型。
         /// </summary>
@@ -57,7 +55,6 @@ namespace Newtonsoft.Json
             }
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// 读取对象的JSON表示。
         /// </summary>
@@ -100,7 +97,6 @@ namespace Newtonsoft.Json
             return null;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// 写入对象的JSON表示形式。
         /// </summary>

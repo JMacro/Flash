@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Flash.Test.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,6 +30,29 @@ namespace Flash.Test.Web.Controllers
                 WorkingSet = Process.GetCurrentProcess().WorkingSet64,
                 OS = osVersion.Platform.ToString()
             };
+        }
+
+        [HttpGet("Test2")]
+        public object Test2()
+        {
+            var data = new TestDesensitization
+            {
+                UserName = "sdfasdfasdf",
+                MyProperty = new TestDesensitizationSub
+                {
+                    UserName = "dfe3434"
+                },
+                BB = 123
+            };
+
+            var er = JsonConvert.SerializeObject(data, new JsonSerializerSettings
+            {
+                Converters = new[] { new DesensitizationConverter() },
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+            });
+
+
+            return er;
         }
     }
 }

@@ -92,7 +92,11 @@ namespace Flash.Extensions.Tracting.Jaeger
 
         private string SerializeObject(object value)
         {
-            return JsonConvert.SerializeObject(value);
+            return JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                Converters = new[] { new DesensitizationConverter() },
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+            });
         }
 
         public void SetTracerName(string tracerName)

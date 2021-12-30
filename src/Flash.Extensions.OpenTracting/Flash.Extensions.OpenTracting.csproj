@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
     <RepositoryType>github</RepositoryType>
-    <Version>10.0.1.200</Version>
+    <Version>10.0.1.300</Version>
     <Description>日志链路追踪</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <AssemblyName>Flash.Extensions.OpenTracting</AssemblyName>
@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,5 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Flash.Extensions.Tracting
 {
@@ -19,7 +20,14 @@ namespace Flash.Extensions.Tracting
 
         public void Log(string key, dynamic value)
         {
-            this._logger?.LogInformation($"{this._tracerName} {key}={value}");
+            if (value is string)
+            {
+                this._logger?.LogInformation($"{this._tracerName} {key}={value}");
+            }
+            else
+            {
+                this._logger?.LogInformation($"{this._tracerName} {key}={SerializeObject(value)}");
+            }
         }
 
         public void LogException(Exception ex)
@@ -29,17 +37,17 @@ namespace Flash.Extensions.Tracting
 
         public void LogRequest(dynamic value)
         {
-            this._logger?.LogInformation($"{this._tracerName} RepuestData={value}");
+            Log("request", value);
         }
 
         public void LogResponse(dynamic value)
         {
-            this._logger?.LogInformation($"{this._tracerName} ResponseData={value}");
+            Log("response", value);
         }
 
         public void SetComponent(string componentName)
         {
-            
+
         }
 
         public void SetError()
@@ -55,6 +63,15 @@ namespace Flash.Extensions.Tracting
         public void SetTracerName(string tracerName)
         {
             this._tracerName = tracerName;
+        }
+
+        private string SerializeObject(object value)
+        {
+            return JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                Converters = new[] { new DesensitizationConverter() },
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+            });
         }
     }
 }
