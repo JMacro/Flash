@@ -10,8 +10,19 @@ namespace Newtonsoft.Json
 {
     public class DesensitizationConverter : JsonConverter
     {
+        private Func<Attribute[], Type, bool> IsMyAttribute = (tageAttributes, myAttributeType) =>
+        {
+            foreach (Attribute a in tageAttributes)
+            {
+                if (a.GetType() == myAttributeType)
+                    return true;
+            }
+            return false;
+        };
+
         public override bool CanConvert(Type objectType)
         {
+            if (typeof(System.Collections.IEnumerable).IsAssignableFrom(objectType)) return false;
             return true;
         }
 
@@ -23,28 +34,19 @@ namespace Newtonsoft.Json
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var type = value.GetType();
-            Func<Attribute[], Type, bool> IsMyAttribute = (tageAttributes, myAttributeType) =>
-            {
-                foreach (Attribute a in tageAttributes)
-                {
-                    if (a.GetType() == myAttributeType)
-                        return true;
-                }
-                return false;
-            };
-
             var jo = new JObject();
+
             foreach (PropertyInfo propInfo in type.GetProperties())
             {
                 if (propInfo.CanRead)
                 {
                     var propVal = propInfo.GetValue(value, null);
+                    var typeCode = Type.GetTypeCode(propInfo.PropertyType.Name.Equals("Nullable`1") ? propInfo.PropertyType.GetGenericArguments().First() : propInfo.PropertyType);
+
                     if (IsMyAttribute(System.Attribute.GetCustomAttributes(propInfo, true), typeof(DesensitizationAttribute)))
                     {
                         var attribute = Attribute.GetCustomAttributes(propInfo, true).FirstOrDefault(f => f is DesensitizationAttribute) as DesensitizationAttribute;
                         var val = attribute.Begin(propVal, propInfo.PropertyType);
-
-                        var typeCode = Type.GetTypeCode(propInfo.PropertyType.Name.Equals("Nullable`1") ? propInfo.PropertyType.GetGenericArguments().First() : propInfo.PropertyType);
 
                         if (!propInfo.PropertyType.IsValueType && typeCode == TypeCode.Object)
                         {
@@ -57,7 +59,14 @@ namespace Newtonsoft.Json
                     }
                     else
                     {
-                        jo.Add(propInfo.Name, propVal != null ? JToken.FromObject(propVal, serializer) : null);
+                        if (!propInfo.PropertyType.IsValueType && typeCode == TypeCode.Object)
+                        {
+                            jo.Add(propInfo.Name, propVal != null ? JToken.FromObject(propVal, serializer) : null);
+                        }
+                        else
+                        {
+                            jo.Add(propInfo.Name, propVal != null ? JToken.FromObject(propVal) : null);
+                        }
                     }
                 }
             }
@@ -97,7 +106,7 @@ namespace Newtonsoft.Json
     /// <summary>
     /// 数据脱敏
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class)]
     public sealed class DesensitizationAttribute : Attribute
     {
         private readonly int _beginMaskIndex;

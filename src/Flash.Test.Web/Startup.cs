@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Text;
@@ -43,7 +45,17 @@ namespace Flash.Test.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                options.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
+                options.SerializerSettings.Converters.Add(new NumberConverter(NumberConverterShip.Int64));
+                options.SerializerSettings.Converters.Add(new DesensitizationConverter());
+            });
             services.AddAutofac();
             services.AddMetrics(Configuration.GetSection("AppMetrics"));
             services.AddHealthChecks(checks =>

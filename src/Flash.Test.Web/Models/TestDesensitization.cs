@@ -9,7 +9,6 @@ namespace Flash.Test.Web.Models
 {
     public class TestDesensitization
     {
-        [Desensitization]
         public string UserName { get; set; }
         [Desensitization]
         public string Password { get; set; }

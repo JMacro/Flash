@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,24 +36,44 @@ namespace Flash.Test.Web.Controllers
         [HttpGet("Test2")]
         public object Test2()
         {
-            var data = new TestDesensitization
-            {
-                UserName = "sdfasdfasdf",
-                MyProperty = new TestDesensitizationSub
-                {
-                    UserName = "dfe3434"
-                },
-                BB = 123
-            };
+            //var data = new TestDesensitization
+            //{
+            //    UserName = "sdfasdfasdf",
+            //    Password = "123123",
+            //    MyProperty = new TestDesensitizationSub
+            //    {
+            //        UserName = "dfe3434"
+            //    },
+            //    BB = 123
+            //};
 
-            var er = JsonConvert.SerializeObject(data, new JsonSerializerSettings
+
+            //var data = new Dictionary<string, string>();
+            //data.Add("aaa", "12313");
+
+            //var data = new List<TestDesensitization>();
+            //data.Add(
+            //    new TestDesensitization
+            //    {
+            //        UserName = "sdfasdfasdf",
+            //        Password = "123123",
+            //        MyProperty = new TestDesensitizationSub
+            //        {
+            //            UserName = "dfe3434"
+            //        },
+            //        BB = 123
+            //    }
+            //    );
+
+            var er = JsonConvert.SerializeObject((object)data, new JsonSerializerSettings
             {
                 Converters = new[] { new DesensitizationConverter() },
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new DefaultContractResolver(),
             });
 
 
-            return er;
+            return data;
         }
     }
 }
