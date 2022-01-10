@@ -12,6 +12,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <Version>10.0.4.3</Version>
+    <RootNamespace>Flash.Extensions</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
