@@ -36,16 +36,16 @@ namespace Flash.Test.Web.Controllers
         [HttpGet("Test2")]
         public object Test2()
         {
-            //var data = new TestDesensitization
-            //{
-            //    UserName = "sdfasdfasdf",
-            //    Password = "123123",
-            //    MyProperty = new TestDesensitizationSub
-            //    {
-            //        UserName = "dfe3434"
-            //    },
-            //    BB = 123
-            //};
+            var data = new TestDesensitization
+            {
+                UserName = "sdfasdfasdf",
+                Password = "123123",
+                MyProperty = new TestDesensitizationSub
+                {
+                    UserName = "dfe3434"
+                },
+                BB = 123
+            };
 
 
             //var data = new Dictionary<string, string>();

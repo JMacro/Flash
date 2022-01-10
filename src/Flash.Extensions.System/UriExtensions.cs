@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System;
+
+namespace Flash.Extensions
 {
     public static class UriExtensions
     {

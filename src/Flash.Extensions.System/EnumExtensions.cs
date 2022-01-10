@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 
-namespace System
+namespace Flash.Extensions
 {
     public static class EnumExtensions
     {

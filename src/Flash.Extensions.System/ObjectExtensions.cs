@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 
-namespace System
+namespace Flash.Extensions
 {
     public static class ObjectExtensions
     {

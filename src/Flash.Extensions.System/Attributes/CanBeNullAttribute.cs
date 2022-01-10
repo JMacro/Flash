@@ -1,5 +1,7 @@
 ﻿
-namespace System
+using System;
+
+namespace Flash.Extensions
 {
     [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter |

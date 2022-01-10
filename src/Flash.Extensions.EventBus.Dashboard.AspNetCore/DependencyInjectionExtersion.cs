@@ -1,4 +1,5 @@
-﻿using Flash.Extensions.EventBus.Dashboard;
+﻿using Flash.Extensions;
+using Flash.Extensions.EventBus.Dashboard;
 using Flash.Extensions.EventBus.Dashboard.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

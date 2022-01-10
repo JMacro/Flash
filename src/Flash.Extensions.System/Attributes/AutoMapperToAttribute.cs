@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System;
+
+namespace Flash.Extensions
 {
     /// <summary>
     /// 实体映射标签

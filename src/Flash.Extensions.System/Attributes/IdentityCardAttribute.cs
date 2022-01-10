@@ -1,5 +1,8 @@
 ﻿#if NETCORE
-namespace System.ComponentModel.DataAnnotations
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Flash.Extensions
 {
     /// <summary>
     /// 身份证验证

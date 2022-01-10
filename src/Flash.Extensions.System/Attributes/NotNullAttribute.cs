@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System;
+
+namespace Flash.Extensions
 {
     /// <summary>
     /// 标记不为null

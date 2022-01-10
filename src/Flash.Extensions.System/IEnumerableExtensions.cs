@@ -1,7 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
-namespace System.Collections.Generic
+namespace Flash.Extensions
 {
     public static class IEnumerableExtensions
     {
