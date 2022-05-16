@@ -20,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashHostBuilder AddResilientHttpClient(this IFlashHostBuilder hostBuilder, Action<string, ResilientHttpClientConfigOption> func = null)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<ResilientHttpClient>>();
@@ -49,6 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashHostBuilder AddResilientHttpClient(this IFlashHostBuilder hostBuilder, Action<string, ResilientHttpClientConfigOption> func = null, HttpMessageHandler httpMessageHandler = null)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<ResilientHttpClient>>();
@@ -76,6 +78,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashHostBuilder AddStandardHttpClient(this IFlashHostBuilder hostBuilder)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<StandardHttpClient>>();
@@ -100,6 +103,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashHostBuilder AddStandardHttpClient(this IFlashHostBuilder hostBuilder, HttpMessageHandler httpMessageHandler)
         {
             hostBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
             hostBuilder.Services.TryAddSingleton<IHttpClientFactory>(sp =>
             {
                 var logger = sp.GetRequiredService<ILogger<StandardHttpClient>>();

@@ -14,7 +14,7 @@ namespace Flash.Test.Web
         public static void Main(string[] args)
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            Environment.SetEnvironmentVariable("Environment", env);
+            Environment.SetEnvironmentVariable("Environment", env ?? "");
 
             CreateWebHostBuilder(args).Build().Run();
         }
