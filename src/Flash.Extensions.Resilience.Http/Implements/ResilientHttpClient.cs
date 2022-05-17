@@ -68,12 +68,22 @@ namespace Flash.Extensions.Resilience.Http
 
         public Task<HttpResponseMessage> PostAsync<T>(string uri, T item, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return DoPostPutAsync(HttpMethod.Post, uri, item, authorizationToken, authorizationMethod, dictionary, cancellationToken);
+            return PostAsync(uri, item, HttpMediaType.Json, authorizationToken, authorizationMethod, dictionary, cancellationToken);
+        }
+
+        public Task<HttpResponseMessage> PostAsync<T>(string uri, T item, HttpMediaType httpMediaType, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return DoPostPutAsync(HttpMethod.Post, uri, item, httpMediaType, authorizationToken, authorizationMethod, dictionary, cancellationToken);
         }
 
         public Task<HttpResponseMessage> PutAsync<T>(string uri, T item, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return DoPostPutAsync(HttpMethod.Put, uri, item, authorizationToken, authorizationMethod, dictionary, cancellationToken);
+            return PutAsync(uri, item, HttpMediaType.Json, authorizationToken, authorizationMethod, dictionary, cancellationToken);
+        }
+
+        public Task<HttpResponseMessage> PutAsync<T>(string uri, T item, HttpMediaType httpMediaType, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return DoPostPutAsync(HttpMethod.Put, uri, item, httpMediaType, authorizationToken, authorizationMethod, dictionary, cancellationToken);
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(string uri, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -188,7 +198,7 @@ namespace Flash.Extensions.Resilience.Http
             }, cancellationToken);
         }
 
-        private async Task<HttpResponseMessage> DoPostPutAsync<T>(HttpMethod method, string uri, T item, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<HttpResponseMessage> DoPostPutAsync<T>(HttpMethod method, string uri, T item, HttpMediaType httpMediaType = HttpMediaType.Json, string authorizationToken = null, string authorizationMethod = "Bearer", IDictionary<string, string> dictionary = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (method != HttpMethod.Post && method != HttpMethod.Put)
             {
@@ -207,11 +217,28 @@ namespace Flash.Extensions.Resilience.Http
 
                     var requestMessage = new HttpRequestMessage(method, uri);
                     var requestContent = JsonConvert.SerializeObject(item);
+                    switch (httpMediaType)
+                    {
+                        case HttpMediaType.FormData:
+                            requestContent = JsonConvert.SerializeObject(item);
+                            var dic = item.ToFormData();
+                            var formDataContent = new MultipartFormDataContent();
+                            foreach (var kv in dic)
+                            {
+                                formDataContent.Add(new StringContent(kv.Value, System.Text.Encoding.UTF8), string.Format("\"{0}\"", kv.Key));
+                            }
+                            requestMessage.Content = formDataContent;
+                            break;
+                        case HttpMediaType.Json:
+                        default:
+                            requestMessage.Content = new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json");
+                            break;
+                    }
 
                     #region LOG：记录请求
                     if (dictionary != null && dictionary.ContainsKey("x-masking") && (dictionary["x-masking"] == "all" || dictionary["x-masking"] == "request"))
                     {
-                        //日志脱敏                           
+                        //日志脱敏
                     }
                     else
                     {
@@ -220,8 +247,6 @@ namespace Flash.Extensions.Resilience.Http
                     #endregion
 
                     SetAuthorizationHeader(requestMessage);
-
-                    requestMessage.Content = new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json");
 
                     if (authorizationToken != null)
                     {

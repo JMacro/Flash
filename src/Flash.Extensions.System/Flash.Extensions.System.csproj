@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net451</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
@@ -11,7 +11,7 @@
     <PackageReleaseNotes>System基础数据类型扩展</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
-    <Version>10.0.4.3</Version>
+    <Version>10.0.4.4-bate1</Version>
     <RootNamespace>Flash.Extensions</RootNamespace>
   </PropertyGroup>
 

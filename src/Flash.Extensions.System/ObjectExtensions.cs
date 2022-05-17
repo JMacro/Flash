@@ -1,5 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Flash.Extensions
 {
@@ -255,11 +259,99 @@ namespace Flash.Extensions
         /// long类型转换，如转换失败返回默认值
         /// </summary>
         /// <param name="value">需要转换的字符串</param>
-        /// <param name="defaultValue">64默认值</param>
         /// <returns>将传递的参数转换成长整形，如果转换失败返回指定的默认值</returns>
         public static long Tolong(this object value)
         {
             return value.Tolong(0);
+        }
+
+        /// <summary>
+        /// 转换为FormData
+        /// </summary>
+        /// <param name="value">需要转换的对象</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> ToFormData(this object value)
+        {
+            var type = value.GetType();
+            var properties = type.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var dic = new Dictionary<string, string>();
+            ToFormData(null, value, properties, ref dic);
+            return dic;
+        }
+
+        private static void ToFormData(string fieldName, object value, PropertyInfo[] properties, ref Dictionary<string, string> dic)
+        {
+            foreach (var propertie in properties)
+            {
+                var field = $"{propertie.Name}";
+                if (!string.IsNullOrEmpty(fieldName))
+                {
+                    field = $"{fieldName}.{propertie.Name}";
+                }
+
+                if (propertie.PropertyType.IsValueType || propertie.PropertyType == typeof(string))
+                {
+                    dic.Add(field, propertie.GetValue(value)?.ToString() ?? "");
+                }
+                else if (propertie.PropertyType.IsArray)
+                {
+                    var elementType = propertie.PropertyType.GetElementType();
+                    var isValueType = (elementType.IsValueType || elementType == typeof(string));
+
+                    var objectValue = propertie.GetValue(value);
+                    if (objectValue != null)
+                    {
+                        int count = Convert.ToInt32(objectValue.GetType().GetProperty("Length").GetValue(objectValue, null));
+                        var getValueMethod = propertie.PropertyType.GetMethod("GetValue", new Type[] { typeof(Int32) });
+
+                        for (int i = 0; i < count; i++)
+                        {
+                            object item = getValueMethod.Invoke(objectValue, new object[] { i });
+                            if (isValueType)
+                            {
+                                dic.Add($"{field}[{i}]", item.ToString());
+                            }
+                            else
+                            {
+                                ToFormData($"{field}[{i}]", item, elementType.GetProperties(), ref dic);
+                            }
+                        }
+                    }
+                }
+                else if (!propertie.PropertyType.IsValueType && !propertie.PropertyType.IsGenericType)
+                {
+                    var objectValue = propertie.GetValue(value);
+                    ToFormData(field, objectValue, objectValue.GetType().GetProperties(), ref dic);
+                }
+                else if (propertie.PropertyType.IsGenericType)
+                {
+                    if (typeof(IList).IsAssignableFrom(propertie.PropertyType))
+                    {
+                        var genericType = propertie.PropertyType.GetGenericArguments().FirstOrDefault();
+                        var isValueType = (genericType != null && genericType.IsValueType || genericType == typeof(string));
+
+                        var subObj = propertie.GetValue(value);
+                        if (subObj != null)
+                        {
+                            int count = Convert.ToInt32(subObj.GetType().GetProperty("Count").GetValue(subObj, null));
+                            var itemProperty = subObj.GetType().GetProperty("Item");
+                            for (int i = 0; i < count; i++)
+                            {
+                                object item = itemProperty.GetValue(subObj, new object[] { i });
+                                if (isValueType)
+                                {
+                                    dic.Add($"{field}[{i}]", item.ToString());
+                                }
+                                else
+                                {
+                                    ToFormData($"{field}[{i}]", item, genericType.GetProperties(), ref dic);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

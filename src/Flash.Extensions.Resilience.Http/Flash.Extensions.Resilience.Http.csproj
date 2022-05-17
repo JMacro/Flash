@@ -12,7 +12,7 @@
     <RepositoryType>github</RepositoryType>
     <PackageReleaseNotes>Http弹性连接</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2-bate1</Version>
+    <Version>1.0.2-bate2</Version>
   </PropertyGroup>
 
   <ItemGroup>
