@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashApplicationBuilder UseEventBus(this IFlashApplicationBuilder builder, Action<IServiceProvider> action)
         {
-            action(builder.app.ApplicationServices);
+            action(builder.ApplicationBuilder.ApplicationServices);
             return builder;
         }
 #endif

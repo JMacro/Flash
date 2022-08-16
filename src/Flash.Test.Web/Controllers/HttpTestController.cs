@@ -26,6 +26,7 @@ namespace Flash.Test.Web.Controllers
         public async Task<object> ResilientHttpTest()
         {
             var value = new ModelTest();
+            var df = value.ToFormData();
             var login = new LoginViewModel
             {
                 UserName = "JMacro",
@@ -37,9 +38,22 @@ namespace Flash.Test.Web.Controllers
 
             //return value.ToFormData();
 
-            var dfdfd = await (await this._httpClient.PostAsync("http://127.0.0.1:5555/api/HttpTest/ExceptionTest", new { })).ReadAsStringAsync();
-            //var dfdf = await (await this._httpClient.PostAsync("http://127.0.0.1:5555/api/HttpTest/NoExceptionTest", new { })).ReadAsStringAsync();
-            return content;
+            var dfdf = await (await this._httpClient.PostAsync("http://127.0.0.1:5555/api/HttpTest/NoExceptionTest", new { })).ReadAsStringAsync();
+
+            try
+            {
+                var dfdfd = await (await this._httpClient.PostAsync("http://127.0.0.1:5555/api/HttpTest/ExceptionTest", new { })).ReadAsStringAsync();
+            }
+            catch (Exception)
+            {
+
+            }
+            
+            return new
+            {
+                JSON = content,
+                T1 = dfdf
+            };
         }
 
         [HttpPost("ExceptionTest")]
@@ -218,5 +232,6 @@ namespace Flash.Test.Web.Controllers
     {
         public int Age { get; set; }
         public string MyProperty { get; set; }
+        //public List<ObjectTest> list { get; set; } = new List<ObjectTest> { new ObjectTest { Age = 1 } };
     }
 }

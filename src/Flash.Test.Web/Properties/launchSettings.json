@@ -24,7 +24,7 @@
         "ASPNETCORE_ENVIRONMENT": "dev",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Flash.Extensions.Tracting.Skywalking"
       },
-      "applicationUrl": "http://localhost:5555"
+      "applicationUrl": "http://0.0.0.0:5555"
     }
   }
 }

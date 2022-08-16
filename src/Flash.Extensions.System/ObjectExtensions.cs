@@ -3,7 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if NETCORE
+using System.Net.Http;
+#endif
 using System.Reflection;
+using System.Text;
 
 namespace Flash.Extensions
 {
@@ -279,6 +283,24 @@ namespace Flash.Extensions
             return dic;
         }
 
+#if NETCORE
+        /// <summary>
+        /// 转换为FormData
+        /// </summary>
+        /// <param name="value">需要转换的对象</param>
+        /// <param name="encoding">编码</param>
+        /// <returns></returns>
+        public static MultipartFormDataContent ToFormData(this object value, Encoding encoding)
+        {
+            var formDataContent = new MultipartFormDataContent();
+            var dic = value.ToFormData();
+            foreach (var kv in dic)
+            {
+                formDataContent.Add(new StringContent(kv.Value, encoding), string.Format("\"{0}\"", kv.Key));
+            }
+            return formDataContent;
+        }
+#endif
         private static void ToFormData(string fieldName, object value, PropertyInfo[] properties, ref Dictionary<string, string> dic)
         {
             foreach (var propertie in properties)

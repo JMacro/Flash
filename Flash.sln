@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{2135864E-CF17-4FBC-9A91-DC817A54C90A}"
 EndProject
@@ -87,6 +87,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.OpenTracting.Jaeger", "src\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj", "{155674A1-46B4-436C-9725-86AEE3FC7C92}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.OpenTracting.Skywalking", "src\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.OpenTracting.Skywalking.csproj", "{E2EDC50A-E7BE-4F49-9892-C0AEAE9E1929}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Email", "src\Flash.Extensions.Email\Flash.Extensions.Email.csproj", "{09561ACC-443A-4BA9-BD0F-454D8DA2BEC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Job", "src\Flash.Extensions.Job\Flash.Extensions.Job.csproj", "{DE8DA092-AAF4-4937-835F-F7CEFF6ED42A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Job", "Job", "{792FE591-1871-4293-8E45-38BBCB165710}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Job.Quartz", "src\Flash.Extensions.Job.Quartz\Flash.Extensions.Job.Quartz.csproj", "{A4D2BE47-2214-45A4-AE4D-43BF69C5F818}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Job.Hangfire", "src\Flash.Extensions.Job.Hangfire\Flash.Extensions.Job.Hangfire.csproj", "{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.Job.Hangfire.AspNetCore", "src\Flash.Extensions.Job.Hangfire.AspNetCore\Flash.Extensions.Job.Hangfire.AspNetCore.csproj", "{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -214,6 +226,26 @@ Global
 		{E2EDC50A-E7BE-4F49-9892-C0AEAE9E1929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2EDC50A-E7BE-4F49-9892-C0AEAE9E1929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2EDC50A-E7BE-4F49-9892-C0AEAE9E1929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09561ACC-443A-4BA9-BD0F-454D8DA2BEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09561ACC-443A-4BA9-BD0F-454D8DA2BEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09561ACC-443A-4BA9-BD0F-454D8DA2BEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09561ACC-443A-4BA9-BD0F-454D8DA2BEC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE8DA092-AAF4-4937-835F-F7CEFF6ED42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE8DA092-AAF4-4937-835F-F7CEFF6ED42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE8DA092-AAF4-4937-835F-F7CEFF6ED42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE8DA092-AAF4-4937-835F-F7CEFF6ED42A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D2BE47-2214-45A4-AE4D-43BF69C5F818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D2BE47-2214-45A4-AE4D-43BF69C5F818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D2BE47-2214-45A4-AE4D-43BF69C5F818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D2BE47-2214-45A4-AE4D-43BF69C5F818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -257,6 +289,12 @@ Global
 		{D3018834-602B-4EB9-AA04-F94656DC7681} = {61535032-56EB-40AF-8288-CA3EC1EDC852}
 		{155674A1-46B4-436C-9725-86AEE3FC7C92} = {61535032-56EB-40AF-8288-CA3EC1EDC852}
 		{E2EDC50A-E7BE-4F49-9892-C0AEAE9E1929} = {61535032-56EB-40AF-8288-CA3EC1EDC852}
+		{09561ACC-443A-4BA9-BD0F-454D8DA2BEC9} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{DE8DA092-AAF4-4937-835F-F7CEFF6ED42A} = {792FE591-1871-4293-8E45-38BBCB165710}
+		{792FE591-1871-4293-8E45-38BBCB165710} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{A4D2BE47-2214-45A4-AE4D-43BF69C5F818} = {792FE591-1871-4293-8E45-38BBCB165710}
+		{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7} = {792FE591-1871-4293-8E45-38BBCB165710}
+		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF} = {792FE591-1871-4293-8E45-38BBCB165710}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

@@ -1,6 +1,7 @@
 ﻿using Flash.Core;
-using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -9,8 +10,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 使用服务注册
         /// </summary>
-        /// <param name="app"></param>
-        /// <param name="configuration"></param>
+        /// <param name="services"></param>
+        /// <param name="setup"></param>
         public static IServiceCollection AddFlash(this IServiceCollection services, Action<IFlashHostBuilder> setup)
         {
             var builder = new FlashHostBuilder(services);
@@ -18,7 +19,12 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="setup"></param>
+        /// <returns></returns>
         public static IFlashApplicationBuilder UseFlash(this IApplicationBuilder app, Action<IFlashApplicationBuilder> setup)
         {
             var builder = new FlashApplicationBuilder(app);
@@ -26,5 +32,17 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="webHostBuilder"></param>
+        /// <param name="setup"></param>
+        /// <returns></returns>
+        public static IWebHostBuilder ConfigureFlash(this IWebHostBuilder webHostBuilder, Action<IFlashWebHostBuilder> setup)
+        {
+            var builder = new FlashWebHostBuilder(webHostBuilder);
+            setup(builder);
+            return webHostBuilder;
+        }
     }
 }

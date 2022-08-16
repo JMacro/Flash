@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Flash.Core;
 using Flash.Extensions.EventBus;
 using Flash.Extensions.EventBus.RabbitMQ;
 using Flash.Extensions.HealthChecks;
@@ -64,7 +65,7 @@ namespace Flash.Test.Web
 
                 var host = Environment.GetEnvironmentVariable("Redis_Host", EnvironmentVariableTarget.Machine);
                 var password = Environment.GetEnvironmentVariable("Redis_Password", EnvironmentVariableTarget.Machine);
-                checks.AddRedisCheck("redis1", $"{host},password={password},allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
+                //checks.AddRedisCheck("redis1", $"{host},password={password},allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
 
                 var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
                 checks.AddMySqlCheck("MySql1", connection);
@@ -74,6 +75,7 @@ namespace Flash.Test.Web
 
                 });
             });
+
             services.AddFlash(flash =>
             {
                 flash.AddSecurity3DES(setup =>
@@ -100,7 +102,8 @@ namespace Flash.Test.Web
                         .WithReadServerList(host)
                         .WithDb(0)
                         .WithDistributedLock(true)
-                        .WithPassword(password);
+                        .WithPassword(password)
+                        .WithKeyPrefix("JMacro");
                     });
                 });
 
@@ -143,26 +146,34 @@ namespace Flash.Test.Web
                 //    tracer.UseSkywalking("Flash.Test.Web");
                 //});
 
-                flash.AddORM(orm =>
-                {
-                    orm.UseEFCore<TestDbContext>(option =>
-                    {
-                        var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
-                        option.UseMySql(connection, ServerVersion.AutoDetect(connection));
-                    });
-                });
+                //flash.AddORM(orm =>
+                //{
+                //    orm.UseEFCore<TestDbContext>(option =>
+                //    {
+                //        var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
+                //        option.UseMySql(connection, ServerVersion.AutoDetect(connection));
+                //    });
+                //});
 
-                flash.AddResilientHttpClient((aorign, option) =>
+                //flash.AddResilientHttpClient((aorign, option) =>
+                //{
+                //    option.DurationSecondsOfBreak = 30;
+                //    option.ExceptionsAllowedBeforeBreaking = 5;
+                //    option.RetryCount = 5;
+                //    option.TimeoutMillseconds = 10000;
+                //});
+
+                flash.AddJob(job =>
                 {
-                    option.DurationSecondsOfBreak = 30;
-                    option.ExceptionsAllowedBeforeBreaking = 5;
-                    option.RetryCount = 5;
-                    option.TimeoutMillseconds = 10000;
+                    job.UseQuartz();
+                    //job.UseHangfire();
                 });
             });
+
             ContainerBuilder containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
+
             return new AutofacServiceProvider(container);
         }
 
@@ -183,6 +194,7 @@ namespace Flash.Test.Web
             var logger = app.ApplicationServices.GetRequiredService<ILogger<IEventBus>>();
             app.UseFlash(flash =>
             {
+                //flash.UseHangfire();
                 //flash.UseEventBus(sp =>
                 //{
                 //    sp.UseSubscriber(eventbus =>
@@ -222,6 +234,7 @@ namespace Flash.Test.Web
             });
             //app.UseEventBusDashboard();
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             //app.UseMvc();
             app.UseRouting();
 

@@ -7,14 +7,14 @@
     <RepositoryType>github</RepositoryType>
     <PackageIcon>icon.png</PackageIcon>
     <Authors>JMacro</Authors>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Redis HealthChecks</PackageTags>
     <Description>Redis健康监测</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Commons\Guard.cs" Link="Internal\Guard.cs" />

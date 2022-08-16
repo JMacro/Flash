@@ -13,7 +13,7 @@ namespace Flash.Core
             this._app = app;
         }
 
-        public IApplicationBuilder app
+        public IApplicationBuilder ApplicationBuilder
         {
             get
             {

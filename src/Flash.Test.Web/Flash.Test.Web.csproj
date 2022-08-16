@@ -6,34 +6,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.4" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.22" />
+    <PackageReference Include="System.Speech" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extensions.AppMetrics\Flash.Extensions.AppMetrics.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Cache.Redis.DependencyInjection\Flash.Extensions.Cache.Redis.DependencyInjection.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.DistributedLock\Flash.Extensions.DistributedLock.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.EventBus.Dashboard.AspNetCore\Flash.Extensions.EventBus.Dashboard.AspNetCore.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
     <ProjectReference Include="..\Flash.Extensions.HealthChecks.MySql\Flash.Extensions.HealthChecks.MySql.csproj" />
     <ProjectReference Include="..\Flash.Extensions.HealthChecks.RabbitMQ\Flash.Extensions.HealthChecks.RabbitMQ.csproj" />
     <ProjectReference Include="..\Flash.Extensions.HealthChecks.Redis\Flash.Extensions.HealthChecks.Redis.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Job.Hangfire.AspNetCore\Flash.Extensions.Job.Hangfire.AspNetCore.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Job.Hangfire\Flash.Extensions.Job.Hangfire.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Job.Quartz\Flash.Extensions.Job.Quartz.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.Job\Flash.Extensions.Job.csproj" />
     <ProjectReference Include="..\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
     <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Config\recurringjob.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Config\appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

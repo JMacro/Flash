@@ -32,11 +32,18 @@ namespace Flash.Test.Web
                 })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddLog4Net("Config/log4net.xml", true);
                     logging.AddDebug();
                     logging.AddConsole();
                 })
                 .UseMetrics("AppMetrics")
                 .UseHealthChecks("/healthcheck")
+                .ConfigureFlash(setup =>
+                {
+                    //setup.UseHangfireHostingStartup();
+                    //setup.UseQuartzHostingStartup();
+                })
                 .UseStartup<Startup>();
     }
 }
