@@ -9,8 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extersions", "Extersions", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{E3F3C44D-EF02-4794-AFC3-93F26BDAFC1F}"
 	ProjectSection(SolutionItems) = preProject
-		build-nuget.cmd = build-nuget.cmd
 		build-nuget.sh = build-nuget.sh
+		build-nuget.bat = build-nuget.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.System", "src\Flash.Extensions.System\Flash.Extensions.System.csproj", "{57A3EB9F-AA0F-4498-9C58-333F0F960BB7}"
@@ -98,7 +98,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Job.Quartz
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Job.Hangfire", "src\Flash.Extensions.Job.Hangfire\Flash.Extensions.Job.Hangfire.csproj", "{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.Job.Hangfire.AspNetCore", "src\Flash.Extensions.Job.Hangfire.AspNetCore\Flash.Extensions.Job.Hangfire.AspNetCore.csproj", "{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Job.Hangfire.AspNetCore", "src\Flash.Extensions.Job.Hangfire.AspNetCore\Flash.Extensions.Job.Hangfire.AspNetCore.csproj", "{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

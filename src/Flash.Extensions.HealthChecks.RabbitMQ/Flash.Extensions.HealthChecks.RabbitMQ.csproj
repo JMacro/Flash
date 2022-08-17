@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>RabbitMQ HealthChecks</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

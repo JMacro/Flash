@@ -1,8 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>JMacro</Authors>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
+    <RepositoryType>github</RepositoryType>
+    <Version>10.0.0.1</Version>
+    <Description>Job by Quartz</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <AssemblyName>Flash.Extensions.Job.Quartz</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Link="icon.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />

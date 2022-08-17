@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>JMacro</Authors>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
+    <RepositoryType>github</RepositoryType>
+    <Version>10.0.0.1</Version>
+    <Description>Job by Hangfire AspNetCore</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <AssemblyName>Flash.Extensions.Job.Hangfire.AspNetCore</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>NETCORE</DefineConstants>
@@ -9,6 +19,12 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
     <DefineConstants>NETCOREAPP</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\icon.png" Link="icon.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>

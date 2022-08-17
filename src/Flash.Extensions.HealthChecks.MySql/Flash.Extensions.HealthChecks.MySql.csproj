@@ -11,6 +11,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>MySql健康监测</Description>
     <PackageTags>MySql HealthChecks</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

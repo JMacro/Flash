@@ -11,7 +11,7 @@
     <PackageReleaseNotes>System基础数据类型扩展</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
-    <Version>10.0.4.4-bate1</Version>
+    <Version>10.0.4.5</Version>
     <RootNamespace>Flash.Extensions</RootNamespace>
   </PropertyGroup>
 

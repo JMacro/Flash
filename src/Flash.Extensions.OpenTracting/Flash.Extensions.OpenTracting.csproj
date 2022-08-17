@@ -8,7 +8,7 @@
     <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
     <RepositoryType>github</RepositoryType>
-    <Version>10.0.1.400</Version>
+    <Version>10.0.1.5</Version>
     <Description>日志链路追踪</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <AssemblyName>Flash.Extensions.OpenTracting</AssemblyName>
