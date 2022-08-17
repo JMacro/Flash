@@ -16,7 +16,21 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashHostBuilder AddJob(this IFlashHostBuilder hostBuilder, Action<IFlashJobBuilder> action, string configName = "CornJobScheduler")
         {
-            hostBuilder.Services.AddSingleton((s) =>
+            hostBuilder.Services.AddJobConfiguration(configName);
+            var builder = new FlashJobBuilder(hostBuilder);
+            action(builder);
+            return hostBuilder;
+        }
+
+        /// <summary>
+        /// 添加Job配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configName"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddJobConfiguration(this IServiceCollection services, string configName = "CornJobScheduler")
+        {
+            services.AddSingleton((s) =>
             {
                 var configuration = s.GetService<IConfiguration>();
                 var logger = s.GetService<ILogger<IConfiguration>>();
@@ -29,9 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return config;
             });
 
-            var builder = new FlashJobBuilder(hostBuilder);
-            action(builder);
-            return hostBuilder;
+            return services;
         }
     }
 }

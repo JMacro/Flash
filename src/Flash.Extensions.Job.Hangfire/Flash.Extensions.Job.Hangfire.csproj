@@ -29,10 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extersions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\icon.png" Link="icon.png">
       <PackagePath></PackagePath>
       <Pack>True</Pack>

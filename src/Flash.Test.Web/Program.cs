@@ -38,7 +38,7 @@ namespace Flash.Test.Web
                     logging.AddConsole();
                 })
                 .UseMetrics("AppMetrics")
-                .UseHealthChecks("/healthcheck")
+                //.UseHealthChecks("/healthcheck")
                 .ConfigureFlash(setup =>
                 {
                     //setup.UseHangfireHostingStartup();

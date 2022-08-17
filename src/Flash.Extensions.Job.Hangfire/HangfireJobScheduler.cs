@@ -87,7 +87,7 @@ namespace Flash.Extensions.Job.Hangfire
 #endif
                 Cron = option.Expression,
                 Queue = option.JobGroup ?? EnqueuedState.DefaultQueue,
-                TimeZone = TimeZoneInfo.Utc,
+                TimeZone = option.TimeZone ?? TimeZoneInfo.Utc,
                 JobData = option.JobData,
                 Enable = option.Enable ?? true
             };

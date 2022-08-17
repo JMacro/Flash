@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Flash.Extensions.Job
 {
@@ -23,6 +24,10 @@ namespace Flash.Extensions.Job
         /// 持久化链接
         /// </summary>
         public string PersistenceConnection { get; set; } = "";
+        /// <summary>
+        /// 持久化前缀
+        /// </summary>
+        public string PersistencePrefix { get; set; } = "";
         /// <summary>
         /// 触发器集合
         /// </summary>
@@ -50,6 +55,10 @@ namespace Flash.Extensions.Job
         /// Job分组
         /// </summary>
         public string JobGroup { get; set; }
+        /// <summary>
+        /// 时区
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
         /// <summary>
         /// Job数据
         /// </summary>

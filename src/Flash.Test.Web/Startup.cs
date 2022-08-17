@@ -165,8 +165,8 @@ namespace Flash.Test.Web
 
                 flash.AddJob(job =>
                 {
-                    job.UseQuartz();
-                    //job.UseHangfire();
+                    //job.UseQuartz();
+                    job.UseHangfire();
                 });
             });
 
@@ -194,7 +194,7 @@ namespace Flash.Test.Web
             var logger = app.ApplicationServices.GetRequiredService<ILogger<IEventBus>>();
             app.UseFlash(flash =>
             {
-                //flash.UseHangfire();
+                flash.UseHangfire();
                 //flash.UseEventBus(sp =>
                 //{
                 //    sp.UseSubscriber(eventbus =>

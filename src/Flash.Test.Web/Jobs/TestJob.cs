@@ -15,9 +15,10 @@ namespace Flash.Test.Web.Jobs
         {
         }
 
-        public async override Task Execute(IJobExecutionContextContainer<PerformContext> contextContainer)
+        public override Task Execute(IJobExecutionContextContainer<PerformContext> contextContainer)
         {
             this._logger.LogInformation($"Run task:{nameof(TestJob)}");
+            return Task.CompletedTask;
         }
     }
 

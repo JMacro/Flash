@@ -12,12 +12,16 @@ namespace Flash.Extensions.Job.Hangfire.AspNetCore
         {
             builder.ConfigureServices(services =>
             {
+                var serviceProvider = services.BuildServiceProvider();
+                var jobConfiguration = serviceProvider.GetService<IGlobalJobConfiguration>();
+                services.AddJobConfiguration(jobConfiguration.SectionName);
                 services.AddHangfire();
             });
 
             builder.Configure(app =>
             {
-                app.UseHangfire();
+                var jobConfiguration = app.ApplicationServices.GetService<IGlobalJobConfiguration>();
+                app.UseHangfire(jobConfiguration);
             });
         }
     }

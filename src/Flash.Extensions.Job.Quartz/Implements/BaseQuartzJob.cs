@@ -20,9 +20,9 @@ namespace Flash.Extensions.Job.Quartz
         {
             try
             {
-                this._logger.LogInformation($"任务【{context.JobDetail.Key.Name}】开始执行");
+                this._logger.LogInformation($"任务【{context.JobDetail.JobType.FullName}】开始执行");
                 await this.Execute(new JobExecutionContextContainer(context));
-                this._logger.LogInformation($"任务【{context.JobDetail.Key.Name}】结束执行");
+                this._logger.LogInformation($"任务【{context.JobDetail.JobType.FullName}】结束执行");
             }
             catch (System.Exception e)
             {

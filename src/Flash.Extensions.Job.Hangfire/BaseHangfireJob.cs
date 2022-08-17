@@ -20,9 +20,9 @@ namespace Flash.Extensions.Job.Hangfire
         {
             try
             {
-                this._logger.LogInformation($"任务【{context.BackgroundJob.Id}】开始执行");
+                this._logger.LogInformation($"任务【{context.BackgroundJob.Job.Type.FullName}】开始执行");
                 this.Execute(new JobExecutionContextContainer(context)).ConfigureAwait(false).GetAwaiter().GetResult();
-                this._logger.LogInformation($"任务【{context.BackgroundJob.Id}】结束执行");
+                this._logger.LogInformation($"任务【{context.BackgroundJob.Job.Type.FullName}】结束执行");
             }
             catch (System.Exception e)
             {
