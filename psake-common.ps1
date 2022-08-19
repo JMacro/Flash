@@ -334,3 +334,7 @@ function _Get-OutputDir($dir, $project, $target) {
 
     return "$baseDir\$config"
 }
+
+function Get-NupkgDir() {
+
+}

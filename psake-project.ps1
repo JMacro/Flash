@@ -197,6 +197,12 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.LoadBalancer" $version
 }
 
+Task Push-Nupkg -Description "Push NuGet packages." {
+    $nugetApiKeys = Read-Host "Please enter a nuget api keys"
+    Write-Host "Compiling '$nugetApiKeys'..." -ForegroundColor "Green"
+
+}
+
 function Collect-Localizations($project, $target) {
     Write-Host "Collecting localizations for '$target/$project'..." -ForegroundColor "Green"
     
