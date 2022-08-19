@@ -199,7 +199,7 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
 
 Task Push-Nupkg -Description "Push NuGet packages." {
     $nugetApiKeys = Read-Host "Please enter a nuget api keys"
-    Write-Host "Compiling '$nugetApiKeys'..." -ForegroundColor "Green"
+    Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "Green"
 
 }
 
