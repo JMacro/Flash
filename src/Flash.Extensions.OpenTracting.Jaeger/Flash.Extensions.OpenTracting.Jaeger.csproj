@@ -1,44 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryType>github</RepositoryType>
-    <Authors>JMacro</Authors>
-    <Description>Jeager日志链路追踪</Description>
-    <Version>1.0.2.5</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <RootNamespace>Flash.Extensions.Tracting.Jaeger</RootNamespace>
+    <RootNamespace>Flash.Extensions.OpenTracting.Jaeger</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.Tract.xml</DocumentationFile>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Remove="Abastracts\**" />
     <EmbeddedResource Remove="Abastracts\**" />
     <None Remove="Abastracts\**" />
   </ItemGroup>
-
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'">
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.2" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Jaeger" Version="0.3.7" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.0" />
-    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.2" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj" />
   </ItemGroup>
-
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+    <DefineConstants>NETCOREAPP</DefineConstants>
+  </PropertyGroup>
 </Project>

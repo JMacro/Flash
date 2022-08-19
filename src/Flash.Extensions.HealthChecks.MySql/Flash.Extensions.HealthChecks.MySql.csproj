@@ -2,18 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>JMacro</Authors>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>MySql健康监测</Description>
-    <PackageTags>MySql HealthChecks</PackageTags>
-    <Version>1.0.1</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.HealthChecks.MySql</RootNamespace>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Commons\Guard.cs" Link="Internal\Guard.cs" />
   </ItemGroup>
@@ -24,12 +21,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 </Project>

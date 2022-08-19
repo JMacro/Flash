@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Flash.Extensions.OpenTracting</id>
+    <version>0.0.0</version>
+    <title>Flash OpenTracting Components</title>
+    <authors>JMacro</authors>
+    <owners>JMacro</owners>
+    <projectUrl>https://github.com/JMacro/Flash</projectUrl>
+    <repository type="git" url="https://github.com/JMacro/Flash" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/JMacro/Flash/master/LICENSE.md</licenseUrl>
+    <summary></summary>
+    <iconUrl>https://raw.githubusercontent.com/JMacro/Flash/master/src/icon.png</iconUrl>
+    <description>OpenTracting</description>
+    <copyright>Copyright © 2013-2021 JMacro</copyright>
+    <tags>OpenTracting Tracting</tags>
+    <releaseNotes>
+    </releaseNotes>
+    <dependencies>
+      <group targetFramework="netstandard2.0">
+        <dependency id="NETStandard.Library" version="2.0.3" />
+        <dependency id="Microsoft.CSharp" version="4.7.0" />
+        <dependency id="Microsoft.Extensions.Logging" version="2.1.1" />
+        <dependency id="Flash.Core" version="0.0.0" />
+        <dependency id="Flash.Extensions.System" version="0.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="netstandard2.0\Flash.Extensions.OpenTracting.dll" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.OpenTracting.xml" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.OpenTracting.pdb" target="lib\netstandard2.0" />
+
+    <file src="LICENSE.md" />
+    <file src="NOTICES" />
+    <file src="COPYING" />
+    <file src="COPYING.LESSER" />
+    <file src="LICENSE_STANDARD" />
+    <file src="LICENSE_ROYALTYFREE" />
+  </files>
+</package>

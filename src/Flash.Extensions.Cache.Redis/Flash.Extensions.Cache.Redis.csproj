@@ -1,34 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net4.6.1;net4.7.2;netstandard2.0</TargetFrameworks>
-    <Version>10.0.5.5</Version>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>JMacro</Authors>
-    <Company>JMacro</Company>
-    <Description>Redis缓存组件客户端</Description>
-    <PackageReleaseNotes>Redis缓存组件客户端</PackageReleaseNotes>
-    <RepositoryType>github</RepositoryType>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
+    <RootNamespace>Flash.Extensions.Cache.Redis</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net4.6.1|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.Cache.Redis.xml</DocumentationFile>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Remove="Implements\RedisHealthCheck.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.30" />

@@ -2,28 +2,19 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netstandard2.0</TargetFrameworks>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryType>github</RepositoryType>
-    <Authors>JMacro</Authors>
-    <Description>Skywalking日志链路追踪</Description>
-    <Version>1.0.2.1</Version>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <RootNamespace>Flash.Extensions.Tracting.Skywalking</RootNamespace>
+    <RootNamespace>Flash.Extensions.OpenTracting.Skywalking</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <None Include="..\icon.png" Link="icon.png">
-      <PackagePath></PackagePath>
-      <Pack>True</Pack>
-    </None>
-  </ItemGroup>
-  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
     <PackageReference Include="AspectCore.Extensions.Reflection" Version="1.2.0" />

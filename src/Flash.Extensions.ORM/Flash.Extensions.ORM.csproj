@@ -2,28 +2,17 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <Version>1.0.7</Version>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
-    <Authors>JMacro</Authors>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.ORM</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.ORM\Flash.Extensions.ORM.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
   </ItemGroup>
 </Project>

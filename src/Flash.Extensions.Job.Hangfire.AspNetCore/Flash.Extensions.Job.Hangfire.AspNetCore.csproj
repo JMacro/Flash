@@ -1,18 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryType>github</RepositoryType>
-    <Version>10.0.0.1</Version>
-    <Description>Job by Hangfire AspNetCore</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyName>Flash.Extensions.Job.Hangfire.AspNetCore</AssemblyName>
+    <RootNamespace>Flash.Extensions.Job.Hangfire.AspNetCore</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
@@ -20,12 +18,7 @@
     <DefineConstants>NETCOREAPP</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\icon.png" Link="icon.png">
-      <PackagePath></PackagePath>
-      <Pack>True</Pack>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>

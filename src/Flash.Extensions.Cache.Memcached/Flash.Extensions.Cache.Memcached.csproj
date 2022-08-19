@@ -2,25 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <Description>Memcached缓存组件客户端</Description>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryType>GitHub</RepositoryType>
-    <Version>10.0.0</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.Cache.Memcached</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>

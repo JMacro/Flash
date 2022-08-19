@@ -2,27 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Authors>JMacro</Authors>
-    <Description>加密解密相关操作</Description>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>gitee</RepositoryType>
-    <PackageReleaseNotes>加密解密相关操作</PackageReleaseNotes>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.Security.xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.Security</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -2,22 +2,15 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <Description>RabbitMQ消息总线</Description>
-    <PackageReleaseNotes>RabbitMQ消息队列帮助类</PackageReleaseNotes>
-    <RepositoryType>github</RepositoryType>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
-    <Version>10.0.2</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.EventBus.RabbitMQ</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.RabbitMQ.xml</DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />

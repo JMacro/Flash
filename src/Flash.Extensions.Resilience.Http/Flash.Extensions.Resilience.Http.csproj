@@ -2,18 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Flash.Extensions.Resilience.Http</AssemblyName>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
-    <Description>Http弹性连接</Description>
-    <Authors>JMacro</Authors>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageReleaseNotes>Http弹性连接</PackageReleaseNotes>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.Resilience.Http</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />
@@ -29,12 +26,4 @@
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>

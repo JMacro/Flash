@@ -1,19 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryType>github</RepositoryType>
-    <Version>10.0.0.1</Version>
-    <Description>Job</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyName>Flash.Extensions.Job</AssemblyName>
+    <RootNamespace>Flash.Extensions.Job</RootNamespace>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
@@ -26,12 +23,4 @@
   <ItemGroup>
     <Folder Include="Extersions\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png" Link="icon.png">
-      <PackagePath></PackagePath>
-      <Pack>True</Pack>
-    </None>
-  </ItemGroup>
-
 </Project>

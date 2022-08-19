@@ -2,25 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>JMacro</Authors>
-    <Version>1.0.1</Version>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.DistributedLock</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.DistributedLock.xml</DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>

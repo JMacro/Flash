@@ -10,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjectionExtersion
     {
+#if NETCOREAPP
         /// <summary>
         /// 使用Jaeger链路追踪，实例对象ITracer
         /// </summary>
@@ -144,5 +145,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ITracer, JaegerTracer>();
             return services;
         }
+#endif
     }
 }

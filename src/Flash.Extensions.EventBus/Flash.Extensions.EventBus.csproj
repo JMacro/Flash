@@ -2,23 +2,18 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>10.0.1</Version>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>JMacro</Authors>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryType>github</RepositoryType>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <Description>事件总线</Description>
-    <PackageReleaseNotes>事件总线</PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.EventBus</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.EventBus.xml</DocumentationFile>
-  </PropertyGroup>
-  
   <ItemGroup>
     <EmbeddedResource Include="Dashboard\Content\css\bootstrap.min.css" />
     <EmbeddedResource Include="Dashboard\Content\css\Chart.min.css" />
@@ -90,13 +85,6 @@
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

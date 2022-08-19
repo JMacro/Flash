@@ -2,18 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryType>github</RepositoryType>
-    <Version>10.0.0.1</Version>
-    <Description>Job by Hangfire</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyName>Flash.Extensions.Job.Hangfire</AssemblyName>
+    <RootNamespace>Flash.Extensions.Job.Hangfire</RootNamespace>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HangFire.Autofac" Version="2.3.1" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.30" />
@@ -26,12 +23,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.Job\Flash.Extensions.Job.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png" Link="icon.png">
-      <PackagePath></PackagePath>
-      <Pack>True</Pack>
-    </None>
   </ItemGroup>
 </Project>

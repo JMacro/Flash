@@ -2,30 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.4.2</Version>
-    <Authors>JMacro</Authors>
-    <Product>Flash.Extensions.Cache.Redis.DependencyInjection</Product>
-    <Description>Redis缓存组件客户端扩展</Description>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageReleaseNotes>Redis缓存组件客户端扩展</PackageReleaseNotes>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.Cache.Redis.DependencyInjection</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.Cache.Redis.DependencyInjection.xml</DocumentationFile>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>

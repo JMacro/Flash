@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Flash.Extensions.OpenTracting.Skywalking</id>
+    <version>0.0.0</version>
+    <title>Flash OpenTracting Skywalking Components</title>
+    <authors>JMacro</authors>
+    <owners>JMacro</owners>
+    <projectUrl>https://github.com/JMacro/Flash</projectUrl>
+    <repository type="git" url="https://github.com/JMacro/Flash" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/JMacro/Flash/master/LICENSE.md</licenseUrl>
+    <summary></summary>
+    <iconUrl>https://raw.githubusercontent.com/JMacro/Flash/master/src/icon.png</iconUrl>
+    <description>OpenTracting Skywalking</description>
+    <copyright>Copyright © 2013-2021 JMacro</copyright>
+    <tags>OpenTracting Tracting Skywalking</tags>
+    <releaseNotes>
+    </releaseNotes>
+    <dependencies>
+      <group targetFramework="netstandard2.0">
+        <dependency id="NETStandard.Library" version="2.0.3" />
+        <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.0" />
+        <dependency id="AspectCore.Extensions.Reflection" version="1.2.0" />
+        <dependency id="System.Diagnostics.DiagnosticSource" version="4.7.1" />
+        <dependency id="Flash.Core" version="0.0.0" />
+        <dependency id="Flash.Extensions.OpenTracting" version="0.0.0" />
+        <dependency id="Flash.Extensions.UidGenerator" version="0.0.0" />
+      </group>
+      <group targetFramework="netcoreapp2.1">
+        <dependency id="Microsoft.NETCore.App" version="2.1.0" />
+        <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.0" />
+        <dependency id="AspectCore.Extensions.Reflection" version="1.2.0" />
+        <dependency id="System.Diagnostics.DiagnosticSource" version="4.7.1" />
+        <dependency id="Flash.Core" version="0.0.0" />
+        <dependency id="Flash.Extensions.OpenTracting" version="0.0.0" />
+        <dependency id="Flash.Extensions.UidGenerator" version="0.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="netstandard2.0\Flash.Extensions.OpenTracting.Skywalking.dll" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.OpenTracting.Skywalking.xml" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.OpenTracting.Skywalking.pdb" target="lib\netstandard2.0" />
+
+    <file src="netcoreapp2.1\Flash.Extensions.OpenTracting.Skywalking.dll" target="lib\netcoreapp2.1" />
+    <file src="netcoreapp2.1\Flash.Extensions.OpenTracting.Skywalking.xml" target="lib\netcoreapp2.1" />
+    <file src="netcoreapp2.1\Flash.Extensions.OpenTracting.Skywalking.pdb" target="lib\netcoreapp2.1" />
+
+    <file src="LICENSE.md" />
+    <file src="NOTICES" />
+    <file src="COPYING" />
+    <file src="COPYING.LESSER" />
+    <file src="LICENSE_STANDARD" />
+    <file src="LICENSE_ROYALTYFREE" />
+  </files>
+</package>

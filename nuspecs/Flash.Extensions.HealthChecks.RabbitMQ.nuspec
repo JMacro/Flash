@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Flash.Extensions.HealthChecks.RabbitMQ</id>
+    <version>0.0.0</version>
+    <title>Flash HealthChecks RabbitMQ Components</title>
+    <authors>JMacro</authors>
+    <owners>JMacro</owners>
+    <projectUrl>https://github.com/JMacro/Flash</projectUrl>
+    <repository type="git" url="https://github.com/JMacro/Flash" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/JMacro/Flash/master/LICENSE.md</licenseUrl>
+    <summary></summary>
+    <iconUrl>https://raw.githubusercontent.com/JMacro/Flash/master/src/icon.png</iconUrl>
+    <description>HealthChecks RabbitMQ</description>
+    <copyright>Copyright © 2013-2021 JMacro</copyright>
+    <tags>HealthChecks RabbitMQ</tags>
+    <releaseNotes>
+    </releaseNotes>
+    <dependencies>
+      <group targetFramework="netstandard2.0">
+        <dependency id="NETStandard.Library" version="2.0.3" />
+        <dependency id="RabbitMQ.Client" version="5.1.2" />
+        <dependency id="Flash.Extensions.HealthChecks" version="0.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="netstandard2.0\Flash.Extensions.HealthChecks.RabbitMQ.dll" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.HealthChecks.RabbitMQ.xml" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.HealthChecks.RabbitMQ.pdb" target="lib\netstandard2.0" />
+
+    <file src="LICENSE.md" />
+    <file src="NOTICES" />
+    <file src="COPYING" />
+    <file src="COPYING.LESSER" />
+    <file src="LICENSE_STANDARD" />
+    <file src="LICENSE_ROYALTYFREE" />
+  </files>
+</package>

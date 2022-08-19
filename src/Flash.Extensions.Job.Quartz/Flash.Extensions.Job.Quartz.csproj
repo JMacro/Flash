@@ -2,25 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryType>github</RepositoryType>
-    <Version>10.0.0.1</Version>
-    <Description>Job by Quartz</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyName>Flash.Extensions.Job.Quartz</AssemblyName>
+    <RootNamespace>Flash.Extensions.Job.Quartz</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
-    <None Include="..\icon.png" Link="icon.png">
-      <PackagePath></PackagePath>
-      <Pack>True</Pack>
-    </None>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Quartz" Version="3.3.3" />
     <PackageReference Include="Quartz.Plugins" Version="3.3.3" />

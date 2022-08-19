@@ -2,17 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>JMacro</Authors>
-    <Version>1.0.1</Version>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageTags>Redis HealthChecks</PackageTags>
-    <Description>Redis健康监测</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.HealthChecks.Redis</RootNamespace>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
@@ -22,11 +20,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
     <ProjectReference Include="..\Flash.LoadBalancer\Flash.LoadBalancer.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 </Project>

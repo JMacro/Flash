@@ -1,36 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>10.0.4.5</Version>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageIcon>icon.png</PackageIcon>
-    <Authors>JMacro</Authors>
-    <Description>缓存组件</Description>
-    <PackageReleaseNotes>缓存组件</PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <AssemblyName>Flash.Extensions.Cache</AssemblyName>
     <RootNamespace>Flash.Extensions.Cache</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Flash.Extensions.Cache.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extensions.OpenTracting\Flash.Extensions.OpenTracting.csproj" />

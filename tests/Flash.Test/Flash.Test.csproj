@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Flash.Core" Version="10.0.0" />
+    <PackageReference Include="Flash.Extensions.EventBus" Version="10.0.0" />
+    <PackageReference Include="Flash.Extensions.EventBus.RabbitMQ" Version="10.0.0" />
+    <PackageReference Include="Flash.Extensions.OpenTracting" Version="10.0.0" />
+    <PackageReference Include="Flash.Extensions.UidGenerator" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
+    <PackageReference Include="coverlet.collector" Version="1.0.1" />
+    <PackageReference Include="FluentAssertions" Version="5.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis.DependencyInjection\Flash.Extensions.Cache.Redis.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Config\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\metrics.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\redis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lua\get-tree-childs.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -2,18 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>JMacro</Authors>
-    <Description>RabbitMQ健康监测</Description>
-    <PackageProjectUrl>https://github.com/JMacro/Flash</PackageProjectUrl>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl />
-    <RepositoryUrl>https://github.com/JMacro/Flash</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageTags>RabbitMQ HealthChecks</PackageTags>
-    <Version>1.0.1</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.HealthChecks.RabbitMQ</RootNamespace>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
   </ItemGroup>
@@ -22,11 +19,5 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 </Project>
