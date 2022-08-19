@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extersions", "Extersions", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bulid", "bulid", "{E3F3C44D-EF02-4794-AFC3-93F26BDAFC1F}"
 	ProjectSection(SolutionItems) = preProject
-		build-nuget.bat = build-nuget.bat
-		build-nuget.sh = build-nuget.sh
 		build.bat = build.bat
 		psake-common.ps1 = psake-common.ps1
 		psake-project.ps1 = psake-project.ps1
