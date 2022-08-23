@@ -60,6 +60,23 @@ Task Version -Description "Patch AssemblyInfo and AppVeyor version files." {
     Update-AppVeyorVersion $newVersion
 }
 
+Task Push-Nupkg -Description "Push NuGet packages." {
+    $nugetApiKeys = Read-Host "Please enter a nuget api keys"
+    if(!$nugetApiKeys) {
+        Write-Host "Nuget api keys is null,Please try enter a nuget api keys." -ForegroundColor "Red"
+        return
+    }
+    Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "Green"
+    $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
+    foreach ($dir in $dirs) {
+        Write-Host "'NuGet push $dir'..." -ForegroundColor "Green"
+        Try {
+            Exec { .$nuget push $dir -source https://api.nuget.org/v3/index.json -ApiKey $nugetApiKeys }
+        }
+        Catch { }
+    }
+}
+
 ## Functions
 
 ### Test functions
@@ -333,8 +350,4 @@ function _Get-OutputDir($dir, $project, $target) {
     }
 
     return "$baseDir\$config"
-}
-
-function Get-NupkgDir() {
-
 }
