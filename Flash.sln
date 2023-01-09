@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bulid", "bulid", "{E3F3C44D
 		build.bat = build.bat
 		psake-common.ps1 = psake-common.ps1
 		psake-project.ps1 = psake-project.ps1
+		src\SharedAssemblyInfo.cs = src\SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.System", "src\Flash.Extensions.System\Flash.Extensions.System.csproj", "{57A3EB9F-AA0F-4498-9C58-333F0F960BB7}"
@@ -113,6 +114,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.Cache.nuspec = nuspecs\Flash.Extensions.Cache.nuspec
 		nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec = nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec
 		nuspecs\Flash.Extensions.Cache.Redis.nuspec = nuspecs\Flash.Extensions.Cache.Redis.nuspec
+		nuspecs\Flash.Extensions.Configuration.Apollo.nuspec = nuspecs\Flash.Extensions.Configuration.Apollo.nuspec
 		nuspecs\Flash.Extensions.Configuration.Json.nuspec = nuspecs\Flash.Extensions.Configuration.Json.nuspec
 		nuspecs\Flash.Extensions.DistributedLock.nuspec = nuspecs\Flash.Extensions.DistributedLock.nuspec
 		nuspecs\Flash.Extensions.EventBus.nuspec = nuspecs\Flash.Extensions.EventBus.nuspec
@@ -136,6 +138,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.UidGenerator.nuspec = nuspecs\Flash.Extensions.UidGenerator.nuspec
 		nuspecs\Flash.LoadBalancer.nuspec = nuspecs\Flash.LoadBalancer.nuspec
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{0D43B68E-831C-4BCB-A758-6142490F828D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Configuration.Apollo", "src\Flash.Extensions.Configuration.Apollo\Flash.Extensions.Configuration.Apollo.csproj", "{7E8D9335-E7BF-4939-A1E2-1C7F776627B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.ThirdParty.Api.JuHeData", "src\Flash.ThirdParty.Api.JuHeData\Flash.ThirdParty.Api.JuHeData.csproj", "{EB89BB95-E7E0-402E-BCD0-655D6196F001}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Office", "src\Flash.Extensions.Office\Flash.Extensions.Office.csproj", "{A0649772-4EBC-467B-9634-C84FED59B6B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Office", "Office", "{09DC831E-B5E7-4D5A-A7F1-A6FDE8F95FDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.Office.Npoi", "src\Flash.Extensions.Office.Npoi\Flash.Extensions.Office.Npoi.csproj", "{1D493A3C-9E3E-42A9-BBB4-3E11F5DD7364}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -283,6 +297,22 @@ Global
 		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E8D9335-E7BF-4939-A1E2-1C7F776627B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E8D9335-E7BF-4939-A1E2-1C7F776627B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E8D9335-E7BF-4939-A1E2-1C7F776627B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E8D9335-E7BF-4939-A1E2-1C7F776627B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB89BB95-E7E0-402E-BCD0-655D6196F001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB89BB95-E7E0-402E-BCD0-655D6196F001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB89BB95-E7E0-402E-BCD0-655D6196F001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB89BB95-E7E0-402E-BCD0-655D6196F001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0649772-4EBC-467B-9634-C84FED59B6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0649772-4EBC-467B-9634-C84FED59B6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0649772-4EBC-467B-9634-C84FED59B6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0649772-4EBC-467B-9634-C84FED59B6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D493A3C-9E3E-42A9-BBB4-3E11F5DD7364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D493A3C-9E3E-42A9-BBB4-3E11F5DD7364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D493A3C-9E3E-42A9-BBB4-3E11F5DD7364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D493A3C-9E3E-42A9-BBB4-3E11F5DD7364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -300,7 +330,7 @@ Global
 		{299C3EF0-A2B1-4E35-99B8-46152F5021E7} = {D8BACD0E-04E8-4ECE-992C-0C1681059B50}
 		{0F1B410C-1FC0-4AD1-9507-B174B8B8975A} = {D8BACD0E-04E8-4ECE-992C-0C1681059B50}
 		{D2B694A0-52BF-4F75-ABF4-986AA564BDB4} = {AB151676-5329-47DD-974B-646648B41FD7}
-		{2B06F236-E183-4DDD-975D-5E4E87574979} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{2B06F236-E183-4DDD-975D-5E4E87574979} = {0D43B68E-831C-4BCB-A758-6142490F828D}
 		{39CB8CB2-FE17-463E-8782-F7EE67004387} = {E1525F10-B944-400A-8176-051416C14CC7}
 		{D9B51021-9F3A-43A8-AFDB-1CFDB04CC477} = {D8BACD0E-04E8-4ECE-992C-0C1681059B50}
 		{BA529852-ABD6-4559-B7F1-D64F809E31E7} = {E1525F10-B944-400A-8176-051416C14CC7}
@@ -330,6 +360,12 @@ Global
 		{A4D2BE47-2214-45A4-AE4D-43BF69C5F818} = {792FE591-1871-4293-8E45-38BBCB165710}
 		{F709E51D-3BA4-4463-AA04-F0D8E3FCBCB7} = {792FE591-1871-4293-8E45-38BBCB165710}
 		{890F5D5A-DE00-4FF3-B4AF-515154FD4CAF} = {792FE591-1871-4293-8E45-38BBCB165710}
+		{0D43B68E-831C-4BCB-A758-6142490F828D} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{7E8D9335-E7BF-4939-A1E2-1C7F776627B6} = {0D43B68E-831C-4BCB-A758-6142490F828D}
+		{EB89BB95-E7E0-402E-BCD0-655D6196F001} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{A0649772-4EBC-467B-9634-C84FED59B6B7} = {09DC831E-B5E7-4D5A-A7F1-A6FDE8F95FDE}
+		{09DC831E-B5E7-4D5A-A7F1-A6FDE8F95FDE} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{1D493A3C-9E3E-42A9-BBB4-3E11F5DD7364} = {09DC831E-B5E7-4D5A-A7F1-A6FDE8F95FDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

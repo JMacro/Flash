@@ -27,6 +27,7 @@ namespace Flash.Test.Web
                     .AddJsonFileEx("Config/appsettings.json", false, true)
                     .AddJsonFileEx("Config/metrics.json", false, true)
                     .AddJsonFileEx("Config/redis.json", false, true)
+                    //.AddApolloConfiguration(config, null)
                     .AddEnvironmentVariables()
                     .AddCommandLine(args).Build();
                 })

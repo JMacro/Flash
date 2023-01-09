@@ -1,18 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Flash.Core" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.EventBus" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.EventBus.RabbitMQ" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.OpenTracting" Version="10.0.0" />
-    <PackageReference Include="Flash.Extensions.UidGenerator" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
@@ -33,6 +28,8 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Office.Npoi\Flash.Extensions.Office.Npoi.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Office\Flash.Extensions.Office.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.System\Flash.Extensions.System.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>

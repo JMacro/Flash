@@ -13,18 +13,13 @@ namespace Flash.Test
     public class BaseTest
     {
         protected IContainer container;
-        protected IServiceCollection services;
+        private IServiceCollection services;
 
-        public enum TestEnum
-        {
-            AA = 0,
-            BB = 1
-        }
+        public ServiceProvider ServiceProvider { get; private set; }
+
 
         public BaseTest()
         {
-            TestEnum.BB.ToInt();
-
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .SetEnvironmentVariable("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
@@ -67,6 +62,17 @@ namespace Flash.Test
                     });
                 });
 
+                setup.AddOffice(setting =>
+                {
+                    setting.WithDefaultExcelSetting(new Extensions.Office.ExcelSetting
+                    {
+                        
+                    });
+                }, action =>
+                {
+                    action.UseNpoi();
+                });
+
                 //setup.AddOpenTracing(option =>
                 //{
                 //    //option.AddJaeger(ation =>
@@ -78,7 +84,7 @@ namespace Flash.Test
             });
 
             //构建ServiceProvider对象
-            var serviceProvider = services.BuildServiceProvider();
+            ServiceProvider = services.BuildServiceProvider();
 
             ContainerBuilder containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);

@@ -84,6 +84,7 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Assembly "Flash.DynamicRoute" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.AppMetrics" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Configuration.Json" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.Configuration.Apollo" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.DistributedLock" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.ORM" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.ORM" "netstandard2.1"
@@ -98,6 +99,9 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Assembly "Flash.Extensions.UidGenerator" "netstandard2.0"
 
     Collect-Assembly "Flash.LoadBalancer" "netstandard2.0"
+
+    Collect-Assembly "Flash.Extensions.Office" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.Office.Npoi" "netstandard2.0"
 
 
     Collect-Content "README.md"
@@ -132,6 +136,7 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Localizations "Flash.DynamicRoute" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.AppMetrics" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Configuration.Json" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.Configuration.Apollo" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.DistributedLock" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.ORM" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.ORM" "netstandard2.1"
@@ -146,6 +151,9 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Localizations "Flash.Extensions.UidGenerator" "netstandard2.0"
 
     Collect-Localizations "Flash.LoadBalancer" "netstandard2.0"
+
+    Collect-Localizations "Flash.Extensions.Office" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.Office.Npoi" "netstandard2.0"
 
     Collect-File "LICENSE.md"
     Collect-File "NOTICES"
@@ -186,6 +194,7 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.DynamicRoute" $version
     #Create-Package "Flash.Extensions.AppMetrics" $version
     Create-Package "Flash.Extensions.Configuration.Json" $version
+    Create-Package "Flash.Extensions.Configuration.Apollo" $version
     Create-Package "Flash.Extensions.DistributedLock" $version
     Create-Package "Flash.Extensions.ORM" $version
     Create-Package "Flash.Extensions.ORM.EntityFrameworkCore" $version
@@ -195,6 +204,9 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.Extensions.UidGenerator" $version
 
     Create-Package "Flash.LoadBalancer" $version
+
+    Create-Package "Flash.Extensions.Office" $version
+    Create-Package "Flash.Extensions.Office.Npoi" $version
 }
 
 function Collect-Localizations($project, $target) {
