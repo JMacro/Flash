@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" Version="11.0.3" />
     <ProjectReference Include="..\Flash.Extensions.Office\Flash.Extensions.Office.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" Version="11.0.3" />
   </ItemGroup>
 
 </Project>

@@ -12,15 +12,18 @@
     <licenseUrl>https://raw.githubusercontent.com/JMacro/Flash/master/LICENSE.md</licenseUrl>
     <summary></summary>
     <iconUrl>https://raw.githubusercontent.com/JMacro/Flash/master/src/icon.png</iconUrl>
-    <description>Extensions System</description>
+    <description>Extensions Office Npoi</description>
     <copyright>Copyright © 2013-2021 JMacro</copyright>
-    <tags>Extensions System</tags>
+    <tags>Extensions Office Npoi</tags>
     <releaseNotes>
     </releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.0">
         <dependency id="NETStandard.Library" version="2.0.3" />
         <dependency id="NPOI" version="2.6.0" />
+        <dependency id="Flash.Core" version="11.0.3" />
+        <dependency id="Flash.Extensions.Office" version="0.0.0" />
+        <dependency id="Flash.Extensions.System" version="11.0.3" />
       </group>
     </dependencies>
   </metadata>

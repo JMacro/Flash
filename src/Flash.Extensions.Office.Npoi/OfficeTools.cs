@@ -14,6 +14,13 @@ namespace Flash.Extensions.Office.Npoi
 {
     public class OfficeTools : IOfficeTools
     {
+        private readonly IOfficeSetting _officeSetting;
+
+        public OfficeTools(IOfficeSetting officeSetting)
+        {
+            this._officeSetting = officeSetting;
+        }
+
         public List<T> ReadExcel<T>(byte[] bytes, List<ExcelHeaderColumn> columnMaps) where T : new()
         {
             var entitys = new List<T>();
@@ -71,17 +78,75 @@ namespace Flash.Extensions.Office.Npoi
             return entitys;
         }
 
+        public List<T> ReadExcel<T>(byte[] bytes, string sheetName, List<ExcelHeaderColumn> columnMaps) where T : new()
+        {
+            var entitys = new List<T>();
+            var dataType = typeof(T);
+            var properties = dataType.GetProperties();
+
+            using (var memoryStream = new MemoryStream(bytes))
+            {
+                var columnMapsDic = columnMaps.ToDictionary(p => p.ColumnMap.ExcelColumnName, p => p);
+
+                var xssWorkbook = new HSSFWorkbook(memoryStream);
+                var sheet = xssWorkbook.GetSheet(sheetName);
+                if (sheet == null) return entitys;
+
+                IRow headerRow = sheet.GetRow(0);
+                int cellCount = headerRow.LastCellNum;
+
+                var excelColumns = new Dictionary<int, string>();
+                for (int j = 0; j < cellCount; j++)
+                {
+                    var cell = headerRow.GetCell(j);
+                    if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
+
+                    excelColumns.Add(j, cell.ToString());
+                }
+
+                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
+                {
+                    var entity = new T();
+                    IRow row = sheet.GetRow(i);
+                    if (row == null) continue;
+                    if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
+
+                    for (int j = row.FirstCellNum; j < cellCount; j++)
+                    {
+                        if (row.GetCell(j) != null)
+                        {
+                            var cellValue = row.GetCell(j).ToString();
+
+                            if (!string.IsNullOrWhiteSpace(cellValue))
+                            {
+                                var tmp = columnMapsDic[excelColumns[j]];
+                                var property = dataType.GetProperty(tmp.ColumnMap.EntityFieldName);
+                                if (property != null)
+                                {
+                                    if (TryConvertType(cellValue, property.PropertyType, out dynamic result))
+                                    {
+                                        property.SetValue(entity, result);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    entitys.Add(entity);
+                }
+            }
+            return entitys;
+        }
+
         public byte[] WriteExcel<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, ExcelSetting setting = null) where T : new()
         {
-            var columnIndex = 0;
-            var rowIndex = 0;
+            return WriteExcelMultipleSheet(SheetInfo.Create<T>(dataSource, headerColumns, setting));
+        }
 
+        public byte[] WriteExcelMultipleSheet(params SheetInfo[] sheets)
+        {
             using (var memoryStream = new MemoryStream())
             {
                 HSSFWorkbook workbook = new HSSFWorkbook();
-                ISheet excelSheet = workbook.CreateSheet("Sheet1");
-                excelSheet.DefaultColumnWidth = 100 * 256;
-                excelSheet.DefaultRowHeight = 16 * 20;
 
                 ICellStyle style = workbook.CreateCellStyle();
                 style.BorderBottom = BorderStyle.Thin;
@@ -103,64 +168,83 @@ namespace Flash.Extensions.Office.Npoi
                 fontHeader.Color = HSSFColor.White.Index;
                 styleHeader.SetFont(fontHeader);
 
-                IRow row = excelSheet.CreateRow(rowIndex++);
 
-                if (setting?.HeaderRowHeight > 0) row.Height = setting.HeaderRowHeight;
-                else row.Height = 16 * 20;
-
-                foreach (var column in headerColumns)
+                Dictionary<string, ICellStyle> cellStyleDic = new Dictionary<string, ICellStyle>();
+                foreach (var sheetInfo in sheets)
                 {
-                    ICell cell = row.CreateCell(columnIndex);
-                    cell.CellStyle = styleHeader;
-                    cell.SetCellValue(column.ColumnMap.ExcelColumnName);
-                    if (setting?.ColumnWidth > 0)
+                    var columnIndex = 0;
+                    var rowIndex = 0;
+
+                    if (workbook.GetSheet(sheetInfo.SheetName) != null)
                     {
-                        excelSheet.SetColumnWidth(columnIndex, setting.ColumnWidth * 256);
-                    }
-                    else
-                    {
-                        var columnWidth = Encoding.Default.GetBytes(column.ColumnMap.ExcelColumnName).Length;
-                        excelSheet.SetColumnWidth(columnIndex, columnWidth * 256);
+                        throw new ArgumentException($"Sheet name repeat[{sheetInfo.SheetName}]");
                     }
 
-                    columnIndex++;
-                }
+                    ISheet excelSheet = workbook.CreateSheet(sheetInfo.SheetName);
+                    excelSheet.DefaultColumnWidth = 100 * 256;
+                    excelSheet.DefaultRowHeight = 16 * 20;
+                    IRow row = excelSheet.CreateRow(rowIndex++);
 
-                var dataType = typeof(T);
-                var properties = dataType.GetProperties();
-
-                var dataformat = workbook.CreateDataFormat();
-
-                //写入数据
-                foreach (var data in dataSource)
-                {
-                    row = excelSheet.CreateRow(rowIndex++);
-                    if (setting?.HeaderRowHeight > 0) row.Height = setting.RowHeight;
+                    if (sheetInfo.SheetSetting?.HeaderRowHeight > 0) row.Height = sheetInfo.SheetSetting.HeaderRowHeight;
                     else row.Height = 16 * 20;
 
-                    columnIndex = 0;
-
-                    foreach (var column in headerColumns)
+                    foreach (var column in sheetInfo.HeaderColumns)
                     {
-                        var cell = row.CreateCell(columnIndex);
-                        cell.CellStyle = style;
-                        columnIndex++;
-
-                        var propertieInfo = properties.FirstOrDefault(p => p.Name == column.ColumnMap.EntityFieldName);
-                        if (propertieInfo != null)
+                        ICell cell = row.CreateCell(columnIndex);
+                        cell.CellStyle = styleHeader;
+                        cell.SetCellValue(column.ColumnMap.ExcelColumnName);
+                        if (sheetInfo.SheetSetting?.ColumnWidth > 0)
                         {
-                            cell.SetCellValue(propertieInfo.GetValue(data));
-                            if (!string.IsNullOrEmpty(column.DataFormat))
+                            excelSheet.SetColumnWidth(columnIndex, sheetInfo.SheetSetting.ColumnWidth * 256);
+                        }
+                        else
+                        {
+                            var columnWidth = Encoding.Default.GetBytes(column.ColumnMap.ExcelColumnName).Length;
+                            excelSheet.SetColumnWidth(columnIndex, columnWidth * 256);
+                        }
+
+                        columnIndex++;
+                    }
+
+                    var dataType = sheetInfo.DataSourceType;
+                    var properties = dataType.GetProperties();
+
+                    var dataformat = workbook.CreateDataFormat();
+
+                    //写入数据
+                    foreach (var data in sheetInfo.DataSource)
+                    {
+                        row = excelSheet.CreateRow(rowIndex++);
+                        if (sheetInfo.SheetSetting?.RowHeight > 0) row.Height = sheetInfo.SheetSetting.RowHeight;
+                        else row.Height = 16 * 20;
+
+                        columnIndex = 0;
+
+                        foreach (var column in sheetInfo.HeaderColumns)
+                        {
+                            var cell = row.CreateCell(columnIndex);
+                            cell.CellStyle = style;
+                            columnIndex++;
+
+                            var propertieInfo = properties.FirstOrDefault(p => p.Name == column.ColumnMap.EntityFieldName);
+                            if (propertieInfo != null)
                             {
-                                ICellStyle dataStyle = workbook.CreateCellStyle();
-                                dataStyle.CloneStyleFrom(style);
-                                dataStyle.DataFormat = dataformat.GetFormat(column.DataFormat);
-                                cell.CellStyle = dataStyle;
+                                NopiExtensions.SetCellValue(cell, propertieInfo.GetValue(data));
+                                if (!string.IsNullOrEmpty(column.DataFormat))
+                                {
+                                    if (!cellStyleDic.TryGetValue(column.DataFormat, out var dataStyle))
+                                    {
+                                        dataStyle = workbook.CreateCellStyle();
+                                        dataStyle.CloneStyleFrom(style);
+                                        cellStyleDic.Add(column.DataFormat, dataStyle);
+                                    }
+                                    dataStyle.DataFormat = dataformat.GetFormat(column.DataFormat);
+                                    cell.CellStyle = dataStyle;
+                                }
                             }
                         }
                     }
                 }
-
                 workbook.Write(memoryStream);
                 return memoryStream.ToArray();
             }
@@ -247,7 +331,11 @@ namespace Flash.Extensions.Office.Npoi
     {
         public static void SetCellValue(this ICell cell, object value)
         {
-            if (value == null) cell.SetCellValue("");
+            if (value == null)
+            {
+                cell.SetCellValue("");
+                return;
+            }
 
             var targetType = value.GetType();
 

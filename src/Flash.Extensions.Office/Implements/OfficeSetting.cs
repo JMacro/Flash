@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Flash.Extensions.Office
+﻿namespace Flash.Extensions.Office
 {
     public class OfficeSetting : IOfficeSetting
     {
-        public ExcelSetting DefaultExcelSetting { get; private set; }
+        /// <summary>
+        /// 默认的Excel设置
+        /// </summary>
+        public ExcelSetting DefaultExcelSetting { get; private set; } = new ExcelSetting();
 
         public IOfficeSetting WithDefaultExcelSetting(ExcelSetting setting)
         {

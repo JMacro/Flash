@@ -18,6 +18,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var builder = new FlashOfficeBuilder(hostBuilder.Services, hostBuilder);
             action(builder);
+
+            hostBuilder.Services.AddSingleton<IOfficeSetting, OfficeSetting>(func =>
+            {
+                return new OfficeSetting();
+            });
+
             return hostBuilder;
         }
 
@@ -36,6 +42,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var defaultSetting = new OfficeSetting();
             setting(defaultSetting);
+
+            hostBuilder.Services.AddSingleton<IOfficeSetting, OfficeSetting>(func =>
+            {
+                return defaultSetting;
+            });
 
             return AddOffice(hostBuilder, action);
         }
