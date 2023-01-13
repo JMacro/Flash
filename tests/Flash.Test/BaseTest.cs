@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Flash.Extensions;
+using Flash.Extensions.Email;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -66,7 +67,7 @@ namespace Flash.Test
                 {
                     setting.WithDefaultExcelSetting(new Extensions.Office.ExcelSetting
                     {
-                        
+
                     });
                 }, action =>
                 {
@@ -80,6 +81,8 @@ namespace Flash.Test
 
                 //    //});
                 //});
+
+                setup.AddMailKit(configuration.GetSection("Email").Get<EmailConfig>());
 
             });
 

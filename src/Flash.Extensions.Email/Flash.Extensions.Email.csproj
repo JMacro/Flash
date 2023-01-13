@@ -11,5 +11,15 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extersions\" />
+  </ItemGroup>
 
 </Project>

@@ -1,10 +1,12 @@
 ﻿
+using Flash.Extensions.Email;
 using Flash.Extensions.Office;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Mime;
 using System.Threading;
 
 namespace Flash.Test
@@ -83,10 +85,19 @@ namespace Flash.Test
                 SheetInfo.Create("Sheet3", dataSource, headerColumns3));
             Assert.IsNotNull(buffer);
 
-            File.WriteAllBytes(Path.Combine(AppContext.BaseDirectory, "excel", DateTime.Now.ToFileTime().ToString() + ".xls"), buffer);
+            var fileName = DateTime.Now.ToFileTime().ToString() + ".xls";
+            File.WriteAllBytes(Path.Combine(AppContext.BaseDirectory, "excel", fileName), buffer);
 
             var datas = tool.ReadExcel<StudentInfo>(buffer, "Sheet2", headerColumns2);
             Assert.IsNotNull(datas);
+
+            var emailService = ServiceProvider.GetService<IEmailService>();
+            Assert.IsNotNull(emailService);
+
+            //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试", AttachmentInfo.Create(fileName, new MemoryStream(buffer)), System.Text.Encoding.UTF8);
+            //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
+
+            emailService.Send("JMacro_H@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName), Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
         }
     }
 
