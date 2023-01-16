@@ -11,6 +11,9 @@
 |  Flash.Extensions.EventBus.RabbitMQ | RabbitMQ消息总线  | [![NuGet version (Flash.Extensions.EventBus.RabbitMQ)](https://img.shields.io/nuget/v/Flash.Extensions.EventBus.RabbitMQ?style=flat)](https://www.nuget.org/packages/Flash.Extensions.EventBus.RabbitMQ/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.EventBus.RabbitMQ)|
 |  Flash.Extensions.ORM.EntityFrameworkCore | EF ORM  | [![NuGet version (Flash.Extensions.ORM.EntityFrameworkCore)](https://img.shields.io/nuget/v/Flash.Extensions.ORM.EntityFrameworkCore?style=flat)](https://www.nuget.org/packages/Flash.Extensions.ORM.EntityFrameworkCore/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.ORM.EntityFrameworkCore)|
 |  Flash.Extensions.Resilience.Http | 弹性Http  | [![NuGet version (Flash.Extensions.Resilience.Http)](https://img.shields.io/nuget/v/Flash.Extensions.Resilience.Http?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Resilience.Http/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Resilience.Http)|
+|  Flash.Extensions.Email | Email工具  | [![NuGet version (Flash.Extensions.Email)](https://img.shields.io/nuget/v/Flash.Extensions.Email?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Email/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Email)|
+|  Flash.Extensions.Office.Npoi | Office Npoi工具  | [![NuGet version (Flash.Extensions.Office.Npoi)](https://img.shields.io/nuget/v/Flash.Extensions.Office.Npoi?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Office.Npoi/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Office.Npoi)|
+
 
 #### 使用说明
 
