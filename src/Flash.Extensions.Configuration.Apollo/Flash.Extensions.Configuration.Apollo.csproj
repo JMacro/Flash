@@ -15,5 +15,8 @@
     <PackageReference Include="Com.Ctrip.Framework.Apollo" Version="2.8.0" />
     <PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.8.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
+  </ItemGroup>
 
 </Project>

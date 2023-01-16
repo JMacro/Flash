@@ -146,14 +146,14 @@ namespace Flash.Test.Web
                 //    tracer.UseSkywalking("Flash.Test.Web");
                 //});
 
-                //flash.AddORM(orm =>
-                //{
-                //    orm.UseEFCore<TestDbContext>(option =>
-                //    {
-                //        var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
-                //        option.UseMySql(connection, ServerVersion.AutoDetect(connection));
-                //    });
-                //});
+                flash.AddORM(orm =>
+                {
+                    orm.UseEFCore<TestDbContext>(option =>
+                    {
+                        var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
+                        option.UseMySql(connection, ServerVersion.AutoDetect(connection));
+                    });
+                });
 
                 //flash.AddResilientHttpClient((aorign, option) =>
                 //{

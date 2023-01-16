@@ -19,14 +19,12 @@
     </releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="NETStandard.Library" version="2.0.3" />
-        <dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="Newtonsoft.Json" version="13.0.2" />
         <dependency id="System.Diagnostics.Process" version="4.3.0" />
         <dependency id="System.Threading.Tasks.Parallel" version="4.3.0" />
         <dependency id="System.Threading.Thread" version="4.3.0" />
-        <dependency id="System.Threading.Tasks.Extensions" version="4.3.0" />
-        <dependency id="Microsoft.AspNetCore.Hosting" version="1.0.2" />
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4" />
+        <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.7" />
       </group>
     </dependencies>
   </metadata>

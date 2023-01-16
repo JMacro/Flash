@@ -5,6 +5,7 @@ Task Default -Depends Collect
 Task CI -Depends Pack
 
 Task Build -Depends Clean -Description "Restore all the packages and build the whole solution." {
+    Write-Host "Building ..."
     Exec { dotnet build -c Release }
 }
 
@@ -57,15 +58,22 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Assembly "Flash.Extensions.Cache" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Cache.Redis" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Cache.Redis.DependencyInjection" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.DistributedLock" "netstandard2.0"
+
+    Collect-Assembly "Flash.Extensions.Configuration.Json" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.Configuration.Apollo" "netstandard2.0"
 
     Collect-Assembly "Flash.Extensions.EventBus" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.EventBus" "netstandard2.1"
+    Collect-Assembly "Flash.Extensions.EventBus" "netcoreapp3.1"
     Collect-Assembly "Flash.Extensions.EventBus.RabbitMQ" "netstandard2.0"
 
     Collect-Assembly "Flash.Extensions.HealthChecks" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.HealthChecks.MySql" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.HealthChecks.RabbitMQ" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.HealthChecks.Redis" "netstandard2.0"
+
+    Collect-Assembly "Flash.Extensions.Office" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.Office.Npoi" "netstandard2.0"
 
     Collect-Assembly "Flash.Extensions.Job" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Job.Hangfire" "netstandard2.0"
@@ -74,30 +82,21 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
 
     Collect-Assembly "Flash.Extensions.OpenTracting" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.OpenTracting.Jaeger" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.OpenTracting.Jaeger" "netcoreapp2.0"
+    Collect-Assembly "Flash.Extensions.OpenTracting.Jaeger" "netcoreapp3.1"
     Collect-Assembly "Flash.Extensions.OpenTracting.Skywalking" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.OpenTracting.Skywalking" "netcoreapp2.1"
+    Collect-Assembly "Flash.Extensions.OpenTracting.Skywalking" "netcoreapp3.1"
+
+    Collect-Assembly "Flash.Extensions.ORM" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.ORM" "net6.0"
+    Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "net6.0"
 
     Collect-Assembly "Flash.DynamicRoute" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.AppMetrics" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.Configuration.Json" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.Configuration.Apollo" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.DistributedLock" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.ORM" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.ORM" "netstandard2.1"
-    Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.1"
-    Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "net6.0"
+    Collect-Assembly "Flash.Extensions.AppMetrics" "netstandard2.0"    
     Collect-Assembly "Flash.Extensions.Resilience.Http" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Security" "netstandard2.0"
-
     Collect-Assembly "Flash.Extensions.UidGenerator" "netstandard2.0"
-
     Collect-Assembly "Flash.LoadBalancer" "netstandard2.0"
-
-    Collect-Assembly "Flash.Extensions.Office" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.Office.Npoi" "netstandard2.0"
-
     Collect-Assembly "Flash.Extensions.Email" "netstandard2.0"
 
 
@@ -106,9 +105,13 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Localizations "Flash.Extensions.Cache" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Cache.Redis" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Cache.Redis.DependencyInjection" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.DistributedLock" "netstandard2.0"
+
+    Collect-Localizations "Flash.Extensions.Configuration.Json" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.Configuration.Apollo" "netstandard2.0"
 
     Collect-Localizations "Flash.Extensions.EventBus" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.EventBus" "netstandard2.1"
+    Collect-Localizations "Flash.Extensions.EventBus" "netcoreapp3.1"
     Collect-Localizations "Flash.Extensions.EventBus.RabbitMQ" "netstandard2.0"
 
     Collect-Localizations "Flash.Extensions.HealthChecks" "netstandard2.0"
@@ -121,32 +124,26 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Localizations "Flash.Extensions.Job.Hangfire.AspNetCore" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Job.Quartz" "netstandard2.0"
 
-    Collect-Localizations "Flash.Extensions.OpenTracting" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.OpenTracting.Jaeger" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.OpenTracting.Jaeger" "netcoreapp2.0"
-    Collect-Localizations "Flash.Extensions.OpenTracting.Skywalking" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.OpenTracting.Skywalking" "netcoreapp2.1"
-
-    Collect-Localizations "Flash.DynamicRoute" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.AppMetrics" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.Configuration.Json" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.Configuration.Apollo" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.DistributedLock" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.ORM" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.ORM" "netstandard2.1"
-    Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.1"
-    Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "net6.0"
-    Collect-Localizations "Flash.Extensions.Resilience.Http" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.Security" "netstandard2.0"
-
-    Collect-Localizations "Flash.Extensions.UidGenerator" "netstandard2.0"
-
-    Collect-Localizations "Flash.LoadBalancer" "netstandard2.0"
-
     Collect-Localizations "Flash.Extensions.Office" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Office.Npoi" "netstandard2.0"
 
+    Collect-Localizations "Flash.Extensions.OpenTracting" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.OpenTracting.Jaeger" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.OpenTracting.Jaeger" "netcoreapp3.1"
+    Collect-Localizations "Flash.Extensions.OpenTracting.Skywalking" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.OpenTracting.Skywalking" "netcoreapp3.1"
+
+    Collect-Localizations "Flash.Extensions.ORM" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.ORM" "net6.0"
+    Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "net6.0"
+
+    Collect-Localizations "Flash.DynamicRoute" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.AppMetrics" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.Resilience.Http" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.Security" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.UidGenerator" "netstandard2.0"
+    Collect-Localizations "Flash.LoadBalancer" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Email" "netstandard2.0"
 
     Collect-File "LICENSE.md"
@@ -166,6 +163,9 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.Extensions.Cache.Redis" $version
     Create-Package "Flash.Extensions.Cache.Redis.DependencyInjection" $version
 
+    Create-Package "Flash.Extensions.Configuration.Json" $version
+    Create-Package "Flash.Extensions.Configuration.Apollo" $version
+
     Create-Package "Flash.Extensions.EventBus" $version
     Create-Package "Flash.Extensions.EventBus.RabbitMQ" $version
 
@@ -179,26 +179,23 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.Extensions.Job.Hangfire.AspNetCore" $version
     Create-Package "Flash.Extensions.Job.Quartz" $version
 
+    Create-Package "Flash.Extensions.Office" $version
+    Create-Package "Flash.Extensions.Office.Npoi" $version
+
     Create-Package "Flash.Extensions.OpenTracting" $version
     Create-Package "Flash.Extensions.OpenTracting.Jaeger" $version
     Create-Package "Flash.Extensions.OpenTracting.Skywalking" $version
 
-    Create-Package "Flash.DynamicRoute" $version
-    #Create-Package "Flash.Extensions.AppMetrics" $version
-    Create-Package "Flash.Extensions.Configuration.Json" $version
-    Create-Package "Flash.Extensions.Configuration.Apollo" $version
-    Create-Package "Flash.Extensions.DistributedLock" $version
-    Create-Package "Flash.Extensions.ORM" $version
+     Create-Package "Flash.Extensions.ORM" $version
     Create-Package "Flash.Extensions.ORM.EntityFrameworkCore" $version
+
+    Create-Package "Flash.DynamicRoute" $version
+    #Create-Package "Flash.Extensions.AppMetrics" $version    
+    Create-Package "Flash.Extensions.DistributedLock" $version   
     Create-Package "Flash.Extensions.Resilience.Http" $version
     Create-Package "Flash.Extensions.Security" $version
     Create-Package "Flash.Extensions.UidGenerator" $version
-
     Create-Package "Flash.LoadBalancer" $version
-
-    Create-Package "Flash.Extensions.Office" $version
-    Create-Package "Flash.Extensions.Office.Npoi" $version
-
     Create-Package "Flash.Extensions.Email" $version
 }
 

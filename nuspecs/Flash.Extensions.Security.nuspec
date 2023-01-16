@@ -19,13 +19,11 @@
     </releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="NETStandard.Library" version="2.0.3" />
-        <dependency id="Flash.Core" version="11.0.6" />
+        <dependency id="Flash.Core" version="11.0.7" />
       </group>
     </dependencies>
   </metadata>
   <files>
-
     <file src="netstandard2.0\Flash.Extensions.Security.dll" target="lib\netstandard2.0" />
     <file src="netstandard2.0\Flash.Extensions.Security.xml" target="lib\netstandard2.0" />
     <file src="netstandard2.0\Flash.Extensions.Security.pdb" target="lib\netstandard2.0" />

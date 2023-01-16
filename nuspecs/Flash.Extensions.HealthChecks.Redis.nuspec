@@ -19,7 +19,6 @@
     </releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="NETStandard.Library" version="2.0.3" />
         <dependency id="StackExchange.Redis" version="2.0.601" />
         <dependency id="Flash.Extensions.HealthChecks" version="0.0.0" />
         <dependency id="Flash.LoadBalancer" version="0.0.0" />

@@ -19,7 +19,6 @@
     </releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="NETStandard.Library" version="2.0.3" />
         <dependency id="Quartz" version="3.3.3" />
         <dependency id="Quartz.Plugins" version="3.3.3" />
         <dependency id="Quartz.OpenTracing" version="3.3.3" />

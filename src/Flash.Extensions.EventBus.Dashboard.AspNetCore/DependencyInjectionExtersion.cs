@@ -1,8 +1,10 @@
 ﻿using Flash.Extensions;
+using Flash.Extensions.EventBus;
 using Flash.Extensions.EventBus.Dashboard;
 using Flash.Extensions.EventBus.Dashboard.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -26,6 +28,12 @@ namespace Microsoft.Extensions.DependencyInjection
             app.Map(new PathString(pathMatch), x => x.UseMiddleware<AspNetCoreDashboardMiddleware>(options, routes));
 
             return app;
+        }
+
+        public static IEventBusHostBuilder UseRabbitMQ(this IEventBusHostBuilder hostBuilder)
+        {
+            hostBuilder.Services.TryAddSingleton(_ => DashboardRoutes.Routes);
+            return hostBuilder;
         }
     }
 }

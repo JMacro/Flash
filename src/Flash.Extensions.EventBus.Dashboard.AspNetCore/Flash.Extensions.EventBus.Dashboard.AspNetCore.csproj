@@ -8,8 +8,41 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RootNamespace>Flash.Extensions.EventBus.Dashboard.AspNetCore</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Dashboard\Content\css\bootstrap.min.css" />
+    <None Remove="Dashboard\Content\css\Chart.min.css" />
+    <None Remove="Dashboard\Content\css\hangfire.css" />
+    <None Remove="Dashboard\Content\fonts\glyphicons-halflings-regular.eot" />
+    <None Remove="Dashboard\Content\fonts\glyphicons-halflings-regular.svg" />
+    <None Remove="Dashboard\Content\fonts\glyphicons-halflings-regular.ttf" />
+    <None Remove="Dashboard\Content\fonts\glyphicons-halflings-regular.woff" />
+    <None Remove="Dashboard\Content\fonts\glyphicons-halflings-regular.woff2" />
+    <None Remove="Dashboard\Content\js\bootstrap.min.js" />
+    <None Remove="Dashboard\Content\js\Chart.min.js" />
+    <None Remove="Dashboard\Content\js\chartjs-plugin-streaming.min.js" />
+    <None Remove="Dashboard\Content\js\hangfire.js" />
+    <None Remove="Dashboard\Content\js\jquery-3.6.0.min.js" />
+    <None Remove="Dashboard\Content\js\moment-with-locales.min.js" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\css\bootstrap.min.css" />
+    <EmbeddedResource Include="Dashboard\Content\css\Chart.min.css" />
+    <EmbeddedResource Include="Dashboard\Content\css\hangfire.css" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="Dashboard\Content\fonts\glyphicons-halflings-regular.woff2" />
+    <EmbeddedResource Include="Dashboard\Content\js\bootstrap.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\Chart.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\chartjs-plugin-streaming.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\hangfire.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\jquery-3.6.0.min.js" />
+    <EmbeddedResource Include="Dashboard\Content\js\moment-with-locales.min.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
@@ -18,4 +51,99 @@
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dashboard\Content\resx\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dashboard\Pages\FailedQueuePage.cshtml.cs">
+      <DependentUpon>FailedQueuePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\HomePage.cshtml.cs">
+      <DependentUpon>HomePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\LayoutPage.cs">
+      <DependentUpon>LayoutPage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\LayoutPage.cshtml.cs">
+      <DependentUpon>LayoutPage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\NormalQueuePage.cshtml.cs">
+      <DependentUpon>NormalQueuePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\QueueMessagePage.cs">
+      <DependentUpon>QueueMessagePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\QueueMessagePage.cshtml.cs">
+      <DependentUpon>QueueMessagePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\RetryQueuePage.cshtml.cs">
+      <DependentUpon>RetryQueuePage.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_ErrorAlert.cshtml.cs">
+      <DependentUpon>_ErrorAlert.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_InlineMetric.cs">
+      <DependentUpon>_InlineMetric.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_InlineMetric.cshtml.cs">
+      <DependentUpon>_InlineMetric.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_Navigation.cshtml.cs">
+      <DependentUpon>_Navigation.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_Paginator.cs">
+      <DependentUpon>_Paginator.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_Paginator.cshtml.cs">
+      <DependentUpon>_Paginator.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_PerPageSelector.cs">
+      <DependentUpon>_PerPageSelector.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_PerPageSelector.cshtml.cs">
+      <DependentUpon>_PerPageSelector.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_SidebarMenu.cs">
+      <DependentUpon>_SidebarMenu.cshtml</DependentUpon>
+    </Compile>
+    <Compile Update="Dashboard\Pages\_SidebarMenu.cshtml.cs">
+      <DependentUpon>_SidebarMenu.cshtml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dashboard\Content\resx\Strings.resx">
+      <CustomToolNamespace>Flash.Extensions.EventBus.Dashboard.Resources</CustomToolNamespace>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dashboard\Content\resx\Strings.zh.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dashboard\Content\resx\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <!-- Full MSBuild is required to generate Razor classes -->
+  <PropertyGroup>
+    <MSBuild14FullPath>$(MSBuildProgramFiles32)\MSBuild\14.0\bin\MSBuild.exe</MSBuild14FullPath>
+    <MSBuildCurrentFullPath>$(MSBuildBinPath)\MSBuild.exe</MSBuildCurrentFullPath>
+    <RazorProjectFile>Razor.build</RazorProjectFile>
+    <InnerTargets>GenerateRazorClasses;Build</InnerTargets>
+  </PropertyGroup>
+
+  <Target Name="GenerateRazorClasses">
+    <Exec Command="&quot;$(MSBuildCurrentFullPath)&quot; $(RazorProjectFile) /v:quiet /nologo" Condition="Exists('$(MSBuildCurrentFullPath)')" />
+    <Exec Command="&quot;$(MSBuild14FullPath)&quot; $(RazorProjectFile) /v:quiet /nologo" Condition="Exists('$(MSBuild14FullPath)') and !Exists('$(MSBuildCurrentFullPath)')" />
+    <Warning Text="Classes for Razor files (*.cshtml) weren't re-generated: couldn't find the '$(MSBuild14FullPath)' or '$(MSBuildCurrentFullPath)' file" Condition="!Exists('$(MSBuild14FullPath)') and !Exists('$(MSBuildCurrentFullPath)')" />
+  </Target>
 </Project>
