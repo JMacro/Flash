@@ -13,6 +13,9 @@
 |  Flash.Extensions.Resilience.Http | 弹性Http  | [![NuGet version (Flash.Extensions.Resilience.Http)](https://img.shields.io/nuget/v/Flash.Extensions.Resilience.Http?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Resilience.Http/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Resilience.Http)|
 |  Flash.Extensions.Email | Email工具  | [![NuGet version (Flash.Extensions.Email)](https://img.shields.io/nuget/v/Flash.Extensions.Email?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Email/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Email)|
 |  Flash.Extensions.Office.Npoi | Office Npoi工具  | [![NuGet version (Flash.Extensions.Office.Npoi)](https://img.shields.io/nuget/v/Flash.Extensions.Office.Npoi?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Office.Npoi/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Office.Npoi)|
+|  Flash.Extensions.Job.Hangfire | Job Hangfire工具  | [![NuGet version (Flash.Extensions.Job.Hangfire)](https://img.shields.io/nuget/v/Flash.Extensions.Job.Hangfire?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Job.Hangfire/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Job.Hangfire)|
+|  Flash.Extensions.Job.Hangfire.AspNetCore | Job Hangfire仪表盘  | [![NuGet version (Flash.Extensions.Job.Hangfire.AspNetCore)](https://img.shields.io/nuget/v/Flash.Extensions.Job.Hangfire.AspNetCore?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Job.Hangfire.AspNetCore/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Job.Hangfire.AspNetCore)|
+|  Flash.Extensions.Job.Quartz | Job Quartz工具  | [![NuGet version (Flash.Extensions.Job.Quartz)](https://img.shields.io/nuget/v/Flash.Extensions.Job.Quartz?style=flat)](https://www.nuget.org/packages/Flash.Extensions.Job.Quartz/) ![Nuget](https://img.shields.io/nuget/dt/Flash.Extensions.Job.Quartz)|
 
 
 #### 使用说明
