@@ -97,7 +97,7 @@ namespace Flash.Test
             //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试", AttachmentInfo.Create(fileName, new MemoryStream(buffer)), System.Text.Encoding.UTF8);
             //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
 
-            emailService.Send("JMacro_H@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName), Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
+            emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName), Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
         }
     }
 
