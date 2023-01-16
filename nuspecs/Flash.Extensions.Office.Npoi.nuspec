@@ -23,7 +23,7 @@
         <dependency id="NPOI" version="2.6.0" />
         <dependency id="Flash.Core" version="11.0.3" />
         <dependency id="Flash.Extensions.Office" version="0.0.0" />
-        <dependency id="Flash.Extensions.System" version="11.0.3" />
+        <dependency id="Flash.Extensions.System" version="11.0.7" />
       </group>
     </dependencies>
   </metadata>

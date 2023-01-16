@@ -21,16 +21,16 @@
       <group targetFramework="netstandard2.0">
         <dependency id="NETStandard.Library" version="2.0.3" />
         <dependency id="Microsoft.Extensions.Logging" version="2.1.1" />
-        <dependency id="Flash.Core" version="0.0.0" />
+        <dependency id="Flash.Core" version="11.0.6" />
         <dependency id="Flash.Extensions.OpenTracting" version="0.0.0" />
-        <dependency id="Flash.Extensions.System" version="0.0.0" />
+        <dependency id="Flash.Extensions.System" version="11.0.7" />
       </group>
       <group targetFramework="netcoreapp2.1">
         <dependency id="Microsoft.Extensions.Logging" version="2.1.1" />
         <dependency id="Microsoft.NETCore.App" version="2.1.0" />
-        <dependency id="Flash.Core" version="0.0.0" />
+        <dependency id="Flash.Core" version="11.0.6" />
         <dependency id="Flash.Extensions.OpenTracting" version="0.0.0" />
-        <dependency id="Flash.Extensions.System" version="0.0.0" />
+        <dependency id="Flash.Extensions.System" version="11.0.7" />
       </group>
     </dependencies>
   </metadata>

@@ -109,7 +109,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C25D9C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6DC0BA-E40A-4693-9DC3-8C68EAB32AD2}"
 	ProjectSection(SolutionItems) = preProject
-		nuspecs\Flash.Core.nuspec = nuspecs\Flash.Core.nuspec
 		nuspecs\Flash.DynamicRoute.nuspec = nuspecs\Flash.DynamicRoute.nuspec
 		nuspecs\Flash.Extensions.Cache.nuspec = nuspecs\Flash.Extensions.Cache.nuspec
 		nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec = nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec
@@ -136,7 +135,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.ORM.nuspec = nuspecs\Flash.Extensions.ORM.nuspec
 		nuspecs\Flash.Extensions.Resilience.Http.nuspec = nuspecs\Flash.Extensions.Resilience.Http.nuspec
 		nuspecs\Flash.Extensions.Security.nuspec = nuspecs\Flash.Extensions.Security.nuspec
-		nuspecs\Flash.Extensions.System.nuspec = nuspecs\Flash.Extensions.System.nuspec
 		nuspecs\Flash.Extensions.UidGenerator.nuspec = nuspecs\Flash.Extensions.UidGenerator.nuspec
 		nuspecs\Flash.LoadBalancer.nuspec = nuspecs\Flash.LoadBalancer.nuspec
 	EndProjectSection

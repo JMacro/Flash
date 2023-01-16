@@ -54,9 +54,6 @@ Task Test -Depends Merge -Description "Run unit and integration tests against me
 
 Task Collect -Depends Test -Description "Copy all artifacts to the build folder." {
 
-    Collect-Assembly "Flash.Core" "netstandard2.0"
-    Collect-Assembly "Flash.Core" "netstandard2.1"
-
     Collect-Assembly "Flash.Extensions.Cache" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Cache.Redis" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Cache.Redis.DependencyInjection" "netstandard2.0"
@@ -90,11 +87,9 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Assembly "Flash.Extensions.ORM" "netstandard2.1"
     Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.1"
+    Collect-Assembly "Flash.Extensions.ORM.EntityFrameworkCore" "net6.0"
     Collect-Assembly "Flash.Extensions.Resilience.Http" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Security" "netstandard2.0"
-
-    Collect-Assembly "Flash.Extensions.System" "netstandard2.0"
-    Collect-Assembly "Flash.Extensions.System" "net451"
 
     Collect-Assembly "Flash.Extensions.UidGenerator" "netstandard2.0"
 
@@ -103,11 +98,10 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Assembly "Flash.Extensions.Office" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.Office.Npoi" "netstandard2.0"
 
+    Collect-Assembly "Flash.Extensions.Email" "netstandard2.0"
+
 
     Collect-Content "README.md"
-
-    Collect-Localizations "Flash.Core" "netstandard2.0"
-    Collect-Localizations "Flash.Core" "netstandard2.1"
 
     Collect-Localizations "Flash.Extensions.Cache" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Cache.Redis" "netstandard2.0"
@@ -142,11 +136,9 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Localizations "Flash.Extensions.ORM" "netstandard2.1"
     Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "netstandard2.1"
+    Collect-Localizations "Flash.Extensions.ORM.EntityFrameworkCore" "net6.0"
     Collect-Localizations "Flash.Extensions.Resilience.Http" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Security" "netstandard2.0"
-
-    Collect-Localizations "Flash.Extensions.System" "netstandard2.0"
-    Collect-Localizations "Flash.Extensions.System" "net451"
 
     Collect-Localizations "Flash.Extensions.UidGenerator" "netstandard2.0"
 
@@ -154,6 +146,8 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
 
     Collect-Localizations "Flash.Extensions.Office" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.Office.Npoi" "netstandard2.0"
+
+    Collect-Localizations "Flash.Extensions.Email" "netstandard2.0"
 
     Collect-File "LICENSE.md"
     Collect-File "NOTICES"
@@ -168,8 +162,6 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
 
     Create-Archive "Flash-$version"
     
-    Create-Package "Flash.Core" $version
-
     Create-Package "Flash.Extensions.Cache" $version
     Create-Package "Flash.Extensions.Cache.Redis" $version
     Create-Package "Flash.Extensions.Cache.Redis.DependencyInjection" $version
@@ -200,13 +192,14 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.Extensions.ORM.EntityFrameworkCore" $version
     Create-Package "Flash.Extensions.Resilience.Http" $version
     Create-Package "Flash.Extensions.Security" $version
-    Create-Package "Flash.Extensions.System" $version
     Create-Package "Flash.Extensions.UidGenerator" $version
 
     Create-Package "Flash.LoadBalancer" $version
 
     Create-Package "Flash.Extensions.Office" $version
     Create-Package "Flash.Extensions.Office.Npoi" $version
+
+    Create-Package "Flash.Extensions.Email" $version
 }
 
 function Collect-Localizations($project, $target) {
