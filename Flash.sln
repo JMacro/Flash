@@ -116,6 +116,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.Configuration.Apollo.nuspec = nuspecs\Flash.Extensions.Configuration.Apollo.nuspec
 		nuspecs\Flash.Extensions.Configuration.Json.nuspec = nuspecs\Flash.Extensions.Configuration.Json.nuspec
 		nuspecs\Flash.Extensions.DistributedLock.nuspec = nuspecs\Flash.Extensions.DistributedLock.nuspec
+		nuspecs\Flash.Extensions.Email.nuspec = nuspecs\Flash.Extensions.Email.nuspec
 		nuspecs\Flash.Extensions.EventBus.nuspec = nuspecs\Flash.Extensions.EventBus.nuspec
 		nuspecs\Flash.Extensions.EventBus.RabbitMQ.nuspec = nuspecs\Flash.Extensions.EventBus.RabbitMQ.nuspec
 		nuspecs\Flash.Extensions.HealthChecks.MySql.nuspec = nuspecs\Flash.Extensions.HealthChecks.MySql.nuspec
