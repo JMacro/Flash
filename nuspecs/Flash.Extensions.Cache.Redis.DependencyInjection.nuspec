@@ -35,5 +35,6 @@
     <file src="COPYING.LESSER" />
     <file src="LICENSE_STANDARD" />
     <file src="LICENSE_ROYALTYFREE" />
+    <file src="netstandard2.0\Flash.Extensions.Cache.Redis.DependencyInjection.xml" />
   </files>
 </package>

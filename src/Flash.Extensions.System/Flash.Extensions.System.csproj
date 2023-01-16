@@ -16,6 +16,7 @@
     <Description>Extensions System</Description>
     <Copyright>Copyright © 2013-2021 JMacro</Copyright>
     <Tags>Extensions System</Tags>
+    <DocumentationFile>Flash.Extensions.System.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
