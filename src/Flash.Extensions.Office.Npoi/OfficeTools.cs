@@ -137,7 +137,7 @@ namespace Flash.Extensions.Office.Npoi
             return entitys;
         }
 
-        public byte[] WriteExcel<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, ExcelSetting setting = null) where T : new()
+        public byte[] WriteExcel<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, SheetSetting setting = null) where T : new()
         {
             return WriteExcelMultipleSheet(SheetInfo.Create<T>(dataSource, headerColumns, setting));
         }
@@ -168,7 +168,6 @@ namespace Flash.Extensions.Office.Npoi
                 fontHeader.Color = HSSFColor.White.Index;
                 styleHeader.SetFont(fontHeader);
 
-
                 Dictionary<string, ICellStyle> cellStyleDic = new Dictionary<string, ICellStyle>();
                 foreach (var sheetInfo in sheets)
                 {
@@ -183,26 +182,42 @@ namespace Flash.Extensions.Office.Npoi
                     ISheet excelSheet = workbook.CreateSheet(sheetInfo.SheetName);
                     excelSheet.DefaultColumnWidth = 100 * 256;
                     excelSheet.DefaultRowHeight = 16 * 20;
+                    excelSheet.DisplayGridlines = sheetInfo.SheetSetting?.DisplayGridlines ?? true;
+                    excelSheet.IsPrintGridlines = sheetInfo.SheetSetting?.IsPrintGridlines ?? false;
+
+                    // 创建绘图主控制器(用于包括单元格注释在内的所有形状的顶级容器)
+                    var patriarch = excelSheet.CreateDrawingPatriarch();
+
                     IRow row = excelSheet.CreateRow(rowIndex++);
 
-                    if (sheetInfo.SheetSetting?.HeaderRowHeight > 0) row.Height = sheetInfo.SheetSetting.HeaderRowHeight;
+                    if (sheetInfo.SheetSetting?.HeaderRowHeight > 0) row.Height = Convert.ToInt16(sheetInfo.SheetSetting.HeaderRowHeight * 20);
                     else row.Height = 16 * 20;
+
+                    if (sheetInfo.SheetSetting.IsAutoNumber)
+                    {
+                        ICell cell = row.CreateCell(columnIndex);
+                        cell.CellStyle = styleHeader;
+                        cell.SetCellValue(string.IsNullOrWhiteSpace(sheetInfo.SheetSetting.AutoNumberName) ? "序号" : sheetInfo.SheetSetting.AutoNumberName);
+                        excelSheet.SetColumnWidth(columnIndex, 8 * 256);
+                        columnIndex++;
+                    }
 
                     foreach (var column in sheetInfo.HeaderColumns)
                     {
                         ICell cell = row.CreateCell(columnIndex);
                         cell.CellStyle = styleHeader;
                         cell.SetCellValue(column.ColumnMap.ExcelColumnName);
-                        if (sheetInfo.SheetSetting?.ColumnWidth > 0)
+                        cell.CreateComment(column.Comment);
+
+                        if (column.ColumnWidth > 0)
                         {
-                            excelSheet.SetColumnWidth(columnIndex, sheetInfo.SheetSetting.ColumnWidth * 256);
+                            excelSheet.SetColumnWidth(columnIndex, column.ColumnWidth * 256);
                         }
                         else
                         {
                             var columnWidth = Encoding.Default.GetBytes(column.ColumnMap.ExcelColumnName).Length;
                             excelSheet.SetColumnWidth(columnIndex, columnWidth * 256);
                         }
-
                         columnIndex++;
                     }
 
@@ -211,18 +226,27 @@ namespace Flash.Extensions.Office.Npoi
 
                     var dataformat = workbook.CreateDataFormat();
 
+                    var dataIndex = 1;
                     //写入数据
                     foreach (var data in sheetInfo.DataSource)
                     {
-                        row = excelSheet.CreateRow(rowIndex++);
-                        if (sheetInfo.SheetSetting?.RowHeight > 0) row.Height = sheetInfo.SheetSetting.RowHeight;
-                        else row.Height = 16 * 20;
+                        var dataRow = excelSheet.CreateRow(rowIndex++);
+                        if (sheetInfo.SheetSetting?.DataRowHeight > 0) dataRow.Height = Convert.ToInt16(sheetInfo.SheetSetting.DataRowHeight * 20);
+                        else dataRow.Height = 16 * 20;
 
                         columnIndex = 0;
+                        if (sheetInfo.SheetSetting.IsAutoNumber)
+                        {
+                            var cell = dataRow.CreateCell(columnIndex);
+                            cell.CellStyle = style;
+                            cell.SetCellValue(dataIndex);
+                            columnIndex++;
+                            dataIndex++;
+                        }
 
                         foreach (var column in sheetInfo.HeaderColumns)
                         {
-                            var cell = row.CreateCell(columnIndex);
+                            var cell = dataRow.CreateCell(columnIndex);
                             cell.CellStyle = style;
                             columnIndex++;
 
@@ -368,6 +392,27 @@ namespace Flash.Extensions.Office.Npoi
             }
 
             cell.SetCellValue("");
+        }
+
+        /// <summary>
+        /// 创建Npoi批注
+        /// </summary>
+        /// <param name="cell">单元格</param>
+        /// <param name="excelComment">批注</param>
+        public static void CreateComment(this ICell cell, IExcelComment excelComment)
+        {
+            // 创建绘图主控制器(用于包括单元格注释在内的所有形状的顶级容器)
+            var patriarch = cell.Sheet.CreateDrawingPatriarch();
+
+            if (excelComment != null)
+            {
+                var comment = patriarch.CreateCellComment(new HSSFClientAnchor());
+                if (string.IsNullOrEmpty(excelComment.Author)) excelComment.Author = "System";
+                comment.Author = excelComment.Author;
+                comment.String = new HSSFRichTextString($"{excelComment.Author}:{Environment.NewLine}{excelComment.Content ?? ""}");
+                comment.Visible = excelComment.DefaultVisible;
+                cell.CellComment = comment;
+            }
         }
     }
 }

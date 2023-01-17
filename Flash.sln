@@ -12,7 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bulid", "bulid", "{E3F3C44D
 		build.bat = build.bat
 		psake-common.ps1 = psake-common.ps1
 		psake-project.ps1 = psake-project.ps1
+		Push-Nupkg.json = Push-Nupkg.json
 		src\SharedAssemblyInfo.cs = src\SharedAssemblyInfo.cs
+	EndProjectSection
+	ProjectSection(FolderGlobals) = preProject
+		E_5_4WorkingSpace_3Self_4Flash_4Push-Nupkg_1json__JsonSchema = https://json.schemastore.org/appsettings.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.System", "src\Flash.Extensions.System\Flash.Extensions.System.csproj", "{57A3EB9F-AA0F-4498-9C58-333F0F960BB7}"

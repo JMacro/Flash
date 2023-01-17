@@ -5,9 +5,9 @@
         /// <summary>
         /// 默认的Excel设置
         /// </summary>
-        public ExcelSetting DefaultExcelSetting { get; private set; } = new ExcelSetting();
+        public SheetSetting DefaultExcelSetting { get; private set; } = new SheetSetting();
 
-        public IOfficeSetting WithDefaultExcelSetting(ExcelSetting setting)
+        public IOfficeSetting WithDefaultExcelSetting(SheetSetting setting)
         {
             this.DefaultExcelSetting = setting;
             return this;

@@ -31,7 +31,7 @@ namespace Flash.Extensions.Office
         /// <param name="headerColumns">表头列</param>
         /// <param name="setting">属性设置</param>
         /// <returns></returns>
-        byte[] WriteExcel<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, ExcelSetting setting = null) where T : new();
+        byte[] WriteExcel<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, SheetSetting setting = null) where T : new();
 
         /// <summary>
         /// 写入Excel（多个Sheet数据），可通过<see cref="SheetInfo.Create"/>创建对象

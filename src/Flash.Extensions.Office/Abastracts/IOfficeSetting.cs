@@ -9,8 +9,8 @@ namespace Flash.Extensions.Office
         /// <summary>
         /// 默认Excel设置
         /// </summary>
-        ExcelSetting DefaultExcelSetting { get; }
+        SheetSetting DefaultExcelSetting { get; }
 
-        IOfficeSetting WithDefaultExcelSetting(ExcelSetting setting);
+        IOfficeSetting WithDefaultExcelSetting(SheetSetting setting);
     }
 }

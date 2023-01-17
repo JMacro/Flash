@@ -16,6 +16,14 @@ namespace Flash.Extensions.Office
         /// 数据格式
         /// </summary>
         public string DataFormat { get; set; }
+        /// <summary>
+        /// 列宽，值为-1时，则表示根据列名动态宽度
+        /// </summary>
+        public short ColumnWidth { get; set; }
+        /// <summary>
+        /// Excel批注
+        /// </summary>
+        public IExcelComment Comment { get; set; }
 
         /// <summary>
         /// 创建Excel表头列
@@ -26,10 +34,76 @@ namespace Flash.Extensions.Office
         /// <returns></returns>
         public static ExcelHeaderColumn Create(string excelColumnName, string entityFieldName, string dataFormat = "")
         {
+            return Create(excelColumnName, entityFieldName, dataFormat, -1);
+        }
+
+        /// <summary>
+        /// 创建Excel表头列
+        /// </summary>
+        /// <param name="excelColumnName">Excel列名</param>
+        /// <param name="entityFieldName">实体字段名称</param>
+        /// <param name="comment">Excel批注</param>
+        /// <returns></returns>
+        public static ExcelHeaderColumn Create(string excelColumnName, string entityFieldName, IExcelComment comment)
+        {
+            return Create(excelColumnName, entityFieldName, "", -1, comment);
+        }
+
+        /// <summary>
+        /// 创建Excel表头列
+        /// </summary>
+        /// <param name="excelColumnName">Excel列名</param>
+        /// <param name="entityFieldName">实体字段名称</param>
+        /// <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+        /// <returns></returns>
+        public static ExcelHeaderColumn Create(string excelColumnName, string entityFieldName, short width)
+        {
+            return Create(excelColumnName, entityFieldName, "", width);
+        }
+
+        /// <summary>
+        /// 创建Excel表头列
+        /// </summary>
+        /// <param name="excelColumnName">Excel列名</param>
+        /// <param name="entityFieldName">实体字段名称</param>
+        /// <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+        /// <param name="comment">Excel批注</param>
+        /// <returns></returns>
+        public static ExcelHeaderColumn Create(string excelColumnName, string entityFieldName, short width, IExcelComment comment)
+        {
+            return Create(excelColumnName, entityFieldName, "", width, comment);
+        }
+
+        /// <summary>
+        /// 创建Excel表头列
+        /// </summary>
+        /// <param name="excelColumnName">Excel列名</param>
+        /// <param name="entityFieldName">实体字段名称</param>
+        /// <param name="dataFormat">数据格式</param>
+        /// <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+        /// <returns></returns>
+        public static ExcelHeaderColumn Create(string excelColumnName, string entityFieldName, string dataFormat, short width)
+        {
+            return Create(excelColumnName, entityFieldName, dataFormat, width, null);
+        }
+
+        /// <summary>
+        /// 创建Excel表头列
+        /// </summary>
+        /// <param name="excelColumnName">Excel列名</param>
+        /// <param name="entityFieldName">实体字段名称</param>
+        /// <param name="dataFormat">数据格式</param>
+        /// <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+        /// <param name="comment">Excel批注</param>
+        /// <returns></returns>
+        public static ExcelHeaderColumn Create(string excelColumnName, string entityFieldName, string dataFormat, short width, IExcelComment comment)
+        {
             return new ExcelHeaderColumn
             {
                 ColumnMap = ExcelColumnMap.Create(excelColumnName, entityFieldName),
-                DataFormat = dataFormat
+                DataFormat = dataFormat ?? "",
+                ColumnWidth = width,
+                Comment = comment
             };
         }
 
@@ -69,7 +143,16 @@ namespace Flash.Extensions.Office
                 {
                     sortField.Insert(index + 1, item.Name);
                 }
-                dictExcelHeaderColumn.Add(item.Name, Create(attributeResult.Item2.ExcelColumnName, item.Name, attributeResult.Item2.DataFormat));
+                ExcelComment comment = null;
+                if (!string.IsNullOrEmpty(attributeResult.Item2.CommentContent))
+                {
+                    comment = new ExcelComment
+                    {
+                        Content = attributeResult.Item2.CommentContent,
+                        Author = attributeResult.Item2.CommentAuthor
+                    };
+                }
+                dictExcelHeaderColumn.Add(item.Name, Create(attributeResult.Item2.ExcelColumnName, item.Name, attributeResult.Item2.DataFormat, attributeResult.Item2.Width, comment));
             }
 
             var result = new List<ExcelHeaderColumn>();

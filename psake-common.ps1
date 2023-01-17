@@ -25,6 +25,7 @@ Properties {
     $solution_path = "$base_dir\$solution"
     $config = "Release"    
     $sharedAssemblyInfo = "$src_dir\SharedAssemblyInfo.cs"
+    $config_Nupkg = "$base_dir\Push-Nupkg.json"
 }
 
 ## Tasks
@@ -61,20 +62,36 @@ Task Version -Description "Patch AssemblyInfo and AppVeyor version files." {
 }
 
 Task Push-Nupkg -Description "Push NuGet packages." {
+    $version = Get-PackageVersion
     $nugetApiKeys = Read-Host "Please enter a nuget api keys"
     if(!$nugetApiKeys) {
         Write-Host "Nuget api keys is null,Please try enter a nuget api keys." -ForegroundColor "Red"
         return
     }
+    Write-Host "Read Config" -ForegroundColor "Green"
+    $config = Get-PushNupkgContent -path $config_Nupkg
+    $nupkgs = $config.Nupkgs
+
     Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "Green"
     $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
-    foreach ($dir in $dirs) {
-        Write-Host "'NuGet push $dir'..." -ForegroundColor "Green"
-        Try {
-            Exec { .$nuget push $dir -source https://api.nuget.org/v3/index.json -ApiKey $nugetApiKeys }
+
+    Try {
+        foreach ($dir in $dirs) {
+            $packName = $dir.BaseName -replace ".$version",""
+            $item = $nupkgs | where-Object 'PackName' $packName -EQ 
+            if (!$item.IsPush){
+                Write-Host "Ignore pack name $packName"
+                continue
+            }
+
+            Write-Host "'NuGet push $dir'..." -ForegroundColor "Green"
+            Try {
+                Exec { .$nuget push $dir -source https://api.nuget.org/v3/index.json -ApiKey $nugetApiKeys }
+            }
+            Catch { }
         }
-        Catch { }
     }
+    Catch { }
 }
 
 ## Functions
@@ -350,4 +367,9 @@ function _Get-OutputDir($dir, $project, $target) {
     }
 
     return "$baseDir\$config"
+}
+
+function Get-PushNupkgContent($path){
+    $json = Get-Content -Raw -Encoding "UTF8" -Path "$path"
+    return ConvertFrom-Json -InputObject $json
 }

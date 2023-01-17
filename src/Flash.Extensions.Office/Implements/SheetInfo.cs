@@ -24,7 +24,7 @@ namespace Flash.Extensions.Office
         /// <summary>
         /// Sheel设置
         /// </summary>
-        public ExcelSetting SheetSetting { get; set; } = new ExcelSetting();
+        public SheetSetting SheetSetting { get; set; } = new SheetSetting();
 
         /// <summary>
         /// 创建
@@ -44,7 +44,7 @@ namespace Flash.Extensions.Office
         /// <param name="headerColumns">表头</param>
         /// <param name="sheetSetting">Sheel设置</param>
         /// <returns></returns>
-        public static SheetInfo Create<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, ExcelSetting sheetSetting)
+        public static SheetInfo Create<T>(List<T> dataSource, List<ExcelHeaderColumn> headerColumns, SheetSetting sheetSetting)
         {
             return Create("Sheet1", dataSource, headerColumns, sheetSetting);
         }
@@ -58,7 +58,7 @@ namespace Flash.Extensions.Office
         /// <returns></returns>
         public static SheetInfo Create<T>(string sheetName, List<T> dataSource, List<ExcelHeaderColumn> headerColumns)
         {
-            return Create(sheetName, dataSource, headerColumns, new ExcelSetting());
+            return Create(sheetName, dataSource, headerColumns, new SheetSetting());
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Flash.Extensions.Office
         /// <param name="headerColumns">表头</param>
         /// <param name="sheetSetting">Sheel设置</param>
         /// <returns></returns>
-        public static SheetInfo Create<T>(string sheetName, List<T> dataSource, List<ExcelHeaderColumn> headerColumns, ExcelSetting sheetSetting)
+        public static SheetInfo Create<T>(string sheetName, List<T> dataSource, List<ExcelHeaderColumn> headerColumns, SheetSetting sheetSetting)
         {
             return new SheetInfo
             {

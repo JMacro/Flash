@@ -14,6 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" Version="11.0.3" />
+    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
   </ItemGroup>
 
 </Project>

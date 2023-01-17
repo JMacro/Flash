@@ -186,7 +186,7 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.Extensions.OpenTracting.Jaeger" $version
     Create-Package "Flash.Extensions.OpenTracting.Skywalking" $version
 
-     Create-Package "Flash.Extensions.ORM" $version
+    Create-Package "Flash.Extensions.ORM" $version
     Create-Package "Flash.Extensions.ORM.EntityFrameworkCore" $version
 
     Create-Package "Flash.DynamicRoute" $version
@@ -197,6 +197,26 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "Flash.Extensions.UidGenerator" $version
     Create-Package "Flash.LoadBalancer" $version
     Create-Package "Flash.Extensions.Email" $version
+}
+
+Task TTT -Description "TTT" {
+    $version = Get-PackageVersion
+    $config = Get-PushNupkgContent -path $config_Nupkg
+    $nupkgs = $config.Nupkgs
+
+    $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
+    foreach ($dir in $dirs) {
+        $packName = $dir.BaseName -replace ".$version",""
+        
+
+        $item = $nupkgs | where-Object 'PackName' $packName -EQ 
+        if (!$item.IsPush){
+            Write-Host "Ignore pack name $packName"
+            continue
+        }
+        Write-Host $packName
+        Write-Host $item.IsPush
+    }
 }
 
 function Collect-Localizations($project, $target) {

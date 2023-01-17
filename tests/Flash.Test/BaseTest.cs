@@ -65,7 +65,7 @@ namespace Flash.Test
 
                 setup.AddOffice(setting =>
                 {
-                    setting.WithDefaultExcelSetting(new Extensions.Office.ExcelSetting
+                    setting.WithDefaultExcelSetting(new Extensions.Office.SheetSetting
                     {
 
                     });

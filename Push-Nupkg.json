@@ -1,0 +1,120 @@
+{
+  "Nupkgs": [
+    {
+      "PackName": "Flash.Extensions.Cache",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Cache.Redis",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Cache.Redis.DependencyInjection",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Configuration.Json",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Configuration.Apollo",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.EventBus",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.EventBus.RabbitMQ",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.HealthChecks",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.HealthChecks.MySql",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.HealthChecks.RabbitMQ",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.HealthChecks.Redis",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Job",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Job.Hangfire",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Job.Hangfire.AspNetCore",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Job.Quartz",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Office",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.Office.Npoi",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.OpenTracting",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.OpenTracting.Jaeger",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.OpenTracting.Skywalking",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.ORM",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.ORM.EntityFrameworkCore",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.DynamicRoute",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.DistributedLock",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Resilience.Http",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Security",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.UidGenerator",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.LoadBalancer",
+      "IsPush": false
+    },
+    {
+      "PackName": "Flash.Extensions.Email",
+      "IsPush": false
+    }
+  ]
+}
