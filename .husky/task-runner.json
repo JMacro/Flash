@@ -11,8 +11,8 @@
       },
 	  {
 		 "name": "commit-message-linter",
-		 "command": "dotnet",
-		 "args": ["husky", "exec", "script/commit-lint.csx", "--args", "${args}"]
+		 "command": "husky",
+		 "args": ["exec", "script/commit-lint.csx", "--args", "${args}"]
 	  }
    ]
 }
