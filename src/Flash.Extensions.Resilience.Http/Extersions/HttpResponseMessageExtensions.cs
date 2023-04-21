@@ -11,10 +11,22 @@ namespace Microsoft.Extensions.DependencyInjection
             return await response.Content.ReadAsStringAsync();
         }
 
+        public static async Task<string> ReadAsStringAsync(this Task<HttpResponseMessage> httpResponseAsync)
+        {
+            var httpResponse = await httpResponseAsync.ConfigureAwait(false);
+            return await httpResponse.ReadAsStringAsync();
+        }
+
         public static async Task<TResponse> ReadAsObjectAsync<TResponse>(this HttpResponseMessage response)
         {
             var json = await response.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<TResponse>(json);
+        }
+
+        public static async Task<TResponse> ReadAsObjectAsync<TResponse>(this Task<HttpResponseMessage> httpResponseAsync)
+        {
+            var httpResponse = await httpResponseAsync.ConfigureAwait(false);
+            return await httpResponse.ReadAsObjectAsync<TResponse>();
         }
     }
 }
