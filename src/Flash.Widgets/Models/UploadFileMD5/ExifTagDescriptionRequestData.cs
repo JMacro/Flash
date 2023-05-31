@@ -4,14 +4,14 @@ namespace Flash.Widgets.Models.UploadFileMD5
 {
     public class ExifTagDescriptionRequestData
     {
-        public ExifTag Tag { get; set; }
+        public string Tag { get; set; }
         public string Description { get; set; }
 
         public static ExifTagDescriptionRequestData Create(ExifTag tag, string description)
         {
             return new ExifTagDescriptionRequestData
             {
-                Tag = tag,
+                Tag = tag.ToString(),
                 Description = description
             };
         }

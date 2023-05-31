@@ -32,6 +32,7 @@ builder.Services.AddFlash(flash =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+Console.WriteLine($"IsDevelopment={app.Environment.IsDevelopment()}");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -42,7 +43,7 @@ app.UseFlash(flash =>
 {
 });
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();

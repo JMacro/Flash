@@ -12,49 +12,71 @@ namespace Flash.Widgets.Controllers
     public class UploadFileMD5Controller : BaseController
     {
         private readonly string FilePath = Path.Combine(AppContext.BaseDirectory, "uploadImg");
+        private readonly ILogger<UploadFileMD5Controller> _logger;
 
-        public UploadFileMD5Controller()
+        public UploadFileMD5Controller(ILogger<UploadFileMD5Controller> logger)
         {
+            this._logger = logger;
         }
 
 
         /// <summary>
-        /// 计算哈希值
+        /// 获得图片属性信息
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [HttpPost("GetImagePropertyInfo")]
+        public async Task<BaseDataResponse<CalculateResponseData>> GetImagePropertyInfo(IFormFile file)
+        {
+            Check.Argument.IsNotNull(file, nameof(file));
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                var buffer = stream.GetBuffer();
+                var list = ReadImageExif(buffer);
+
+                var fileIdentity = new CalculateResponseData4FileIdentity()
+                {
+                    Hash = CalculateHash(buffer),
+                    CRC32 = CalculateCRC32(buffer),
+                    CRC64 = CalculateCRC64(buffer),
+                    SHA256 = CalculateSHA256(buffer),
+                };
+                return BaseDataResponse<CalculateResponseData>.Create(0, data: new CalculateResponseData
+                {
+                    ExifInfoList = list,
+                    FileIdentityInfo = fileIdentity
+                });
+            }
+        }
+
+        /// <summary>
+        /// 获得图片ExifTag列表数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("GetExifTagList")]
+        public BaseDataResponse<List<ExifTagDescriptionRequestData>> GetExifTagList()
+        {
+            return BaseDataResponse<List<ExifTagDescriptionRequestData>>.Create(0, data: ExifTagDescriptionRequestData.CreateDefault());
+        }
+
+        /// <summary>
+        /// 转换Base64
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("Calculate")]
-        public async Task<BaseDataResponse<CalculateResponseData>> Calculate(IFormFile formFile)
+        [HttpPost("ConvertBase64")]
+        public async Task<BaseDataResponse<ConvertBase64ResponseData>> ConvertBase64(IFormFile formFile)
         {
             Check.Argument.IsNotNull(formFile, nameof(formFile));
             using (var stream = new MemoryStream())
             {
                 await formFile.CopyToAsync(stream);
                 var buffer = stream.GetBuffer();
-                var calculateValue = "";
-                using (var md5 = MD5.Create())
+                string base64Str = Convert.ToBase64String(buffer, 0, buffer.Length);
+                return BaseDataResponse<ConvertBase64ResponseData>.Create(0, data: new ConvertBase64ResponseData
                 {
-                    var md5bt = md5.ComputeHash(buffer);
-                    //将byte数组转换为字符串
-                    StringBuilder builder = new StringBuilder();
-                    foreach (var item in md5bt)
-                    {
-                        builder.Append(item.ToString("X2"));
-                    }
-                    calculateValue = builder.ToString();
-                }
-
-                if (!Directory.Exists(FilePath))
-                {
-                    Directory.CreateDirectory(FilePath);
-                }
-                var fileName = DateTime.Now.ToFileTime().ToString() + Path.GetExtension(formFile.FileName);
-                var path = Path.Combine(FilePath, fileName);
-                await System.IO.File.WriteAllBytesAsync(path, buffer);
-                return BaseDataResponse<CalculateResponseData>.Create(0, data: new CalculateResponseData
-                {
-                    Hash = calculateValue,
-                    FileName = fileName
+                    Base64Str = base64Str
                 });
             }
         }
@@ -62,42 +84,18 @@ namespace Flash.Widgets.Controllers
         /// <summary>
         /// 读取属性
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="formFile"></param>
         /// <returns></returns>
         [HttpPost("ReadProperty")]
-        public async Task<BaseDataResponse<object>> ReadProperty([FromBody] ReadPropertyRequestData request)
+        public async Task<BaseDataResponse<List<ReadPropertyResponseData>>> ReadProperty(IFormFile formFile)
         {
-            Check.Argument.IsNotEmpty(request.FileName, nameof(request.FileName));
-            var data = new List<IExifValue>();
-            var filePath = Path.Combine(FilePath, request.FileName);
-            var defaultExifTag = ExifTagDescriptionRequestData.CreateDefault();
-
-            using (var image = await Image.LoadAsync(filePath))
+            Check.Argument.IsNotNull(formFile, nameof(formFile));
+            using (var stream = new MemoryStream())
             {
-                var exif = image.Metadata.ExifProfile;
-                var list = defaultExifTag.Select(p =>
-                {
-                    var imageExif = exif.Values.FirstOrDefault(f => f.Tag == p.Tag);
-                    if (imageExif == null)
-                    {
-                        return new
-                        {
-                            Key = p.Tag.ToString(),
-                            Value = "",
-                            Description = p.Description
-                        };
-                    }
-
-                    var obj = new
-                    {
-                        Key = imageExif.Tag.ToString(),
-                        Value = GetExifValueAsString(imageExif),
-                        Description = p.Description
-                    };
-                    return obj;
-                }).ToList();
-
-                return BaseDataResponse<object>.Create(0, data: list);
+                await formFile.CopyToAsync(stream);
+                var buffer = stream.GetBuffer();
+                var list = ReadImageExif(buffer);
+                return BaseDataResponse<List<ReadPropertyResponseData>>.Create(0, data: list);
             }
         }
 
@@ -107,18 +105,26 @@ namespace Flash.Widgets.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("WriteProperty")]
-        public async Task<BaseDataResponse<object>> WriteProperty([FromBody] WritePropertyRequestData request)
+        public async Task<BaseDataResponse<WritePropertyResponseData>> WriteProperty([FromBody] WritePropertyRequestData request)
         {
-            Check.Argument.IsNotEmpty(request.FileName, nameof(request.FileName));
+            Check.Argument.IsNotEmpty(request.Image4Base64, nameof(request.Image4Base64));
             Check.Argument.IsNotEmpty(request.Propertys, nameof(request.Propertys));
 
-            var data = new List<IExifValue>();
-            var filePath = Path.Combine(FilePath, request.FileName);
-      
-            using (Image image = await Image.LoadAsync(filePath))
+            var result = new WritePropertyResponseData();
+
+            var prefix = "";
+            if (request.Image4Base64.Contains(","))
+            {
+                var tmp = request.Image4Base64.Split(',');
+                prefix = tmp[0];
+                request.Image4Base64 = tmp[1];
+            }
+
+            var buffer = Convert.FromBase64String(request.Image4Base64);
+
+            using (Image image = Image.Load(buffer))
             {
                 var exif = image.Metadata.ExifProfile;
-
                 foreach (var item in request.Propertys)
                 {
                     var exifInfo = exif.Values.FirstOrDefault(p => p.Tag.ToString() == item.Key);
@@ -127,14 +133,125 @@ namespace Flash.Widgets.Controllers
                         exifInfo.TrySetValue(item.Value);
                     }
                 }
-                image.Save(filePath);
+
+                using (var stream = new MemoryStream())
+                {
+                    await image.SaveAsJpegAsync(stream);
+
+                    //通过往源文件末尾添加uuid二进制数据来改变原文件的MD5值
+                    var uuidBuffer = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString("N"));
+                    await stream.WriteAsync(uuidBuffer, 0, uuidBuffer.Length);
+
+                    var imageBuffer = stream.GetBuffer();
+                    var calculateValue = CalculateHash(imageBuffer);
+                    result.Image4Base64 = string.Join(',', prefix, Convert.ToBase64String(imageBuffer));
+                    result.FileIdentityInfo = new CalculateResponseData4FileIdentity()
+                    {
+                        Hash = CalculateHash(imageBuffer),
+                        CRC32 = CalculateCRC32(imageBuffer),
+                        CRC64 = CalculateCRC64(imageBuffer),
+                        SHA256 = CalculateSHA256(imageBuffer),
+                    };
+                }
             }
 
-            return BaseDataResponse<object>.Create(0);
-
+            return BaseDataResponse<WritePropertyResponseData>.Create(0, data: result);
         }
 
-        public static string GetExifValueAsString(IExifValue exifValue)
+        /// <summary>
+        /// 计算Hash值
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        private string CalculateHash(byte[] buffer)
+        {
+            var calculateValue = "";
+            using (var md5 = MD5.Create())
+            {
+                var md5bt = md5.ComputeHash(buffer);
+                //将byte数组转换为字符串
+                StringBuilder builder = new StringBuilder();
+                foreach (var item in md5bt)
+                {
+                    builder.Append(item.ToString("X2"));
+                }
+                calculateValue = builder.ToString();
+            }
+            return calculateValue;
+        }
+
+        /// <summary>
+        /// 计算CRC32值
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        private string CalculateCRC32(byte[] buffer)
+        {
+            return string.Join(string.Empty, new Masuit.Tools.Security.Crc32().ComputeHash(buffer).Select(b => b.ToString("X2")));
+        }
+
+        /// <summary>
+        /// 计算CRC64值
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        private string CalculateCRC64(byte[] buffer)
+        {
+            return string.Join(string.Empty, new Masuit.Tools.Security.Crc64().ComputeHash(buffer).Select(b => b.ToString("X2")));
+        }
+
+        /// <summary>
+        /// 计算SHA256值
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        private string CalculateSHA256(byte[] buffer)
+        {
+            using var sha256 = SHA256.Create();
+            byte[] result = sha256.ComputeHash(buffer);
+            return Convert.ToBase64String(result); //返回长度为44字节的字符串
+        }
+
+        /// <summary>
+        /// 读取图片Exif信息
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        private List<ReadPropertyResponseData> ReadImageExif(byte[] buffer)
+        {
+            var defaultExifTag = ExifTagDescriptionRequestData.CreateDefault();
+            using (var image = Image.Load(buffer))
+            {
+                var exif = image.Metadata.ExifProfile;
+                var list = new List<ReadPropertyResponseData>();
+                foreach (var p in defaultExifTag)
+                {
+                    var imageExif = exif.Values.FirstOrDefault(f => f.Tag.ToString() == p.Tag);
+                    if (imageExif == null)
+                    {
+                        list.Add(new ReadPropertyResponseData
+                        {
+                            Key = p.Tag,
+                            Value = "",
+                            Description = p.Description
+                        });
+                    }
+                    else
+                    {
+                        list.Add(new ReadPropertyResponseData
+                        {
+                            Key = p.Tag,
+                            Value = GetExifValueAsString(imageExif),
+                            Description = p.Description
+                        });
+                    }
+
+                }
+                return list;
+            }
+        }
+
+        private static string GetExifValueAsString(IExifValue exifValue)
         {
             switch (exifValue.DataType)
             {
@@ -235,6 +352,11 @@ namespace Flash.Widgets.Controllers
             var value = exifValue.GetValue();
             if (exifValue.DataType != ExifDataType.Short || value == null)
                 return null;
+
+            if (exifValue.IsArray)
+            {
+
+            }
 
             return value.ToString();
         }
