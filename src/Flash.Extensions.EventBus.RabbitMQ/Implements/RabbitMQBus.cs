@@ -48,6 +48,10 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             /// 消息队列相关参数信息
             /// </summary>
             public IDictionary<string, object> Headers { get; set; }
+            /// <summary>
+            /// 时间戳
+            /// </summary>
+            public long Timestamp { get; set; }
         }
 
         /// <summary>
@@ -103,11 +107,11 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         #endregion
 
         /// <summary>
-        /// 应答处理程序
+        /// 应答处理程序(系统默认)
         /// </summary>
         private Action<MessageResponse[]> _ackHandler = null;
         /// <summary>
-        /// 未应答处理程序
+        /// 未应答处理程序(系统默认)
         /// </summary>
         private Func<(MessageResponse[] Messages, Exception Exception), Task<bool>> _nackHandler = null;
         private ITracerFactory _tracerFactory = null;
@@ -226,11 +230,44 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// <typeparam name="TProcessMessageHandler">消息处理程序（此处存在消息重复被消费问题，客户端需做好幂等操作）</typeparam>
         /// <param name="queueName">队列名称</param>
         /// <param name="routeKey">路由名称</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IEventBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "")
+        public IEventBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "", CancellationToken cancellationToken = default(CancellationToken))
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
+            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, null, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// 注册订阅处理程序
+        /// </summary>
+        /// <typeparam name="TMessage">消息类型</typeparam>
+        /// <typeparam name="TProcessMessageHandler">消息处理程序（此处存在消息重复被消费问题，客户端需做好幂等操作）</typeparam>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="routeKey">路由名称</param>
+        /// <param name="ackHandler">自定义的应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="nackHandler">自定义的未应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public IEventBus Register<TMessage, TProcessMessageHandler>(
+            string queueName,
+            string routeKey,
+            Action<(MessageResponse Message, IMessageAckHandler Handler)> ackHandler,
+            Func<(MessageResponse Message, IMessageAckHandler Handler, Exception Exception), Task<bool>> nackHandler,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+            where TMessage : class
+            where TProcessMessageHandler : IProcessMessageHandler<TMessage>
+        {
+            var _queueName = string.IsNullOrEmpty(queueName) ? typeof(TProcessMessageHandler).FullName : queueName;
+            var _routeKey = string.IsNullOrEmpty(routeKey) ? typeof(TMessage).FullName : routeKey;
+            var EventAction = _serviceProvider.GetService(typeof(TProcessMessageHandler)) as IProcessMessageHandler<TMessage>;
+            if (EventAction == null)
+            {
+                EventAction = System.Activator.CreateInstance(typeof(TProcessMessageHandler)) as IProcessMessageHandler<TMessage>;
+            }
+
             var connection = _receiveLoadBlancer.Resolve();
             if (!connection.IsConnected) connection.TryConnect();
 
@@ -241,13 +278,6 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                     try
                     {
                         var _channel = connection.GetModel();
-                        var _queueName = string.IsNullOrEmpty(queueName) ? typeof(TProcessMessageHandler).FullName : queueName;
-                        var _routeKey = string.IsNullOrEmpty(routeKey) ? typeof(TMessage).FullName : routeKey;
-                        var EventAction = _serviceProvider.GetService(typeof(TProcessMessageHandler)) as IProcessMessageHandler<TMessage>;
-                        if (EventAction == null)
-                        {
-                            EventAction = System.Activator.CreateInstance(typeof(TProcessMessageHandler)) as IProcessMessageHandler<TMessage>;
-                        }
 
                         _channel.ExchangeDeclare(_exchange, _exchangeType, true, false, null);
                         //在MQ上定义一个持久化队列，如果名称相同不会重复创建
@@ -303,20 +333,20 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                                     try
                                     {
                                         messageResponse.Body = JsonConvert.DeserializeObject<TMessage>(messageResponse.BodySource);
+
+                                        if (!messageResponse.Headers.ContainsKey("x-exchange"))
+                                        {
+                                            messageResponse.Headers.Add("x-exchange", _exchange);
+                                        }
+
+                                        if (!messageResponse.Headers.ContainsKey("x-exchange-type"))
+                                        {
+                                            messageResponse.Headers.Add("x-exchange-type", _exchangeType);
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
                                         _logger.LogError(ex, ex.Message);
-                                    }
-
-                                    if (!messageResponse.Headers.ContainsKey("x-exchange"))
-                                    {
-                                        messageResponse.Headers.Add("x-exchange", _exchange);
-                                    }
-
-                                    if (!messageResponse.Headers.ContainsKey("x-exchange-type"))
-                                    {
-                                        messageResponse.Headers.Add("x-exchange-type", _exchangeType);
                                     }
 
                                     #region AMQP ExecuteAsync
@@ -333,15 +363,19 @@ namespace Flash.Extensions.EventBus.RabbitMQ
 
                                         try
                                         {
-                                            handlerOK = await _receiverPolicy.ExecuteAsync(async (cancellationToken) =>
+                                            handlerOK = await _receiverPolicy.ExecuteAsync(async (handlerCancellationToken) =>
                                             {
                                                 //开始执行客户端处理程序，并获得执行结果，此处存在消息重复被消费问题。客户端需做好幂等操作
-                                                return await EventAction.Handle(messageResponse.Body, (Dictionary<string, object>)messageResponse.Headers, cancellationToken);
-                                            }, CancellationToken.None);
+                                                return await EventAction.Handle(messageResponse.Body, (Dictionary<string, object>)messageResponse.Headers, handlerCancellationToken);
+                                            }, cancellationToken);
 
                                             if (handlerOK)
                                             {
-                                                if (_ackHandler != null)
+                                                if (ackHandler != null)
+                                                {
+                                                    ackHandler((messageResponse, EventAction as IMessageAckHandler));
+                                                }
+                                                else if (_ackHandler != null)
                                                 {
                                                     _ackHandler(new MessageResponse[] { messageResponse });
                                                 }
@@ -370,8 +404,12 @@ namespace Flash.Extensions.EventBus.RabbitMQ
 
                                                 try
                                                 {
+                                                    if (nackHandler != null)
+                                                    {
+                                                        requeue = await nackHandler((messageResponse, EventAction as IMessageAckHandler, handlerException));
+                                                    }
                                                     //执行回调，等待业务层的处理结果
-                                                    if (_nackHandler != null)
+                                                    else if (_nackHandler != null)
                                                     {
                                                         requeue = await _nackHandler((new MessageResponse[] { messageResponse }, handlerException));
                                                     }
@@ -514,7 +552,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
 
                 if (confirm)
                 {
-                    return _channel.WaitForConfirms(TimeSpan.FromMilliseconds(500));
+                    return _channel.WaitForConfirms(TimeSpan.FromMilliseconds(_senderConfirmTimeoutMillseconds));
                 }
                 return true;
             }
@@ -536,16 +574,17 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             {
                 Body = item.Content,
                 Headers = item.Headers ?? new Dictionary<string, object>(),
-                MessageId = Guid.NewGuid().ToString("N"),
+                MessageId = item.MessageId,
                 RouteKey = item.RouteKey,
-                CarrierId = item.CarrierId
+                CarrierId = item.CarrierId,
+                Timestamp = item.CreationTime.ToTimestamp()
             }).ToList();
 
             messageCarrier.ForEach(item =>
             {
                 if (!item.Headers.ContainsKey("x-ts"))
                 {
-                    item.Headers.Add("x-ts", DateTime.UtcNow.ToTimestamp());
+                    item.Headers.Add("x-ts", item.Timestamp);
                 }
             });
             return messageCarrier;

@@ -26,19 +26,10 @@ namespace Flash.Test.Web.Controllers
         [HttpGet("Test1")]
         public async Task<string> Test1()
         {
-            var item1 = new MessageCarrier("routerkey.log.error", new TestEvent
-            {
-                EventName = "routerkey.log.error"
-            });
-
-            var item2 = new MessageCarrier("routerkey.log.info", new TestEvent
-            {
-                EventName = "routerkey.log.info"
-            });
-
-
             var events = new List<MessageCarrier>() {
-                   item1,item2
+                MessageCarrier.Fill(new TestEvent{EventName = "routerkey.log.error"}),
+                //MessageCarrier.Fill("routerkey.log.error",new TestEvent{EventName = "routerkey.log.error"}),
+                //MessageCarrier.Fill("routerkey.log.info",new TestEvent2{EventName = "routerkey.log.info"}),
             };
 
             var ret = await _bus.PublishAsync(events);

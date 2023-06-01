@@ -32,8 +32,22 @@ namespace Flash.Extensions.EventBus
         /// <typeparam name="TProcessMessageHandler">消息处理程序</typeparam>
         /// <param name="queueName">队列名称</param>
         /// <param name="routeKey">路由名称</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        IEventBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "") where TMessage : class where TProcessMessageHandler : IProcessMessageHandler<TMessage>;
+        IEventBus Register<TMessage, TProcessMessageHandler>(string queueName = "", string routeKey = "", CancellationToken cancellationToken = default(CancellationToken)) where TMessage : class where TProcessMessageHandler : IProcessMessageHandler<TMessage>;
+
+        /// <summary>
+        /// 注册订阅处理程序
+        /// </summary>
+        /// <typeparam name="TMessage">消息类型</typeparam>
+        /// <typeparam name="TProcessMessageHandler">消息处理程序（此处存在消息重复被消费问题，客户端需做好幂等操作）</typeparam>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="routeKey">路由名称</param>
+        /// <param name="ackHandler">应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="nackHandler">未应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        IEventBus Register<TMessage, TProcessMessageHandler>(string queueName, string routeKey, Action<(MessageResponse Message, IMessageAckHandler Handler)> ackHandler, Func<(MessageResponse Message, IMessageAckHandler Handler, Exception Exception), Task<bool>> nackHandler, CancellationToken cancellationToken = default(CancellationToken)) where TMessage : class where TProcessMessageHandler : IProcessMessageHandler<TMessage>;
 
         /// <summary>
         /// 订阅消息

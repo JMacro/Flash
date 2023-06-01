@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Apollo\Flash.Extensions.Configuration.Apollo.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.CQRS\Flash.Extensions.CQRS.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.HealthChecks.MySql\Flash.Extensions.HealthChecks.MySql.csproj" />

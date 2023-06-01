@@ -74,5 +74,26 @@ namespace Flash.Extensions.EventBus
                 TimesSent = response.TimesSent
             };
         }
+
+        /// <summary>
+        /// 填充
+        /// </summary>
+        /// <param name="routeKey">路由名称</param>
+        /// <param name="message">消息主体</param>
+        /// <returns></returns>
+        public static MessageCarrier Fill(string routeKey, object message)
+        {
+            return new MessageCarrier(routeKey, message);
+        }
+
+        /// <summary>
+        /// 填充
+        /// </summary>
+        /// <param name="message">消息主体</param>
+        /// <returns></returns>
+        public static MessageCarrier Fill(object message)
+        {
+            return new MessageCarrier("", message);
+        }
     }
 }

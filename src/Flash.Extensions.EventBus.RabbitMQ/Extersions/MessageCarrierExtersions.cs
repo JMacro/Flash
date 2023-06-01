@@ -47,7 +47,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// <returns></returns>
         public static void WithWait(this MessageCarrier @event, int TTL)
         {
-            @event.Headers["x-first-death-queue"] = $"{@event.RouteKey}@Delay#{TTL}"; //死信队列名称
+            @event.Headers["x-first-death-queue"] = $"{@event.RouteKey}@Delay#{TTL}"; //重试队列名称
             @event.Headers["x-message-ttl"] = TTL * 1000; //当一个消息被推送在该队列的时候 可以存在的时间 单位为ms，应小于队列过期时间  
             @event.Headers["x-dead-letter-exchange"] = @event.Headers["x-exchange"];//过期消息转向路由  
             @event.Headers["x-dead-letter-routing-key"] = @event.RouteKey;//过期消息转向路由相匹配routingkey 
@@ -70,7 +70,6 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// 
         /// </summary>
         /// <param name="event"></param>
-        /// <param name="expires">消息过期时间</param>
         public static void WithNoRetry(this MessageCarrier @event)
         {
             @event.Headers["x-first-death-queue"] = $"{@event.RouteKey}@Failed"; //死信队列名称
