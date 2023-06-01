@@ -20,7 +20,8 @@ namespace Flash.Test.Web
         public Task<bool> Handle(TestEvent2 message, Dictionary<string, object> headers, CancellationToken cancellationToken)
         {
             this._logger.LogInformation(Newtonsoft.Json.JsonConvert.SerializeObject(message));
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
+            throw new Exception("模拟异常抛出");
             return Task.FromResult(true);
         }
     }

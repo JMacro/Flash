@@ -28,8 +28,8 @@ namespace Flash.Test.Web.Controllers
         {
             var events = new List<MessageCarrier>() {
                 MessageCarrier.Fill(new TestEvent{EventName = "routerkey.log.error"}),
-                //MessageCarrier.Fill("routerkey.log.error",new TestEvent{EventName = "routerkey.log.error"}),
-                //MessageCarrier.Fill("routerkey.log.info",new TestEvent2{EventName = "routerkey.log.info"}),
+                MessageCarrier.Fill("routerkey.log.error",new TestEvent2{EventName = "routerkey.log.error"}),
+                MessageCarrier.Fill("routerkey.log.info",new TestEvent2{EventName = "routerkey.log.info"}),
             };
 
             var ret = await _bus.PublishAsync(events);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Flash.Extensions.EventBus
 {
     /// <summary>
-    /// 消息应答处理接口
+    /// 消息应答处理接口(使用重试策略)
     /// </summary>
     public interface IMessageAckHandler
     {
@@ -18,7 +18,7 @@ namespace Flash.Extensions.EventBus
         Task AckHandle(MessageResponse response);
 
         /// <summary>
-        /// 未应答处理程序
+        /// 未应答处理程序(使用重试策略)
         /// </summary>
         /// <param name="response"></param>
         /// <param name="ex"></param>

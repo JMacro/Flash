@@ -12,8 +12,8 @@ namespace Flash.Extensions.EventBus.RabbitMQ
     public static class RabbitMQExtresion
     {
         /// <summary>
-        /// 注册订阅处理程序
-        /// <para>重试（有等待时间，有重试次数限制）处理程序需实现<see cref="IMessageAckHandler"/>接口</para>
+        /// 注册订阅处理程序(使用重试策略)
+        /// <para>处理程序需实现<see cref="IMessageAckHandler"/>接口，如不实现则消息不进行重试策略处理</para>
         /// </summary>
         /// <typeparam name="TMessage"></typeparam>
         /// <typeparam name="TProcessMessageHandler"></typeparam>
@@ -44,8 +44,8 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         }
 
         /// <summary>
-        /// 注册订阅处理程序
-        /// <para>重试（有等待时间，有重试次数限制）处理程序需实现<see cref="IMessageAckHandler"/>接口</para>
+        /// 注册订阅处理程序(使用重试策略)
+        /// <para>处理程序需实现<see cref="IMessageAckHandler"/>接口，如不实现则消息不进行重试策略处理</para>
         /// </summary>
         /// <typeparam name="TMessage"></typeparam>
         /// <typeparam name="TProcessMessageHandler"></typeparam>

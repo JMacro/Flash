@@ -201,7 +201,7 @@ namespace Flash.Test.Web
                     {
                         eventbus.RegisterWaitAndRetry<TestEvent, TestEventHandler>("","");
                         //eventbus.Register<TestEvent, TestEventHandler>(typeof(TestEventHandler).FullName, "routerkey.log.error");
-                        //eventbus.Register<TestEvent2, TestEvent2Handler>(typeof(TestEvent2Handler).FullName, "routerkey.log.*");
+                        eventbus.Register<TestEvent2, TestEvent2Handler>(typeof(TestEvent2Handler).FullName, "routerkey.log.*");
 
                         //订阅消息
                         eventbus.Subscriber((Messages) =>
