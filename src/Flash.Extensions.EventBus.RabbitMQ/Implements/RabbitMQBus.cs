@@ -86,7 +86,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// <summary>
         /// 队列前缀名称
         /// </summary>
-        private readonly string _defaultQueuePrefixName = "";
+        private readonly string _defaultPrefixName = "Flash.EventBus";
 
         #region 消费者参数
         /// <summary>
@@ -143,7 +143,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// <param name="prefetchCount">Qos策略（默认为1，同一时刻服务器最大接收1个消息，如未确认则不会收到下一个消息）</param>
         /// <param name="exchange">交换机名称</param>
         /// <param name="exchangeType">交换机类型</param>
-        /// <param name="queuePrefixName">队列前缀名称</param>
+        /// <param name="prefixName">前缀名称</param>
         public RabbitMQBus(
             ILoadBalancer<IRabbitMQPersistentConnection> senderLoadBlancer,
             ILoadBalancer<IRabbitMQPersistentConnection> receiveLoadBlancer,
@@ -157,7 +157,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             ushort prefetchCount = 1,
             string exchange = "amp.topic",
             string exchangeType = "topic",
-            string queuePrefixName = "")
+            string prefixName = "")
         {
             this._serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -166,7 +166,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             this._prefetchCount = prefetchCount;
             this._defaultExchange = exchange;
             this._defaultExchangeType = exchangeType;
-            this._defaultQueuePrefixName = queuePrefixName;
+            this._defaultPrefixName = string.IsNullOrEmpty(prefixName) ? "Flash.EventBus" : prefixName;
 
             this._tracerFactory = _serviceProvider.GetService(typeof(ITracerFactory)) as ITracerFactory;
 
@@ -678,7 +678,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         {
             if (string.IsNullOrEmpty(name)) return "";
 
-            var prefixName = this._defaultQueuePrefixName ?? "";
+            var prefixName = this._defaultPrefixName ?? "";
             if (!string.IsNullOrEmpty(prefixName))
             {
                 prefixName = $"[{prefixName}]";

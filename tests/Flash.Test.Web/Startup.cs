@@ -129,7 +129,7 @@ namespace Flash.Test.Web
                         var virtualHost = Environment.GetEnvironmentVariable("RabbitMQ:VirtualHost", EnvironmentVariableTarget.Machine);
 
                         rabbitmq.WithEndPoint(hostName ?? "localhost", int.Parse(port ?? "5672"))
-                        .WithQueuePrefixName("队列前缀名称")
+                        .WithPrefixName("")
                         .WithAuth(userName ?? "guest", password ?? "guest")
                         .WithExchange(virtualHost ?? "/", Exchange: $"{this.GetType().FullName}")
                         .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))

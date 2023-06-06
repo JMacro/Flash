@@ -112,7 +112,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 队列前缀名称
         /// </summary>
-        internal string QueuePrefixName { get; set; } = "";
+        internal string PrefixName { get; set; } = "";
 
         /// <summary>
         /// 终结点设置
@@ -209,13 +209,13 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 队列前缀名称设置
+        /// 前缀名称设置
         /// </summary>
-        /// <param name="queuePrefixName">队列前缀名称</param>
+        /// <param name="prefixName">前缀名称</param>
         /// <returns></returns>
-        public RabbitMQOption WithQueuePrefixName(string queuePrefixName)
+        public RabbitMQOption WithPrefixName(string prefixName)
         {
-            this.QueuePrefixName = queuePrefixName;
+            this.PrefixName = prefixName;
             return this;
         }
     }
@@ -308,7 +308,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     prefetchCount: option.PreFetch,
                     exchange: option.Exchange,
                     exchangeType: option.ExchangeType,
-                    queuePrefixName: option.QueuePrefixName
+                    prefixName: option.PrefixName
                 );
             });
 
