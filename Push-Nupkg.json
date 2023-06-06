@@ -22,11 +22,15 @@
     },
     {
       "PackName": "Flash.Extensions.EventBus",
-      "IsPush": false
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.EventBus.RabbitMQ",
-      "IsPush": false
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.EventBus.RabbitMQ.DependencyInjection",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.HealthChecks",
@@ -62,11 +66,11 @@
     },
     {
       "PackName": "Flash.Extensions.Office",
-      "IsPush": true
+      "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.Office.Npoi",
-      "IsPush": true
+      "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.OpenTracting",

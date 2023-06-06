@@ -66,6 +66,7 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Assembly "Flash.Extensions.EventBus" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.EventBus" "netcoreapp3.1"
     Collect-Assembly "Flash.Extensions.EventBus.RabbitMQ" "netstandard2.0"
+    Collect-Assembly "Flash.Extensions.EventBus.RabbitMQ.DependencyInjection" "netstandard2.0"
 
     Collect-Assembly "Flash.Extensions.HealthChecks" "netstandard2.0"
     Collect-Assembly "Flash.Extensions.HealthChecks.MySql" "netstandard2.0"
@@ -113,6 +114,7 @@ Task Collect -Depends Test -Description "Copy all artifacts to the build folder.
     Collect-Localizations "Flash.Extensions.EventBus" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.EventBus" "netcoreapp3.1"
     Collect-Localizations "Flash.Extensions.EventBus.RabbitMQ" "netstandard2.0"
+    Collect-Localizations "Flash.Extensions.EventBus.RabbitMQ.DependencyInjection" "netstandard2.0"
 
     Collect-Localizations "Flash.Extensions.HealthChecks" "netstandard2.0"
     Collect-Localizations "Flash.Extensions.HealthChecks.MySql" "netstandard2.0"
@@ -168,6 +170,7 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
 
     Create-Package "Flash.Extensions.EventBus" $version
     Create-Package "Flash.Extensions.EventBus.RabbitMQ" $version
+    Create-Package "Flash.Extensions.EventBus.RabbitMQ.DependencyInjection" $version
 
     Create-Package "Flash.Extensions.HealthChecks" $version
     Create-Package "Flash.Extensions.HealthChecks.MySql" $version
@@ -205,6 +208,10 @@ Task TTT -Description "TTT" {
     $nupkgs = $config.Nupkgs
 
     $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
+    
+    $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
+    $push_list = @()
+    $push_list += "------------------------$cur_time ($version)------------------------"
     foreach ($dir in $dirs) {
         $packName = $dir.BaseName -replace ".$version",""
         
@@ -216,7 +223,19 @@ Task TTT -Description "TTT" {
         }
         Write-Host $packName
         Write-Host $item.IsPush
+
+        $push_list += $packName
     }
+    $push_list += "-------------------------------------------------------------------------------------"
+    $push_list += [Environment]::NewLine
+
+    Write-Host "Nuget package push details " -ForegroundColor "Green"
+    foreach ($row in $push_list) {
+        Write-Host "'$row'" -ForegroundColor "Green"
+    }
+
+    $push_str = $push_list -join [Environment]::NewLine
+    $push_str | Add-Content "$base_dir\PushDetails.Nuget"
 }
 
 function Collect-Localizations($project, $target) {

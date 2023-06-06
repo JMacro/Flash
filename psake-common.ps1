@@ -72,9 +72,14 @@ Task Push-Nupkg -Description "Push NuGet packages." {
     $config = Get-PushNupkgContent -path $config_Nupkg
     $nupkgs = $config.Nupkgs
 
+    Write-Host "Nuget package version '$version'" -ForegroundColor "Red"
+
     Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "Green"
     $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
 
+    $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
+    $push_list = @()
+    $push_list += "------------------------$cur_time ($version)------------------------"
     Try {
         foreach ($dir in $dirs) {
             $packName = $dir.BaseName -replace ".$version",""
@@ -84,14 +89,27 @@ Task Push-Nupkg -Description "Push NuGet packages." {
                 continue
             }
 
-            Write-Host "'NuGet push $dir'..." -ForegroundColor "Green"
+            Write-Host "NuGet push '$dir'..." -ForegroundColor "Green"
             Try {
                 Exec { .$nuget push $dir -source https://api.nuget.org/v3/index.json -ApiKey $nugetApiKeys }
+
+                $push_list += $packName
             }
             Catch { }
         }
     }
     Catch { }
+    $push_list += "-------------------------------------------------------------------------------------"
+    $push_list += [Environment]::NewLine
+
+    Write-Host "Nuget package push details " -ForegroundColor "Green"
+    foreach ($row in $push_list) {
+        Write-Host "'$row'" -ForegroundColor "Green"
+    }
+
+    $push_str = $push_list -join [Environment]::NewLine
+    $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+
 }
 
 ## Functions
