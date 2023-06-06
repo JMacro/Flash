@@ -110,6 +110,11 @@ namespace Microsoft.Extensions.DependencyInjection
         #endregion
 
         /// <summary>
+        /// 队列前缀名称
+        /// </summary>
+        internal string QueuePrefixName { get; set; } = "";
+
+        /// <summary>
         /// 终结点设置
         /// </summary>
         /// <param name="HostName">地址</param>
@@ -202,6 +207,17 @@ namespace Microsoft.Extensions.DependencyInjection
             this.ReceiverLoadBalancer = LoadBalancer;
             return this;
         }
+
+        /// <summary>
+        /// 队列前缀名称设置
+        /// </summary>
+        /// <param name="queuePrefixName">队列前缀名称</param>
+        /// <returns></returns>
+        public RabbitMQOption WithQueuePrefixName(string queuePrefixName)
+        {
+            this.QueuePrefixName = queuePrefixName;
+            return this;
+        }
     }
 
     public static partial class DependencyInjectionExtersion
@@ -291,7 +307,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     senderConfirmTimeoutMillseconds: 500,
                     prefetchCount: option.PreFetch,
                     exchange: option.Exchange,
-                    exchangeType: option.ExchangeType
+                    exchangeType: option.ExchangeType,
+                    queuePrefixName: option.QueuePrefixName
                 );
             });
 

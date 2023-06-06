@@ -52,6 +52,14 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             /// 时间戳
             /// </summary>
             public long Timestamp { get; set; }
+            /// <summary>
+            /// 交换机
+            /// </summary>
+            public string Exchange { get; set; }
+            /// <summary>
+            /// 交换机类型
+            /// </summary>
+            public string ExchangeType { get; set; }
         }
 
         /// <summary>
@@ -68,13 +76,17 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// </summary>
         private readonly ushort _prefetchCount = 1;
         /// <summary>
-        /// 交换机名称
+        /// 交换机名称(默认)
         /// </summary>
-        private readonly string _exchange = "amq.topic";
+        private readonly string _defaultExchange = "amq.topic";
         /// <summary>
-        /// 交换机类型
+        /// 交换机类型(默认)
         /// </summary>
-        private readonly string _exchangeType = "topic";
+        private readonly string _defaultExchangeType = "topic";
+        /// <summary>
+        /// 队列前缀名称
+        /// </summary>
+        private readonly string _defaultQueuePrefixName = "";
 
         #region 消费者参数
         /// <summary>
@@ -131,6 +143,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
         /// <param name="prefetchCount">Qos策略（默认为1，同一时刻服务器最大接收1个消息，如未确认则不会收到下一个消息）</param>
         /// <param name="exchange">交换机名称</param>
         /// <param name="exchangeType">交换机类型</param>
+        /// <param name="queuePrefixName">队列前缀名称</param>
         public RabbitMQBus(
             ILoadBalancer<IRabbitMQPersistentConnection> senderLoadBlancer,
             ILoadBalancer<IRabbitMQPersistentConnection> receiveLoadBlancer,
@@ -143,15 +156,17 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             int senderConfirmTimeoutMillseconds = 500,
             ushort prefetchCount = 1,
             string exchange = "amp.topic",
-            string exchangeType = "topic")
+            string exchangeType = "topic",
+            string queuePrefixName = "")
         {
             this._serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             this._reveiverMaxDegreeOfParallelism = reveiverMaxDegreeOfParallelism;
             this._prefetchCount = prefetchCount;
-            this._exchange = exchange;
-            this._exchangeType = exchangeType;
+            this._defaultExchange = exchange;
+            this._defaultExchangeType = exchangeType;
+            this._defaultQueuePrefixName = queuePrefixName;
 
             this._tracerFactory = _serviceProvider.GetService(typeof(ITracerFactory)) as ITracerFactory;
 
@@ -223,6 +238,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             }
         }
 
+        #region Register
         /// <summary>
         /// 注册订阅处理程序
         /// </summary>
@@ -236,7 +252,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
-            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, null, null, cancellationToken);
+            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, _defaultExchangeType, null, null, null, cancellationToken);
         }
 
         /// <summary>
@@ -260,7 +276,65 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
-            var _queueName = string.IsNullOrEmpty(queueName) ? typeof(TProcessMessageHandler).FullName : queueName;
+            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, _defaultExchangeType, null, null, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// 注册订阅处理程序
+        /// </summary>
+        /// <typeparam name="TMessage">消息类型</typeparam>
+        /// <typeparam name="TProcessMessageHandler">消息处理程序（此处存在消息重复被消费问题，客户端需做好幂等操作）</typeparam>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="routeKey">路由名称</param>
+        /// <param name="exchangeType">交换机类型</param>
+        /// <param name="ackHandler">自定义的应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="nackHandler">自定义的未应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public IEventBus Register<TMessage, TProcessMessageHandler>(
+            string queueName,
+            string routeKey,
+            string exchangeType,
+            Action<(MessageResponse Message, IMessageAckHandler Handler)> ackHandler,
+            Func<(MessageResponse Message, IMessageAckHandler Handler, Exception Exception), Task<bool>> nackHandler,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+            where TMessage : class
+            where TProcessMessageHandler : IProcessMessageHandler<TMessage>
+        {
+            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, exchangeType, null, null, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// 注册订阅处理程序
+        /// </summary>
+        /// <typeparam name="TMessage">消息类型</typeparam>
+        /// <typeparam name="TProcessMessageHandler">消息处理程序（此处存在消息重复被消费问题，客户端需做好幂等操作）</typeparam>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="routeKey">路由名称</param>
+        /// <param name="exchangeType">交换机类型</param>
+        /// <param name="ackHandler">自定义的应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="nackHandler">自定义的未应答处理程序（未传入则使用系统默认）</param>
+        /// <param name="exchangeArguments"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public IEventBus Register<TMessage, TProcessMessageHandler>(
+            string queueName,
+            string routeKey,
+            string exchangeType,
+            Action<(MessageResponse Message, IMessageAckHandler Handler)> ackHandler,
+            Func<(MessageResponse Message, IMessageAckHandler Handler, Exception Exception), Task<bool>> nackHandler,
+            IDictionary<string, object> exchangeArguments = null,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+            where TMessage : class
+            where TProcessMessageHandler : IProcessMessageHandler<TMessage>
+        {
+            queueName = string.IsNullOrEmpty(queueName) ? typeof(TProcessMessageHandler).FullName : queueName;
+            queueName = AddSysCustomName(queueName);
+
+            var exchangeName = AddSysCustomName(typeof(TMessage).FullName);
+
             var _routeKey = string.IsNullOrEmpty(routeKey) ? typeof(TMessage).FullName : routeKey;
             var EventAction = _serviceProvider.GetService(typeof(TProcessMessageHandler)) as IProcessMessageHandler<TMessage>;
             if (EventAction == null)
@@ -279,13 +353,13 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                     {
                         var _channel = connection.GetModel();
 
-                        _channel.ExchangeDeclare(_exchange, _exchangeType, true, false, null);
+                        _channel.ExchangeDeclare(exchangeName, exchangeType, true, false, exchangeArguments);
                         //在MQ上定义一个持久化队列，如果名称相同不会重复创建
-                        _channel.QueueDeclare(_queueName, true, false, false, null);
+                        _channel.QueueDeclare(queueName, true, false, false, null);
                         //绑定交换器和队列
-                        _channel.QueueBind(_queueName, _exchange, _routeKey);
+                        _channel.QueueBind(queueName, exchangeName, _routeKey);
                         //绑定交换器和队列
-                        _channel.QueueBind(_queueName, _exchange, _queueName);
+                        _channel.QueueBind(queueName, exchangeName, queueName);
                         //输入1，那如果接收一个消息，但是没有应答，则客户端不会收到下一个消息
                         _channel.BasicQos(0, _prefetchCount, false);
                         //在队列上定义一个消费者a
@@ -313,18 +387,18 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                                         tracer.SetTag("x-carrier-id", carrierId);
                                     }
 
-                                    tracer.SetTag("x-queue-name", _queueName);
+                                    tracer.SetTag("x-queue-name", queueName);
                                     tracer.SetTag("x-message-id", MessageId);
                                     tracer.SetTag("x-router-key", _routeKey);
-                                    tracer.SetTag("x-exchange-name", _exchange);
-                                    tracer.SetTag("x-exchange-type", _exchangeType);
+                                    tracer.SetTag("x-exchange-name", exchangeName);
+                                    tracer.SetTag("x-exchange-type", exchangeType);
 
                                     var messageResponse = new MessageResponse()
                                     {
                                         MessageId = MessageId,
                                         Headers = ea.BasicProperties.Headers ?? new Dictionary<string, object>(),
                                         Body = default(TMessage),
-                                        QueueName = _queueName,
+                                        QueueName = queueName,
                                         RouteKey = _routeKey,
                                         BodySource = Encoding.UTF8.GetString(ea.Body),
                                         CarrierId = carrierId
@@ -336,12 +410,12 @@ namespace Flash.Extensions.EventBus.RabbitMQ
 
                                         if (!messageResponse.Headers.ContainsKey("x-exchange"))
                                         {
-                                            messageResponse.Headers.Add("x-exchange", _exchange);
+                                            messageResponse.Headers.Add("x-exchange", exchangeName);
                                         }
 
                                         if (!messageResponse.Headers.ContainsKey("x-exchange-type"))
                                         {
-                                            messageResponse.Headers.Add("x-exchange-type", _exchangeType);
+                                            messageResponse.Headers.Add("x-exchange-type", exchangeType);
                                         }
                                     }
                                     catch (Exception ex)
@@ -355,11 +429,11 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                                         var handlerException = default(Exception);
 
                                         var handlerOK = false;
-                                        tracerExecute.SetTag("x-queue-name", _queueName);
+                                        tracerExecute.SetTag("x-queue-name", queueName);
                                         tracerExecute.SetTag("x-message-id", MessageId);
                                         tracerExecute.SetTag("x-router-key", _routeKey);
-                                        tracerExecute.SetTag("x-exchange-name", _exchange);
-                                        tracerExecute.SetTag("x-exchange-type", _exchangeType);
+                                        tracerExecute.SetTag("x-exchange-name", exchangeName);
+                                        tracerExecute.SetTag("x-exchange-type", exchangeType);
 
                                         try
                                         {
@@ -436,23 +510,23 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                         };
                         consumer.Unregistered += (ch, ea) =>
                         {
-                            _logger.LogDebug($"MQ:{_queueName} Consumer_Unregistered");
+                            _logger.LogDebug($"MQ:{queueName} Consumer_Unregistered");
                         };
                         consumer.Registered += (ch, ea) =>
                         {
-                            _logger.LogDebug($"MQ:{_queueName} Consumer_Registered");
+                            _logger.LogDebug($"MQ:{queueName} Consumer_Registered");
                         };
                         consumer.Shutdown += (ch, ea) =>
                         {
-                            _logger.LogDebug($"MQ:{_queueName} Consumer_Shutdown.{ea.ReplyText}");
+                            _logger.LogDebug($"MQ:{queueName} Consumer_Shutdown.{ea.ReplyText}");
                         };
                         consumer.ConsumerCancelled += (object sender, ConsumerEventArgs e) =>
                         {
-                            _logger.LogDebug($"MQ:{_queueName} ConsumerCancelled");
+                            _logger.LogDebug($"MQ:{queueName} ConsumerCancelled");
                         };
 
                         //消费队列，并设置应答模式为程序主动应答
-                        _channel.BasicConsume(_queueName, false, consumer);
+                        _channel.BasicConsume(queueName, false, consumer);
                     }
                     catch (Exception ex)
                     {
@@ -463,6 +537,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             }
             return this;
         }
+        #endregion
 
         /// <summary>
         /// 排队入队确认
@@ -487,6 +562,9 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                     {
 
                         var routeKey = messages[i].RouteKey;
+                        var exchange = messages[i].Exchange ?? _defaultExchange;
+                        var exchangeType = messages[i].ExchangeType ?? _defaultExchangeType;
+                        exchange = AddSysCustomName(exchange);
                         byte[] bytes = Encoding.UTF8.GetBytes(messages[i].Body);
 
                         //设置消息持久化
@@ -500,8 +578,8 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                         using (var tracer = this._tracerFactory.CreateTracer("AMQP Publish"))
                         {
                             tracer.SetTag("x-message-id", properties.MessageId);
-                            tracer.SetTag("x-exchange-name", _exchange);
-                            tracer.SetTag("x-exchange-type", _exchangeType);
+                            tracer.SetTag("x-exchange-name", exchange);
+                            tracer.SetTag("x-exchange-type", exchangeType);
 
                             foreach (var key in messages[i].Headers.Keys)
                             {
@@ -535,7 +613,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                             {
                                 //发送到正常队列
                                 _batchPublish.Add(
-                                           exchange: _exchange,
+                                           exchange: exchange,
                                            mandatory: true,
                                            routingKey: routeKey,
                                            properties: properties,
@@ -573,11 +651,13 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             var messageCarrier = messages.Select(item => new MessageRequest
             {
                 Body = item.Content,
+                Exchange = item.Exchange,
+                ExchangeType = item.ExchangeType,
                 Headers = item.Headers ?? new Dictionary<string, object>(),
                 MessageId = item.MessageId,
                 RouteKey = item.RouteKey,
                 CarrierId = item.CarrierId,
-                Timestamp = item.CreationTime.ToTimestamp()
+                Timestamp = item.CreationTime.ToTimestamp(),
             }).ToList();
 
             messageCarrier.ForEach(item =>
@@ -588,6 +668,22 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                 }
             });
             return messageCarrier;
+        }
+
+        /// <summary>
+        /// 添加系统自定义名称
+        /// </summary>
+        /// <returns></returns>
+        private string AddSysCustomName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return "";
+
+            var prefixName = this._defaultQueuePrefixName ?? "";
+            if (!string.IsNullOrEmpty(prefixName))
+            {
+                prefixName = $"[{prefixName}]";
+            }
+            return $"{prefixName}{name}";
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Flash.Extensions.Resilience.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,10 +28,15 @@ namespace Flash.Test.Web.Controllers
         public async Task<string> Test1()
         {
             var events = new List<MessageCarrier>() {
-                MessageCarrier.Fill(new TestEvent{EventName = "routerkey.log.error"}),
-                MessageCarrier.Fill("routerkey.log.error",new TestEvent2{EventName = "routerkey.log.error"}),
-                MessageCarrier.Fill("routerkey.log.info",new TestEvent2{EventName = "routerkey.log.info"}),
+                //MessageCarrier.Fill(new TestEvent{EventName = "routerkey.log.error"}),
+                //MessageCarrier.Fill("routerkey.log.error",new TestEvent2{EventName = "routerkey.log.error"}),
+                //MessageCarrier.Fill("routerkey.log.info",new TestEvent2{EventName = "routerkey.log.info"}),
             };
+
+            for (int i = 0; i < 1000; i++)
+            {
+                events.Add(MessageCarrier.Fill(new TestDelayMessage { EventName = $"routerkey.log.info.{i}" }, TimeSpan.FromSeconds(30)));
+            }
 
             var ret = await _bus.PublishAsync(events);
             return ret.ToString();

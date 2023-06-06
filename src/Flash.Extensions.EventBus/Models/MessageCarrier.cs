@@ -26,8 +26,22 @@ namespace Flash.Extensions.EventBus
             this.Headers = new Dictionary<string, object>();
             this.RouteKey = string.IsNullOrEmpty(routeKey) ? message.GetType().FullName : routeKey;
             this.Content = JsonConvert.SerializeObject(message);
+            this.Exchange = message.GetType().FullName;
+            this.ExchangeType = "topic";
             this.CarrierId = Guid.NewGuid().ToString("N");
             this.MessageId = Guid.NewGuid().ToString("N");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="routeKey">路由名称</param>
+        /// <param name="message">消息主体</param>
+        /// <param name="delayTime">延迟时间</param>
+        public MessageCarrier(string routeKey, object message, TimeSpan? delayTime = null) : this(routeKey, message)
+        {
+            this.DelayTime = delayTime;
+            this.ExchangeType = "x-delayed-message";
         }
 
 
@@ -60,6 +74,18 @@ namespace Flash.Extensions.EventBus
         /// 内容
         /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// 交换机
+        /// </summary>
+        public string Exchange { get; protected set; }
+        /// <summary>
+        /// 交换机类型
+        /// </summary>
+        public string ExchangeType { get; protected set; }
+        /// <summary>
+        /// 延迟时间
+        /// </summary>
+        public TimeSpan? DelayTime { get; set; } = null;
 
         public static MessageCarrier Clone(MessageResponse response)
         {
@@ -94,6 +120,19 @@ namespace Flash.Extensions.EventBus
         public static MessageCarrier Fill(object message)
         {
             return new MessageCarrier("", message);
+        }
+
+        /// <summary>
+        /// 填充
+        /// </summary>
+        /// <param name="message">消息主体</param>
+        /// <param name="delayTime">延迟时间</param>
+        /// <returns></returns>
+        public static MessageCarrier Fill(object message, TimeSpan delayTime)
+        {
+            var data = new MessageCarrier("", message, delayTime);
+            data.Headers.Add("x-delay", delayTime.TotalMilliseconds);
+            return data;
         }
     }
 }

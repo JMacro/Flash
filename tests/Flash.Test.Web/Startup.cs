@@ -129,8 +129,9 @@ namespace Flash.Test.Web
                         var virtualHost = Environment.GetEnvironmentVariable("RabbitMQ:VirtualHost", EnvironmentVariableTarget.Machine);
 
                         rabbitmq.WithEndPoint(hostName ?? "localhost", int.Parse(port ?? "5672"))
+                        .WithQueuePrefixName("队列前缀名称")
                         .WithAuth(userName ?? "guest", password ?? "guest")
-                        .WithExchange(virtualHost ?? "/",Exchange:$"{this.GetType().FullName}")
+                        .WithExchange(virtualHost ?? "/", Exchange: $"{this.GetType().FullName}")
                         .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
                         .WithReceiver(
                             ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
@@ -199,9 +200,10 @@ namespace Flash.Test.Web
                 {
                     sp.UseSubscriber(eventbus =>
                     {
-                        eventbus.RegisterWaitAndRetry<TestEvent, TestEventHandler>("","");
+                        eventbus.RegisterWaitAndRetry<TestEvent, TestEventHandler>("", "");
                         //eventbus.Register<TestEvent, TestEventHandler>(typeof(TestEventHandler).FullName, "routerkey.log.error");
                         eventbus.Register<TestEvent2, TestEvent2Handler>(typeof(TestEvent2Handler).FullName, "routerkey.log.*");
+                        eventbus.RegisterDelay<TestDelayMessage, TestDelayHandler>();
 
                         //订阅消息
                         eventbus.Subscriber((Messages) =>
