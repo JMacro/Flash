@@ -2,27 +2,26 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Flash.Test.Web
 {
-    public class TestDelayHandler : IProcessMessageHandler<TestDelayMessage>, IMessageAckHandler
+    public class TestEventMessageHandler : IProcessMessageHandler<TestEventMessage>, IMessageAckHandler
     {
-        private readonly ILogger<TestDelayHandler> _logger;
+        private readonly ILogger<TestEventMessageHandler> _logger;
 
-        public TestDelayHandler(ILogger<TestDelayHandler> logger)
+        public TestEventMessageHandler(ILogger<TestEventMessageHandler> logger)
         {
             this._logger = logger;
         }
 
 
-        public Task<bool> Handle(TestDelayMessage message, Dictionary<string, object> headers, CancellationToken cancellationToken)
+        public Task<bool> Handle(TestEventMessage message, Dictionary<string, object> headers, CancellationToken cancellationToken)
         {
             this._logger.LogInformation(Newtonsoft.Json.JsonConvert.SerializeObject(message));
-            Random r = new Random();
-            var va = r.NextDouble() * 9 + 1;
-            if (va > 5)
+            if (message.Number > 7)
             {
                 throw new Exception("模拟异常抛出");
             }

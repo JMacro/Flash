@@ -1,14 +1,14 @@
 [
   {
     "Enable": true,
-    "Expression": "0/1 * * * * ? ",
+    "Expression": "0/15 * * * * ? ",
     "JobType": "Flash.Test.Web.Jobs.TestJob,Flash.Test.Web",
     "JobName": "CheckSellOrderDataJob",
     "JobGroup": "default"
   },
   {
     "Enable": true,
-    "Expression": "0/2 * * * * ? ",
+    "Expression": "0/15 * * * * ? ",
     "JobType": "Flash.Test.Web.Jobs.TestJob2,Flash.Test.Web",
     "JobName": "CheckSellOrderDataJob2",
     "JobGroup": "ICVIP_Order_Job_Group2"

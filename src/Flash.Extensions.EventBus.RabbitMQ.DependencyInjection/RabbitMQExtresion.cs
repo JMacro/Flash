@@ -40,7 +40,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
                 }
                 var result = !(await @event.PublishAsync(obj.Message.WaitAndRetry(a => retryAttempt, maxRetries)));
                 return result;
-            });
+            }, cancellationToken);
             return @event;
         }
 

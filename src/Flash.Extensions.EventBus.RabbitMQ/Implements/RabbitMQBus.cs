@@ -276,7 +276,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
-            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, _defaultExchangeType, null, null, null, cancellationToken);
+            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, _defaultExchangeType, ackHandler, nackHandler, null, cancellationToken);
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace Flash.Extensions.EventBus.RabbitMQ
             where TMessage : class
             where TProcessMessageHandler : IProcessMessageHandler<TMessage>
         {
-            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, exchangeType, null, null, null, cancellationToken);
+            return Register<TMessage, TProcessMessageHandler>(queueName, routeKey, exchangeType, ackHandler, nackHandler, null, cancellationToken);
         }
 
         /// <summary>

@@ -28,15 +28,15 @@ namespace Flash.Test.Web.Controllers
         public async Task<string> Test1()
         {
             var events = new List<MessageCarrier>() {
-                //MessageCarrier.Fill(new TestEvent{EventName = "routerkey.log.error"}),
-                //MessageCarrier.Fill("routerkey.log.error",new TestEvent2{EventName = "routerkey.log.error"}),
-                //MessageCarrier.Fill("routerkey.log.info",new TestEvent2{EventName = "routerkey.log.info"}),
+                //MessageCarrier.Fill(new TestEventMessage{EventName = "routerkey.log.error"}),
+                MessageCarrier.Fill("routerkey.log.error",new TestEvent2Message{EventName = "routerkey.log.error"}),
+                //MessageCarrier.Fill("routerkey.log.info",new TestEvent2Message{EventName = "routerkey.log.info"}),
             };
 
-            for (int i = 0; i < 1000; i++)
-            {
-                events.Add(MessageCarrier.Fill(new TestDelayMessage { EventName = $"routerkey.log.info.{i}" }, TimeSpan.FromSeconds(30)));
-            }
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    events.Add(MessageCarrier.Fill(new TestDelayMessage { EventName = $"routerkey.log.info.{i}" }, TimeSpan.FromSeconds(30)));
+            //}
 
             var ret = await _bus.PublishAsync(events);
             return ret.ToString();

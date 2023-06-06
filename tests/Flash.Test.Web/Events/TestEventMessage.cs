@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Flash.Test.Web
 {
-    public class TestEvent2
+    public class TestEventMessage
     {
         public string EventName { get; set; }
+        public double Number { get; set; }
     }
 }
