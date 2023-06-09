@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Flash.Extensions.ORM
+namespace Flash.Extensions
 {
     public interface IBasePageResponse<TData>
     {

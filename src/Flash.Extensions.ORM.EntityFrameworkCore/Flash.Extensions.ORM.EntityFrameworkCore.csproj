@@ -31,6 +31,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
   </ItemGroup>
 </Project>

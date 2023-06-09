@@ -169,6 +169,12 @@ namespace Flash.Test.Web
                     //job.UseQuartz();
                     job.UseHangfire();
                 });
+
+
+                flash.AddEntityChange(setup =>
+                {
+                    setup.UseRabbitMQStorage<ChangeHistoryMessageHandler>();
+                });
             });
 
             ContainerBuilder containerBuilder = new ContainerBuilder();

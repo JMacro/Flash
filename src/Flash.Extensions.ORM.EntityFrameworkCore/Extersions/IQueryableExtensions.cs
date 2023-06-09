@@ -1,4 +1,5 @@
-﻿using Flash.Extensions.ORM;
+﻿using Flash.Extensions;
+using Flash.Extensions.ORM;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;

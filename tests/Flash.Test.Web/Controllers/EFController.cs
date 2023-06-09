@@ -1,4 +1,5 @@
-﻿using Flash.Extensions.ORM;
+﻿using Flash.Extensions;
+using Flash.Extensions.ORM;
 using Flash.Test.Web.EFCore;
 using Microsoft.AspNetCore.Mvc;
 using System;

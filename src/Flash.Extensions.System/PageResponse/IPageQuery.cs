@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Flash.Extensions.ORM
+namespace Flash.Extensions
 {
     /// <summary>
     /// 分页排序

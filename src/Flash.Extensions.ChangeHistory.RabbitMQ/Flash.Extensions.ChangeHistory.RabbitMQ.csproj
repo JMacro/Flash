@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Extensions.ChangeHistory\Flash.Extensions.ChangeHistory.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+  </ItemGroup>
+
+</Project>

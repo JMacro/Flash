@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Flash.Extensions.ORM
+namespace Flash.Extensions
 {
     public class PageNotCountResponse<TData> : BasePageResponse<TData>
     {

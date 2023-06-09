@@ -32,6 +32,8 @@ namespace Flash.Extensions
         /// <returns></returns>
         public static string GetEnumDescript(this object enumValue)
         {
+            if (enumValue == null) return string.Empty;
+
             Type enumType = enumValue.GetType();
             DescriptionAttribute attr = null;
 
@@ -114,5 +116,14 @@ namespace Flash.Extensions
             }
         }
 
+        /// <summary>
+        /// 是否为可空枚举
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool IsNullableEnum(this Type t)
+        {
+            return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>) && t.GetGenericArguments()[0].IsEnum;
+        }
     }
 }

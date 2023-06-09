@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis.DependencyInjection\Flash.Extensions.Cache.Redis.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.ChangeHistory.RabbitMQ\Flash.Extensions.ChangeHistory.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Apollo\Flash.Extensions.Configuration.Apollo.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.CQRS\Flash.Extensions.CQRS.csproj" />
