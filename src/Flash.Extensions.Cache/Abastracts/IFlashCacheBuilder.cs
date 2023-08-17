@@ -3,9 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Extensions.Cache
 {
-    public interface IFlashCacheBuilder
+    public interface IFlashCacheBuilder : IFlashServiceCollection
     {
-        IServiceCollection Services { get; }
         IFlashHostBuilder FlashHost { get; }
     }
 }

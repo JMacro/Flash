@@ -21,7 +21,7 @@ namespace Flash.Test.Web.Controllers
         }
 
         [HttpGet("test1")]
-        public async Task<string> Test1(string q)
+        public async Task<object> Test1(string q)
         {
             var query = new
             {
@@ -29,7 +29,7 @@ namespace Flash.Test.Web.Controllers
             };
             var df = this._testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.Like).ToList();
 
-            return "";
+            return df;
         }
 
         [HttpGet("test2")]

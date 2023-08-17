@@ -2,9 +2,8 @@
 
 namespace Flash.Core
 {
-    public interface IFlashHostBuilder
+    public interface IFlashHostBuilder : IFlashServiceCollection
     {
-        IServiceCollection Services { get; }
     }
 }
 

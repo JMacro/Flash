@@ -112,16 +112,6 @@ namespace Flash.Test.Web
                 {
                     bus.UseRabbitMQ(rabbitmq =>
                     {
-                        //rabbitmq
-                        //.WithEndPoint(Configuration["RabbitMQ:HostName"] ?? "localhost", int.Parse(Configuration["RabbitMQ:Port"] ?? "5672"))
-                        //.WithAuth(Configuration["RabbitMQ:UserName"] ?? "guest", Configuration["RabbitMQ:Password"] ?? "guest")
-                        //.WithExchange(Configuration["RabbitMQ:VirtualHost"] ?? "/")
-                        //.WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
-                        //.WithReceiver(
-                        //    ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
-                        //    ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
-                        //    ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
-
                         var hostName = Environment.GetEnvironmentVariable("RabbitMQ:HostName", EnvironmentVariableTarget.Machine);
                         var port = Environment.GetEnvironmentVariable("RabbitMQ:Port", EnvironmentVariableTarget.Machine);
                         var userName = Environment.GetEnvironmentVariable("RabbitMQ:UserName", EnvironmentVariableTarget.Machine);
@@ -149,10 +139,10 @@ namespace Flash.Test.Web
 
                 flash.AddORM(orm =>
                 {
-                    orm.UseEFCore<TestDbContext>(option =>
+                    orm.UseEntityFramework(option =>
                     {
                         var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
-                        option.UseMySql(connection, ServerVersion.AutoDetect(connection));
+                        option.RegisterDbContexts<TestDbContext, MigrationAssembly>(connection, Configuration);
                     });
                 });
 
