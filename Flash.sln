@@ -164,9 +164,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Widgets", "src\Flash.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.EventBus.RabbitMQ.DependencyInjection", "src\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection.csproj", "{84F16056-E637-4F65-92E9-C1A3DBFCFA0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.ChangeHistory", "src\Flash.Extensions.ChangeHistory\Flash.Extensions.ChangeHistory.csproj", "{215B0EAB-CE75-4345-8150-69E0D9277B4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.ChangeHistory", "src\Flash.Extensions.ChangeHistory\Flash.Extensions.ChangeHistory.csproj", "{215B0EAB-CE75-4345-8150-69E0D9277B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.ChangeHistory.RabbitMQ", "src\Flash.Extensions.ChangeHistory.RabbitMQ\Flash.Extensions.ChangeHistory.RabbitMQ.csproj", "{93B2811C-4E46-4116-A7C2-89CE4A01DD5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.ChangeHistory.RabbitMQ", "src\Flash.Extensions.ChangeHistory.RabbitMQ\Flash.Extensions.ChangeHistory.RabbitMQ.csproj", "{93B2811C-4E46-4116-A7C2-89CE4A01DD5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.CompareObjects", "src\Flash.Extensions.CompareObjects\Flash.Extensions.CompareObjects.csproj", "{FCFEB339-41A2-4398-8290-3D8B36791411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -350,6 +352,10 @@ Global
 		{93B2811C-4E46-4116-A7C2-89CE4A01DD5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B2811C-4E46-4116-A7C2-89CE4A01DD5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93B2811C-4E46-4116-A7C2-89CE4A01DD5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCFEB339-41A2-4398-8290-3D8B36791411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFEB339-41A2-4398-8290-3D8B36791411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFEB339-41A2-4398-8290-3D8B36791411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFEB339-41A2-4398-8290-3D8B36791411}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -408,6 +414,7 @@ Global
 		{84F16056-E637-4F65-92E9-C1A3DBFCFA0D} = {CA8B169F-048A-4B5A-AA07-FEF81F565CF2}
 		{215B0EAB-CE75-4345-8150-69E0D9277B4C} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{93B2811C-4E46-4116-A7C2-89CE4A01DD5C} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{FCFEB339-41A2-4398-8290-3D8B36791411} = {AB151676-5329-47DD-974B-646648B41FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

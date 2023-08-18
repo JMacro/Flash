@@ -11,16 +11,27 @@ namespace Flash.Extensions.ChangeHistory
     public interface IEntityChange
     {
         /// <summary>
+        /// 检测变更
+        /// </summary>
+        /// <param name="oldObj"></param>
+        /// <param name="newObj"></param>
+        /// <returns></returns>
+        ChangeHistoryInfo Compare(Object oldObj, Object newObj);
+        /// <summary>
+        /// 记录变更
+        /// </summary>
+        /// <typeparam name="TChangeObject"></typeparam>
+        /// <param name="oldObj"></param>
+        /// <param name="newObj"></param>
+        /// <returns></returns>
+        Task<bool> Record<TChangeObject>(TChangeObject oldObj, TChangeObject newObj) where TChangeObject : IEntityChangeTracking;
+        /// <summary>
         /// 记录变更
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="oldObj"></param>
-        /// <param name="newObj"></param>
-        /// <param name="entityId">实体对象Id</param>
-        /// <param name="changeUserId">变更人Id</param>
-        /// <param name="remark">备注</param>
+        /// <param name="historie"></param>
         /// <returns></returns>
-        Task<bool> Record<T>(T oldObj, T newObj, string entityId, string changeUserId, string remark = "") where T : class, new();
+        Task<bool> Record<T>(ChangeHistoryInfo historie);
         /// <summary>
         /// 获得分页记录
         /// </summary>

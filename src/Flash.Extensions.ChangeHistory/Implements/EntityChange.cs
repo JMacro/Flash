@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Flash.Extensions.ChangeHistory
@@ -20,14 +25,30 @@ namespace Flash.Extensions.ChangeHistory
             this._storage = storage;
         }
 
-        public async Task<bool> Record<T>(T oldObj, T newObj, string entityId, string changeUserId, string remark = "") where T : class, new()
+        public ChangeHistoryInfo Compare(Object oldObj, Object newObj)
         {
-            if (oldObj.Equals(newObj)) return true;
+            if (oldObj == null && newObj == null) return default;
 
-            var histories = new List<ChangeHistoryInfo>();
+            var typeChangeObject = GetType(oldObj, newObj);
+            if (typeChangeObject == null) return default;
 
-            var objType = typeof(T);
-            var propertyInfos = objType.GetProperties();
+            object changeObjectId = null;
+            if (oldObj != null) changeObjectId = (oldObj as IEntityChangeTracking).ChangeObjectId;
+            else if (newObj != null) changeObjectId = (newObj as IEntityChangeTracking).ChangeObjectId;
+
+            var result = new ChangeHistoryInfo
+            {
+                EntityId = changeObjectId,
+                EntityType = typeChangeObject.FullName,
+                HistoryPropertys = new List<ChangeHistoryPropertyInfo>()
+            };
+
+            if (oldObj.Equals(newObj)) return result;
+
+            InternalCompare(oldObj, newObj, result.HistoryPropertys);
+
+
+            var propertyInfos = typeChangeObject.GetProperties();
             foreach (var propertyInfo in propertyInfos)
             {
                 if (propertyInfo.CustomAttributes.Is<IgnoreCheckAttribute>()) continue;
@@ -54,20 +75,14 @@ namespace Flash.Extensions.ChangeHistory
                     propertyValue = PropertyValueHandler(oldValue, newValue, (value) => Convert.ToString(value));
                 }
 
-                histories.Add(new ChangeHistoryInfo
+                result.HistoryPropertys.Add(new ChangeHistoryPropertyInfo
                 {
-                    EntityType = objType.FullName,
-                    EntityId = entityId,
                     PropertyName = propertyInfo.Name,
                     OldValue = propertyValue.OldValue,
-                    NewValue = propertyValue.NewValue,
-                    ChangeUserId = changeUserId,
-                    CreateTime = DateTime.Now,
-                    Remark = remark
+                    NewValue = propertyValue.NewValue
                 });
             }
-            return await _storage.Insert(histories.ToArray());
-
+            return result;
             (string OldValue, string NewValue) PropertyValueHandler(object oldObjValue, object newObjValue, Func<object, string> func)
             {
                 var OldValue = "";
@@ -94,9 +109,105 @@ namespace Flash.Extensions.ChangeHistory
             }
         }
 
+        public async Task<bool> Record<TChangeObject>(TChangeObject oldObj, TChangeObject newObj) where TChangeObject : IEntityChangeTracking
+        {
+            var compareResult = Compare(oldObj, newObj);
+            if (compareResult == null || !compareResult.HistoryPropertys.Any()) return false;
+
+            return await _storage.Insert(compareResult);
+        }
+
+        public async Task<bool> Record<T>(ChangeHistoryInfo historie)
+        {
+            if (historie == null || !historie.HistoryPropertys.Any()) return false;
+
+            return await _storage.Insert(historie);
+        }
+
         public async Task<IBasePageResponse<ChangeHistoryInfo>> GetPageList(PageSearchQuery page)
         {
             return await this._storage.GetPageList(page);
+        }
+
+        private FieldInfo InternalCompare(Object oldObj, Object newObj, IList<ChangeHistoryPropertyInfo> changeHistories, FieldInfo originalFieldInfo = null)
+        {
+            var typeChangeObject = GetType(oldObj, newObj);
+            if (typeChangeObject == null) return originalFieldInfo;
+
+            if (typeChangeObject.IsArray)
+            {
+                var arrayType = typeChangeObject.GetElementType();
+                if (!arrayType.IsValueTypeAndPrimitive())
+                {
+                    Array compareOldArray = (Array)oldObj;
+                    Array compareNewArray = (Array)newObj;
+                }
+            }
+
+            CompareFields(oldObj, newObj, typeChangeObject, changeHistories);
+            return originalFieldInfo;
+        }
+
+
+
+        private void CompareFields(Object oldObj, Object newObj, Type typeToReflect, IList<ChangeHistoryPropertyInfo> changeHistories, FieldInfo originalFieldInfo = null, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy, Func<FieldInfo, bool> filter = null)
+        {
+            foreach (var fieldInfo in typeToReflect.GetFields(bindingFlags))
+            {
+                if (filter != null && filter(fieldInfo) == false) continue;
+                dynamic oldValue = oldObj != null ? fieldInfo.GetValue(oldObj) : null;
+                dynamic newValue = newObj != null ? fieldInfo.GetValue(newObj) : null;
+                if (!fieldInfo.FieldType.IsValueTypeAndPrimitive())
+                {
+                    InternalCompare(oldValue, newValue, changeHistories, fieldInfo);
+                }
+                else
+                {
+                    if (oldValue != newValue)
+                    {
+                        changeHistories.Add(new ChangeHistoryPropertyInfo
+                        {
+                            OldValue = oldValue != null ? Convert.ToString(oldValue) : "",
+                            NewValue = newValue != null ? Convert.ToString(newValue) : "",
+                            PropertyName = GetFieldName(fieldInfo)
+                        });
+                    }
+                }
+
+                //if (IsValueTypeAndPrimitive(fieldInfo.FieldType)) continue;
+                //var originalFieldValue = fieldInfo.GetValue(originalObject);
+                //var clonedFieldValue = InternalCopy(originalFieldValue, visited);
+                //fieldInfo.SetValue(cloneObject, clonedFieldValue);
+            }
+        }
+
+        private Type GetType(Object oldObj, Object newObj)
+        {
+            if (oldObj == null && newObj == null) return null;
+
+            var typeChangeObject = default(Type);
+            var typeOldChangeObject = default(Type);
+            if (oldObj != null) typeChangeObject = typeOldChangeObject = oldObj.GetType();
+
+            var typeNewChangeObject = default(Type);
+            if (newObj != null) typeChangeObject = typeNewChangeObject = newObj.GetType();
+
+            if (oldObj != null && newObj != null && typeOldChangeObject != typeNewChangeObject) throw new ArgumentException($"参数{nameof(oldObj)}与{nameof(newObj)}类型不一致，无法比较");
+
+            if (typeChangeObject == null) return null;
+
+            return typeChangeObject;
+        }
+
+        private static Regex regex = new Regex("^<[A-Za-z0-9]+>");
+        private string GetFieldName(FieldInfo fieldInfo)
+        {
+            var match = regex.Match(fieldInfo.Name);
+            if (match.Success)
+            {
+                return match.Value.Replace("<", "").Replace(">", "");
+            }
+            return fieldInfo.Name;
         }
     }
 }

@@ -235,20 +235,6 @@ namespace Flash.Extensions
         }
 
         /// <summary>
-        /// 深复制
-        /// </summary>
-        /// <typeparam name="T">类型</typeparam>
-        /// <param name="obj">对象</param>
-        /// <returns></returns>
-        public static T DeepClone<T>(this T obj) where T : class
-        {
-            if (obj == null)
-                return null;
-
-            return obj.ToJson().ToObject<T>();
-        }
-
-        /// <summary>
         /// long类型转换，如转换失败返回默认值
         /// </summary>
         /// <param name="value">需要转换的对象</param>

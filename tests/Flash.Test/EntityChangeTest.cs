@@ -1,11 +1,14 @@
 ﻿using Flash.Extensions;
 using Flash.Extensions.ChangeHistory;
+using Flash.Extensions.CompareObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NPOI.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace Flash.Test
 {
@@ -17,8 +20,10 @@ namespace Flash.Test
         {
             var change = new EntityChange(new TestStorage());
 
+            var id = Guid.NewGuid();
             var st1 = new Student()
             {
+                ChangeObjectId = id,
                 Id = 1,
                 Age = 16,
                 Name = null,
@@ -28,6 +33,7 @@ namespace Flash.Test
             };
             var st2 = new Student()
             {
+                ChangeObjectId = id,
                 Id = 1,
                 Age = 17,
                 Name = "Test",
@@ -39,9 +45,32 @@ namespace Flash.Test
                 TTT = 1
             };
 
-            change.Record(st1, st2, st1.Id.ToString(), Guid.NewGuid().ToString(), "").ConfigureAwait(false).GetAwaiter().GetResult();
+            var st3 = new Student1()
+            {
+                ChangeObjectId = id,
+                Id = 1,
+                Age = 17,
+                Name = "Test",
+                Sex = null,
+                CreateTime = st1.CreateTime.AddDays(-1),
+                UpdateTime = DateTime.Now,
+                Monery = 2,
+                Lists = null,
+                TTT = 1
+            };
 
-            var result = change.GetPageList(new PageSearchQuery { }).ConfigureAwait(false).GetAwaiter().GetResult();
+            //CompareExtensions.ShouldCompare(st1, st2);
+
+            var logic = new CompareLogic();
+            ComparisonResult result = logic.Compare(st1, st2);
+
+            //change.Compare(st1, st1.DeepClone<Student>());
+
+            var result1 = change.Compare(st1, st2);
+
+            //change.Record(st1, st2, st1.Id.ToString(), Guid.NewGuid().ToString(), "").ConfigureAwait(false).GetAwaiter().GetResult();
+
+            var result2 = change.GetPageList(new PageSearchQuery { }).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 
@@ -63,7 +92,7 @@ namespace Flash.Test
     }
 
 
-    public class Student
+    public class Student : IEntityChangeTracking
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -75,6 +104,22 @@ namespace Flash.Test
         [IgnoreCheck]
         public List<string> Lists { get; set; } = new List<string>();
         public int? TTT { get; set; }
+        public object ChangeObjectId { get; set; }
+    }
+
+    public class Student1 : IEntityChangeTracking
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public EStudentSex? Sex { get; set; } = EStudentSex.Male;
+        public int Age { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
+        public double Monery { get; set; }
+        [IgnoreCheck]
+        public List<string> Lists { get; set; } = new List<string>();
+        public int? TTT { get; set; }
+        public object ChangeObjectId { get; set; }
     }
 
     public enum EStudentSex

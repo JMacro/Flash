@@ -23,7 +23,18 @@ namespace Flash.Extensions.ChangeHistory
         /// <summary>
         /// 实体对象Id
         /// </summary>
-        public string EntityId { get; set; }
+        public object EntityId { get; set; }
+        /// <summary>
+        /// 变更的属性
+        /// </summary>
+        public List<ChangeHistoryPropertyInfo> HistoryPropertys { get; set; }
+    }
+
+    /// <summary>
+    /// 变更属性信息
+    /// </summary>
+    public class ChangeHistoryPropertyInfo
+    {
         /// <summary>
         /// 实体的属性名，标记实体的哪个属性发生修改
         /// </summary>
@@ -36,17 +47,5 @@ namespace Flash.Extensions.ChangeHistory
         /// 新属性值
         /// </summary>
         public string NewValue { get; set; }
-        /// <summary>
-        /// 修改人Id
-        /// </summary>
-        public string ChangeUserId { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; }
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string Remark { get; set; }
     }
 }

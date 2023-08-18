@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flash.Extensions.ChangeHistory
+namespace Flash.Extensions
 {
     /// <summary>
     /// 忽略变更检查
