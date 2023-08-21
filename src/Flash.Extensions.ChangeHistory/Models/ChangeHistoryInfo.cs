@@ -42,10 +42,10 @@ namespace Flash.Extensions.ChangeHistory
         /// <summary>
         /// 原属性值
         /// </summary>
-        public string OldValue { get; set; }
+        public object OldValue { get; set; }
         /// <summary>
         /// 新属性值
         /// </summary>
-        public string NewValue { get; set; }
+        public object NewValue { get; set; }
     }
 }

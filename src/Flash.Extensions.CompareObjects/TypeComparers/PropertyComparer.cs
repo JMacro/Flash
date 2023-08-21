@@ -39,8 +39,8 @@ namespace Flash.Extensions.CompareObjects.TypeComparers
                     
                 CompareProperty(parms, propertyEntity, object2Properties);
 
-                //if (parms.Result.ExceededDifferences)
-                //    return;
+                if (parms.Result.ExceededDifferences)
+                    return;
             }
         }
 

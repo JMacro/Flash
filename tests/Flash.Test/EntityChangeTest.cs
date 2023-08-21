@@ -18,7 +18,10 @@ namespace Flash.Test
         [TestMethod]
         public void TestChange()
         {
-            var change = new EntityChange(new TestStorage());
+            var logic = new CompareLogic();
+            logic.Config.MaxDifferences = int.MaxValue;
+
+            var change = new EntityChange(new TestStorage(), logic);
 
             var id = Guid.NewGuid();
             var st1 = new Student()
@@ -30,10 +33,11 @@ namespace Flash.Test
                 Sex = EStudentSex.Male,
                 CreateTime = DateTime.Now,
                 Monery = 1,
+                Lists = new List<ListObject> { new ListObject { Id = 1, Name = "1" } },
             };
             var st2 = new Student()
             {
-                ChangeObjectId = id,
+                ChangeObjectId = Guid.NewGuid(),
                 Id = 1,
                 Age = 17,
                 Name = "Test",
@@ -41,7 +45,7 @@ namespace Flash.Test
                 CreateTime = st1.CreateTime.AddDays(-1),
                 UpdateTime = DateTime.Now,
                 Monery = 2,
-                Lists = null,
+                Lists = new List<ListObject> { new ListObject { Id = 1, Name = "2" } },
                 TTT = 1
             };
 
@@ -59,16 +63,8 @@ namespace Flash.Test
                 TTT = 1
             };
 
-            //CompareExtensions.ShouldCompare(st1, st2);
-
-            var logic = new CompareLogic();
-            ComparisonResult result = logic.Compare(st1, st2);
-
-            //change.Compare(st1, st1.DeepClone<Student>());
-
             var result1 = change.Compare(st1, st2);
-
-            //change.Record(st1, st2, st1.Id.ToString(), Guid.NewGuid().ToString(), "").ConfigureAwait(false).GetAwaiter().GetResult();
+            change.Record(st1, st2).ConfigureAwait(false).GetAwaiter().GetResult();
 
             var result2 = change.GetPageList(new PageSearchQuery { }).ConfigureAwait(false).GetAwaiter().GetResult();
         }
@@ -78,7 +74,7 @@ namespace Flash.Test
     {
         public Task<IBasePageResponse<ChangeHistoryInfo>> GetPageList(PageSearchQuery page)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(default(IBasePageResponse<ChangeHistoryInfo>));
         }
 
         public Task<bool> Insert(params ChangeHistoryInfo[] changes)
@@ -101,9 +97,9 @@ namespace Flash.Test
         public DateTime CreateTime { get; set; }
         public DateTime? UpdateTime { get; set; }
         public double Monery { get; set; }
-        [IgnoreCheck]
-        public List<string> Lists { get; set; } = new List<string>();
+        public List<ListObject> Lists { get; set; } = new List<ListObject>();
         public int? TTT { get; set; }
+        [IgnoreCheck]
         public object ChangeObjectId { get; set; }
     }
 
@@ -116,12 +112,17 @@ namespace Flash.Test
         public DateTime CreateTime { get; set; }
         public DateTime? UpdateTime { get; set; }
         public double Monery { get; set; }
-        [IgnoreCheck]
-        public List<string> Lists { get; set; } = new List<string>();
+        public List<ListObject> Lists { get; set; } = new List<ListObject>();
         public int? TTT { get; set; }
         public object ChangeObjectId { get; set; }
     }
 
+    public class ListObject
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+    }
     public enum EStudentSex
     {
         /// <summary>

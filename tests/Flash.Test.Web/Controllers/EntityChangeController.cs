@@ -1,4 +1,5 @@
-﻿using Flash.Extensions.ChangeHistory;
+﻿using Flash.Extensions;
+using Flash.Extensions.ChangeHistory;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,11 +43,12 @@ namespace Flash.Test.Web.Controllers
                 TTT = 1
             };
 
-            return await _entityChange.Record(st1, st2, st1.Id.ToString(), Guid.NewGuid().ToString(), "");
+            _entityChange.Compare(st1, st2);
+            return false;
         }
     }
 
-    public class Student
+    public class Student : IEntityChangeTracking
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -55,9 +57,9 @@ namespace Flash.Test.Web.Controllers
         public DateTime CreateTime { get; set; }
         public DateTime? UpdateTime { get; set; }
         public double Monery { get; set; }
-        [IgnoreCheck]
         public List<string> Lists { get; set; } = new List<string>();
         public int? TTT { get; set; }
+        public object ChangeObjectId { get; set; }
     }
 
     public enum EStudentSex

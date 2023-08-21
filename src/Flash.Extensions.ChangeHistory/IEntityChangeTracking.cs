@@ -11,7 +11,7 @@ namespace Flash.Extensions.ChangeHistory
         /// <summary>
         /// 变更对象Id
         /// </summary>
-        [NotMapped, JsonIgnore]
+        [IgnoreCheck, NotMapped, JsonIgnore]
         object ChangeObjectId { get; set; }
     }
 }

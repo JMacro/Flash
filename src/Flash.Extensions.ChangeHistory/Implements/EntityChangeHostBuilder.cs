@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Flash.Extensions.CompareObjects;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Extensions.ChangeHistory
 {
@@ -15,5 +13,7 @@ namespace Flash.Extensions.ChangeHistory
         }
 
         public IServiceCollection Services => this._services;
+
+        public ComparisonConfig Config { get; private set; }
     }
 }

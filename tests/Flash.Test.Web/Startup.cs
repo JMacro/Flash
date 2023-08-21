@@ -163,6 +163,10 @@ namespace Flash.Test.Web
 
                 flash.AddEntityChange(setup =>
                 {
+                    setup.InitConfig(config =>
+                    {
+                        config.MaxDifferences = int.MaxValue;
+                    });
                     setup.UseRabbitMQStorage<ChangeHistoryMessageHandler>();
                 });
             });

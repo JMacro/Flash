@@ -1,12 +1,13 @@
 ﻿using Flash.Core;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Flash.Extensions.CompareObjects;
 
 namespace Flash.Extensions.ChangeHistory
 {
-    public interface IEntityChangeHostBuilder: IFlashServiceCollection
+    public interface IEntityChangeHostBuilder : IFlashServiceCollection
     {
+        /// <summary>
+        /// 对比器配置
+        /// </summary>
+        ComparisonConfig Config { get; }
     }
 }
