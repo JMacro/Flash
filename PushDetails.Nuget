@@ -5,3 +5,48 @@ Flash.Extensions.EventBus.RabbitMQ.DependencyInjection
 -------------------------------------------------------------------------------------
 
 
+------------------------2023-08-21 16:06:57 +08:00 (11.0.8.2)------------------------
+-------------------------------------------------------------------------------------
+
+
+------------------------2023-08-21 16:08:03 +08:00 (11.0.8.2)------------------------
+-------------------------------------------------------------------------------------
+
+
+------------------------2023-08-21 16:13:11 +08:00 (11.0.8.2)------------------------
+Flash.DynamicRoute
+Flash.Extensions.Cache
+Flash.Extensions.Cache.Redis
+Flash.Extensions.Cache.Redis.DependencyInjection
+Flash.Extensions.ChangeHistory
+Flash.Extensions.ChangeHistory.RabbitMQ
+Flash.Extensions.CompareObjects
+Flash.Extensions.Configuration.Apollo
+Flash.Extensions.Configuration.Json
+Flash.Extensions.DistributedLock
+Flash.Extensions.Email
+Flash.Extensions.EventBus
+Flash.Extensions.EventBus.RabbitMQ
+Flash.Extensions.EventBus.RabbitMQ.DependencyInjection
+Flash.Extensions.HealthChecks
+Flash.Extensions.HealthChecks.MySql
+Flash.Extensions.HealthChecks.RabbitMQ
+Flash.Extensions.HealthChecks.Redis
+Flash.Extensions.Job
+Flash.Extensions.Job.Hangfire
+Flash.Extensions.Job.Hangfire.AspNetCore
+Flash.Extensions.Job.Quartz
+Flash.Extensions.Office
+Flash.Extensions.Office.Npoi
+Flash.Extensions.OpenTracting
+Flash.Extensions.OpenTracting.Jaeger
+Flash.Extensions.OpenTracting.Skywalking
+Flash.Extensions.ORM
+Flash.Extensions.ORM.EntityFrameworkCore
+Flash.Extensions.Resilience.Http
+Flash.Extensions.Security
+Flash.Extensions.UidGenerator
+Flash.LoadBalancer
+-------------------------------------------------------------------------------------
+
+

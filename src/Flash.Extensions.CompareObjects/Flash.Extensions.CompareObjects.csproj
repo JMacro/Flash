@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard1.3;netstandard2.0;netstandard2.1;</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.CompareObjects</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -65,5 +70,13 @@
     <PackageReference Include="System.Configuration.Configurationmanager" Version="6.0.0" />
   </ItemGroup>
 
-  
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

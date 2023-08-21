@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bulid", "bulid", "{E3F3C44D-EF02-4794-AFC3-93F26BDAFC1F}"
 	ProjectSection(SolutionItems) = preProject
 		build.bat = build.bat
+		psake-assembly.ps1 = psake-assembly.ps1
 		psake-common.ps1 = psake-common.ps1
 		psake-project.ps1 = psake-project.ps1
 		Push-Nupkg.json = Push-Nupkg.json
@@ -117,6 +118,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.Cache.nuspec = nuspecs\Flash.Extensions.Cache.nuspec
 		nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec = nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec
 		nuspecs\Flash.Extensions.Cache.Redis.nuspec = nuspecs\Flash.Extensions.Cache.Redis.nuspec
+		nuspecs\Flash.Extensions.ChangeHistory.nuspec = nuspecs\Flash.Extensions.ChangeHistory.nuspec
+		nuspecs\Flash.Extensions.ChangeHistory.RabbitMQ.nuspec = nuspecs\Flash.Extensions.ChangeHistory.RabbitMQ.nuspec
+		nuspecs\Flash.Extensions.CompareObjects.nuspec = nuspecs\Flash.Extensions.CompareObjects.nuspec
 		nuspecs\Flash.Extensions.Configuration.Apollo.nuspec = nuspecs\Flash.Extensions.Configuration.Apollo.nuspec
 		nuspecs\Flash.Extensions.Configuration.Json.nuspec = nuspecs\Flash.Extensions.Configuration.Json.nuspec
 		nuspecs\Flash.Extensions.DistributedLock.nuspec = nuspecs\Flash.Extensions.DistributedLock.nuspec
@@ -168,7 +172,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.ChangeHist
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.ChangeHistory.RabbitMQ", "src\Flash.Extensions.ChangeHistory.RabbitMQ\Flash.Extensions.ChangeHistory.RabbitMQ.csproj", "{93B2811C-4E46-4116-A7C2-89CE4A01DD5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.CompareObjects", "src\Flash.Extensions.CompareObjects\Flash.Extensions.CompareObjects.csproj", "{FCFEB339-41A2-4398-8290-3D8B36791411}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.CompareObjects", "src\Flash.Extensions.CompareObjects\Flash.Extensions.CompareObjects.csproj", "{FCFEB339-41A2-4398-8290-3D8B36791411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
