@@ -1,27 +1,48 @@
-﻿using Flash.Extensions;
+﻿using Autofac;
+using Flash.Extensions;
 using Flash.Extensions.ChangeHistory;
 using Flash.Extensions.CompareObjects;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NPOI.Util;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using NPOI.SS.Formula.Functions;
+using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace Flash.Test
 {
-    [TestClass]
-    public class EntityChangeTest
+    [TestFixture]
+    public class EntityChangeTests : BaseTest
     {
-        [TestMethod]
-        public void TestChange()
+        [Test]
+        public void CompareAsEqualTest()
         {
-            var logic = new CompareLogic();
-            logic.Config.MaxDifferences = int.MaxValue;
+            var change = container.Resolve<IEntityChange>();
 
-            var change = new EntityChange(new TestStorage(), logic);
+            var id = Guid.NewGuid();
+            var st1 = new Student()
+            {
+                ChangeObjectId = id,
+                Id = 1,
+                Age = 16,
+                Name = null,
+                Sex = EStudentSex.Male,
+                CreateTime = DateTime.Now,
+                Monery = 1,
+                Lists = new List<ListObject> { new ListObject { Id = 1, Name = "1" } },
+            };
+
+            var result1 = change.Compare(st1, st1.DeepClone<Student>());
+            Assert.IsNotNull(result1);
+            Assert.That(result1.HistoryPropertys.Any(), Is.False);
+        }
+
+        [Test]
+        public void CompareAsNotEqualTest()
+        {
+            var change = container.Resolve<IEntityChange>();
 
             var id = Guid.NewGuid();
             var st1 = new Student()
@@ -49,6 +70,28 @@ namespace Flash.Test
                 TTT = 1
             };
 
+            var result1 = change.Compare(st1, st2);
+            Assert.IsNotNull(result1);
+            Assert.That(result1.HistoryPropertys.Any(), Is.True);
+        }
+
+        [Test]
+        public void CompareAsThrowTest()
+        {
+            var change = container.Resolve<IEntityChange>();
+
+            var id = Guid.NewGuid();
+            var st1 = new Student()
+            {
+                ChangeObjectId = id,
+                Id = 1,
+                Age = 16,
+                Name = null,
+                Sex = EStudentSex.Male,
+                CreateTime = DateTime.Now,
+                Monery = 1,
+                Lists = new List<ListObject> { new ListObject { Id = 1, Name = "1" } },
+            };
             var st3 = new Student1()
             {
                 ChangeObjectId = id,
@@ -63,10 +106,45 @@ namespace Flash.Test
                 TTT = 1
             };
 
-            var result1 = change.Compare(st1, st2);
-            change.Record(st1, st2).ConfigureAwait(false).GetAwaiter().GetResult();
+            Assert.That(new TestDelegate(() =>
+            {
+                var result1 = change.Compare(st1, st3);
+            }), new ThrowsExceptionConstraint());
+        }
 
-            var result2 = change.GetPageList(new PageSearchQuery { }).ConfigureAwait(false).GetAwaiter().GetResult();
+        [Test]
+        public void RecordTest()
+        {
+            var change = container.Resolve<IEntityChange>();
+
+            var id = Guid.NewGuid();
+            var st1 = new Student()
+            {
+                ChangeObjectId = id,
+                Id = 1,
+                Age = 16,
+                Name = null,
+                Sex = EStudentSex.Male,
+                CreateTime = DateTime.Now,
+                Monery = 1,
+                Lists = new List<ListObject> { new ListObject { Id = 1, Name = "1" } },
+            };
+            var st2 = new Student()
+            {
+                ChangeObjectId = Guid.NewGuid(),
+                Id = 1,
+                Age = 17,
+                Name = "Test",
+                Sex = null,
+                CreateTime = st1.CreateTime.AddDays(-1),
+                UpdateTime = DateTime.Now,
+                Monery = 2,
+                Lists = new List<ListObject> { new ListObject { Id = 1, Name = "2" } },
+                TTT = 1
+            };
+
+            var result1 = change.Record(st1, st2).ConfigureAwait(false).GetAwaiter().GetResult();
+            Assert.IsTrue(result1);
         }
     }
 

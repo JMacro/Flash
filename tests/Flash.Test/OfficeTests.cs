@@ -2,18 +2,18 @@
 using Flash.Extensions.Email;
 using Flash.Extensions.Office;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace Flash.Test
 {
-    [TestClass]
-    public class OfficeTest : BaseTest
+    [TestFixture]
+    public class OfficeTests : BaseTest
     {
-        [TestMethod]
-        public void TestWriteExcel()
+        [Test]
+        public void WriteExcelTest()
         {
             var tool = ServiceProvider.GetService<IOfficeTools>();
 
@@ -42,20 +42,12 @@ namespace Flash.Test
             });
             Assert.IsNotNull(buffer);
 
-            var filePath = Path.Combine(AppContext.BaseDirectory, "excel");
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-            }
-            File.WriteAllBytes(Path.Combine(filePath, DateTime.Now.ToFileTime().ToString() + ".xls"), buffer);
-
-
             var datas = tool.ReadExcel<StudentInfo>(buffer, headerColumns);
             Assert.IsNotNull(datas);
         }
 
-        [TestMethod]
-        public void TestWriteExcelByMultipleSheet()
+        [Test]
+        public void WriteExcelByMultipleSheetTest()
         {
             var tool = ServiceProvider.GetService<IOfficeTools>();
             Assert.IsNotNull(tool);
@@ -102,24 +94,8 @@ namespace Flash.Test
                 SheetInfo.Create("Sheet3", dataSource, headerColumns3));
             Assert.IsNotNull(buffer);
 
-            var fileName = DateTime.Now.ToFileTime().ToString() + ".xls";
-            var filePath = Path.Combine(AppContext.BaseDirectory, "excel");
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-            }
-
-            File.WriteAllBytes(Path.Combine(filePath, fileName), buffer);
-
             var datas = tool.ReadExcel<StudentInfo>(buffer, "Sheet2", headerColumns2);
             Assert.IsNotNull(datas);
-
-            var emailService = ServiceProvider.GetService<IEmailService>();
-            Assert.IsNotNull(emailService);
-
-            //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试", AttachmentInfo.Create(fileName, new MemoryStream(buffer)), System.Text.Encoding.UTF8);
-            //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
-            //emailService.Send("XXXX@163.com", "邮箱发送测试", "邮箱发送测试Path", AttachmentInfo.Create(Path.Combine(AppContext.BaseDirectory, "excel", fileName), Path.Combine(AppContext.BaseDirectory, "excel", fileName)), System.Text.Encoding.UTF8);
         }
     }
 

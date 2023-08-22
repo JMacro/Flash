@@ -554,14 +554,14 @@ namespace Flash.Extensions.Cache.Redis
             return GetPooledClientManager(cacheKey).HashGet<T>(cacheKey, dataKey);
         }
 
-        public bool HashSet<T>(string cacheKey, string dataKey, T value)
+        public bool HashSet<T>(string cacheKey, string dataKey, T value, TimeSpan? expiry = default(TimeSpan?))
         {
-            return GetPooledClientManager(cacheKey).HashSet(cacheKey, dataKey, value);
+            return GetPooledClientManager(cacheKey).HashSet(cacheKey, dataKey, value, expiry);
         }
 
-        public void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs)
+        public void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs, TimeSpan? expiry = default(TimeSpan?))
         {
-            GetPooledClientManager(cacheKey).HashSet(cacheKey, keyValuePairs);
+            GetPooledClientManager(cacheKey).HashSet(cacheKey, keyValuePairs, expiry);
         }
 
         public bool HashDelete(string cacheKey, params string[] dataKey)
@@ -866,5 +866,14 @@ namespace Flash.Extensions.Cache.Redis
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// 获得缓存Key名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetCacheKey(string cacheKey)
+        {
+            return GetPooledClientManager(cacheKey).GetCacheKey(cacheKey);
+        }
     }
 }

@@ -1,0 +1,66 @@
+﻿using Flash.Extensions;
+using Flash.Extensions.ORM;
+using Flash.Test.ORM.Base;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace Flash.Test.ORM
+{
+    [TestFixture]
+    public class EFTests : BaseTest
+    {
+        [Test]
+        public void WhereLikeTest()
+        {
+            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var query = new
+            {
+                CName = ""
+            };
+            var result = testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.Like).ToList();
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void WhereLeftLikeTest()
+        {
+            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var query = new
+            {
+                CName = ""
+            };
+            var result = testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.LeftLike).ToList();
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void WhereRightLikeTest()
+        {
+            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var query = new
+            {
+                CName = ""
+            };
+            var result = testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.RightLike).ToList();
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void QueryPageTest()
+        {
+            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var page = testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, (e, p) =>
+                p.Add(OrderBy.Create(e, s => s.Id, PageOrderBy.ASC))
+                .Add(OrderBy.Create(e, s => s.EName, PageOrderBy.DESC))
+                .Add(e, s => s.Account, PageOrderBy.ASC)
+                ).ConfigureAwait(false).GetAwaiter().GetResult();
+            Assert.IsNotNull(page);
+        }
+    }
+}

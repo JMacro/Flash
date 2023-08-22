@@ -66,7 +66,7 @@ namespace Flash.Extensions.Cache
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <param name="cacheValue"></param>
-        /// <param name="expiresMinute"></param>
+        /// <param name="cacheOutTime"></param>
         bool StringSet<T>(string cacheKey, T cacheValue, TimeSpan cacheOutTime);
 
 
@@ -75,6 +75,7 @@ namespace Flash.Extensions.Cache
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <param name="cacheValue"></param>
+        /// <param name="cacheOutTime"></param>
         Task<bool> StringSetAsync<T>(string cacheKey, T cacheValue, TimeSpan cacheOutTime);
 
         /// <summary>
@@ -211,16 +212,18 @@ namespace Flash.Extensions.Cache
         /// <param name="cacheKey">指定的哈希key</param>
         /// <param name="dataKey">数据Key（具有唯一性）</param>
         /// <param name="value">数据内容</param>
+        /// <param name="expiry"></param>
         /// <returns></returns>
-        bool HashSet<T>(string cacheKey, string dataKey, T value);
+        bool HashSet<T>(string cacheKey, string dataKey, T value, TimeSpan? expiry = default(TimeSpan?));
         /// <summary>
         /// 存储数据到hash表
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cacheKey"></param>
         /// <param name="keyValuePairs"></param>
+        /// <param name="expiry"></param>
         /// <returns></returns>
-        void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs);
+        void HashSet<T>(string cacheKey, IDictionary<string, T> keyValuePairs, TimeSpan? expiry = default(TimeSpan?));
         /// <summary>
         /// 删除指定的哈希数据
         /// </summary>
@@ -420,7 +423,13 @@ namespace Flash.Extensions.Cache
         /// <param name="bloomFilterName">布隆过滤器名称</param>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<bool> BF4EXISTSAsync(string bloomFilterName, string value); 
+        Task<bool> BF4EXISTSAsync(string bloomFilterName, string value);
         #endregion
+
+        /// <summary>
+        /// 获得缓存Key名称
+        /// </summary>
+        /// <returns></returns>
+        string GetCacheKey(string cacheKey);
     }
 }

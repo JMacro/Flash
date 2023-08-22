@@ -334,14 +334,17 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="key"></param>
         /// <param name="dataKey"></param>
         /// <param name="t"></param>
+        /// <param name="expiry"></param>
         /// <returns></returns>
-        public bool HashSet<T>(string key, string dataKey, T t)
+        public bool HashSet<T>(string key, string dataKey, T t, TimeSpan? expiry = default(TimeSpan?))
         {
             key = AddSysCustomKey(key);
             return Do(db =>
             {
                 string json = ConvertJson(t);
-                return db.HashSet(key, dataKey, json);
+                var result = db.HashSet(key, dataKey, json);
+                if (expiry != null) db.KeyExpire(new RedisKey(key), expiry);
+                return result;
             });
         }
 
@@ -351,13 +354,15 @@ namespace Flash.Extensions.Cache.Redis
         /// <typeparam name="TSource"></typeparam>
         /// <param name="key"></param>
         /// <param name="keyValuePairs"></param>
+        /// <param name="expiry"></param>
         /// <returns></returns>
-        public void HashSet<TSource>(string key, IDictionary<string, TSource> keyValuePairs)
+        public void HashSet<TSource>(string key, IDictionary<string, TSource> keyValuePairs, TimeSpan? expiry = default(TimeSpan?))
         {
             key = AddSysCustomKey(key);
             Do(db =>
             {
                 db.HashSet(key, keyValuePairs.Select(p => new HashEntry(p.Key, ConvertJson(p.Value))).ToArray());
+                if (expiry != null) db.KeyExpire(new RedisKey(key), expiry);
             });
         }
 
@@ -1215,6 +1220,11 @@ namespace Flash.Extensions.Cache.Redis
             CustomKey = customKey;
         }
 
+        /// <summary>
+        /// 获得缓存Key名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetCacheKey(string key) => AddSysCustomKey(key);
         #endregion 其他
 
 

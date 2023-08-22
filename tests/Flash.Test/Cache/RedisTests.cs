@@ -2,55 +2,62 @@ using Autofac;
 using Flash.Extensions.Cache;
 using Flash.Extensions.Cache.Redis;
 using FluentAssertions;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StackExchange.Redis;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using Flash.Extensions.HealthChecks;
 
-namespace Flash.Test
+namespace Flash.Test.Cache
 {
-    [TestClass]
-    public class CacheRedisTest : BaseTest
+    [TestFixture]
+    public class RedisTests : BaseTest
     {
         private readonly ICacheManager _cacheManager;
         private readonly IDistributedLock _distributedLock;
 
-        public CacheRedisTest() : base()
+        public RedisTests() : base()
         {
-            this._cacheManager = this.container.Resolve<ICacheManager>();
-            this._distributedLock = this.container.Resolve<IDistributedLock>();
-        }
-
-        [TestMethod]
-        public void StringSet()
-        {
-            this._cacheManager.StringSet<int>("123", 123);
-            var d = this._cacheManager.StringGet<int>("123");
-
-            var ddd = this._distributedLock.Enter("122", "AAAAA", TimeSpan.FromSeconds(60));
 
         }
 
-        [TestMethod]
-        public void DistributedLock()
+        [Test]
+        public void StringSetTest()
         {
-            var ddd = this._distributedLock.Enter("122", "AAAAA", TimeSpan.FromSeconds(60));
+            var cacheManager = container.Resolve<ICacheManager>();
+            var result = cacheManager.StringSet("123", Guid.NewGuid(), TimeSpan.FromDays(1));
+            Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        public async Task HealthCheck()
+        [Test]
+        public void StringGetTest()
         {
+            StringSetTest();
+
+            var cacheManager = container.Resolve<ICacheManager>();
+            var result = cacheManager.StringGet<string>("123");
+            Assert.IsNotEmpty(result);
+        }
+
+        [Test]
+        public void DistributedLockTest()
+        {
+            var distributedLock = container.Resolve<IDistributedLock>();
+            var result = distributedLock.Enter($"{int.MaxValue}", Guid.NewGuid().ToString(), TimeSpan.FromSeconds(60));
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void HealthCheckTest()
+        {
+            var host = Environment.GetEnvironmentVariable("Redis_Host", EnvironmentVariableTarget.Machine);
+            var password = Environment.GetEnvironmentVariable("Redis_Password", EnvironmentVariableTarget.Machine);
+
             var webHostBuilder = new WebHostBuilder()
              .UseStartup<Startup>()
              .ConfigureServices(services =>
@@ -61,52 +68,57 @@ namespace Flash.Test
                      {
                          cache.UseRedis(option =>
                          {
-                             option.WithDb(10);
+                             option.WithDb(0);
                              option.WithKeyPrefix("SystemClassName:TypeClassName");
-                             option.WithPassword("tY7cRu9HG_jyDw2r");
-                             option.WithReadServerList("192.168.109.237:63100");
-                             option.WithWriteServerList("192.168.109.237:63100");
+                             option.WithPassword(password);
+                             option.WithReadServerList(host);
+                             option.WithWriteServerList(host);
                              option.WithSsl(false);
                              option.WithDistributedLock(true);
                          });
                      });
                  });
 
-                 //services.AddHealthChecks(check =>
-                 //{
-                 //    check.AddRedisCheck("192.168.109.237:63100", "192.168.109.237:63100,password=tY7cRu9HG_jyDw2r,allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
-                 //});
+                 services.AddHealthChecks(check =>
+                 {
+                     check.AddRedisCheck($"{host}", $"{host},password={password},allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
+                 });
              })
-             //.UseHealthChecks("/healthcheck")
-             ;
-
+             .UseHealthChecks("/healthcheck");
 
             var server = new TestServer(webHostBuilder);
-            var response = await server.CreateRequest($"/healthcheck").GetAsync();
-
-            var df = await response.Content.ReadAsStringAsync();
-
+            var response = server.CreateRequest($"/healthcheck").GetAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [TestMethod]
+        [Test]
         public void BloomFilterTest()
         {
-            var dfdf = Guid.NewGuid().ToString();
+            var cacheManager = container.Resolve<ICacheManager>();
 
-            var dfde = this._cacheManager.GetString4BloomFilter("111", TimeSpan.FromSeconds(60), () => dfdf);
+            var guid = Guid.NewGuid().ToString();
 
-            var dd = this._cacheManager.BF4ADD("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", dfdf);
-            var ddd = this._cacheManager.BF4ADDAsync("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", "bbbb");
+            var value1 = cacheManager.GetString4BloomFilter("111", TimeSpan.FromSeconds(60), () => guid);
+            Assert.IsNotEmpty(value1);
 
-            var v1 = this._cacheManager.BF4EXISTS("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", "bbbb");
+            var result1 = cacheManager.BF4ADD("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", guid);
+            Assert.IsTrue(result1);
 
+            var result2 = cacheManager.BF4ADDAsync("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", Guid.NewGuid().ToString()).ConfigureAwait(false).GetAwaiter().GetResult();
+            Assert.IsTrue(result2);
+
+            var result3 = cacheManager.BF4EXISTS("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", guid);
+            Assert.IsTrue(result3);
         }
 
-        [TestMethod]
-        public void TreeTest()
+
+        [Test]
+        public void GetTreeTest()
         {
-            String key = "RoleInherit";
+            var cacheManager = container.Resolve<ICacheManager>();
+
+            string key = "RoleInherit";
             RoleInherit tree = new RoleInherit();
             List<long> childIds = new List<long>();
             int max = 100;
@@ -114,20 +126,16 @@ namespace Flash.Test
             for (int i = 0; i < max; i++)
             {
                 tree.RoleId = i;
-                tree.Name = ("½ÇÉ«" + i);
+                tree.Name = "½ÇÉ«" + i;
                 childIds.Clear();
-                if (i < (max - 1))
+                if (i < max - 1)
                 {
                     childIds.Add(i + 1);
                 }
 
-                this._cacheManager.HashSet(key, i.ToString(), tree);
+                cacheManager.HashSet(key, i.ToString(), tree, TimeSpan.FromDays(1));
             }
-        }
 
-        [TestMethod]
-        public void GetTreeTest()
-        {
             StringBuilder lua = new StringBuilder();
             lua.AppendLine("local function getChild(currentnode, t, res)");
             lua.AppendLine("  if currentnode == nil or t == nil  then");
@@ -176,20 +184,9 @@ namespace Flash.Test
             lua.AppendLine("end");
             lua.AppendLine("return {}");
 
-            var df = this._cacheManager.ScriptEvaluate<string>("return redis.call('GET',@key)", new { key = "DD" });
-            var ddd = this._cacheManager.ScriptEvaluate<string>("return redis.call('SET',@key,@value)", new { key = "DD", value = 0 });
+            var redisResult = cacheManager.ScriptEvaluate<RoleInherit>(lua.ToString(), new { CacheKey = cacheManager.GetCacheKey(key), DataKey = 98 });
 
-            var redisResult = this._cacheManager.ScriptEvaluate<RoleInherit>(lua.ToString(), new { CacheKey = "RoleInherit", DataKey = 0 });
-
-            //var dd = redisResult.Type;
-
-            //var redisValues = ((RedisValue[])redisResult);
-            //var result = new List<RoleInherit>();
-            //foreach (var item in redisValues)
-            //{
-            //    result.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<RoleInherit>(item.ToString()));
-            //}
-
+            Assert.IsNotNull(redisResult);
         }
 
     }
