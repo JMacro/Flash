@@ -49,8 +49,7 @@ Task Test -Depends Merge -Description "Run unit and integration tests against me
     # We are running unit test project one by one, because pipelined version like the line above does not
     # support halting the whole execution pipeline when "dotnet test" command fails due to a failed test,
     # silently allowing build process to continue its execution even with failed tests.
-    # Exec { dotnet test -c Release --no-build "tests\Flash.Test" }
-    # Exec { dotnet test -c Release --no-build "tests\Flash.Test.Web" }
+    Exec { dotnet test -c Release --no-build "tests\Flash.Test" }
 }
 
 Task Collect -Depends Test -Description "Copy all artifacts to the build folder." {
