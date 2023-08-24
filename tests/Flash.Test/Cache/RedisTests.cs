@@ -12,25 +12,32 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Flash.Extensions.HealthChecks;
+using Flash.Test.StartupTests;
 
 namespace Flash.Test.Cache
 {
     [TestFixture]
-    public class RedisTests : BaseTest
+    public class RedisTests : BaseTest<RedisStartupTest>
     {
-        private readonly ICacheManager _cacheManager;
-        private readonly IDistributedLock _distributedLock;
-
-        public RedisTests() : base()
+        public RedisTests()
         {
+        }
 
+        public override void Initialize()
+        {
+            var webHostBuilder = new WebHostBuilder()
+             .UseStartup<RedisStartupTest>()
+             .UseHealthChecks("/healthcheck");
+
+            this.TestServer = new TestServer(webHostBuilder);
+            this.ServiceProvider = this.TestServer.Services;
         }
 
         [Test]
         public void StringSetTest()
         {
-            var cacheManager = container.Resolve<ICacheManager>();
-            var result = cacheManager.StringSet("123", Guid.NewGuid(), TimeSpan.FromDays(1));
+            var cacheManager = this.ServiceProvider.GetService<ICacheManager>();
+            var result = cacheManager.StringSet(int.MaxValue.ToString(), Guid.NewGuid(), TimeSpan.FromDays(1));
             Assert.IsTrue(result);
         }
 
@@ -39,15 +46,15 @@ namespace Flash.Test.Cache
         {
             StringSetTest();
 
-            var cacheManager = container.Resolve<ICacheManager>();
-            var result = cacheManager.StringGet<string>("123");
+            var cacheManager = this.ServiceProvider.GetService<ICacheManager>();
+            var result = cacheManager.StringGet<string>(int.MaxValue.ToString());
             Assert.IsNotEmpty(result);
         }
 
         [Test]
         public void DistributedLockTest()
         {
-            var distributedLock = container.Resolve<IDistributedLock>();
+            var distributedLock = this.ServiceProvider.GetService<IDistributedLock>();
             var result = distributedLock.Enter($"{int.MaxValue}", Guid.NewGuid().ToString(), TimeSpan.FromSeconds(60));
             Assert.IsTrue(result);
         }
@@ -55,39 +62,7 @@ namespace Flash.Test.Cache
         [Test]
         public void HealthCheckTest()
         {
-            var host = Environment.GetEnvironmentVariable("Redis_Host", EnvironmentVariableTarget.Machine);
-            var password = Environment.GetEnvironmentVariable("Redis_Password", EnvironmentVariableTarget.Machine);
-
-            var webHostBuilder = new WebHostBuilder()
-             .UseStartup<Startup>()
-             .ConfigureServices(services =>
-             {
-                 services.AddFlash(setup =>
-                 {
-                     setup.AddCache(cache =>
-                     {
-                         cache.UseRedis(option =>
-                         {
-                             option.WithDb(0);
-                             option.WithKeyPrefix("SystemClassName:TypeClassName");
-                             option.WithPassword(password);
-                             option.WithReadServerList(host);
-                             option.WithWriteServerList(host);
-                             option.WithSsl(false);
-                             option.WithDistributedLock(true);
-                         });
-                     });
-                 });
-
-                 services.AddHealthChecks(check =>
-                 {
-                     check.AddRedisCheck($"{host}", $"{host},password={password},allowAdmin=true,ssl=false,abortConnect=false,connectTimeout=5000");
-                 });
-             })
-             .UseHealthChecks("/healthcheck");
-
-            var server = new TestServer(webHostBuilder);
-            var response = server.CreateRequest($"/healthcheck").GetAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            var response = this.TestServer.CreateRequest($"/healthcheck").GetAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -95,11 +70,11 @@ namespace Flash.Test.Cache
         [Test]
         public void BloomFilterTest()
         {
-            var cacheManager = container.Resolve<ICacheManager>();
+            var cacheManager = this.ServiceProvider.GetService<ICacheManager>();
 
             var guid = Guid.NewGuid().ToString();
 
-            var value1 = cacheManager.GetString4BloomFilter("111", TimeSpan.FromSeconds(60), () => guid);
+            var value1 = cacheManager.GetString4BloomFilter(int.MaxValue.ToString(), TimeSpan.FromSeconds(60), () => guid);
             Assert.IsNotEmpty(value1);
 
             var result1 = cacheManager.BF4ADD("À¬»øÓÊ¼þ²¼Â¡¹ýÂËÆ÷", guid);
@@ -116,7 +91,7 @@ namespace Flash.Test.Cache
         [Test]
         public void GetTreeTest()
         {
-            var cacheManager = container.Resolve<ICacheManager>();
+            var cacheManager = this.ServiceProvider.GetService<ICacheManager>();
 
             string key = "RoleInherit";
             RoleInherit tree = new RoleInherit();

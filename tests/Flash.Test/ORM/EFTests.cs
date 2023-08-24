@@ -1,6 +1,7 @@
 ﻿using Flash.Extensions;
 using Flash.Extensions.ORM;
 using Flash.Test.ORM.Base;
+using Flash.Test.StartupTests;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Flash.Test.ORM
 {
     [TestFixture]
-    public class EFTests : BaseTest
+    public class EFTests : BaseTest<EFStartupTest>
     {
         [Test]
         public void WhereLikeTest()

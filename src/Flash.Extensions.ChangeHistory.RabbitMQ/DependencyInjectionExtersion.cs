@@ -16,12 +16,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TMessageHandler">消息处理程序</typeparam>
         /// <param name="hostBuilder"></param>
+        /// <param name="eventBus"></param>
         /// <returns></returns>
-        public static IEntityChangeHostBuilder UseRabbitMQStorage<TMessageHandler>(this IEntityChangeHostBuilder hostBuilder) where TMessageHandler : IProcessMessageHandler<ChangeHistoryInfo>, IMessageAckHandler
+        public static IEntityChangeHostBuilder UseRabbitMQStorage<TMessageHandler>(this IEntityChangeHostBuilder hostBuilder, IEventBus eventBus)
+            where TMessageHandler : IProcessMessageHandler<ChangeHistoryInfo>, IMessageAckHandler
         {
-            var serviceProvider = hostBuilder.Services.BuildServiceProvider();
-            var eventBus = serviceProvider.GetService<IEventBus>();
-            Check.Argument.IsNotNull(eventBus, "IEventBus", "未引用IEventBus组件");
+            Check.Argument.IsNotNull(eventBus, "IEventBus", "未引用IEventBus组件");            
 
             hostBuilder.Services.TryAddSingleton<IStorage, RabbitMQStorage>();
             eventBus.RegisterWaitAndRetry<ChangeHistoryInfo, TMessageHandler>();

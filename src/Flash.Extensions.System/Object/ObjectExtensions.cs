@@ -67,13 +67,13 @@ namespace Flash.Extensions
         /// </summary>
         /// <param name="value">需要转换的对象</param>
         /// <returns>将传递的参数转换成整形，如果转换失败返回0</returns>
-        public static int ToInt(this object value)
+        public static Int32 ToInt(this object value)
         {
             if (value == null) return 0;
             return StringExtensions.ToInt(value.ToString(), 0);
         }
 
-        public static int ToInt<T>(this T value) where T : Enum
+        public static Int32 ToInt<T>(this T value) where T : Enum
         {
             if (value == null) return Int32.MinValue;
             try
@@ -163,21 +163,7 @@ namespace Flash.Extensions
             }
             return StringExtensions.ToDecimal(value.ToString(), 0, 4);
         }
-
-        /// <summary>
-        ///  decimal类型转换,如转换失败返回0
-        /// </summary>
-        /// <param name="value">需要转换的对象</param>
-        /// <returns>f返回decimal类型，,如转换失败返回0</returns>
-        public static decimal ToDecimal(this object value, object defaultValue)
-        {
-            if (value == null)
-            {
-                return ToDecimal(defaultValue);
-            }
-            return StringExtensions.ToDecimal(value.ToString(), ToDecimal(defaultValue), 4);
-        }
-
+             
         /// <summary>
         /// decimal类型转换,如转换失败返回0
         /// </summary>
