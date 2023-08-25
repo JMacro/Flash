@@ -1,4 +1,5 @@
-﻿using Flash.Extensions.CompareObjects;
+﻿using Flash.Core;
+using Flash.Extensions.CompareObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,30 +27,21 @@ namespace Flash.Extensions.ChangeHistory
             this._compareLogic = compareLogic;
         }
 
-        public ChangeHistoryInfo Compare(Object oldObj, Object newObj)
+        public ChangeHistoryInfo Compare<TEntityIdType>(TEntityIdType entityId, Object oldObj, Object newObj) where TEntityIdType : struct
         {
             if (oldObj == null && newObj == null) return default;
 
             var typeChangeObject = GetType(oldObj, newObj);
             if (typeChangeObject == null) return default;
 
-            if (!typeof(IEntityChangeTracking).IsAssignableFrom(typeChangeObject))
-            {
-                throw new ArgumentException($"输入对象未实现{nameof(IEntityChangeTracking)}接口");
-            }
-
-            object changeObjectId = null;
-            if (oldObj != null) changeObjectId = (oldObj as IEntityChangeTracking).ChangeObjectId;
-            else if (newObj != null) changeObjectId = (newObj as IEntityChangeTracking).ChangeObjectId;
-
             var result = new ChangeHistoryInfo
             {
-                EntityId = changeObjectId,
+                EntityId = entityId,
                 EntityType = typeChangeObject.FullName,
                 HistoryPropertys = new List<ChangeHistoryPropertyInfo>()
             };
 
-            var propertyInfos = typeChangeObject.GetProperties();
+            var propertyInfos = EntityPropertyCaches.TryGetOrAddByProperties(typeChangeObject);
             foreach (var propertyInfo in propertyInfos)
             {
                 if (propertyInfo.CustomAttributes.Is<IgnoreCheckAttribute>())
@@ -70,9 +62,9 @@ namespace Flash.Extensions.ChangeHistory
             return result;
         }
 
-        public async Task<bool> Record<TChangeObject>(TChangeObject oldObj, TChangeObject newObj) where TChangeObject : IEntityChangeTracking
+        public async Task<bool> Record<TEntityIdType, TChangeObject>(TEntityIdType entityId, TChangeObject oldObj, TChangeObject newObj) where TEntityIdType : struct where TChangeObject : IEntityChangeTracking
         {
-            var compareResult = Compare(oldObj, newObj);
+            var compareResult = Compare<TEntityIdType>(entityId, oldObj, newObj);
             if (compareResult == null || !compareResult.HistoryPropertys.Any()) return false;
 
             return await _storage.Insert(compareResult);

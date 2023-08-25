@@ -35,7 +35,7 @@ namespace Flash.Test.EntityChange
                 Lists = new List<ListObject> { new ListObject { Id = 1, Name = "1" } },
             };
 
-            var result1 = change.Compare(st1, st1.DeepClone());
+            var result1 = change.Compare(id, st1, st1.DeepClone());
             Assert.IsNotNull(result1);
             Assert.That(result1.HistoryPropertys.Any(), Is.False);
         }
@@ -71,7 +71,7 @@ namespace Flash.Test.EntityChange
                 TTT = 1
             };
 
-            var result1 = change.Compare(st1, st2);
+            var result1 = change.Compare(id, st1, st2);
             Assert.IsNotNull(result1);
             Assert.That(result1.HistoryPropertys.Any(), Is.True);
         }
@@ -109,7 +109,7 @@ namespace Flash.Test.EntityChange
 
             Assert.That(new TestDelegate(() =>
             {
-                var result1 = change.Compare(st1, st3);
+                var result1 = change.Compare(id, st1, st3);
             }), new ThrowsExceptionConstraint());
         }
 
@@ -144,7 +144,7 @@ namespace Flash.Test.EntityChange
                 TTT = 1
             };
 
-            var result1 = change.Record(st1, st2).ConfigureAwait(false).GetAwaiter().GetResult();
+            var result1 = change.Record(id, st1, st2).ConfigureAwait(false).GetAwaiter().GetResult();
             Assert.IsTrue(result1);
         }
     }

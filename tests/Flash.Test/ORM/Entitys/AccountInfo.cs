@@ -1,4 +1,6 @@
 ﻿
+using Flash.Extensions.ChangeHistory;
+using Flash.Extensions.ORM;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +12,7 @@ namespace Flash.Test.ORM
     /// 账户信息
     /// </summary>
     [Table("AccountInfo")]
-    public partial class AccountInfo
+    public partial class AccountInfo : IEntity
     {
         /// <summary>
         /// 主键Id
@@ -29,7 +31,7 @@ namespace Flash.Test.ORM
         /// 创建人名称
         /// </summary>
         [DefaultValue("")]
-        [Column(TypeName = "varchar(16)")]
+        [Column(TypeName = "varchar(64)")]
         public virtual string CreateName { get; set; }
         /// <summary>
         /// 操作人名称

@@ -63,5 +63,21 @@ namespace Flash.Test.ORM
                 ).ConfigureAwait(false).GetAwaiter().GetResult();
             Assert.IsNotNull(page);
         }
+
+        [Test]
+        public void UpdateTrackingTest()
+        {
+            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var result = testDbContext.Set<AccountInfo>().FirstOrDefault();
+            result.ModifiedTime = DateTime.Now;
+            result.CreateName = Guid.NewGuid().ToString();
+            testDbContext.SaveChanges();
+            Assert.IsNotNull(result);
+
+            var result1 = testDbContext.Set<AccountInfo>().FirstOrDefault();
+            result1.ModifiedTime = DateTime.Now;
+            testDbContext.SaveChanges();
+            Assert.IsNotNull(result1);
+        }
     }
 }

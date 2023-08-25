@@ -1,5 +1,7 @@
-﻿using Flash.Extensions.ORM.EntityFrameworkCore;
+﻿using Flash.Extensions.ORM;
+using Flash.Extensions.ORM.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +12,13 @@ namespace Flash.Test.ORM.Base
 {
     public class TestDbContext : BaseDbContext
     {
-        public TestDbContext(DbContextOptions options) : base(options)
+        public TestDbContext(DbContextOptions options, ILoggerFactory loggerFactory, IRegisterEvents registerEvents) : base(options, loggerFactory, registerEvents)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<AccountInfo>();
         }
 
         public override int SaveChanges()

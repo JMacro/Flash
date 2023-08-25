@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flash.Core;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,17 +12,31 @@ using System.Reflection;
 
 namespace Flash.Extensions.ORM.EntityFrameworkCore
 {
+    /// <summary>
+    /// Db上下文
+    /// <para>如需自动映射实体到上下文Model，请为实体实现<see cref="IEntity"/>接口</para>
+    /// </summary>
     public class BaseDbContext : DbContext
     {
-        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole().AddDebug(); });
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly IRegisterEvents _registerEvents;
 
         protected BaseDbContext()
         {
         }
 
-        public BaseDbContext(DbContextOptions options)
-            : base(options)
+        public BaseDbContext(DbContextOptions options, ILoggerFactory loggerFactory = null, IRegisterEvents registerEvents = null) : base(options)
         {
+            if (loggerFactory == null) loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole().AddDebug(); });
+            this._loggerFactory = loggerFactory;
+            this._registerEvents = registerEvents;
+
+            this.ChangeTracker.StateChanged += ChangeTracker_StateChanged;
+#if NET6_0
+            this.SavingChanges += BaseDbContext_SavingChanges;
+            this.SavedChanges += BaseDbContext_SavedChanges;
+            this.SaveChangesFailed += BaseDbContext_SaveChangesFailed;
+#endif
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,7 +66,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLoggerFactory(loggerFactory);
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
 
         private List<Assembly> GetCurrentPathAssembly()
@@ -67,6 +85,85 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             }
 
             return list2;
+        }
+
+#if NET6_0
+        private void BaseDbContext_SavingChanges(object sender, SavingChangesEventArgs e)
+        {
+
+        }
+
+        private void BaseDbContext_SaveChangesFailed(object sender, SaveChangesFailedEventArgs e)
+        {
+
+        }
+
+        private void BaseDbContext_SavedChanges(object sender, SavedChangesEventArgs e)
+        {
+
+        }
+#endif
+
+        private void ChangeTracker_StateChanged(object sender, EntityEntryEventArgs e)
+        {
+            if (e.Entry.State == Microsoft.EntityFrameworkCore.EntityState.Unchanged) return;
+
+            if (_registerEvents != null)
+            {
+                var state = Map(e.Entry.State);
+                var entityType = e.Entry.Entity.GetType();
+                var originalEntity = default(Object);
+                switch (state)
+                {
+                    case EntityState.Deleted:
+                    case EntityState.Modified:
+                        originalEntity = Activator.CreateInstance(entityType);
+                        break;
+                }
+
+                SetValues(originalEntity, entityType, e.Entry.OriginalValues);
+                _registerEvents.StateChanged?.Invoke(new EntityChangeTracker
+                {
+                    State = state,
+                    ContextType = e.Entry.Context.GetType(),
+                    OriginalEntity = originalEntity,
+                    CurrentEntity = e.Entry.Entity,
+                });
+            }
+        }
+
+        private static void SetValues(object entity, Type entityType, PropertyValues values)
+        {
+            if (entity == null) return;
+
+            foreach (var item in EntityPropertyCaches.TryGetOrAddByProperties(entityType))
+            {
+                item.SetValue(entity, values[item.Name]);
+            }
+        }
+
+        private EntityState Map(Microsoft.EntityFrameworkCore.EntityState state)
+        {
+            var result = EntityState.Detached;
+            switch (state)
+            {
+                case Microsoft.EntityFrameworkCore.EntityState.Detached:
+                    result = EntityState.Detached;
+                    break;
+                case Microsoft.EntityFrameworkCore.EntityState.Unchanged:
+                    result = EntityState.Unchanged;
+                    break;
+                case Microsoft.EntityFrameworkCore.EntityState.Deleted:
+                    result = EntityState.Deleted;
+                    break;
+                case Microsoft.EntityFrameworkCore.EntityState.Modified:
+                    result = EntityState.Modified;
+                    break;
+                case Microsoft.EntityFrameworkCore.EntityState.Added:
+                    result = EntityState.Added;
+                    break;
+            }
+            return result;
         }
     }
 }

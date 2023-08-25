@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Xml;
 
 namespace Flash.Extensions
@@ -446,6 +448,27 @@ namespace Flash.Extensions
             Enum.TryParse<TSource>(value, out var result);
             if (!Enum.IsDefined(typeof(TSource), result)) return defaultValue;
             return result;
+        }
+
+        /// <summary>
+        /// 获得MD5值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetMD5(this string value)
+        {
+            byte[] bt = Encoding.UTF8.GetBytes(value);
+            using (var md5 = MD5.Create())
+            {
+                var md5bt = md5.ComputeHash(bt);
+                //将byte数组转换为字符串
+                StringBuilder builder = new StringBuilder();
+                foreach (var item in md5bt)
+                {
+                    builder.Append(item.ToString("X2"));
+                }
+                return builder.ToString();
+            }
         }
     }
 }

@@ -13,18 +13,22 @@ namespace Flash.Extensions.ChangeHistory
         /// <summary>
         /// 检测变更
         /// </summary>
+        /// <typeparam name="TEntityIdType"></typeparam>
+        /// <param name="entityId"></param>
         /// <param name="oldObj"></param>
         /// <param name="newObj"></param>
         /// <returns></returns>
-        ChangeHistoryInfo Compare(Object oldObj, Object newObj);
+        ChangeHistoryInfo Compare<TEntityIdType>(TEntityIdType entityId, Object oldObj, Object newObj) where TEntityIdType : struct;
         /// <summary>
         /// 记录变更
         /// </summary>
+        /// <typeparam name="TEntityIdType"></typeparam>
         /// <typeparam name="TChangeObject"></typeparam>
+        /// <param name="entityId"></param>
         /// <param name="oldObj"></param>
         /// <param name="newObj"></param>
         /// <returns></returns>
-        Task<bool> Record<TChangeObject>(TChangeObject oldObj, TChangeObject newObj) where TChangeObject : IEntityChangeTracking;
+        Task<bool> Record<TEntityIdType, TChangeObject>(TEntityIdType entityId, TChangeObject oldObj, TChangeObject newObj) where TEntityIdType : struct where TChangeObject : IEntityChangeTracking;
         /// <summary>
         /// 记录变更
         /// </summary>

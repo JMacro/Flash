@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -47,6 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             Flash.Extensions.Check.Argument.IsNotNull(options, nameof(options));
             var builder = new FlashOrmDbContextBuilder(ormBuilder.Services);
+            builder.RegisterGlobalEvents(eventOption => { });
             options(builder);
             AddDefault(ormBuilder.Services);
             return ormBuilder;
@@ -88,6 +90,25 @@ namespace Microsoft.Extensions.DependencyInjection
                     throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
             }
 
+            return builder;
+        }
+
+        /// <summary>
+        /// 事件注册
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IFlashOrmDbContextBuilder RegisterGlobalEvents(this IFlashOrmDbContextBuilder builder, Action<IRegisterEvents> options)
+        {
+            var sp = builder.Services.BuildServiceProvider();
+            var registerEvents = sp.GetService<IRegisterEvents>();
+            if (registerEvents == null)
+            {
+                registerEvents = new RegisterEvents();
+            }
+            options(registerEvents);
+            builder.Services.TryAdd(ServiceDescriptor.Singleton<IRegisterEvents>(registerEvents));
             return builder;
         }
 
