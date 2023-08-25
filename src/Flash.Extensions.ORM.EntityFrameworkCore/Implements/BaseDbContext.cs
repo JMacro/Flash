@@ -90,17 +90,17 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
 #if NET6_0
         private void BaseDbContext_SavingChanges(object sender, SavingChangesEventArgs e)
         {
-
+            if (_registerEvents != null) _registerEvents.SavingChanges?.Invoke();
         }
 
         private void BaseDbContext_SaveChangesFailed(object sender, SaveChangesFailedEventArgs e)
         {
-
+            if (_registerEvents != null) _registerEvents.SaveChangesFailed?.Invoke();
         }
 
         private void BaseDbContext_SavedChanges(object sender, SavedChangesEventArgs e)
         {
-
+            if (_registerEvents != null) _registerEvents.SavedChanges?.Invoke();
         }
 #endif
 
