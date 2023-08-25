@@ -9,9 +9,9 @@ namespace Flash.Extensions.Cache
 {
     public class TracerAsyncInterceptor : AsyncInterceptorBase
     {
-        private readonly Lazy<ITracerFactory> _tracerFactory;
+        private readonly ITracerFactory _tracerFactory;
 
-        public TracerAsyncInterceptor(Lazy<ITracerFactory> tracerFactory)
+        public TracerAsyncInterceptor(ITracerFactory tracerFactory)
         {
             this._tracerFactory = tracerFactory;
         }
@@ -34,7 +34,7 @@ namespace Flash.Extensions.Cache
 
         private void LoggerTracer(IInvocation invocation, bool hasAsynResult = false)
         {
-            using (var tracer = this._tracerFactory.Value.CreateTracer($"Redis Execute({invocation.MethodInvocationTarget.Name})"))
+            using (var tracer = this._tracerFactory.CreateTracer($"Redis Execute({invocation.MethodInvocationTarget.Name})"))
             {
                 tracer.SetComponent("StackExchange.Redis");
                 tracer.SetTag("redis.request.command", invocation.MethodInvocationTarget.Name);

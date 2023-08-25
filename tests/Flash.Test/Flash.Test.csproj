@@ -9,25 +9,39 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
+
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.AppMetrics\Flash.Extensions.AppMetrics.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis.DependencyInjection\Flash.Extensions.Cache.Redis.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.ChangeHistory.RabbitMQ\Flash.Extensions.ChangeHistory.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.ChangeHistory\Flash.Extensions.ChangeHistory.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Email\Flash.Extensions.Email.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.HealthChecks.Redis\Flash.Extensions.HealthChecks.Redis.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.HealthChecks\Flash.Extensions.HealthChecks.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Job.Hangfire\Flash.Extensions.Job.Hangfire.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Job.Quartz\Flash.Extensions.Job.Quartz.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Job\Flash.Extensions.Job.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Office.Npoi\Flash.Extensions.Office.Npoi.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Office\Flash.Extensions.Office.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.System\Flash.Extensions.System.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>

@@ -5,14 +5,25 @@ namespace Flash.Extensions
     public static class DecimalExtensions
     {
         /// <summary>
+        /// 0-9所对应的汉字
+        /// <para>零壹贰叁肆伍陆柒捌玖</para>
+        /// </summary>
+        private static readonly string ChineseCharacterNumber = "零壹贰叁肆伍陆柒捌玖";
+        /// <summary>
+        /// 数字位所对应的汉字
+        /// <para>万仟佰拾亿仟佰拾万仟佰拾元角分</para>
+        /// </summary>
+        private static readonly string ChineseCharacterNumberBit = "万仟佰拾亿仟佰拾万仟佰拾元角分";
+
+        /// <summary>
         /// 数字转大写
+        /// <para>注意：精确到小数点后两位</para>
         /// </summary>
         /// <param name="value">数字</param>
         /// <returns></returns>
         public static string ToUpper(this decimal value)
         {
-            string str1 = "零壹贰叁肆伍陆柒捌玖";            //0-9所对应的汉字 
-            string str2 = "万仟佰拾亿仟佰拾万仟佰拾元角分"; //数字位所对应的汉字 
+            string str2 = ChineseCharacterNumberBit; //数字位所对应的汉字 
             string str3 = "";    //从原num值中取出的值 
             string str4 = "";    //数字的字符串形式 
             string str5 = "";  //人民币大写金额形式 
@@ -47,13 +58,13 @@ namespace Flash.Extensions
                     {
                         if (str3 != "0" && nzero != 0)
                         {
-                            ch1 = "零" + str1.Substring(temp * 1, 1);
+                            ch1 = "零" + ChineseCharacterNumber.Substring(temp * 1, 1);
                             ch2 = str2.Substring(i, 1);
                             nzero = 0;
                         }
                         else
                         {
-                            ch1 = str1.Substring(temp * 1, 1);
+                            ch1 = ChineseCharacterNumber.Substring(temp * 1, 1);
                             ch2 = str2.Substring(i, 1);
                             nzero = 0;
                         }
@@ -64,7 +75,7 @@ namespace Flash.Extensions
                     //该位是万亿，亿，万，元位等关键位 
                     if (str3 != "0" && nzero != 0)
                     {
-                        ch1 = "零" + str1.Substring(temp * 1, 1);
+                        ch1 = "零" + ChineseCharacterNumber.Substring(temp * 1, 1);
                         ch2 = str2.Substring(i, 1);
                         nzero = 0;
                     }
@@ -72,7 +83,7 @@ namespace Flash.Extensions
                     {
                         if (str3 != "0" && nzero == 0)
                         {
-                            ch1 = str1.Substring(temp * 1, 1);
+                            ch1 = ChineseCharacterNumber.Substring(temp * 1, 1);
                             ch2 = str2.Substring(i, 1);
                             nzero = 0;
                         }

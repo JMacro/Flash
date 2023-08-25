@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Flash.Core;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Extensions.Tracting
 {
-    public interface IFlashTractingBuilder
+    public interface IFlashTractingBuilder: IFlashServiceCollection
     {
-        IServiceCollection Services { get; }
     }
 }

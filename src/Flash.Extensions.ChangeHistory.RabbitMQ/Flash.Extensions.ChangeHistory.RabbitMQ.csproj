@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.Extensions.ChangeHistory.RabbitMQ</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.Extensions.ChangeHistory\Flash.Extensions.ChangeHistory.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection\Flash.Extensions.EventBus.RabbitMQ.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
+  </ItemGroup>
+
+</Project>

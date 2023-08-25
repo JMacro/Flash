@@ -3,9 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Extensions.ORM
 {
-    public interface IFlashOrmBuilder
+    public interface IFlashOrmBuilder : IFlashServiceCollection
     {
-        IServiceCollection Services { get; }
         IFlashHostBuilder FlashHost { get; }
     }
 }

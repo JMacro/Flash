@@ -14,11 +14,15 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.28" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.28" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.7" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.13" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.8" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
   </ItemGroup>
 
@@ -31,6 +35,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
   </ItemGroup>
 </Project>

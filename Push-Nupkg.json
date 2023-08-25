@@ -1,124 +1,175 @@
 {
+  "Source": "http://192.168.50.228/v3/index.json",
   "Nupkgs": [
     {
       "PackName": "Flash.Extensions.Cache",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Cache.Redis",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Cache.Redis.DependencyInjection",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Configuration.Json",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Configuration.Apollo",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.EventBus",
+      "TargetFrameworks": "netstandard2.0,netcoreapp3.1",
       "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.EventBus.RabbitMQ",
+      "TargetFrameworks": "netstandard2.0",
       "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.EventBus.RabbitMQ.DependencyInjection",
+      "TargetFrameworks": "netstandard2.0",
       "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.HealthChecks",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.HealthChecks.MySql",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.HealthChecks.RabbitMQ",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.HealthChecks.Redis",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Job",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Job.Hangfire",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Job.Hangfire.AspNetCore",
+      "TargetFrameworks": "netstandard2.0",
       "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.Job.Quartz",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Office",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Office.Npoi",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.OpenTracting",
+      "TargetFrameworks": "",
       "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.OpenTracting.Jaeger",
+      "TargetFrameworks": "",
       "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.OpenTracting.Skywalking",
+      "TargetFrameworks": "",
       "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.ORM",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0,net6.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.ORM.EntityFrameworkCore",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0,net6.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.DynamicRoute",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.DistributedLock",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.AppMetrics",
+      "TargetFrameworks": "netstandard2.0",
       "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.Resilience.Http",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Security",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.UidGenerator",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.LoadBalancer",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.Email",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.CompareObjects",
+      "TargetFrameworks": "net6.0,netstandard1.3,netstandard2.0,netstandard2.1",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.ChangeHistory",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.ChangeHistory.RabbitMQ",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     }
   ]
 }

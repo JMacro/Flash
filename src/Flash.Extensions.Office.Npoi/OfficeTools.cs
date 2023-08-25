@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flash.Extensions;
+using Flash.Core;
 
 namespace Flash.Extensions.Office.Npoi
 {
@@ -25,7 +26,7 @@ namespace Flash.Extensions.Office.Npoi
         {
             var entitys = new List<T>();
             var dataType = typeof(T);
-            var properties = dataType.GetProperties();
+            var properties = EntityPropertyCaches.TryGetOrAddByProperties(dataType);
 
             using (var memoryStream = new MemoryStream(bytes))
             {
@@ -82,7 +83,7 @@ namespace Flash.Extensions.Office.Npoi
         {
             var entitys = new List<T>();
             var dataType = typeof(T);
-            var properties = dataType.GetProperties();
+            var properties = EntityPropertyCaches.TryGetOrAddByProperties(dataType);
 
             using (var memoryStream = new MemoryStream(bytes))
             {
@@ -222,7 +223,7 @@ namespace Flash.Extensions.Office.Npoi
                     }
 
                     var dataType = sheetInfo.DataSourceType;
-                    var properties = dataType.GetProperties();
+                    var properties = EntityPropertyCaches.TryGetOrAddByProperties(dataType);
 
                     var dataformat = workbook.CreateDataFormat();
 

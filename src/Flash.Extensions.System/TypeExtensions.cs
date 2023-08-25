@@ -32,5 +32,15 @@ namespace Flash.Extensions
         {
             return NumericTypes.Contains(type);
         }
+
+        /// <summary>
+        /// 是否为可空类型
+        /// </summary>
+        /// <param name="theType"></param>
+        /// <returns></returns>
+        public static bool IsNullableType(this Type theType)
+        {
+            return (theType.IsGenericType && theType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
+        }
     }
 }

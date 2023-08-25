@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionExtersion
     {
         /// <summary>
-        /// 添加事件总线
+        /// 添加事件总线<see cref="IEventBus"/>
         /// </summary>
         /// <param name="hostBuilder"></param>
         /// <param name="setup"></param>

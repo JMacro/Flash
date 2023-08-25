@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flash.Core;
+using System;
 using System.Collections.Generic;
 
 namespace Flash.Extensions.Office
@@ -115,7 +116,7 @@ namespace Flash.Extensions.Office
         public static List<ExcelHeaderColumn> Create<T>() where T : class, new()
         {
             var objType = typeof(T);
-            var properties = objType.GetProperties();
+            var properties = EntityPropertyCaches.TryGetOrAddByProperties(objType);
             var sortField = new List<string>();
 
             Func<Attribute[], Tuple<bool, ExcelHeaderAttribute>> IsMyAttribute = o =>

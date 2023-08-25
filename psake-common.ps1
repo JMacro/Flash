@@ -26,6 +26,9 @@ Properties {
     $config = "Release"    
     $sharedAssemblyInfo = "$src_dir\SharedAssemblyInfo.cs"
     $config_Nupkg = "$base_dir\Push-Nupkg.json"
+
+    ### Nuget config
+    $pack_config = Get-PushNupkgContent -path $config_Nupkg
 }
 
 ## Tasks
@@ -63,16 +66,19 @@ Task Version -Description "Patch AssemblyInfo and AppVeyor version files." {
 
 Task Push-Nupkg -Description "Push NuGet packages." {
     $version = Get-PackageVersion
+    Write-Host "Nuget package version '$version'" -ForegroundColor "Red"
+    Write-Host "Read Config" -ForegroundColor "Green"
+    $nupkgs = $pack_config.Nupkgs
+    $nuget_source = $pack_config.Source
+    if(!$nuget_source) {
+        $nuget_source = "https://api.nuget.org/v3/index.json"
+    }
+
+    Write-Host "Push source to '$nuget_source'" -ForegroundColor "Green"
     $nugetApiKeys = Read-Host "Please enter a nuget api keys"
     if(!$nugetApiKeys) {
-        Write-Host "Nuget api keys is null,Please try enter a nuget api keys." -ForegroundColor "Red"
-        return
+        Write-Host "Not enter nuget api keys." -ForegroundColor "Red"
     }
-    Write-Host "Read Config" -ForegroundColor "Green"
-    $config = Get-PushNupkgContent -path $config_Nupkg
-    $nupkgs = $config.Nupkgs
-
-    Write-Host "Nuget package version '$version'" -ForegroundColor "Red"
 
     Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "Green"
     $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
@@ -91,7 +97,11 @@ Task Push-Nupkg -Description "Push NuGet packages." {
 
             Write-Host "NuGet push '$dir'..." -ForegroundColor "Green"
             Try {
-                Exec { .$nuget push $dir -source https://api.nuget.org/v3/index.json -ApiKey $nugetApiKeys }
+                if(!$nugetApiKeys) {
+                    Exec { .$nuget push $dir -source $nuget_source }
+                } else {
+                    Exec { .$nuget push $dir -source $nuget_source -ApiKey $nugetApiKeys }
+                }
 
                 $push_list += $packName
             }
@@ -390,4 +400,37 @@ function _Get-OutputDir($dir, $project, $target) {
 function Get-PushNupkgContent($path){
     $json = Get-Content -Raw -Encoding "UTF8" -Path "$path"
     return ConvertFrom-Json -InputObject $json
+}
+
+function Collect-AssemblyAndLocalizations(){
+	$nupkgs = $pack_config.Nupkgs
+	foreach ($item in $nupkgs) {
+		if ($item.IsPush){
+            $targetFrameworks = $item.TargetFrameworks -Split ","
+		    foreach ($targetFramework in $targetFrameworks) {
+			    Collect-Assembly $item.PackName $targetFramework
+			    Collect-Localizations $item.PackName $targetFramework
+		    }
+        }
+	}
+
+    Collect-Content "README.md"    
+
+    Collect-File "LICENSE.md"
+    Collect-File "NOTICES"
+    Collect-File "COPYING.LESSER"
+    Collect-File "COPYING"
+    Collect-File "LICENSE_STANDARD"
+    Collect-File "LICENSE_ROYALTYFREE"
+}
+
+function Create-Packages(){
+	$nupkgs = $pack_config.Nupkgs
+    $version = Get-PackageVersion
+    Create-Archive "Flash-$version"
+	foreach ($item in $nupkgs) {
+		if ($item.IsPush){
+            Create-Package $item.PackName $version
+        }
+	}
 }

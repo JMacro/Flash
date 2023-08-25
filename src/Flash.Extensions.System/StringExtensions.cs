@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Xml;
 
 namespace Flash.Extensions
@@ -82,7 +84,7 @@ namespace Flash.Extensions
         /// </summary>
         /// <param name="value">需要转换的字符串</param>
         /// <returns>将传递的参数转换成整形，如果转换失败返回0</returns>
-        public static int ToInt(this string value)
+        public static Int32 ToInt(this string value)
         {
             if (string.IsNullOrEmpty(value)) return 0;
 
@@ -95,11 +97,11 @@ namespace Flash.Extensions
         /// <param name="value">需要转换的字符串</param>
         /// <param name="defaultValue">默认值</param>
         /// <returns>将传递的参数转换成整形，如果转换失败返回指定的默认值</returns>
-        public static int ToInt(this string value, int defaultValue)
+        public static Int32 ToInt(this string value, int defaultValue)
         {
-            int iValue = 0;
+            Int32 iValue = 0;
             if (string.IsNullOrEmpty(value)) return defaultValue;
-            if (!int.TryParse(value, out iValue))
+            if (!Int32.TryParse(value, out iValue))
             {
                 iValue = defaultValue;
             }
@@ -253,6 +255,8 @@ namespace Flash.Extensions
         /// <returns></returns>
         public static string ToFirstUpperStr(this string str)
         {
+            if (string.IsNullOrWhiteSpace(str)) return str;
+
             return str.Substring(0, 1).ToUpper() + str.Substring(1);
         }
 
@@ -263,6 +267,8 @@ namespace Flash.Extensions
         /// <returns></returns>
         public static string ToFirstLowerStr(this string str)
         {
+            if (string.IsNullOrWhiteSpace(str)) return str;
+
             return str.Substring(0, 1).ToLower() + str.Substring(1);
         }
 
@@ -280,8 +286,20 @@ namespace Flash.Extensions
         /// 身份证信息掩盖
         /// </summary>
         /// <param name="value">身份证Id</param>
-        /// <param name="beginMaskIndex">开始遮罩位置</param>
-        /// <param name="maskLength"></param>
+        /// <param name="beginMaskIndex">开始遮罩索引位置</param>
+        /// <param name="maskLength">遮罩长度</param>
+        /// <returns></returns>
+        public static string ToMaskCardId(this string value, int beginMaskIndex)
+        {
+            return ToMaskCardId(value, beginMaskIndex, 6);
+        }
+
+        /// <summary>
+        /// 身份证信息掩盖
+        /// </summary>
+        /// <param name="value">身份证Id</param>
+        /// <param name="beginMaskIndex">开始遮罩索引位置</param>
+        /// <param name="maskLength">遮罩长度</param>
         /// <returns></returns>
         public static string ToMaskCardId(this string value, int beginMaskIndex, int maskLength)
         {
@@ -292,7 +310,7 @@ namespace Flash.Extensions
         /// 信息掩盖
         /// </summary>
         /// <param name="value">字符串</param>
-        /// <param name="beginMaskIndex">开始遮罩位置</param>
+        /// <param name="beginMaskIndex">开始遮罩索引位置</param>
         /// <param name="maskLength">遮罩长度</param>
         /// <returns></returns>
         public static string ToMask(this string value, int beginMaskIndex, int maskLength)
@@ -423,19 +441,34 @@ namespace Flash.Extensions
         /// </summary>
         /// <typeparam name="TSource">枚举类型</typeparam>
         /// <param name="value"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static TSource? ConverToEnum<TSource>(this string value) where TSource : struct, Enum
+        public static TSource? ConverToEnum<TSource>(this string value, TSource? defaultValue = null) where TSource : struct, Enum
         {
-            var fields = typeof(TSource).GetFields();
-            foreach (var item in fields)
+            Enum.TryParse<TSource>(value, out var result);
+            if (!Enum.IsDefined(typeof(TSource), result)) return defaultValue;
+            return result;
+        }
+
+        /// <summary>
+        /// 获得MD5值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetMD5(this string value)
+        {
+            byte[] bt = Encoding.UTF8.GetBytes(value);
+            using (var md5 = MD5.Create())
             {
-                var descriptionAttribute = Attribute.GetCustomAttribute(item, typeof(DescriptionAttribute), inherit: false) as DescriptionAttribute;
-                if (descriptionAttribute != null && descriptionAttribute.Description == value)
+                var md5bt = md5.ComputeHash(bt);
+                //将byte数组转换为字符串
+                StringBuilder builder = new StringBuilder();
+                foreach (var item in md5bt)
                 {
-                    return (TSource)item.GetValue(null);
+                    builder.Append(item.ToString("X2"));
                 }
+                return builder.ToString();
             }
-            return default;
         }
     }
 }

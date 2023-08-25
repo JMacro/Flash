@@ -1,7 +1,14 @@
 ﻿using Flash.Extensions.ORM;
 using Flash.Extensions.ORM.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Pomelo.EntityFrameworkCore.MySql.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +21,95 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 注册EFCore仓储
         /// </summary>
-        /// <param name="cacheBuilder"></param>
-        /// <param name="action"></param>
+        /// <param name="ormBuilder"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
+#if NET6_0
+        [Obsolete($"该方法不再维护，请使用方法{nameof(UseEntityFramework)}")]
+#endif
+#if NETSTANDARD2_0
+        [Obsolete("该方法不再维护，请使用方法UseEntityFramework")]
+#endif
         public static IFlashOrmBuilder UseEFCore<TDbContext>(this IFlashOrmBuilder ormBuilder, Action<DbContextOptionsBuilder> options) where TDbContext : BaseDbContext
         {
             ormBuilder.Services.AddDbContext<TDbContext>(options);
             ormBuilder.Services.AddScoped<DbContext, TDbContext>();
             AddDefault(ormBuilder.Services);
             return ormBuilder;
+        }
+
+        /// <summary>
+        /// 使用EntityFramework
+        /// </summary>
+        /// <param name="ormBuilder"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IFlashOrmBuilder UseEntityFramework(this IFlashOrmBuilder ormBuilder, Action<IFlashOrmDbContextBuilder> options)
+        {
+            Flash.Extensions.Check.Argument.IsNotNull(options, nameof(options));
+            var builder = new FlashOrmDbContextBuilder(ormBuilder.Services);
+            builder.RegisterGlobalEvents(eventOption => { });
+            options(builder);
+            AddDefault(ormBuilder.Services);
+            return ormBuilder;
+        }
+
+        /// <summary>
+        /// 注册DB上下文
+        /// </summary>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <typeparam name="TMigrationAssembly"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IFlashOrmDbContextBuilder RegisterDbContexts<TDbContext, TMigrationAssembly>(this IFlashOrmDbContextBuilder builder, string connectionString, IConfiguration configuration) where TDbContext : BaseDbContext where TMigrationAssembly : IMigrationAssembly
+        {
+            Flash.Extensions.Check.Argument.IsNotNull(connectionString, nameof(connectionString));
+            Flash.Extensions.Check.Argument.IsNotNull(configuration, nameof(configuration));
+
+            var migrationsAssembly = typeof(TMigrationAssembly).GetTypeInfo().Assembly.GetName().Name;
+            var databaseProvider = configuration.GetSection(nameof(DatabaseProviderConfiguration)).Get<DatabaseProviderConfiguration>() ?? new DatabaseProviderConfiguration();
+            switch (databaseProvider.ProviderType)
+            {
+                case DatabaseProviderType.SqlServer:
+                    builder.Services.AddDbContext<TDbContext>(options => options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+                    break;
+                case DatabaseProviderType.PostgreSQL:
+                    builder.Services.AddDbContext<TDbContext>(options => options.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+                    break;
+                case DatabaseProviderType.MySql:
+#if NET6_0
+                    builder.Services.AddDbContext<TDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), sql => sql.MigrationsAssembly(migrationsAssembly)));
+#endif
+#if NETSTANDARD2_0
+                    builder.Services.AddDbContext<TDbContext>(options => options.UseMySql(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
+#endif
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
+            }
+
+            return builder;
+        }
+
+        /// <summary>
+        /// 事件注册
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IFlashOrmDbContextBuilder RegisterGlobalEvents(this IFlashOrmDbContextBuilder builder, Action<IRegisterEvents> options)
+        {
+            var sp = builder.Services.BuildServiceProvider();
+            var registerEvents = sp.GetService<IRegisterEvents>();
+            if (registerEvents == null)
+            {
+                registerEvents = new RegisterEvents();
+            }
+            options(registerEvents);
+            builder.Services.TryAdd(ServiceDescriptor.Singleton<IRegisterEvents>(registerEvents));
+            return builder;
         }
 
         private static void AddDefault(IServiceCollection services)
