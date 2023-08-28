@@ -94,7 +94,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 事件注册
+        /// 全局事件注册
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>

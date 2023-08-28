@@ -64,7 +64,7 @@ Task Version -Description "Patch AssemblyInfo and AppVeyor version files." {
     Update-AppVeyorVersion $newVersion
 }
 
-Task Push-Nupkg -Description "Push NuGet packages." {
+Task Nupkg-Push -Description "Push NuGet packages." {
     $version = Get-PackageVersion
     Write-Host "Nuget package version '$version'" -ForegroundColor "Red"
     Write-Host "Read Config" -ForegroundColor "Green"
@@ -75,6 +75,9 @@ Task Push-Nupkg -Description "Push NuGet packages." {
     }
 
     Write-Host "Push source to '$nuget_source'" -ForegroundColor "Green"
+    if($host.Version -contains "7.1") {
+        $nugetApiKeys = Read-Host "Please enter a nuget api keys" -MaskInput
+    }
     $nugetApiKeys = Read-Host "Please enter a nuget api keys"
     if(!$nugetApiKeys) {
         Write-Host "Not enter nuget api keys." -ForegroundColor "Red"
@@ -85,7 +88,7 @@ Task Push-Nupkg -Description "Push NuGet packages." {
 
     $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
     $push_list = @()
-    $push_list += "------------------------$cur_time ($version)------------------------"
+    $push_list += "------------------------$cur_time Push($version)------------------------"
     Try {
         foreach ($dir in $dirs) {
             $packName = $dir.BaseName -replace ".$version",""
@@ -119,7 +122,60 @@ Task Push-Nupkg -Description "Push NuGet packages." {
 
     $push_str = $push_list -join [Environment]::NewLine
     $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+}
 
+Task Nupkg-Delete -Description "Delete NuGet packages." {
+    $version = Get-PackageVersion
+    $is_confirm = Read-Host "Delete NuGet packages. Please enter y or n"
+    if(!$is_confirm -or $is_confirm -ne "y") {
+        return
+    }
+
+    Write-Host "Nuget package version '$version'" -ForegroundColor "Red"
+    Write-Host "Read Config" -ForegroundColor "Green"
+    $nupkgs = $pack_config.Nupkgs
+    $nuget_source = $pack_config.Source
+    if(!$nuget_source) {
+        $nuget_source = "https://api.nuget.org/v3/index.json"
+    }
+
+    Write-Host "Delete source to '$nuget_source'" -ForegroundColor "Green"
+    if($host.Version -contains "7.1") {
+        $nugetApiKeys = Read-Host "Please enter a nuget api keys" -MaskInput
+    }
+    $nugetApiKeys = Read-Host "Please enter a nuget api keys"
+    if(!$nugetApiKeys) {
+        Write-Host "Not enter nuget api keys." -ForegroundColor "Red"
+    }
+
+    $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
+    $push_list = @()
+    $push_list += "------------------------$cur_time Delete($version)------------------------"
+    Try {
+	    foreach ($item in $nupkgs) {
+            if ($item.IsPush) {
+                $packName = $item.PackName
+		        if(!$nugetApiKeys) {
+                    Exec { .$nuget delete $packName $version -NonInteractive -source $nuget_source }
+                } else {
+                    Exec { .$nuget delete $packName $version -NonInteractive -source $nuget_source -ApiKey $nugetApiKeys }
+                }
+
+                $push_list += "$packName $version"
+            }
+	    }
+    }
+    Catch { }
+    $push_list += "-------------------------------------------------------------------------------------------"
+    $push_list += [Environment]::NewLine
+
+    Write-Host "Nuget package delete details " -ForegroundColor "Green"
+    foreach ($row in $push_list) {
+        Write-Host "'$row'" -ForegroundColor "Green"
+    }
+
+    $push_str = $push_list -join [Environment]::NewLine
+    $push_str | Add-Content "$base_dir\PushDetails.Nuget"
 }
 
 ## Functions

@@ -22,7 +22,9 @@ namespace Flash.Extensions.ChangeHistory
 
         public Task<bool> Insert(params ChangeHistoryInfo[] changes)
         {
-            this._logger.LogInformation(Newtonsoft.Json.JsonConvert.SerializeObject(changes));
+            var jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(changes);
+            this._logger.LogInformation(jsonStr);
+            Console.WriteLine("正在写入默认寄存器数据：{0}", jsonStr);
             return Task.FromResult(true);
         }
     }

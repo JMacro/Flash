@@ -21,9 +21,19 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IEntityChangeHostBuilder UseRabbitMQStorage<TMessageHandler>(this IEntityChangeHostBuilder hostBuilder, IEventBus eventBus)
             where TMessageHandler : IProcessMessageHandler<ChangeHistoryInfo>, IMessageAckHandler
         {
-            Check.Argument.IsNotNull(eventBus, "IEventBus", "未引用IEventBus组件");            
+            Check.Argument.IsNotNull(eventBus, "IEventBus", "未引用IEventBus组件");
 
-            hostBuilder.Services.TryAddSingleton<IStorage, RabbitMQStorage>();
+            var sp = hostBuilder.Services.BuildServiceProvider();
+            var defaultStorage = sp.GetService<IStorage>();
+            var logging = sp.GetService<ILogger<IStorage>>();
+            if (defaultStorage != null)
+            {
+                logging.LogWarning($"系统已注册{defaultStorage.GetType().FullName}寄存器，本次不再重复注册！");
+            }
+            else
+            {
+                hostBuilder.Services.TryAdd(new ServiceDescriptor(typeof(IStorage), typeof(RabbitMQStorage), ServiceLifetime.Singleton));
+            }
             eventBus.RegisterWaitAndRetry<ChangeHistoryInfo, TMessageHandler>();
             return hostBuilder;
         }

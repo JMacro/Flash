@@ -50,3 +50,225 @@ Flash.LoadBalancer
 -------------------------------------------------------------------------------------
 
 
+------------------------2023-08-28 15:40:49 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 15:50:10 +08:00 Delete(11.0.8.2)------------------------
+'@{PackName=Flash.Extensions.Cache; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Cache.Redis; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Cache.Redis.DependencyInjection; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Configuration.Json; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Configuration.Apollo; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus; TargetFrameworks=netstandard2.0,netcoreapp3.1; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus.RabbitMQ.DependencyInjection; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.MySql; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.Redis; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Hangfire; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Hangfire.AspNetCore; TargetFrameworks=netstandard2.0; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Quartz; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Office; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Office.Npoi; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.OpenTracting; TargetFrameworks=; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.OpenTracting.Jaeger; TargetFrameworks=; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.OpenTracting.Skywalking; TargetFrameworks=; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ORM; TargetFrameworks=netstandard2.0,net6.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ORM.EntityFrameworkCore; TargetFrameworks=netstandard2.0,net6.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.DynamicRoute; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.DistributedLock; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 15:51:12 +08:00 Delete(11.0.8.2)------------------------
+'@{PackName=Flash.Extensions.Cache; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Cache.Redis; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Cache.Redis.DependencyInjection; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Configuration.Json; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Configuration.Apollo; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus; TargetFrameworks=netstandard2.0,netcoreapp3.1; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus.RabbitMQ.DependencyInjection; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.MySql; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.Redis; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Hangfire; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Hangfire.AspNetCore; TargetFrameworks=netstandard2.0; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Quartz; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Office; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Office.Npoi; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.OpenTracting; TargetFrameworks=; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.OpenTracting.Jaeger; TargetFrameworks=; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.OpenTracting.Skywalking; TargetFrameworks=; IsPush=False}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ORM; TargetFrameworks=netstandard2.0,net6.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ORM.EntityFrameworkCore; TargetFrameworks=netstandard2.0,net6.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.DynamicRoute; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.DistributedLock; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 15:55:28 +08:00 Delete(11.0.8.2)------------------------
+'@{PackName=Flash.Extensions.Cache; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Cache.Redis; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Cache.Redis.DependencyInjection; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Configuration.Json; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Configuration.Apollo; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus; TargetFrameworks=netstandard2.0,netcoreapp3.1; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.EventBus.RabbitMQ.DependencyInjection; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.MySql; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.HealthChecks.Redis; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Hangfire; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Job.Quartz; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Office; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Office.Npoi; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ORM; TargetFrameworks=netstandard2.0,net6.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ORM.EntityFrameworkCore; TargetFrameworks=netstandard2.0,net6.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.DynamicRoute; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.DistributedLock; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Resilience.Http; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Security; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.UidGenerator; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.LoadBalancer; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.Email; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.CompareObjects; TargetFrameworks=net6.0,netstandard1.3,netstandard2.0,netstandard2.1; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ChangeHistory; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+'@{PackName=Flash.Extensions.ChangeHistory.RabbitMQ; TargetFrameworks=netstandard2.0; IsPush=True}.PackName' '11.0.8.2'
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:00:35 +08:00 Delete(11.0.8.2)------------------------
+'Flash.Extensions.Cache' '11.0.8.2'
+'Flash.Extensions.Cache.Redis' '11.0.8.2'
+'Flash.Extensions.Cache.Redis.DependencyInjection' '11.0.8.2'
+'Flash.Extensions.Configuration.Json' '11.0.8.2'
+'Flash.Extensions.Configuration.Apollo' '11.0.8.2'
+'Flash.Extensions.EventBus' '11.0.8.2'
+'Flash.Extensions.EventBus.RabbitMQ' '11.0.8.2'
+'Flash.Extensions.EventBus.RabbitMQ.DependencyInjection' '11.0.8.2'
+'Flash.Extensions.HealthChecks' '11.0.8.2'
+'Flash.Extensions.HealthChecks.MySql' '11.0.8.2'
+'Flash.Extensions.HealthChecks.RabbitMQ' '11.0.8.2'
+'Flash.Extensions.HealthChecks.Redis' '11.0.8.2'
+'Flash.Extensions.Job' '11.0.8.2'
+'Flash.Extensions.Job.Hangfire' '11.0.8.2'
+'Flash.Extensions.Job.Quartz' '11.0.8.2'
+'Flash.Extensions.Office' '11.0.8.2'
+'Flash.Extensions.Office.Npoi' '11.0.8.2'
+'Flash.Extensions.ORM' '11.0.8.2'
+'Flash.Extensions.ORM.EntityFrameworkCore' '11.0.8.2'
+'Flash.DynamicRoute' '11.0.8.2'
+'Flash.Extensions.DistributedLock' '11.0.8.2'
+'Flash.Extensions.Resilience.Http' '11.0.8.2'
+'Flash.Extensions.Security' '11.0.8.2'
+'Flash.Extensions.UidGenerator' '11.0.8.2'
+'Flash.LoadBalancer' '11.0.8.2'
+'Flash.Extensions.Email' '11.0.8.2'
+'Flash.Extensions.CompareObjects' '11.0.8.2'
+'Flash.Extensions.ChangeHistory' '11.0.8.2'
+'Flash.Extensions.ChangeHistory.RabbitMQ' '11.0.8.2'
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:02:11 +08:00 Delete(11.0.8.2)------------------------
+Flash.Extensions.Cache 11.0.8.2
+Flash.Extensions.Cache.Redis 11.0.8.2
+Flash.Extensions.Cache.Redis.DependencyInjection 11.0.8.2
+Flash.Extensions.Configuration.Json 11.0.8.2
+Flash.Extensions.Configuration.Apollo 11.0.8.2
+Flash.Extensions.EventBus 11.0.8.2
+Flash.Extensions.EventBus.RabbitMQ 11.0.8.2
+Flash.Extensions.EventBus.RabbitMQ.DependencyInjection 11.0.8.2
+Flash.Extensions.HealthChecks 11.0.8.2
+Flash.Extensions.HealthChecks.MySql 11.0.8.2
+Flash.Extensions.HealthChecks.RabbitMQ 11.0.8.2
+Flash.Extensions.HealthChecks.Redis 11.0.8.2
+Flash.Extensions.Job 11.0.8.2
+Flash.Extensions.Job.Hangfire 11.0.8.2
+Flash.Extensions.Job.Quartz 11.0.8.2
+Flash.Extensions.Office 11.0.8.2
+Flash.Extensions.Office.Npoi 11.0.8.2
+Flash.Extensions.ORM 11.0.8.2
+Flash.Extensions.ORM.EntityFrameworkCore 11.0.8.2
+Flash.DynamicRoute 11.0.8.2
+Flash.Extensions.DistributedLock 11.0.8.2
+Flash.Extensions.Resilience.Http 11.0.8.2
+Flash.Extensions.Security 11.0.8.2
+Flash.Extensions.UidGenerator 11.0.8.2
+Flash.LoadBalancer 11.0.8.2
+Flash.Extensions.Email 11.0.8.2
+Flash.Extensions.CompareObjects 11.0.8.2
+Flash.Extensions.ChangeHistory 11.0.8.2
+Flash.Extensions.ChangeHistory.RabbitMQ 11.0.8.2
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:04:05 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:04:21 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:05:48 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:06:39 +08:00 Delete(11.0.8.2)------------------------
+Flash.Extensions.Cache 11.0.8.2
+Flash.Extensions.Cache.Redis 11.0.8.2
+Flash.Extensions.Cache.Redis.DependencyInjection 11.0.8.2
+Flash.Extensions.Configuration.Json 11.0.8.2
+Flash.Extensions.Configuration.Apollo 11.0.8.2
+Flash.Extensions.EventBus 11.0.8.2
+Flash.Extensions.EventBus.RabbitMQ 11.0.8.2
+Flash.Extensions.EventBus.RabbitMQ.DependencyInjection 11.0.8.2
+Flash.Extensions.HealthChecks 11.0.8.2
+Flash.Extensions.HealthChecks.MySql 11.0.8.2
+Flash.Extensions.HealthChecks.RabbitMQ 11.0.8.2
+Flash.Extensions.HealthChecks.Redis 11.0.8.2
+Flash.Extensions.Job 11.0.8.2
+Flash.Extensions.Job.Hangfire 11.0.8.2
+Flash.Extensions.Job.Quartz 11.0.8.2
+Flash.Extensions.Office 11.0.8.2
+Flash.Extensions.Office.Npoi 11.0.8.2
+Flash.Extensions.ORM 11.0.8.2
+Flash.Extensions.ORM.EntityFrameworkCore 11.0.8.2
+Flash.DynamicRoute 11.0.8.2
+Flash.Extensions.DistributedLock 11.0.8.2
+Flash.Extensions.Resilience.Http 11.0.8.2
+Flash.Extensions.Security 11.0.8.2
+Flash.Extensions.UidGenerator 11.0.8.2
+Flash.LoadBalancer 11.0.8.2
+Flash.Extensions.Email 11.0.8.2
+Flash.Extensions.CompareObjects 11.0.8.2
+Flash.Extensions.ChangeHistory 11.0.8.2
+Flash.Extensions.ChangeHistory.RabbitMQ 11.0.8.2
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:12:12 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:14:41 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:21:58 +08:00 Delete(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------------
+
+
+------------------------2023-08-28 16:22:58 +08:00 Push(11.0.8.2)------------------------
+-------------------------------------------------------------------------------------
+
+

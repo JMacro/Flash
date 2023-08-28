@@ -21,6 +21,8 @@ namespace Flash.Extensions.ChangeHistory
         /// </summary>
         private readonly ICompareLogic _compareLogic;
 
+        public ChangeHistoryInfo ChangeHistoryInfo { get; private set; }
+
         public EntityChange(IStorage storage, ICompareLogic compareLogic)
         {
             this._storage = storage;
@@ -59,21 +61,20 @@ namespace Flash.Extensions.ChangeHistory
                 NewValue = p.Object2,
                 PropertyName = p.PropertyName
             }));
+            this.ChangeHistoryInfo = result;
             return result;
         }
 
-        public async Task<bool> Record<TEntityIdType, TChangeObject>(TEntityIdType entityId, TChangeObject oldObj, TChangeObject newObj) where TEntityIdType : struct where TChangeObject : IEntityChangeTracking
+        public async Task<bool> Record<TEntityIdType>(TEntityIdType entityId, Object oldObj, Object newObj) where TEntityIdType : struct
         {
             var compareResult = Compare<TEntityIdType>(entityId, oldObj, newObj);
             if (compareResult == null || !compareResult.HistoryPropertys.Any()) return false;
-
             return await _storage.Insert(compareResult);
         }
 
         public async Task<bool> Record<T>(ChangeHistoryInfo historie)
         {
             if (historie == null || !historie.HistoryPropertys.Any()) return false;
-
             return await _storage.Insert(historie);
         }
 
