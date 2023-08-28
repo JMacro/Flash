@@ -55,47 +55,6 @@ namespace Flash.Test.StartupTests
 
         public override void Configure(IApplicationBuilder app)
         {
-            var logger = app.ApplicationServices.GetRequiredService<ILogger<IEventBus>>();
-            app.UseFlash(flash =>
-            {
-                //flash.UseHangfire();
-                flash.UseEventBus(sp =>
-                {
-                    sp.UseSubscriber(eventbus =>
-                    {
-                        eventbus.RegisterWaitAndRetry<TestEventMessage, TestEventMessageHandler>("", "");
-                        eventbus.Register<TestEvent2Message, TestEvent2MessageHandler>(typeof(TestEvent2MessageHandler).FullName, "routerkey.log.*");
-
-                        //订阅消息
-                        eventbus.Subscriber((Messages) =>
-                        {
-                            foreach (var message in Messages)
-                            {
-                                logger.LogDebug($"ACK: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                            }
-
-                        }, async (obj) =>
-                        {
-                            foreach (var message in obj.Messages)
-                            {
-                                logger.LogError($"NAck: queue {message.QueueName} route={message.RouteKey} messageId:{message.MessageId}");
-                            }
-
-                            //消息消费失败执行以下代码
-                            if (obj.Exception != null)
-                            {
-                                logger.LogError(obj.Exception, obj.Exception.Message);
-                            }
-
-                            var events = obj.Messages.Select(message => message.WaitAndRetry(a => 5, 3)).ToList();
-
-                            var ret = !await eventbus.PublishAsync(events);
-
-                            return ret;
-                        });
-                    });
-                });
-            });
         }
     }
 }
