@@ -2,6 +2,7 @@
 using Flash.Extensions.Tracting.Jaeger;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using OpenTracing.Util;
 using System;
@@ -20,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashTractingBuilder UseJaeger(this IFlashTractingBuilder builder, IConfigurationSection configurationSection, Action<IOpenTracingBuilder> openTracingBuilder = null)
         {
-            builder.Services.AddTransient<TracingConfiguration>(sp =>
+            builder.Services.TryAddTransient<TracingConfiguration>(sp =>
             {
                 var config = configurationSection.Get<TracingConfiguration>();
                 if (config == null)
@@ -46,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
             action = action ?? throw new ArgumentNullException(nameof(action));
             action(config);
 
-            builder.Services.AddTransient<TracingConfiguration>(sp =>
+            builder.Services.TryAddTransient<TracingConfiguration>(sp =>
             {
                 return config;
             });
@@ -89,7 +90,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddOpenTracing(openTracingBuilder);
-            services.AddSingleton(serviceProvider =>
+            services.TryAddSingleton(serviceProvider =>
             {
                 var config = serviceProvider.GetService<TracingConfiguration>();
                 var serviceName = config.SerivceName ?? serviceProvider.GetRequiredService<IHostingEnvironment>().ApplicationName;
@@ -142,7 +143,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return tracer;
             });
 
-            services.AddTransient<ITracer, JaegerTracer>();
+            services.TryAddTransient<ITracer, JaegerTracer>();
             return services;
         }
 #endif

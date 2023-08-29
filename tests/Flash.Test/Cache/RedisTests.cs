@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Flash.Extensions.HealthChecks;
 using Flash.Test.StartupTests;
+using System.Threading;
 
 namespace Flash.Test.Cache
 {
@@ -55,8 +56,21 @@ namespace Flash.Test.Cache
         public void DistributedLockTest()
         {
             var distributedLock = this.ServiceProvider.GetService<IDistributedLock>();
-            var result = distributedLock.Enter($"{int.MaxValue}", Guid.NewGuid().ToString(), TimeSpan.FromSeconds(60));
+            var redisValue = $"{int.MaxValue}";
+            var result = distributedLock.Enter($"{int.MaxValue}", redisValue, TimeSpan.FromSeconds(10));
+            if (!result)
+            {
+                distributedLock.Exit($"{int.MaxValue}", redisValue);
+                result = distributedLock.Enter($"{int.MaxValue}", redisValue, TimeSpan.FromSeconds(10));
+            }
             Assert.IsTrue(result);
+
+            var lockRenewalResult = distributedLock.LockRenewal($"{int.MaxValue}", redisValue, TimeSpan.FromSeconds(10));
+            Assert.IsTrue(result);
+
+            var renewalCheck = new DistributedLockRenewalCheck($"JMacro:Flash:Tests:Lock:{int.MaxValue}", redisValue, TimeSpan.FromSeconds(10));
+            var renewalCheckResult = renewalCheck.RunAsync(this.ServiceProvider).ConfigureAwait(false).GetAwaiter().GetResult();
+            Assert.IsNotNull(renewalCheckResult);
         }
 
         [Test]

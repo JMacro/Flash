@@ -32,6 +32,6 @@ namespace Flash.Extensions.Cache
         /// <param name="LockValue">锁的值</param>
         /// <param name="renewalTime">续期时间</param>
         /// <returns></returns>
-        void LockRenewal(string LockName, string LockValue, TimeSpan renewalTime);
+        bool LockRenewal(string LockName, string LockValue, TimeSpan renewalTime);
     }
 }

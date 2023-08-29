@@ -52,9 +52,10 @@
         /// <summary>
         /// 分布式锁，对象使用IDistributedLock
         /// </summary>
-        /// <param name="isDistributedLock"></param>
+        /// <param name="isDistributedLock">是否启用分布式锁</param>
+        /// <param name="isDistributedLockHostService">是否启用分布式锁Host服务</param>
         /// <returns></returns>
-        ICacheConfig WithDistributedLock(bool isDistributedLock);
+        ICacheConfig WithDistributedLock(bool isDistributedLock, bool isDistributedLockHostService = true);
 
         /// <summary>
         /// 读服务器列表

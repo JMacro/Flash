@@ -47,7 +47,7 @@ namespace Flash.Test.StartupTests
                         .WithWriteServerList(host)
                         .WithReadServerList(host)
                         .WithDb(0)
-                        .WithDistributedLock(true)
+                        .WithDistributedLock(true, false)
                         .WithPassword(password)
                         .WithKeyPrefix("JMacro:Flash:Tests");
                     });

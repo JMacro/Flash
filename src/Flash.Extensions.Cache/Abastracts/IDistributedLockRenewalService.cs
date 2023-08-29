@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Flash.Extensions.Cache
 {
+    /// <summary>
+    /// 分布式锁续期服务接口
+    /// </summary>
     public interface IDistributedLockRenewalService
     {
         /// <summary>

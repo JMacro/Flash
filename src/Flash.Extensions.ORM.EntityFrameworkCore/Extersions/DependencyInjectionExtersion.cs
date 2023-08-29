@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashOrmBuilder UseEFCore<TDbContext>(this IFlashOrmBuilder ormBuilder, Action<DbContextOptionsBuilder> options) where TDbContext : BaseDbContext
         {
             ormBuilder.Services.AddDbContext<TDbContext>(options);
-            ormBuilder.Services.AddScoped<DbContext, TDbContext>();
+            ormBuilder.Services.TryAddScoped<DbContext, TDbContext>();
             AddDefault(ormBuilder.Services);
             return ormBuilder;
         }
@@ -114,9 +114,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static void AddDefault(IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.TryAddScoped<IUnitOfWork, UnitOfWork>();
             AutoDi(services);
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
         private static IServiceCollection AutoDi(this IServiceCollection services)
@@ -136,10 +136,10 @@ namespace Microsoft.Extensions.DependencyInjection
                         type3 = type2;
                     }
 
-                    ServiceDescriptor item = new ServiceDescriptor(type3, type2, ServiceLifetime.Scoped);
+                    var item = new ServiceDescriptor(type3, type2, ServiceLifetime.Scoped);
                     if (!services.Contains(item))
                     {
-                        services.Add(item);
+                        services.TryAdd(item);
                     }
                 }
             }

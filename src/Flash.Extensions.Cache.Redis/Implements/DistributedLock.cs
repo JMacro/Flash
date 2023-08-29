@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using StackExchange.Redis;
 using System;
+using System.Collections.Concurrent;
 using System.Text;
 
 namespace Flash.Extensions.Cache.Redis
@@ -16,6 +17,10 @@ namespace Flash.Extensions.Cache.Redis
         private readonly DistributedLockRenewalCollection _distributedLockRenewalCollection;
         private readonly ILogger<DistributedLock> _logger;
         private readonly string _KeyPrefix = "Lock";
+        /// <summary>
+        /// Lua脚本
+        /// </summary>
+        private ConcurrentDictionary<string, string> LUAS = new ConcurrentDictionary<string, string>();
 
         public DistributedLock(ICacheManager cacheManager, DistributedLockRenewalCollection distributedLockRenewalCollection, ILogger<DistributedLock> logger)
         {
@@ -100,30 +105,41 @@ namespace Flash.Extensions.Cache.Redis
         /// <param name="LockValue">锁的值</param>
         /// <param name="renewalTime">续期时间</param>
         /// <returns></returns>
-        public void LockRenewal(string LockName, string LockValue, TimeSpan renewalTime)
+        public bool LockRenewal(string LockName, string LockValue, TimeSpan renewalTime)
         {
-            //优化：可通过Lua脚本，校验缓存中指定的锁的值是否为要续期锁的值
             if (_cacheManager != null)
             {
-                var keyName = AddSysCustomKey(LockName);
+                var keyName = _cacheManager.GetCacheKey(AddSysCustomKey(LockName));
 
-                StringBuilder lua = new StringBuilder();
-                lua.AppendLine("local lockValue = redis.call('GET', @LockName)");
-                lua.AppendLine("if lockValue == @LockValue then");
-                lua.AppendLine("    redis.call('EXPIRE', @LockName, @RenewalTime)");
-                lua.AppendLine("    return 1");
-                lua.AppendLine("end");
-                lua.AppendLine("return 0");
+                var luaScript = TryGetOrAdd($"{nameof(LockRenewal)}", () =>
+                {
+                    StringBuilder lua = new StringBuilder();
+                    lua.AppendLine("local lockValue = redis.call('GET', @LockName)");
+                    lua.AppendLine("if lockValue == @LockValue then");
+                    lua.AppendLine("    redis.call('EXPIRE', @LockName, @RenewalTime)");
+                    lua.AppendLine("    return 1");
+                    lua.AppendLine("end");
+                    lua.AppendLine("return 0");
+
+                    return lua.ToString();
+                });
 
                 this._logger.LogInformation($"Renewal Lock {keyName} to {renewalTime.TotalMilliseconds} millseconds");
-                _cacheManager.ScriptEvaluate(lua.ToString(), new { LockName = keyName, LockValue, RenewalTime = renewalTime.TotalSeconds });
-                //_cacheManager.ExpireEntryAt(keyName, renewalTime);
+
+                var result = (RedisResult)_cacheManager.ScriptEvaluate(luaScript, new { LockName = keyName, LockValue, RenewalTime = renewalTime.TotalSeconds });
+                return ((RedisValue)result) == 1;
             }
+            return false;
         }
 
         private string AddSysCustomKey(string oldKey)
         {
             return $"{_KeyPrefix}:{oldKey}";
+        }
+
+        private string TryGetOrAdd(string key, Func<string> func)
+        {
+            return this.LUAS.GetOrAdd(key, func());
         }
     }
 }

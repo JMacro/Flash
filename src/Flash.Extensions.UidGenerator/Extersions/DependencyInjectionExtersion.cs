@@ -1,6 +1,7 @@
 ﻿using Flash.Core;
 using Flash.Extensions.UidGenerator;
 using Flash.Extensions.UidGenerator.WorkIdCreateStrategy;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 
@@ -46,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var option = new IdGeneratorOption();
             setup(option);
 
-            services.AddSingleton<IUniqueIdGenerator>(sp =>
+            services.TryAddSingleton<IUniqueIdGenerator>(sp =>
             {
                 var workId = option.WorkIdCreateStrategy.NextId();
                 return new SnowflakeUniqueIdGenerator(workId, option.CenterId);

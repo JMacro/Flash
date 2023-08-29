@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Flash.Extensions.Cache
 {
     /// <summary>
-    /// 分布式锁续期服务
+    /// 分布式锁续期Host服务
     /// </summary>
     public class DistributedLockRenewalHostedService : Microsoft.Extensions.Hosting.IHostedService
     {

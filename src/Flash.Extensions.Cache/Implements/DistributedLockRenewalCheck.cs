@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Flash.Extensions.Cache
 {
+    /// <summary>
+    /// 分布式锁续期检查
+    /// </summary>
     public sealed class DistributedLockRenewalCheck
     {
         private volatile int _writerCount;
@@ -48,9 +53,16 @@ namespace Flash.Extensions.Cache
         /// </summary>
         public bool IsRunCheck { get; private set; } = false;
 
+        /// <summary>
+        /// 开始检测
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async ValueTask<DistributedLockRenewalCheckResult> RunAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken = default(CancellationToken))
         {
             var distributedLock = serviceProvider.GetService<IDistributedLock>();
+            var logger = serviceProvider.GetService<ILogger<DistributedLockRenewalCheck>>();
             this.IsRunCheck = true;
             while (this.CurrentRetryNumber < this.RetryCount)
             {
@@ -67,6 +79,7 @@ namespace Flash.Extensions.Cache
                     this.CurrentRetryNumber++;
                     //延期过期时间
                     distributedLock.LockRenewal(this.LockName, this.LockValue, this.LockOutTime);
+                    logger.LogInformation($"The cache({this.LockName}) lock is more than one-third of the expiration time and is being renewed.");
                 }
 
                 _writerCount = 0;

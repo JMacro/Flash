@@ -103,11 +103,13 @@
         /// <summary>
         /// 分布式锁，实例对象IDistributedLock
         /// </summary>
-        /// <param name="isDistributedLock"></param>
+        /// <param name="isDistributedLock">是否启用分布式锁</param>
+        /// <param name="isDistributedLockHostService">是否启用分布式锁Host服务</param>
         /// <returns></returns>
-        public ICacheConfig WithDistributedLock(bool isDistributedLock)
+        public ICacheConfig WithDistributedLock(bool isDistributedLock = true, bool isDistributedLockHostService = true)
         {
             this.DistributedLock = isDistributedLock;
+            this.DistributedLockHostService = isDistributedLockHostService;
             return this;
         }
 
@@ -151,5 +153,9 @@
         /// 分布式锁
         /// </summary>
         public bool DistributedLock { get; private set; } = false;
+        /// <summary>
+        /// 分布式锁Host服務
+        /// </summary>
+        public bool DistributedLockHostService { get; private set; } = false;
     }
 }
