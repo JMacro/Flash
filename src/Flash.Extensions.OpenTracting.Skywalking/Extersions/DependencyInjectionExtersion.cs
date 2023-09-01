@@ -16,6 +16,7 @@
  *
  */
 
+using Flash.Extensions.OpenTracting.Skywalking;
 using Flash.Extensions.Tracting;
 using Flash.Extensions.Tracting.Skywalking;
 using Flash.Extensions.Tracting.Skywalking.Diagnostics;
@@ -171,6 +172,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<ISamplerChainBuilder, SamplerChainBuilder>();
             services.TryAddSingleton<ISegmentContextMapper, SegmentContextMapper>();
             services.TryAddSingleton<IBase64Formatter, Base64Formatter>();
+
+            services.TryAddTransient<ITracer, SkywalkingTracer>();
             return services;
         }
 

@@ -22,7 +22,7 @@ namespace Flash.Test.ORM
             var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
             var query = new
             {
-                CName = ""
+                CName = "系"
             };
             var result = testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.Like).ToList();
             Assert.IsNotNull(result);
@@ -34,7 +34,7 @@ namespace Flash.Test.ORM
             var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
             var query = new
             {
-                CName = ""
+                CName = "%"
             };
             var result = testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.LeftLike).ToList();
             Assert.IsNotNull(result);
@@ -46,7 +46,7 @@ namespace Flash.Test.ORM
             var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
             var query = new
             {
-                CName = ""
+                CName = "系"
             };
             var result = testDbContext.Set<AccountInfo>().WhereWith(query, l => l.CName, r => r.CName, OperatorType.RightLike).ToList();
             Assert.IsNotNull(result);

@@ -173,6 +173,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.CompareObj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChangeHistory", "ChangeHistory", "{C87D6E62-C635-4395-B702-C9DD8483C205}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{E23ED3AA-1580-40A2-9CB9-2E58310059DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Example", "example\Flash.Example\Flash.Example.csproj", "{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -355,6 +359,10 @@ Global
 		{FCFEB339-41A2-4398-8290-3D8B36791411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCFEB339-41A2-4398-8290-3D8B36791411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCFEB339-41A2-4398-8290-3D8B36791411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -414,6 +422,7 @@ Global
 		{93B2811C-4E46-4116-A7C2-89CE4A01DD5C} = {C87D6E62-C635-4395-B702-C9DD8483C205}
 		{FCFEB339-41A2-4398-8290-3D8B36791411} = {C87D6E62-C635-4395-B702-C9DD8483C205}
 		{C87D6E62-C635-4395-B702-C9DD8483C205} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0} = {E23ED3AA-1580-40A2-9CB9-2E58310059DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

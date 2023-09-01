@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
 #if NETCOREAPP
         /// <summary>
-        /// 使用Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configurationSection"></param>
@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 使用Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="action"></param>
@@ -90,7 +90,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddOpenTracing(openTracingBuilder);
-            services.TryAddSingleton(serviceProvider =>
+            services.AddSingleton(serviceProvider =>
             {
                 var config = serviceProvider.GetService<TracingConfiguration>();
                 var serviceName = config.SerivceName ?? serviceProvider.GetRequiredService<IHostingEnvironment>().ApplicationName;
