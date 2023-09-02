@@ -1,0 +1,1218 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Flash.Extensions.Email</name>
+    </assembly>
+    <members>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,Flash.Extensions.Email.AttachmentInfo,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfo">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.String,System.String,System.String,System.String,System.String,Flash.Extensions.Email.AttachmentInfo,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfo">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.Send(System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.String,System.String,System.String,System.String,System.String,Flash.Extensions.Email.AttachmentInfo,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfo">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.IEmailService.SendAsync(System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="P:Flash.Extensions.Email.IMailKitProvider.Options">
+            <summary>
+            mailkit options
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.IMailKitProvider.SmtpClient">
+            <summary>
+            smtp client
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.IMailKitProvider.Pop3Client">
+            <summary>
+            pop3 client
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.IMailKitProvider.ImapClient">
+            <summary>
+            imap client
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.Email.AttachmentInfo">
+            <summary>
+            附件信息
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.AttachmentInfo.FileName">
+            <summary>
+            附件名称
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.AttachmentInfo.FileStream">
+            <summary>
+            附件内容
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.AttachmentInfo.MainMimeType">
+            <summary>
+            MainMimeType
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.AttachmentInfo.SubMimeType">
+            <summary>
+            SubMimeType
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Email.AttachmentInfo.Create(System.String,System.IO.Stream,System.String)">
+            <summary>
+            创建附件
+            </summary>
+            <param name="fileName">附件名称</param>
+            <param name="fileStream">附件内容</param>
+            <param name="mimeType">MimeType</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.AttachmentInfo.Create(System.String)">
+            <summary>
+            创建附件
+            </summary>
+            <param name="filePath">附件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.AttachmentInfo.Create(System.String[])">
+            <summary>
+            创建附件
+            </summary>
+            <param name="filePaths">附件路径</param>
+            <returns></returns>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.FromName">
+            <summary>
+            发件人名称
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.FromEmail">
+            <summary>
+            发件人邮箱
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.SmtpServer">
+            <summary>
+            SMTP服务器
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.SmtpPort">
+            <summary>
+            端口
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.SmtpEnableSsl">
+            <summary>
+            是否开启Ssl
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Email.EmailConfig.UserPwd">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,Flash.Extensions.Email.AttachmentInfo,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfo">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.String,System.String,System.String,System.String,System.String,Flash.Extensions.Email.AttachmentInfo,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfo">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.Send(System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.String,System.String,System.String,System.String,System.String,Flash.Extensions.Email.AttachmentInfo,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailTo">收件人</param>
+            <param name="mailCc">抄送人</param>
+            <param name="mailBcc">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfo">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.Collections.Generic.List{System.String},System.String,System.String,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo},System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="attachmentInfoList">附件</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendAsync(System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Email.EmailService.SendEmail(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String,System.String,System.Text.Encoding,System.Boolean,Flash.Extensions.Email.SenderInfo,System.Collections.Generic.List{Flash.Extensions.Email.AttachmentInfo})">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mailToList">收件人</param>
+            <param name="mailCcList">抄送人</param>
+            <param name="mailBccList">密送人</param>
+            <param name="subject">标题</param>
+            <param name="content">内容</param>
+            <param name="encoding">编码</param>
+            <param name="isHtml">是否HTML内容</param>
+            <param name="sender">发件人信息</param>
+            <param name="attachmentInfoList">附件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionExtersion.AddMailKit(Flash.Core.IFlashHostBuilder,System.Action{Flash.Extensions.Email.EmailConfig},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            
+            </summary>
+            <param name="hostBuilder"></param>
+            <param name="optionsAction"></param>
+            <param name="lifetime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionExtersion.AddMailKit(Flash.Core.IFlashHostBuilder,Flash.Extensions.Email.EmailConfig,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            
+            </summary>
+            <param name="hostBuilder"></param>
+            <param name="emailConfig"></param>
+            <param name="lifetime"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

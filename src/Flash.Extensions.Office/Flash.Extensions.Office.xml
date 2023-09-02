@@ -1,0 +1,448 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Flash.Extensions.Office</name>
+    </assembly>
+    <members>
+        <member name="P:Flash.Extensions.Office.IOfficeSetting.DefaultExcelSetting">
+            <summary>
+            默认Excel设置
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.IOfficeTools.ReadExcel``1(System.Byte[],System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn})">
+            <summary>
+            读取Excel
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bytes"></param>
+            <param name="columnMaps">表头列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.IOfficeTools.ReadExcel``1(System.Byte[],System.String,System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn})">
+            <summary>
+            读取Excel
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bytes"></param>
+            <param name="sheetName">Sheet名称</param>
+            <param name="columnMaps">表头列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.IOfficeTools.WriteExcel``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn},Flash.Extensions.Office.SheetSetting)">
+            <summary>
+            写入Excel
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dataSource">数据源</param>
+            <param name="headerColumns">表头列</param>
+            <param name="setting">属性设置</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.IOfficeTools.WriteExcelMultipleSheet(Flash.Extensions.Office.SheetInfo[])">
+            <summary>
+            写入Excel（多个Sheet数据），可通过<see cref="M:Flash.Extensions.Office.SheetInfo.Create``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn})"/>创建对象
+            </summary>
+            <param name="sheets">Sheet信息</param>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.Office.ExcelComment">
+            <summary>
+            Excel批注描述
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelComment.DefaultVisible">
+            <summary>
+            默认显示模式(显示\隐藏)
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelComment.Content">
+            <summary>
+            批注内容
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelComment.Author">
+            <summary>
+            批注作者
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelComment.Create(System.String)">
+            <summary>
+            创建Excel批注描述
+            </summary>
+            <param name="content">批注内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelComment.Create(System.String,System.Boolean)">
+            <summary>
+            创建Excel批注描述
+            </summary>
+            <param name="content">批注内容</param>
+            <param name="isVisible">默认显示模式(显示\隐藏)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelComment.Create(System.String,System.String)">
+            <summary>
+            创建Excel批注描述
+            </summary>
+            <param name="content">批注内容</param>
+            <param name="author">批注作者</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelComment.Create(System.String,System.String,System.Boolean)">
+            <summary>
+            创建Excel批注描述
+            </summary>
+            <param name="content">批注内容</param>
+            <param name="author">批注作者</param>
+            <param name="isVisible">默认显示模式(显示\隐藏)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.Office.IExcelComment">
+            <summary>
+            Excel批注描述
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.IExcelComment.DefaultVisible">
+            <summary>
+            默认显示模式(显示\隐藏)
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.IExcelComment.Content">
+            <summary>
+            批注内容
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.IExcelComment.Author">
+            <summary>
+            批注作者
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.Office.ExcelColumnMap">
+            <summary>
+            Excel列映射
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelColumnMap.ExcelColumnName">
+            <summary>
+            Excel列名
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelColumnMap.EntityFieldName">
+            <summary>
+            实体字段名称
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelColumnMap.Create(System.String,System.String)">
+            <summary>
+            创建映射关系
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.Office.ExcelHeaderAttribute">
+            <summary>
+            Excel表头标注
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Excel表头标注
+            </summary>
+            <param name="preEntityFieldName">上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）</param>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="dataFormat">数据格式</param>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderAttribute.#ctor(System.String,System.String,System.Int16)">
+            <summary>
+            Excel表头标注
+            </summary>
+            <param name="preEntityFieldName">上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）</param>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="width">表头宽度，默认-1表示根据表头列名动态宽度</param>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderAttribute.#ctor(System.String,System.String,System.Int16,System.String)">
+            <summary>
+            Excel表头标注
+            </summary>
+            <param name="preEntityFieldName">上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）</param>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="width">表头宽度，默认-1表示根据表头列名动态宽度</param>
+            <param name="excelCommentContent">批注内容</param>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderAttribute.#ctor(System.String,System.String,System.Int16,System.String,System.String)">
+            <summary>
+            Excel表头标注
+            </summary>
+            <param name="preEntityFieldName">上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）</param>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="width">表头宽度，默认-1表示根据表头列名动态宽度</param>
+            <param name="excelCommentContent">批注内容</param>
+            <param name="excelCommentAuthor">批注作者</param>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderAttribute.#ctor(System.String,System.String,System.String,System.Int16)">
+            <summary>
+            Excel表头标注
+            </summary>
+            <param name="preEntityFieldName">上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）</param>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="dataFormat">数据格式</param>
+            <param name="width">表头宽度，默认-1表示根据表头列名动态宽度</param>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderAttribute.#ctor(System.String,System.String,System.String,System.Int16,System.String,System.String)">
+            <summary>
+            Excel表头标注
+            </summary>
+            <param name="preEntityFieldName">上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）</param>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="dataFormat">数据格式</param>
+            <param name="width">表头宽度，默认-1表示根据表头列名动态宽度</param>
+            <param name="excelCommentContent">批注内容</param>
+            <param name="excelCommentAuthor">批注作者</param>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderAttribute.PreEntityFieldName">
+            <summary>
+            上一个实体字段名称，用于表头排序（为空则表示第一列，如都为空则随机排序）
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderAttribute.ExcelColumnName">
+            <summary>
+            Excel列名
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderAttribute.DataFormat">
+            <summary>
+            数据格式
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderAttribute.Width">
+            <summary>
+            表头宽度
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderAttribute.CommentContent">
+            <summary>
+            批注内容
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderAttribute.CommentAuthor">
+            <summary>
+            批注作者
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.Office.ExcelHeaderColumn">
+            <summary>
+            Excel表头列
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderColumn.ColumnMap">
+            <summary>
+            列映射关系
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderColumn.DataFormat">
+            <summary>
+            数据格式
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderColumn.ColumnWidth">
+            <summary>
+            列宽，值为-1时，则表示根据列名动态宽度
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.ExcelHeaderColumn.Comment">
+            <summary>
+            Excel批注
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create(System.String,System.String,System.String)">
+            <summary>
+            创建Excel表头列
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <param name="dataFormat">数据格式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create(System.String,System.String,Flash.Extensions.Office.IExcelComment)">
+            <summary>
+            创建Excel表头列
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <param name="comment">Excel批注</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create(System.String,System.String,System.Int16)">
+            <summary>
+            创建Excel表头列
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create(System.String,System.String,System.Int16,Flash.Extensions.Office.IExcelComment)">
+            <summary>
+            创建Excel表头列
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+            <param name="comment">Excel批注</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create(System.String,System.String,System.String,System.Int16)">
+            <summary>
+            创建Excel表头列
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <param name="dataFormat">数据格式</param>
+            <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create(System.String,System.String,System.String,System.Int16,Flash.Extensions.Office.IExcelComment)">
+            <summary>
+            创建Excel表头列
+            </summary>
+            <param name="excelColumnName">Excel列名</param>
+            <param name="entityFieldName">实体字段名称</param>
+            <param name="dataFormat">数据格式</param>
+            <param name="width">列宽，值为-1时，则表示根据列名动态宽度</param>
+            <param name="comment">Excel批注</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.ExcelHeaderColumn.Create``1">
+            <summary>
+            创建Excel表头列，需为属性打上<see cref="T:Flash.Extensions.Office.ExcelHeaderAttribute"/>标签
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="P:Flash.Extensions.Office.OfficeSetting.DefaultExcelSetting">
+            <summary>
+            默认的Excel设置
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetInfo.SheetName">
+            <summary>
+            Sheel名称
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetInfo.DataSource">
+            <summary>
+            数据源
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetInfo.DataSourceType">
+            <summary>
+            数据源类型
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetInfo.HeaderColumns">
+            <summary>
+            表头
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetInfo.SheetSetting">
+            <summary>
+            Sheel设置
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.SheetInfo.Create``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn})">
+            <summary>
+            创建
+            </summary>
+            <param name="dataSource">数据源</param>
+            <param name="headerColumns">表头</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.SheetInfo.Create``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn},Flash.Extensions.Office.SheetSetting)">
+            <summary>
+            创建
+            </summary>
+            <param name="dataSource">数据源</param>
+            <param name="headerColumns">表头</param>
+            <param name="sheetSetting">Sheel设置</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.SheetInfo.Create``1(System.String,System.Collections.Generic.List{``0},System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn})">
+            <summary>
+            创建
+            </summary>
+            <param name="sheetName">Sheel名称</param>
+            <param name="dataSource">数据源</param>
+            <param name="headerColumns">表头</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.SheetInfo.Create``1(System.String,System.Collections.Generic.List{``0},System.Collections.Generic.List{Flash.Extensions.Office.ExcelHeaderColumn},Flash.Extensions.Office.SheetSetting)">
+            <summary>
+            创建
+            </summary>
+            <param name="sheetName">Sheel名称</param>
+            <param name="dataSource">数据源</param>
+            <param name="headerColumns">表头</param>
+            <param name="sheetSetting">Sheel设置</param>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.Office.SheetSetting">
+            <summary>
+            Sheet属性设置
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.Office.SheetSetting.#ctor">
+            <summary>
+            Sheet属性设置
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetSetting.IsAutoNumber">
+            <summary>
+            是否添加序号字段（自增序）
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetSetting.AutoNumberName">
+            <summary>
+            序号字段名称，默认值：序号
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetSetting.DataRowHeight">
+            <summary>
+            数据行高，默认值16
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetSetting.HeaderRowHeight">
+            <summary>
+            标题头行高，默认值16
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetSetting.DisplayGridlines">
+            <summary>
+            在查看时(显示/隐藏)网格线，默认值显示
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.Office.SheetSetting.IsPrintGridlines">
+            <summary>
+            在打印时(显示/隐藏)网格线，默认值不显示
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionExtersion.AddOffice(Flash.Core.IFlashHostBuilder,System.Action{Flash.Extensions.Office.IFlashOfficeBuilder})">
+            <summary>
+            添加办公插件
+            </summary>
+            <param name="hostBuilder"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionExtersion.AddOffice(Flash.Core.IFlashHostBuilder,System.Action{Flash.Extensions.Office.IOfficeSetting},System.Action{Flash.Extensions.Office.IFlashOfficeBuilder})">
+            <summary>
+            添加办公插件
+            </summary>
+            <param name="hostBuilder"></param>
+            <param name="setting">初始化配置</param>
+            <param name="action"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+    </members>
+</doc>

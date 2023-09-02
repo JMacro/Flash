@@ -13,10 +13,10 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
+      "applicationUrl": "http://*:5020",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://*:5020",
       "dotnetRunMessages": true
     },
     "IIS Express": {
@@ -31,6 +31,7 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {},
       "publishAllPorts": true,
       "useSSL": true
     }
