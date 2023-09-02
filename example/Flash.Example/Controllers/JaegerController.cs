@@ -1,6 +1,7 @@
 ﻿using Flash.Extensions.Tracting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OpenTracing.Util;
 using System;
 
 namespace Flash.Example.Controllers

@@ -30,7 +30,7 @@ namespace Flash.Test.StartupTests
                 {
                     option.UseJaeger(config =>
                     {
-                        config.AgentHost = "";
+                        config.AgentHost = "192.168.50.241";
                         config.AgentPort = 5775;
                         config.SerivceName = this.GetType().FullName;
                         config.EndPoint = "http://192.168.50.242:14268/api/traces";

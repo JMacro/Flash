@@ -1,5 +1,8 @@
-﻿using Flash.Extensions.Tracting;
+﻿using Flash.Extensions.OpenTracting;
+using Flash.Extensions.OpenTracting.Jaeger;
+using Flash.Extensions.Tracting;
 using Flash.Extensions.Tracting.Jaeger;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -144,7 +147,20 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.TryAddTransient<ITracer, JaegerTracer>();
+            services.TryAdd(ServiceDescriptor.Singleton<IRegisterResponseTracrIdService, RegisterResponseTracrIdService>());
+
             return services;
+        }
+
+        /// <summary>
+        /// 向响应头注入TraceId
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseResponseTracrIdMiddleware(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<RegisterResponseTracrIdMiddleware>();
+            return app;
         }
 #endif
     }
