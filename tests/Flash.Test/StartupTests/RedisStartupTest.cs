@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flash.Extensions.HealthChecks;
+using Microsoft.Extensions.Logging;
 
 namespace Flash.Test.StartupTests
 {
@@ -20,7 +21,11 @@ namespace Flash.Test.StartupTests
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.AddDebug();
+            });
 
             //services.AddMetrics(configuration.GetSection("AppMetrics"));
             services.AddFlash(flash =>
@@ -42,7 +47,7 @@ namespace Flash.Test.StartupTests
                         .WithWriteServerList(host)
                         .WithReadServerList(host)
                         .WithDb(0)
-                        .WithDistributedLock(true)
+                        .WithDistributedLock(true, false)
                         .WithPassword(password)
                         .WithKeyPrefix("JMacro:Flash:Tests");
                     });

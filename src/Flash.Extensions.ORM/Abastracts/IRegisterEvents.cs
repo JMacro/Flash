@@ -14,14 +14,17 @@ namespace Flash.Extensions.ORM
 #if NET6_0
         /// <summary>
         /// 保存变更前事件
+        /// <para>SaveChanges之前</para>
         /// </summary>
         Action SavingChanges { get; set; }
         /// <summary>
         /// 保存变更成功事件
+        /// <para>SaveChanges之后</para>
         /// </summary>
         Action SavedChanges { get; set; }
         /// <summary>
         /// 保存变更失败事件
+        /// <para>SaveChanges失败时</para>
         /// </summary>
         Action SaveChangesFailed { get; set; }
 #endif

@@ -39,6 +39,8 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.Job\Flash.Extensions.Job.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Office.Npoi\Flash.Extensions.Office.Npoi.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Office\Flash.Extensions.Office.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.OpenTracting.Skywalking.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />

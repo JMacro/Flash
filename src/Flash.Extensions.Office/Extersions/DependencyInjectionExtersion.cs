@@ -1,5 +1,6 @@
 ﻿using Flash.Core;
 using Flash.Extensions.Office;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -19,11 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var builder = new FlashOfficeBuilder(hostBuilder.Services, hostBuilder);
             action(builder);
 
-            hostBuilder.Services.AddSingleton<IOfficeSetting, OfficeSetting>(func =>
-            {
-                return new OfficeSetting();
-            });
-
+            hostBuilder.Services.TryAdd(ServiceDescriptor.Singleton<IOfficeSetting, OfficeSetting>());
             return hostBuilder;
         }
 
@@ -43,11 +40,10 @@ namespace Microsoft.Extensions.DependencyInjection
             var defaultSetting = new OfficeSetting();
             setting(defaultSetting);
 
-            hostBuilder.Services.AddSingleton<IOfficeSetting, OfficeSetting>(func =>
+            hostBuilder.Services.TryAdd(new ServiceDescriptor(typeof(IOfficeSetting), (sp) =>
             {
                 return defaultSetting;
-            });
-
+            }, ServiceLifetime.Singleton));
             return AddOffice(hostBuilder, action);
         }
     }

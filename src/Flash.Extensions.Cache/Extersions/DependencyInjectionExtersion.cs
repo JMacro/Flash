@@ -16,9 +16,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashHostBuilder AddCache(this IFlashHostBuilder hostBuilder, Action<IFlashCacheBuilder> action)
         {
-            hostBuilder.Services.TryAddSingleton<ITracerFactory, TracerFactory>();
+            hostBuilder.Services.TryAdd(ServiceDescriptor.Singleton<ITracerFactory, TracerFactory>());
             hostBuilder.Services.TryAddTransient<TracerAsyncInterceptor>();
-
             var builder = new FlashCacheBuilder(hostBuilder.Services, hostBuilder);
             action(builder);
             return hostBuilder;

@@ -20,7 +20,10 @@ namespace Microsoft.Extensions.DependencyInjection
             var config = new RedisCacheConfig();
             action(config);
 
+            hostBuilder.Services.TryAddSingleton((sp) => { return new DistributedLockRenewalCollection(sp); });
             hostBuilder.Services.TryAddSingleton<IDistributedLock, DistributedLock>();
+            hostBuilder.Services.TryAddSingleton<IDistributedLockRenewalService, DistributedLockRenewalService>();
+            hostBuilder.Services.AddHostedService<DistributedLockRenewalHostedService>();
             return hostBuilder;
         }
     }

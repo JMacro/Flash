@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Flash.Extensions.Office.Npoi</name>
+    </assembly>
+    <members>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionExtersion.UseNpoi(Flash.Extensions.Office.IFlashOfficeBuilder)">
+            <summary>
+            使用Npoi组件
+            </summary>
+            <param name="cacheBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.Office.Npoi.NopiExtensions.CreateComment(NPOI.SS.UserModel.ICell,Flash.Extensions.Office.IExcelComment)">
+            <summary>
+            创建Npoi批注
+            </summary>
+            <param name="cell">单元格</param>
+            <param name="excelComment">批注</param>
+        </member>
+    </members>
+</doc>

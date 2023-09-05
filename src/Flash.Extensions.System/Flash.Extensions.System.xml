@@ -1,0 +1,753 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Flash.Extensions.System</name>
+    </assembly>
+    <members>
+        <member name="M:Flash.Extensions.AttributeExtensions.Is``1(System.Collections.Generic.IEnumerable{System.Reflection.CustomAttributeData})">
+            <summary>
+            是否为指定的Attribute
+            </summary>
+            <typeparam name="T">Attribute</typeparam>
+            <param name="customAttributes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.AttributeExtensions.Is``1(System.Attribute[])">
+            <summary>
+            是否为指定的Attribute
+            </summary>
+            <typeparam name="T">Attribute</typeparam>
+            <param name="attributes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.AutoMapperToAttribute">
+            <summary>
+            实体映射标签
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.AutoMapperToAttribute.#ctor(System.Type[])">
+            <summary>
+            实体映射
+            </summary>
+            <param name="types">需映射的类型</param>
+        </member>
+        <member name="M:Flash.Extensions.AutoMapperToAttribute.GetMapperList">
+            <summary>
+            获得映射的类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.DataTypeAttribute">
+            <summary>
+            数据类型标记
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.DataTypeAttribute.#ctor(System.Type)">
+            <summary>
+            数据类型标记
+            </summary>
+            <param name="type">需标记的类型</param>
+        </member>
+        <member name="M:Flash.Extensions.DataTypeAttribute.GetDataType">
+            <summary>
+            获得标记的类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Flash.Extensions.IdentityCardAttribute">
+            <summary>
+            身份证验证
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.NotNullAttribute">
+            <summary>
+            标记不为null
+            </summary>
+        </member>
+        <member name="F:Flash.Extensions.DecimalExtensions.ChineseCharacterNumber">
+            <summary>
+            0-9所对应的汉字
+            <para>零壹贰叁肆伍陆柒捌玖</para>
+            </summary>
+        </member>
+        <member name="F:Flash.Extensions.DecimalExtensions.ChineseCharacterNumberBit">
+            <summary>
+            数字位所对应的汉字
+            <para>万仟佰拾亿仟佰拾万仟佰拾元角分</para>
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.DecimalExtensions.ToUpper(System.Decimal)">
+            <summary>
+            数字转大写
+            <para>注意：精确到小数点后两位</para>
+            </summary>
+            <param name="value">数字</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.EnumExtensions.GetEnumDescript(System.Type)">
+            <summary>
+            获取枚举类型描述
+            </summary>
+            <param name="enumType">枚举类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.EnumExtensions.GetEnumDescript(System.Object)">
+            <summary>
+            根据枚举项的值获取枚举项的描述信息。
+            </summary>
+            <param name="enumValue">枚举值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.EnumExtensions.GetEnumFieldName(System.Type,System.Object)">
+            <summary>
+            根据枚举类型和项的值获取枚举项的名称。
+            </summary>
+            <param name="enumType">枚举类型</param>
+            <param name="enumValue">枚举值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.EnumExtensions.IsNullableEnum(System.Type)">
+            <summary>
+            是否为可空枚举
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.IEnumerableExtensions.Copy``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+            <summary>
+            复制序列中的数据
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="iEnumberable">原数据</param>
+            <param name="startIndex">原数据开始复制的起始位置</param>
+            <param name="length">需要复制的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.IEnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            给IEnumerable拓展ForEach方法
+            </summary>
+            <typeparam name="T">模型类</typeparam>
+            <param name="iEnumberable">数据源</param>
+            <param name="func">方法</param>
+        </member>
+        <member name="M:Flash.Extensions.IEnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Int32})">
+            <summary>
+            给IEnumerable拓展ForEach方法
+            </summary>
+            <typeparam name="T">模型类</typeparam>
+            <param name="iEnumberable">数据源</param>
+            <param name="func">方法</param>
+        </member>
+        <member name="M:Flash.Extensions.IEnumerableExtensions.CastToList``1(System.Collections.IEnumerable)">
+            <summary>
+            IEnumerable转换为List'T'
+            </summary>
+            <typeparam name="T">参数</typeparam>
+            <param name="source">数据源</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.IEnumerableExtensions.ToDataTable``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            将IEnumerable'T'转为对应的DataTable
+            </summary>
+            <typeparam name="T">数据模型</typeparam>
+            <param name="iEnumberable">数据源</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToBoolean(System.Object)">
+            <summary>
+            Object转换为Boolean类型
+            </summary>
+            <param name="value">待转换字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToBoolean(System.Object,System.Object)">
+            <summary>
+            Object转换为Boolean类型
+            </summary>
+            <param name="value">待转换字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToFloat(System.Object)">
+            <summary>
+             float类型转换,如转换失败返回0
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>将传递的参数转换成浮点类型，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToFloat(System.Object,System.Single)">
+            <summary>
+            float类型转换,如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns>将传递的参数转换成浮点类型，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToInt(System.Object)">
+            <summary>
+            Int32类型转换，如转换失败返回0
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>将传递的参数转换成整形，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToInt(System.Object,System.Object)">
+            <summary>
+            Int32类型转换，如转换失败返回0
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>将传递的参数转换成整形，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToInt(System.Object,System.Int32)">
+            <summary>
+            Int32类型转换，如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns>将传递的参数转换成整形，如果转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToString(System.Object,System.Object)">
+            <summary>
+            得到字符串记录
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>将传递的参数转换成字符类型返回，如果传递的参数为空则返回""</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToString(System.Object)">
+            <summary>
+            得到字符串记录
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>将传递的参数转换成字符类型返回，如果传递的参数为空则返回""</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToString(System.Object,System.String)">
+            <summary>
+            得到字符串记录
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>将传递的参数转换成字符类型返回，如果传递的参数为空则返回""</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToDecimal(System.Object)">
+            <summary>
+             decimal类型转换,如转换失败返回0
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns>f返回decimal类型，,如转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToDecimal(System.Object,System.Int32)">
+            <summary>
+            decimal类型转换,如转换失败返回0
+            </summary>
+            <param name="value"></param>
+            <param name="pointNum">小数点长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToDecimal(System.Object,System.Decimal)">
+            <summary>
+            decimal类型转换,如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>返回decimal类型，,如转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.IsNullOrEmpty(System.Object)">
+            <summary>
+            判断是否为Null或者空
+            </summary>
+            <param name="obj">对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToJson(System.Object)">
+            <summary>
+            将对象序列化成Json字符串
+            </summary>
+            <param name="obj">需要序列化的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.Tolong(System.Object,System.Int64)">
+            <summary>
+            long类型转换，如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <param name="defaultValue">64默认值</param>
+            <returns>将传递的参数转换成长整形，如果转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.Tolong(System.Object)">
+            <summary>
+            long类型转换，如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <returns>将传递的参数转换成长整形，如果转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToFormData(System.Object)">
+            <summary>
+            转换为FormData
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToFormData(System.Object,System.Text.Encoding)">
+            <summary>
+            转换为FormData
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <param name="encoding">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions4DeepClone.IsValueTypeAndPrimitive(System.Type)">
+            <summary>
+            是否为值类型
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Flash.Extensions.BasePageResponse`1.PageIndex">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.BasePageResponse`1.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.BasePageResponse`1.List">
+            <summary>
+            分页数据
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.BasePageResponse`1.HasData">
+            <summary>
+            是否有数据
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IBasePageResponse`1.PageIndex">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IBasePageResponse`1.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IBasePageResponse`1.List">
+            <summary>
+            分页数据
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IBasePageResponse`1.HasData">
+            <summary>
+            是否有数据
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.PageOrderBy">
+            <summary>
+            分页排序
+            </summary>
+        </member>
+        <member name="F:Flash.Extensions.PageOrderBy.DESC">
+            <summary>
+            降序
+            </summary>
+        </member>
+        <member name="F:Flash.Extensions.PageOrderBy.ASC">
+            <summary>
+            升序
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.IPageQuery">
+            <summary>
+            分页查询
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IPageQuery.PageIndex">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IPageQuery.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.IPageQuery.OrderBy">
+            <summary>
+            排序类型
+            </summary>
+        </member>
+        <member name="T:Flash.Extensions.PageQuery">
+            <summary>
+            分页查询
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.PageQuery.PageIndex">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.PageQuery.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="P:Flash.Extensions.PageQuery.OrderBy">
+            <summary>
+            排序类型
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.PageQueryExtension.CreateNew(System.Int32,System.Int32)">
+            <summary>
+            创建分页查询参数
+            </summary>
+            <typeparam name="TSearchPara"></typeparam>
+            <param name="pageQuery"></param>
+            <param name="searchPara"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Flash.Extensions.PageCountResponse`1.Total">
+            <summary>
+            总条数
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToBoolean(System.String)">
+            <summary>
+            String转换为Boolean类型
+            </summary>
+            <param name="value">待转换字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToBoolean(System.String,System.Boolean)">
+            <summary>
+            字符串转换为Boolean类型
+            </summary>
+            <param name="value">待转换字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToFloat(System.String)">
+            <summary>
+            float类型转换,如转换失败返回0
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <returns>将传递的参数转换成浮点类型，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToFloat(System.String,System.Single)">
+            <summary>
+            float类型转换,如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>将传递的参数转换成浮点类型，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToInt(System.String)">
+            <summary>
+            Int32类型转换，如转换失败返回0
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <returns>将传递的参数转换成整形，如果转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToInt(System.String,System.Int32)">
+            <summary>
+            Int32类型转换，如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>将传递的参数转换成整形，如果转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToDecimal(System.String)">
+            <summary>
+            decimal类型转换,如转换失败返回0
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <returns>返回decimal类型，,如转换失败返回0</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToDecimal(System.String,System.Decimal)">
+            <summary>
+            decimal类型转换,如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns>返回decimal类型，,如转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToDecimal(System.String,System.Decimal,System.Int32)">
+            <summary>
+            decimal类型转换,如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">默认值</param>
+            <param name="pointNum">小数位数</param>
+            <returns>返回decimal类型，,如转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.Tolong(System.String,System.Int64)">
+            <summary>
+            long类型转换，如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">64默认值</param>
+            <returns>将传递的参数转换成长整形，如果转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.Tolong(System.String)">
+            <summary>
+            long类型转换，如转换失败返回默认值
+            </summary>
+            <param name="value">需要转换的字符串</param>
+            <param name="defaultValue">64默认值</param>
+            <returns>将传递的参数转换成长整形，如果转换失败返回指定的默认值</returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToObject``1(System.String)">
+            <summary>
+            将Json字符串反序列化为对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="jsonStr">Json字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToObject(System.String,System.Type)">
+            <summary>
+            将Json字符串反序列化为对象
+            </summary>
+            <param name="jsonStr">json字符串</param>
+            <param name="type">对象类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.XmlStrToObject``1(System.String)">
+            <summary>
+            将XML字符串反序列化为对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="xmlStr">XML字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.XmlStrToJObject(System.String)">
+            <summary>
+            将XML字符串反序列化为对象
+            </summary>
+            <param name="xmlStr">XML字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToList``1(System.String)">
+            <summary>
+            将Json字符串转为List'T'
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="jsonStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToDataTable(System.String)">
+            <summary>
+            将Json字符串转为DataTable
+            </summary>
+            <param name="jsonStr">Json字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToFirstUpperStr(System.String)">
+            <summary>
+            转为首字母大写
+            </summary>
+            <param name="str">字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToFirstLowerStr(System.String)">
+            <summary>
+            转为首字母小写
+            </summary>
+            <param name="str">字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToMaskCardId(System.String)">
+            <summary>
+            身份证信息掩盖
+            </summary>
+            <param name="value">身份证Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToMaskCardId(System.String,System.Int32)">
+            <summary>
+            身份证信息掩盖
+            </summary>
+            <param name="value">身份证Id</param>
+            <param name="beginMaskIndex">开始遮罩索引位置</param>
+            <param name="maskLength">遮罩长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToMaskCardId(System.String,System.Int32,System.Int32)">
+            <summary>
+            身份证信息掩盖
+            </summary>
+            <param name="value">身份证Id</param>
+            <param name="beginMaskIndex">开始遮罩索引位置</param>
+            <param name="maskLength">遮罩长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ToMask(System.String,System.Int32,System.Int32)">
+            <summary>
+            信息掩盖
+            </summary>
+            <param name="value">字符串</param>
+            <param name="beginMaskIndex">开始遮罩索引位置</param>
+            <param name="maskLength">遮罩长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ValidCardId(System.String)">
+            <summary>
+            身份证号校验
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ValidCardId18(System.String)">
+            <summary>
+            18位身份证号校验
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ValidCardId16(System.String)">
+            <summary>  
+            16位身份证号码验证  
+            </summary>  
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.ConverToEnum``1(System.String,System.Nullable{``0})">
+            <summary>
+            转换为枚举类型
+            </summary>
+            <typeparam name="TSource">枚举类型</typeparam>
+            <param name="value"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.StringExtensions.GetMD5(System.String)">
+            <summary>
+            获得MD5值
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Flash.Extensions.TypeExtensions.NumericTypes">
+            <summary>
+            Collection of numeric types.
+            </summary>
+        </member>
+        <member name="M:Flash.Extensions.TypeExtensions.IsNumeric(System.Type)">
+            <summary>
+            Check if the given type is a numeric type.
+            </summary>
+            <param name="type">The type to be checked.</param>
+            <returns><c>true</c> if it's numeric; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:Flash.Extensions.TypeExtensions.IsNullableType(System.Type)">
+            <summary>
+            是否为可空类型
+            </summary>
+            <param name="theType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.UriExtensions.IsHttps(System.Uri)">
+            <summary>
+            是否为Https请求
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Newtonsoft.Json.DesensitizationConverter.AsType(System.String,System.Type)">
+            <summary>
+            字符串格式数据转其他类型数据
+            </summary>
+            <param name="input">输入的字符串</param>
+            <param name="destinationType">目标格式</param>
+            <returns>转换结果</returns>
+        </member>
+        <member name="T:Newtonsoft.Json.DesensitizationAttribute">
+            <summary>
+            数据脱敏
+            </summary>
+        </member>
+        <member name="T:Newtonsoft.Json.NumberConverter">
+            <summary>
+            大数据json序列化重写
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverter._ship">
+            <summary>
+            转换成字符串的类型
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.NumberConverter.#ctor">
+            <summary>
+            大数据json序列化重写实例化
+            </summary>
+        </member>
+        <member name="M:Newtonsoft.Json.NumberConverter.#ctor(Newtonsoft.Json.NumberConverterShip)">
+            <summary>
+            大数据json序列化重写实例化
+            </summary>
+            <param name="ship">转换成字符串的类型</param>
+        </member>
+        <member name="M:Newtonsoft.Json.NumberConverter.CanConvert(System.Type)">
+            <summary>
+            确定此实例是否可以转换指定的对象类型。
+            </summary>
+            <param name="objectType">对象的类型。</param>
+            <returns>如果此实例可以转换指定的对象类型，则为：<c>true</c>，否则为：<c>false</c></returns>
+        </member>
+        <member name="M:Newtonsoft.Json.NumberConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            读取对象的JSON表示。
+            </summary>
+            <param name="reader">从 <see cref="T:Newtonsoft.Json.JsonReader" /> 中读取。</param>
+            <param name="objectType">对象的类型。</param>
+            <param name="existingValue">正在读取的对象的现有值。</param>
+            <param name="serializer">调用的序列化器实例。</param>
+            <returns>对象值。</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.NumberConverter.AsType(System.String,System.Type)">
+            <summary>
+            字符串格式数据转其他类型数据
+            </summary>
+            <param name="input">输入的字符串</param>
+            <param name="destinationType">目标格式</param>
+            <returns>转换结果</returns>
+        </member>
+        <member name="M:Newtonsoft.Json.NumberConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            写入对象的JSON表示形式。
+            </summary>
+            <param name="writer">要写入的 <see cref="T:Newtonsoft.Json.JsonWriter" /> 。</param>
+            <param name="value">要写入对象值</param>
+            <param name="serializer">调用的序列化器实例。</param>
+        </member>
+        <member name="T:Newtonsoft.Json.NumberConverterShip">
+            <summary>
+            转换成字符串的类型
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Int64">
+            <summary>
+            长整数
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.UInt64">
+            <summary>
+            无符号长整数
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Single">
+            <summary>
+            浮点数
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Double">
+            <summary>
+            双精度浮点数
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Decimal">
+            <summary>
+            大数字
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,5 +1,6 @@
 ﻿using Flash.Core;
 using Flash.Extensions.Security;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var option = new SecurityOption();
             setup(option);
 
-            hostBuilder.Services.AddSingleton<ISecurity3DES>(sp =>
+            hostBuilder.Services.TryAddSingleton<ISecurity3DES>(sp =>
             {
                 return new Security3DES(option.SecretKey, option.Encoding);
             });

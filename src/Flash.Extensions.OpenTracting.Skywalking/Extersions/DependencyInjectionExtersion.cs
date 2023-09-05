@@ -16,12 +16,14 @@
  *
  */
 
+using Flash.Extensions.OpenTracting.Skywalking;
 using Flash.Extensions.Tracting;
 using Flash.Extensions.Tracting.Skywalking;
 using Flash.Extensions.Tracting.Skywalking.Diagnostics;
 using Flash.Extensions.Tracting.Skywalking.Sampling;
 using Flash.Extensions.Tracting.Skywalking.Service;
 using Flash.Extensions.Tracting.Skywalking.Transport;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 
@@ -133,7 +135,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var option = new SkywalkingOption();
             setup(option);
 
-            builder.Services.AddSingleton<SkyApmConfig>((sp) =>
+            builder.Services.TryAddSingleton<SkyApmConfig>((sp) =>
             {
                 var config = new SkyApmConfig();
                 config.ServiceName = option.ServiceName;
@@ -145,13 +147,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 return config;
             });
 
-            builder.Services.AddSingleton<ISegmentDispatcher, AsyncQueueSegmentDispatcher>();
-            builder.Services.AddSingleton<IExecutionService, SegmentReportService>();
-            builder.Services.AddSingleton<IInstrumentStartup, InstrumentStartup>();
-            builder.Services.AddSingleton<IRuntimeEnvironment>(RuntimeEnvironment.Instance);
-            builder.Services.AddSingleton<TracingDiagnosticProcessorObserver>();
+            builder.Services.TryAddSingleton<ISegmentDispatcher, AsyncQueueSegmentDispatcher>();
+            builder.Services.TryAddSingleton<IExecutionService, SegmentReportService>();
+            builder.Services.TryAddSingleton<IInstrumentStartup, InstrumentStartup>();
+            builder.Services.TryAddSingleton<IRuntimeEnvironment>(RuntimeEnvironment.Instance);
+            builder.Services.TryAddSingleton<TracingDiagnosticProcessorObserver>();
 #if NETCORE
-            builder.Services.AddSingleton<IHostedService, InstrumentationHostedService>();
+            builder.Services.TryAddSingleton<IHostedService, InstrumentationHostedService>();
 #endif
             builder.Services.AddTracing().AddSampling().AddTransport();
 
@@ -160,31 +162,33 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static IServiceCollection AddTracing(this IServiceCollection services)
         {
-            services.AddSingleton<ITracingContext, TracingContext>();
-            services.AddSingleton<ICarrierPropagator, CarrierPropagator>();
-            services.AddSingleton<ICarrierFormatter, BucketCarrierFormatter>();
-            services.AddSingleton<ISegmentContextFactory, SegmentContextFactory>();
-            services.AddSingleton<IEntrySegmentContextAccessor, EntrySegmentContextAccessor>();
-            services.AddSingleton<ILocalSegmentContextAccessor, LocalSegmentContextAccessor>();
-            services.AddSingleton<IExitSegmentContextAccessor, ExitSegmentContextAccessor>();
-            services.AddSingleton<ISamplerChainBuilder, SamplerChainBuilder>();
-            services.AddSingleton<ISegmentContextMapper, SegmentContextMapper>();
-            services.AddSingleton<IBase64Formatter, Base64Formatter>();
+            services.TryAddSingleton<ITracingContext, TracingContext>();
+            services.TryAddSingleton<ICarrierPropagator, CarrierPropagator>();
+            services.TryAddSingleton<ICarrierFormatter, BucketCarrierFormatter>();
+            services.TryAddSingleton<ISegmentContextFactory, SegmentContextFactory>();
+            services.TryAddSingleton<IEntrySegmentContextAccessor, EntrySegmentContextAccessor>();
+            services.TryAddSingleton<ILocalSegmentContextAccessor, LocalSegmentContextAccessor>();
+            services.TryAddSingleton<IExitSegmentContextAccessor, ExitSegmentContextAccessor>();
+            services.TryAddSingleton<ISamplerChainBuilder, SamplerChainBuilder>();
+            services.TryAddSingleton<ISegmentContextMapper, SegmentContextMapper>();
+            services.TryAddSingleton<IBase64Formatter, Base64Formatter>();
+
+            services.TryAddTransient<ITracer, SkywalkingTracer>();
             return services;
         }
 
         private static IServiceCollection AddSampling(this IServiceCollection services)
         {
-            services.AddSingleton<SimpleCountSamplingInterceptor>();
-            services.AddSingleton<ISamplingInterceptor>(p => p.GetService<SimpleCountSamplingInterceptor>());
-            services.AddSingleton<IExecutionService>(p => p.GetService<SimpleCountSamplingInterceptor>());
-            services.AddSingleton<ISamplingInterceptor, RandomSamplingInterceptor>();
+            services.TryAddSingleton<SimpleCountSamplingInterceptor>();
+            services.TryAddSingleton<ISamplingInterceptor>(p => p.GetService<SimpleCountSamplingInterceptor>());
+            services.TryAddSingleton<IExecutionService>(p => p.GetService<SimpleCountSamplingInterceptor>());
+            services.TryAddSingleton<ISamplingInterceptor, RandomSamplingInterceptor>();
             return services;
         }
 
         private static IServiceCollection AddTransport(this IServiceCollection services)
         {
-            services.AddSingleton<ISegmentReporter, NullSegmentReporter>();
+            services.TryAddSingleton<ISegmentReporter, NullSegmentReporter>();
             return services;
         }
     }

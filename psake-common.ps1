@@ -26,6 +26,7 @@ Properties {
     $config = "Release"    
     $sharedAssemblyInfo = "$src_dir\SharedAssemblyInfo.cs"
     $config_Nupkg = "$base_dir\Push-Nupkg.json"
+    $version = ""
 
     ### Nuget config
     $pack_config = Get-PushNupkgContent -path $config_Nupkg
@@ -64,32 +65,32 @@ Task Version -Description "Patch AssemblyInfo and AppVeyor version files." {
     Update-AppVeyorVersion $newVersion
 }
 
-Task Push-Nupkg -Description "Push NuGet packages." {
-    $version = Get-PackageVersion
-    Write-Host "Nuget package version '$version'" -ForegroundColor "Red"
-    Write-Host "Read Config" -ForegroundColor "Green"
-    $nupkgs = $pack_config.Nupkgs
+Task Nupkg-Push -Description "Push NuGet packages." {
     $nuget_source = $pack_config.Source
-    if(!$nuget_source) {
+    if(!(BeginEnter "Whether to publish to the local server.")) {
         $nuget_source = "https://api.nuget.org/v3/index.json"
     }
 
     Write-Host "Push source to '$nuget_source'" -ForegroundColor "Green"
+    if($host.Version -contains "7.1") {
+        $nugetApiKeys = Read-Host "Please enter a nuget api keys" -MaskInput
+    }
     $nugetApiKeys = Read-Host "Please enter a nuget api keys"
     if(!$nugetApiKeys) {
         Write-Host "Not enter nuget api keys." -ForegroundColor "Red"
     }
 
-    Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "Green"
+    Write-Host "Nuget package path in '$nupkg_dir'..." -ForegroundColor "DarkGray"
     $dirs = Get-ChildItem -Path "$nupkg_dir\*" -Filter "*.nupkg" -Exclude "*.symbols.nupkg"
 
+    $nupkgs = $pack_config.Nupkgs
     $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
     $push_list = @()
-    $push_list += "------------------------$cur_time ($version)------------------------"
+    $push_list += "------------------------$cur_time Push($nuget_source)------------------------"
     Try {
         foreach ($dir in $dirs) {
-            $packName = $dir.BaseName -replace ".$version",""
-            $item = $nupkgs | where-Object 'PackName' $packName -EQ 
+            $packName = $dir.BaseName
+            $item = $nupkgs | Where-Object -FilterScript {$packName -match $_.PackName}
             if (!$item.IsPush){
                 Write-Host "Ignore pack name $packName"
                 continue
@@ -119,7 +120,62 @@ Task Push-Nupkg -Description "Push NuGet packages." {
 
     $push_str = $push_list -join [Environment]::NewLine
     $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+}
 
+Task Nupkg-Delete -Description "Delete NuGet packages." {
+    $version = Read-Host "Please enter the nuget version number to be deleted."
+    Write-Host "The nuget version number you entered is '$version'" -ForegroundColor "Green"
+
+    $nuget_source = $pack_config.Source
+    if(!(BeginEnter "Whether to delete to the local server.")) {
+        $nuget_source = "https://api.nuget.org/v3/index.json"
+    }
+    Write-Host "Delete source to '$nuget_source'" -ForegroundColor "Green"
+
+    if(!(BeginEnter "Delete NuGet packages.")) {
+        Write-Host "Stopped delete" -ForegroundColor "Green"
+        return
+    }
+
+    Write-Host "Read Config" -ForegroundColor "Green"
+    $nupkgs = $pack_config.Nupkgs
+    
+    if($host.Version -contains "7.1") {
+        $nugetApiKeys = Read-Host "Please enter a nuget api keys" -MaskInput
+    }
+    $nugetApiKeys = Read-Host "Please enter a nuget api keys"
+    if(!$nugetApiKeys) {
+        Write-Host "Not enter nuget api keys." -ForegroundColor "Red"
+    }
+
+    $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
+    $push_list = @()
+    $push_list += "------------------------$cur_time Delete($nuget_source)------------------------"
+    Try {
+	    foreach ($item in $nupkgs) {
+            if ($item.IsPush) {
+                $packName = $item.PackName
+		        if(!$nugetApiKeys) {
+                    Exec { .$nuget delete $packName $version -NonInteractive -source $nuget_source }
+                } else {
+                    Exec { .$nuget delete $packName $version -NonInteractive -source $nuget_source -ApiKey $nugetApiKeys }
+                }
+
+                $push_list += "$packName $version"
+            }
+	    }
+    }
+    Catch { }
+    $push_list += "-------------------------------------------------------------------------------------------"
+    $push_list += [Environment]::NewLine
+
+    Write-Host "Nuget package delete details " -ForegroundColor "Green"
+    foreach ($row in $push_list) {
+        Write-Host "'$row'" -ForegroundColor "Green"
+    }
+
+    $push_str = $push_list -join [Environment]::NewLine
+    $push_str | Add-Content "$base_dir\PushDetails.Nuget"
 }
 
 ## Functions
@@ -266,6 +322,14 @@ function Get-PackageVersion {
         Write-Host "Using tag-based version '$version' for packages..." -ForegroundColor "Green"
     }
 
+    ## 询问是否添加预览版本包
+    $is_add_preview_number = Read-Host "Do you need to add the preview version number? Enter y or n ."
+    if($is_add_preview_number -And $is_add_preview_number -EQ "y") {
+        $time_version = Get-Date -Format "yyyyMMddHHmmss"
+        $version += ("-preview-" + $time_version)
+        Write-Host "Using preview version '$version' for packages..." -ForegroundColor "Green"
+    }
+
     return $version
 }
 
@@ -402,7 +466,7 @@ function Get-PushNupkgContent($path){
     return ConvertFrom-Json -InputObject $json
 }
 
-function Collect-AssemblyAndLocalizations(){
+function Collect-AssemblyAndLocalizations($args){
 	$nupkgs = $pack_config.Nupkgs
 	foreach ($item in $nupkgs) {
 		if ($item.IsPush){
@@ -424,7 +488,7 @@ function Collect-AssemblyAndLocalizations(){
     Collect-File "LICENSE_ROYALTYFREE"
 }
 
-function Create-Packages(){
+function Create-Packages($args){
 	$nupkgs = $pack_config.Nupkgs
     $version = Get-PackageVersion
     Create-Archive "Flash-$version"
@@ -433,4 +497,12 @@ function Create-Packages(){
             Create-Package $item.PackName $version
         }
 	}
+}
+
+function BeginEnter($msg) {
+    $enter_result = Read-Host "$msg Please enter y or n ."
+    if($enter_result -and $enter_result -eq "y") {
+        return $true
+    }
+    return $false
 }

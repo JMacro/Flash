@@ -10,8 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionExtersion
     {
         /// <summary>
-        /// 添加实体变更日志记录
-        /// <para><see cref="IEntityChange"/></para>
+        /// 添加实体变更日志记录<see cref="IEntityChange"/>
         /// </summary>
         /// <param name="hostBuilder"></param>
         /// <param name="setup"></param>
@@ -28,6 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var compareLogic = new CompareLogic(config);
                 return compareLogic;
             });
+
             hostBuilder.Services.TryAddSingleton<IEntityChange>((sp) =>
             {
                 var logger = sp.GetService<ILogger<EntityChange>>();
@@ -41,6 +41,19 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             return hostBuilder;
+        }
+
+        /// <summary>
+        /// 添加实体变更日志记录<see cref="IEntityChange"/>
+        /// </summary>
+        /// <typeparam name="TStorage">实体变更后存储寄存器</typeparam>
+        /// <param name="hostBuilder"></param>
+        /// <param name="setup"></param>
+        /// <returns></returns>
+        public static IFlashHostBuilder AddEntityChange<TStorage>(this IFlashHostBuilder hostBuilder, Action<IEntityChangeHostBuilder> setup) where TStorage : IStorage
+        {
+            hostBuilder.Services.TryAdd(new ServiceDescriptor(typeof(IStorage), typeof(TStorage), ServiceLifetime.Singleton));
+            return AddEntityChange(hostBuilder, setup);
         }
 
         /// <summary>

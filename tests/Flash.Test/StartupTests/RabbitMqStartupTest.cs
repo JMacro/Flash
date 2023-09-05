@@ -22,7 +22,11 @@ namespace Flash.Test.StartupTests
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.AddDebug();
+            });
             services.AddFlash(flash =>
             {
                 flash.AddEventBus(bus =>

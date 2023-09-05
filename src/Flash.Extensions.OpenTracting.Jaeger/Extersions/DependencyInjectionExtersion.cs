@@ -1,7 +1,11 @@
-﻿using Flash.Extensions.Tracting;
+﻿using Flash.Extensions.OpenTracting;
+using Flash.Extensions.OpenTracting.Jaeger;
+using Flash.Extensions.Tracting;
 using Flash.Extensions.Tracting.Jaeger;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using OpenTracing.Util;
 using System;
@@ -12,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
 #if NETCOREAPP
         /// <summary>
-        /// 使用Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configurationSection"></param>
@@ -20,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashTractingBuilder UseJaeger(this IFlashTractingBuilder builder, IConfigurationSection configurationSection, Action<IOpenTracingBuilder> openTracingBuilder = null)
         {
-            builder.Services.AddTransient<TracingConfiguration>(sp =>
+            builder.Services.TryAddTransient<TracingConfiguration>(sp =>
             {
                 var config = configurationSection.Get<TracingConfiguration>();
                 if (config == null)
@@ -34,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 使用Jaeger链路追踪，实例对象ITracer
+        /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="action"></param>
@@ -46,7 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
             action = action ?? throw new ArgumentNullException(nameof(action));
             action(config);
 
-            builder.Services.AddTransient<TracingConfiguration>(sp =>
+            builder.Services.TryAddTransient<TracingConfiguration>(sp =>
             {
                 return config;
             });
@@ -142,8 +146,21 @@ namespace Microsoft.Extensions.DependencyInjection
                 return tracer;
             });
 
-            services.AddTransient<ITracer, JaegerTracer>();
+            services.TryAddTransient<ITracer, JaegerTracer>();
+            services.TryAdd(ServiceDescriptor.Singleton<IRegisterResponseTracrIdService, RegisterResponseTracrIdService>());
+
             return services;
+        }
+
+        /// <summary>
+        /// 向响应头注入TraceId
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseResponseTracrIdMiddleware(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<RegisterResponseTracrIdMiddleware>();
+            return app;
         }
 #endif
     }

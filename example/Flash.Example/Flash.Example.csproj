@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Flash.Core\Flash.Core.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj" />
+  </ItemGroup>
+
+
+</Project>
