@@ -86,7 +86,7 @@ Task Nupkg-Push -Description "Push NuGet packages." {
     $nupkgs = $pack_config.Nupkgs
     $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
     $push_list = @()
-    $push_list += "------------------------$cur_time Push------------------------"
+    $push_list += "------------------------$cur_time Push($nuget_source)------------------------"
     Try {
         foreach ($dir in $dirs) {
             $packName = $dir.BaseName
@@ -150,7 +150,7 @@ Task Nupkg-Delete -Description "Delete NuGet packages." {
 
     $cur_time = Get-Date -Format "yyyy-MM-dd HH:mm:ss K"
     $push_list = @()
-    $push_list += "------------------------$cur_time Delete($version)------------------------"
+    $push_list += "------------------------$cur_time Delete($nuget_source)------------------------"
     Try {
 	    foreach ($item in $nupkgs) {
             if ($item.IsPush) {
