@@ -54,6 +54,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Flash.Extensions.IdentityCardAttribute">
+            <summary>
+            身份证验证
+            </summary>
+        </member>
         <member name="T:Flash.Extensions.NotNullAttribute">
             <summary>
             标记不为null
@@ -279,6 +284,14 @@
             转换为FormData
             </summary>
             <param name="value">需要转换的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flash.Extensions.ObjectExtensions.ToFormData(System.Object,System.Text.Encoding)">
+            <summary>
+            转换为FormData
+            </summary>
+            <param name="value">需要转换的对象</param>
+            <param name="encoding">编码</param>
             <returns></returns>
         </member>
         <member name="M:Flash.Extensions.ObjectExtensions4DeepClone.IsValueTypeAndPrimitive(System.Type)">
