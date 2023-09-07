@@ -14,11 +14,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 服务器地址(默认:localhost)
         /// </summary>
-        internal string HostName { get; set; } = "locahost";
+        public string HostName { get; internal set; } = "locahost";
         /// <summary>
         /// 端口（默认：5672）
         /// </summary>
-        internal int Port { get; set; } = 5672;
+        public int Port { get; internal set; } = 5672;
         /// <summary>
         /// 仪表盘管理协议
         /// </summary>
@@ -34,30 +34,30 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 账号(默认:guest)
         /// </summary>
-        internal string UserName { get; set; } = "guest";
+        public string UserName { get; internal set; } = "guest";
 
         /// <summary>
         /// 密码(默认:guest)
         /// </summary>
-        internal string Password { get; set; } = "guest";
+        public string Password { get; internal set; } = "guest";
         #endregion
 
         #region Exchange
         /// <summary>
         /// 虚拟主机(默认：/)
         /// </summary>
-        internal string VirtualHost { get; set; } = "/";
+        public string VirtualHost { get; internal set; } = "/";
 
 
         /// <summary>
         /// 交换机名称(默认：amq.topic)
         /// </summary>
-        internal string Exchange { get; set; } = "amq.topic";
+        public string Exchange { get; internal set; } = "amq.topic";
 
         /// <summary>
         /// 交换机类型（默认：topic）
         /// </summary>
-        internal string ExchangeType { get; set; } = "topic";
+        public string ExchangeType { get; internal set; } = "topic";
         #endregion
 
         #region Sender
@@ -238,12 +238,12 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 return option;
             });
-            hostBuilder.Services.AddSingleton<IMonitoringApi, RabbitMqMonitoringApi>();
-            hostBuilder.Services.AddAutoMapper(config =>
-            {
-                config.CreateMap<RabbitMqMonitoringPageResponse<RabbitMqQueueWithAllEnqueuedDto>, MonitoringPageResponse<QueueWithAllEnqueuedDto>>();
-                config.CreateMap<RabbitMqQueueWithAllEnqueuedDto, QueueWithAllEnqueuedDto>();
-            });
+            //hostBuilder.Services.AddSingleton<IMonitoringApi, RabbitMqMonitoringApi>();
+            //hostBuilder.Services.AddAutoMapper(config =>
+            //{
+            //    config.CreateMap<RabbitMqMonitoringPageResponse<RabbitMqQueueWithAllEnqueuedDto>, MonitoringPageResponse<QueueWithAllEnqueuedDto>>();
+            //    config.CreateMap<RabbitMqQueueWithAllEnqueuedDto, QueueWithAllEnqueuedDto>();
+            //});
 
             hostBuilder.Services.AddSingleton<IConnectionFactory>(sp =>
             {

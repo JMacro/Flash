@@ -13,6 +13,8 @@ namespace Flash.DynamicRoute
 
         public string[] Tags { get; set; }
 
+        public string Datacenter { get; set; }
+
     }
 
     public interface IServiceLocator

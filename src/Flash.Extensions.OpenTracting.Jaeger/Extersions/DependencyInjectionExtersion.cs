@@ -41,6 +41,25 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
         /// </summary>
         /// <param name="builder"></param>
+        /// <param name="tracingConfiguration"></param>
+        /// <param name="openTracingBuilder"></param>
+        /// <returns></returns>
+        public static IFlashTractingBuilder UseJaeger(this IFlashTractingBuilder builder, TracingConfiguration tracingConfiguration, Action<IOpenTracingBuilder> openTracingBuilder = null)
+        {
+            tracingConfiguration = tracingConfiguration ?? throw new ArgumentNullException(nameof(tracingConfiguration));
+
+            builder.Services.TryAddTransient<TracingConfiguration>(sp =>
+            {
+                return tracingConfiguration;
+            });
+            UseJaeger(builder.Services, openTracingBuilder);
+            return builder;
+        }
+
+        /// <summary>
+        /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
+        /// </summary>
+        /// <param name="builder"></param>
         /// <param name="action"></param>
         /// <param name="openTracingBuilder"></param>
         /// <returns></returns>

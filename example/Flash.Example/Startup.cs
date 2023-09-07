@@ -1,3 +1,4 @@
+using Flash.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,52 +14,47 @@ using System.Threading.Tasks;
 
 namespace Flash.Example
 {
-    public class Startup
+    public class Startup : BaseStartup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env) : base(configuration, env)
         {
-            Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public override void ConfigServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddFlash(flash =>
             {
-                flash.AddLoggerTracing(option =>
+                flash.AddEventBus(bus =>
                 {
-                    option.UseJaeger(config =>
+                    bus.UseRabbitMQ(rabbitmq =>
                     {
-                        config.AgentHost = "192.168.50.241";
-                        config.AgentPort = 5775;
-                        config.SerivceName = this.GetType().FullName;
-                        config.EndPoint = "http://192.168.50.242:14268/api/traces";
-                        config.Open = true;
+                        var hostName = Environment.GetEnvironmentVariable("RabbitMQ:HostName", EnvironmentVariableTarget.Machine);
+                        var port = Environment.GetEnvironmentVariable("RabbitMQ:Port", EnvironmentVariableTarget.Machine);
+                        var userName = Environment.GetEnvironmentVariable("RabbitMQ:UserName", EnvironmentVariableTarget.Machine);
+                        var password = Environment.GetEnvironmentVariable("RabbitMQ:Password", EnvironmentVariableTarget.Machine);
+                        var virtualHost = Environment.GetEnvironmentVariable("RabbitMQ:VirtualHost", EnvironmentVariableTarget.Machine);
+
+                        rabbitmq.WithEndPoint(hostName ?? "localhost", int.Parse(port ?? "5672"))
+                        .WithPrefixName("自定义前缀")
+                        .WithAuth(userName ?? "guest", password ?? "guest")
+                        .WithExchange(virtualHost ?? "/", Exchange: $"{GetType().FullName}")
+                        .WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
+                        .WithReceiver(
+                            ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
+                            ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
+                            ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
                     });
                 });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public override void ConfigApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
             app.UseAuthorization();
-            app.UseResponseTracrIdMiddleware();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }

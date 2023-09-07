@@ -29,6 +29,8 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.ChangeHistory.RabbitMQ\Flash.Extensions.ChangeHistory.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.ChangeHistory\Flash.Extensions.ChangeHistory.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.DynamicRoute.Consul\Flash.Extensions.DynamicRoute.Consul.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.DynamicRoute.Nacos\Flash.Extensions.DynamicRoute.Nacos.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Email\Flash.Extensions.Email.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus.RabbitMQ\Flash.Extensions.EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.EventBus\Flash.Extensions.EventBus.csproj" />
