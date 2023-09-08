@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 工作进程ID初始化策略
         /// </summary>
-        internal IWorkIdCreateStrategy WorkIdCreateStrategy { get; set; }
+        public IWorkIdCreateStrategy WorkIdCreateStrategy { get; set; }
     }
 
     public static partial class DependencyInjectionExtersion
@@ -49,7 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAddSingleton<IUniqueIdGenerator>(sp =>
             {
-                var workId = option.WorkIdCreateStrategy.NextId();
+                var workId = option.WorkIdCreateStrategy.GetWorkId();
                 return new SnowflakeUniqueIdGenerator(workId, option.CenterId);
             });
             return services;
@@ -65,9 +65,4 @@ namespace Microsoft.Extensions.DependencyInjection
             option.WorkIdCreateStrategy = new StaticWorkIdCreateStrategy(WorkId);
         }
     }
-
 }
-
-
-//TODO 动态获取机器标识码
-//TODO 版本号提升并发布

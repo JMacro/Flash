@@ -10,6 +10,6 @@ namespace Flash.AspNetCore.Enums
     {
         None = 0,
         StaticWorkId = 1,
-        //DynamicWorkId = 2,
+        ConsulWorkId = 2,
     }
 }

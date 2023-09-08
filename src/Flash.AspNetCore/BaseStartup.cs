@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using Consul;
+using Flash.Extensions.UidGenerator.Consul;
+using Flash.Extensions;
 
 namespace Flash.AspNetCore
 {
@@ -63,6 +66,25 @@ namespace Flash.AspNetCore
 
             services.AddFlash(flash =>
             {
+                #region Consul
+                var enableConsul = this.Configuration.GetSection("FlashConfiguration:Consul:Enable").Get<bool?>();
+                if (enableConsul.HasValue && enableConsul.Value)
+                {
+                    flash.AddConsulDynamicRoute(this.Configuration.GetSection("FlashConfiguration:Consul:Config"), setup =>
+                    {
+                        setup.AddTags(this.Configuration.GetSection("FlashConfiguration:Consul:Config:SERVICE_TAGS").Get<string>());
+                    });
+                }
+                #endregion
+
+                #region Nacos
+                var enableNacos = this.Configuration.GetSection("FlashConfiguration:Nacos:Enable").Get<bool?>();
+                if (enableNacos.HasValue && enableNacos.Value)
+                {
+                    flash.AddNacosDynamicRoute(this.Configuration.GetSection("FlashConfiguration:Nacos:Config"));
+                }
+                #endregion
+
                 #region 唯一Id生成器
                 var enableUniqueIdGenerator = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:Enable").Get<bool?>();
                 var generatorType = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:GeneratorType").Get<EFlashUniqueIdGenerator4GeneratorType>();
@@ -84,6 +106,13 @@ namespace Flash.AspNetCore
                         {
                             case EFlashUniqueIdGenerator4GeneratorType.StaticWorkId:
                                 setup.UseStaticWorkIdCreateStrategy(workId.Value);
+                                break;
+                            case EFlashUniqueIdGenerator4GeneratorType.ConsulWorkId:
+                                var consulClient = flash.Services.BuildServiceProvider().GetService<IConsulClient>();
+                                Check.Argument.IsNotNull(consulClient, nameof(IConsulClient), "未注册Consul组件，请添加Consul配置信息");
+
+                                var logger = sp.GetService<ILogger<ConsulWorkIdCreateStrategy>>();
+                                setup.UseConsulWorkIdCreateStrategy(consulClient, logger, centerId.Value, this.Configuration.GetSection("FlashConfiguration:Consul:Config:SERVICE_NAME").Get<string>());
                                 break;
                             default:
                                 break;
@@ -109,6 +138,7 @@ namespace Flash.AspNetCore
                                 var agentPort = this.Configuration.GetSection("FlashConfiguration:LoggerTracing:JaegerConfig:AgentPort").Get<int?>();
                                 var endPoint = this.Configuration.GetSection("FlashConfiguration:LoggerTracing:JaegerConfig:EndPoint").Get<string>();
                                 var serivceName = this.Configuration.GetSection("FlashConfiguration:LoggerTracing:JaegerConfig:SerivceName").Get<string>();
+                                var ignorePaths = this.Configuration.GetSection("FlashConfiguration:LoggerTracing:JaegerConfig:IgnorePaths").Get<List<string>>();
 
                                 if (!string.IsNullOrEmpty(agentHost))
                                 {
@@ -133,7 +163,7 @@ namespace Flash.AspNetCore
                                     config.AgentPort = agentPort.HasValue ? agentPort.Value : 5775;
                                     config.SerivceName = serivceName;
                                     config.EndPoint = endPoint;
-                                });
+                                }, ignorePaths);
                                 break;
                             case EFlashLoggerTracing4TracerType.Skywalking:
                                 break;
@@ -222,24 +252,7 @@ namespace Flash.AspNetCore
                 }
                 #endregion
 
-                #region Consul
-                var enableConsul = this.Configuration.GetSection("FlashConfiguration:Consul:Enable").Get<bool?>();
-                if (enableConsul.HasValue && enableConsul.Value)
-                {
-                    flash.AddConsulDynamicRoute(this.Configuration.GetSection("FlashConfiguration:Consul:Config"), setup =>
-                    {
-                        setup.AddTags(this.Configuration.GetSection("FlashConfiguration:Consul:Config:SERVICE_TAGS").Get<string>());
-                    });
-                }
-                #endregion
 
-                #region Nacos
-                var enableNacos = this.Configuration.GetSection("FlashConfiguration:Nacos:Enable").Get<bool?>();
-                if (enableNacos.HasValue && enableNacos.Value)
-                {
-                    flash.AddNacosDynamicRoute(this.Configuration.GetSection("FlashConfiguration:Nacos:Config"));
-                } 
-                #endregion
             });
         }
 
@@ -251,13 +264,21 @@ namespace Flash.AspNetCore
             }
 
             app.UseRouting();
-            this.ConfigApplication(app, this.Env);
 
             var registerResponseTracrIdService = app.ApplicationServices.GetService<IRegisterResponseTracrIdService>();
             if (registerResponseTracrIdService != null)
             {
                 app.UseResponseTracrIdMiddleware();
             }
+
+            var requestLogger = this.Configuration.GetSection("FlashConfiguration:LoggerTracing:RequestLogger").Get<bool?>();
+            var responseLogger = this.Configuration.GetSection("FlashConfiguration:LoggerTracing:ResponseLogger").Get<bool?>();
+            if ((requestLogger.HasValue && requestLogger.Value) || (responseLogger.HasValue && responseLogger.Value))
+            {
+                app.UseLoggerTracingMiddleware();
+            }
+
+            this.ConfigApplication(app, this.Env);            
 
             app.UseEndpoints(endpoints =>
             {

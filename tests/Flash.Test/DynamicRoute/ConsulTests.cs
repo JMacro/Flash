@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,21 @@ namespace Flash.Test.DynamicRoute
             IServiceLocator serviceLocator = new ConsulServiceLocator(null, consulClient);
             var serviceEndPoints = serviceLocator.GetAsync("example", Guid.NewGuid().ToString()).ConfigureAwait(false).GetAwaiter().GetResult();
             Assert.True(!serviceEndPoints.Any());
+        }
+
+        [Test]
+        public void AddKV()
+        {
+            var ret = consulClient.Session.Create(new SessionEntry() { Behavior = SessionBehavior.Delete, TTL = TimeSpan.FromSeconds(300) }).Result;
+            Assert.True(ret.StatusCode == System.Net.HttpStatusCode.OK && !string.IsNullOrEmpty(ret.Response));
+
+            var sessionName = $"{System.Net.Dns.GetHostName()}-{Process.GetCurrentProcess().ProcessName}-{Process.GetCurrentProcess().Id}";
+            var result = consulClient.KV.Acquire(new KVPair("workid/example/100")
+            {
+                Session = ret.Response,
+                Value = Encoding.UTF8.GetBytes(sessionName)
+            }).ConfigureAwait(false).GetAwaiter().GetResult();
+            Assert.True(result.StatusCode == System.Net.HttpStatusCode.OK && result.Response);
         }
     }
 }

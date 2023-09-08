@@ -13,7 +13,7 @@
         /// 获取1~32之间的数字
         /// </summary>
         /// <returns></returns>
-        public int NextId()
+        public int GetWorkId()
         {
             return _WorkId;
         }

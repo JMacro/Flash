@@ -22,6 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var option = new RedisCacheConfig();
             action(option);
 
+            cacheBuilder.Services.AddSingleton<ICacheConfig>(option);
             cacheBuilder.Services.AddSingleton(sp =>
             {
                 var target = CacheFactory.Build(option);

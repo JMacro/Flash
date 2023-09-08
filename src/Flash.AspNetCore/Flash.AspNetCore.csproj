@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Extersions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +30,7 @@
     <ProjectReference Include="..\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj" />
     <ProjectReference Include="..\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.UidGenerator.Consul\Flash.Extensions.UidGenerator.Consul.csproj" />
     <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>
 

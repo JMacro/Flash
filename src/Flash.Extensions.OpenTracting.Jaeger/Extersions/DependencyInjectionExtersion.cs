@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using OpenTracing.Util;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -78,12 +80,33 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 使用Jaeger链路追踪，实例对象<see cref="ITracer"/>
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="action"></param>
+        /// <param name="ignorePaths">忽略路径</param>
+        /// <returns></returns>
+        public static IFlashTractingBuilder UseJaeger(this IFlashTractingBuilder builder, Action<TracingConfiguration> action, List<string> ignorePaths)
+        {
+            var config = new TracingConfiguration() { Open = false };
+            action = action ?? throw new ArgumentNullException(nameof(action));
+            action(config);
+
+            builder.Services.TryAddTransient<TracingConfiguration>(sp =>
+            {
+                return config;
+            });
+            UseJaeger(builder.Services, null, ignorePaths);
+            return builder;
+        }
+
+        /// <summary>
         /// 使用Jaeger链路追踪，实例对象ITracer
         /// </summary>
         /// <param name="services"></param>
         /// <param name="openTracingBuilder"></param>
         /// <returns></returns>
-        public static IServiceCollection UseJaeger(this IServiceCollection services, Action<IOpenTracingBuilder> openTracingBuilder = null)
+        public static IServiceCollection UseJaeger(this IServiceCollection services, Action<IOpenTracingBuilder> openTracingBuilder = null, List<string> ignorePaths = null)
         {
             if (openTracingBuilder == null)
             {
@@ -95,7 +118,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     builder.AddLoggerProvider();
                     builder.ConfigureGenericDiagnostics(options =>
                     {
-
                     });
                     builder.ConfigureAspNetCore(options =>
                     {
@@ -103,10 +125,17 @@ namespace Microsoft.Extensions.DependencyInjection
                         {
                             return context.Request.Path.ToUriComponent();
                         };
-                        options.Hosting.IgnorePatterns.Add(a =>
+
+                        if (ignorePaths != null && ignorePaths.Any())
                         {
-                            return false;
-                        });
+                            ignorePaths.ForEach(item =>
+                            {
+                                if (!string.IsNullOrEmpty(item))
+                                    options.Hosting.IgnorePatterns.Add(ctx => ctx.Request.Path.HasValue && ctx.Request.Path.Value.ToLower().Contains(item.ToLower()));
+                            });
+                        }
+
+
                     });
                 };
             }

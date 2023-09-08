@@ -47,6 +47,7 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.UidGenerator.Consul\Flash.Extensions.UidGenerator.Consul.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>
 

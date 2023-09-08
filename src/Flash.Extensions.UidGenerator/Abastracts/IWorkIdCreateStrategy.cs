@@ -6,6 +6,6 @@ namespace Flash.Extensions.UidGenerator.WorkIdCreateStrategy
 {
     public interface IWorkIdCreateStrategy
     {
-        int NextId();
+        int GetWorkId();
     }
 }
