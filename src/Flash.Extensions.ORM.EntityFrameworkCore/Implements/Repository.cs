@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Flash.Extensions.ORM.EntityFrameworkCore
 {
+    /// <summary>
+    /// 仓储
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly DbContext _context;
+        private readonly BaseDbContext _context;
         private DbSet<TEntity> _entities;
 
         public virtual IQueryable<TEntity> Table => Entities;
@@ -16,7 +20,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
         protected virtual DbSet<TEntity> Entities => _entities ?? (_entities = _context.Set<TEntity>());
 
-        public Repository(DbContext context)
+        public Repository(BaseDbContext context)
         {
             this._context = context;
         }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flash.AspNetCore.WorkFlow\Flash.AspNetCore.WorkFlow.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extensions.DynamicRoute.Consul\Flash.Extensions.DynamicRoute.Consul.csproj" />

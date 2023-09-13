@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashOrmBuilder UseEFCore<TDbContext>(this IFlashOrmBuilder ormBuilder, Action<DbContextOptionsBuilder> options) where TDbContext : BaseDbContext
         {
             ormBuilder.Services.AddDbContext<TDbContext>(options);
-            ormBuilder.Services.TryAddScoped<DbContext, TDbContext>();
+            ormBuilder.Services.AddScoped<BaseDbContext, TDbContext>();
             AddDefault(ormBuilder.Services);
             return ormBuilder;
         }
@@ -63,7 +63,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="connectionString"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IFlashOrmDbContextBuilder RegisterDbContexts<TDbContext, TMigrationAssembly>(this IFlashOrmDbContextBuilder builder, string connectionString, IConfiguration configuration) where TDbContext : BaseDbContext where TMigrationAssembly : IMigrationAssembly
+        public static IFlashOrmDbContextBuilder RegisterDbContexts<TDbContext, TMigrationAssembly>(this IFlashOrmDbContextBuilder builder, string connectionString, IConfiguration configuration)
+            where TDbContext : BaseDbContext
+            where TMigrationAssembly : IMigrationAssembly
         {
             Flash.Extensions.Check.Argument.IsNotNull(connectionString, nameof(connectionString));
             Flash.Extensions.Check.Argument.IsNotNull(configuration, nameof(configuration));
@@ -89,7 +91,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 default:
                     throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
             }
-
+            builder.Services.TryAddScoped<TDbContext>();
+            builder.Services.AddScoped<BaseDbContext, TDbContext>();
             return builder;
         }
 
@@ -121,11 +124,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static IServiceCollection AutoDi(this IServiceCollection services)
         {
-            List<Assembly> currentPathAssembly = AppDomain.CurrentDomain.GetCurrentPathAssembly();
+            List<Assembly> currentPathAssembly = AppDomain.CurrentDomain.GetCurrentPathAssembly().ToList();
             foreach (Assembly item2 in currentPathAssembly)
             {
                 IEnumerable<Type> enumerable = from type in item2.GetTypes()
-                                               where type.IsClass && type.BaseType != null && type.HasImplementedRawGeneric(typeof(IDependency))
+                                               where type.IsClass && type.BaseType != null && type.HasImplementedRawGeneric(typeof(Repository<>))
                                                select type;
                 foreach (Type type2 in enumerable)
                 {
@@ -137,32 +140,32 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
 
                     var item = new ServiceDescriptor(type3, type2, ServiceLifetime.Scoped);
-                    if (!services.Contains(item))
-                    {
-                        services.TryAdd(item);
-                    }
+                    services.TryAdd(new ServiceDescriptor(type3, type2, ServiceLifetime.Scoped));
                 }
             }
-
             return services;
         }
 
-        private static List<Assembly> GetCurrentPathAssembly(this AppDomain domain)
+        private static IEnumerable<Assembly> GetCurrentPathAssembly(this AppDomain domain)
         {
-            List<CompilationLibrary> list = DependencyContext.Default.CompileLibraries.Where((CompilationLibrary x) => !x.Name.StartsWith("Microsoft") && !x.Name.StartsWith("System")).ToList();
-            List<Assembly> list2 = new List<Assembly>();
+            List<CompilationLibrary> list = DependencyContext.Default.CompileLibraries.Where((CompilationLibrary x) =>
+                !x.Name.StartsWith("Microsoft") &&
+                !x.Name.StartsWith("System") &&
+                !x.Name.StartsWith("Flash.Extensions") &&
+                !x.Name.StartsWith("Flash.Core") &&
+                !x.Name.StartsWith("Flash.LoadBalancer") &&
+                !x.Name.StartsWith("Flash.DynamicRoute")).ToList();
+
             if (list.Any())
             {
                 foreach (CompilationLibrary item in list)
                 {
                     if (item.Type == "project")
                     {
-                        list2.Add(Assembly.Load(item.Name));
+                        yield return Assembly.Load(item.Name);
                     }
                 }
             }
-
-            return list2;
         }
 
         private static bool HasImplementedRawGeneric(this Type type, Type generic)

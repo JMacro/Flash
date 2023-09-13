@@ -21,6 +21,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         private readonly ILoggerFactory _loggerFactory;
         private readonly IRegisterEvents _registerEvents;
 
+
         protected BaseDbContext()
         {
         }
@@ -164,6 +165,17 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                     break;
             }
             return result;
+        }
+    }
+
+    /// <summary>
+    /// Db上下文
+    /// <para>如需自动映射实体到上下文Model，请为实体实现<see cref="IEntity"/>接口</para>
+    /// </summary>
+    public class BaseDbContext<TContext> : BaseDbContext where TContext : DbContext
+    {
+        public BaseDbContext(DbContextOptions<TContext> options, ILoggerFactory loggerFactory = null, IRegisterEvents registerEvents = null) : base(options, loggerFactory, registerEvents)
+        {
         }
     }
 }

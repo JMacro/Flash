@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Flash.Extensions.ORM
 {
+    /// <summary>
+    /// 仓储
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public interface IRepository<TEntity> where TEntity : class
     {
         IQueryable<TEntity> Table { get; }

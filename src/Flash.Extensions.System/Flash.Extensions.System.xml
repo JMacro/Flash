@@ -54,11 +54,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Flash.Extensions.IdentityCardAttribute">
-            <summary>
-            身份证验证
-            </summary>
-        </member>
         <member name="T:Flash.Extensions.NotNullAttribute">
             <summary>
             标记不为null
@@ -284,14 +279,6 @@
             转换为FormData
             </summary>
             <param name="value">需要转换的对象</param>
-            <returns></returns>
-        </member>
-        <member name="M:Flash.Extensions.ObjectExtensions.ToFormData(System.Object,System.Text.Encoding)">
-            <summary>
-            转换为FormData
-            </summary>
-            <param name="value">需要转换的对象</param>
-            <param name="encoding">编码</param>
             <returns></returns>
         </member>
         <member name="M:Flash.Extensions.ObjectExtensions4DeepClone.IsValueTypeAndPrimitive(System.Type)">
@@ -734,6 +721,24 @@
             无符号长整数
             </summary>
         </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Single">
+            <summary>
+            浮点数
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Double">
+            <summary>
+            双精度浮点数
+            </summary>
+        </member>
+        <member name="F:Newtonsoft.Json.NumberConverterShip.Decimal">
+            <summary>
+            大数字
+            </summary>
+        </member>
+    </members>
+</doc>
+
         <member name="F:Newtonsoft.Json.NumberConverterShip.Single">
             <summary>
             浮点数

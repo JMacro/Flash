@@ -183,11 +183,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DynamicRoute", "DynamicRout
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.DynamicRoute.Consul", "src\Flash.Extensions.DynamicRoute.Consul\Flash.Extensions.DynamicRoute.Consul.csproj", "{7986B01F-6D2F-407F-B694-D5B748A93FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.DynamicRoute.Nacos", "src\Flash.Extensions.DynamicRoute.Nacos\Flash.Extensions.DynamicRoute.Nacos.csproj", "{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.DynamicRoute.Nacos", "src\Flash.Extensions.DynamicRoute.Nacos\Flash.Extensions.DynamicRoute.Nacos.csproj", "{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UidGenerator", "UidGenerator", "{BE6611EA-EF4D-4914-BB20-1FE62D559BE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.UidGenerator.Consul", "src\Flash.Extensions.UidGenerator.Consul\Flash.Extensions.UidGenerator.Consul.csproj", "{4CF6BC30-F2B7-459B-89D3-34F5F8D5C39B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.UidGenerator.Consul", "src\Flash.Extensions.UidGenerator.Consul\Flash.Extensions.UidGenerator.Consul.csproj", "{4CF6BC30-F2B7-459B-89D3-34F5F8D5C39B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.AspNetCore.WorkFlow", "src\Flash.AspNetCore.WorkFlow\Flash.AspNetCore.WorkFlow.csproj", "{5C0E2E46-6EEF-4255-9C51-86E7407BD543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -391,6 +393,10 @@ Global
 		{4CF6BC30-F2B7-459B-89D3-34F5F8D5C39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CF6BC30-F2B7-459B-89D3-34F5F8D5C39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CF6BC30-F2B7-459B-89D3-34F5F8D5C39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -457,6 +463,7 @@ Global
 		{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F} = {45A98276-A276-4C52-B238-80912A2D515A}
 		{BE6611EA-EF4D-4914-BB20-1FE62D559BE5} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{4CF6BC30-F2B7-459B-89D3-34F5F8D5C39B} = {BE6611EA-EF4D-4914-BB20-1FE62D559BE5}
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543} = {2135864E-CF17-4FBC-9A91-DC817A54C90A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

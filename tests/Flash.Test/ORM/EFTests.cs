@@ -19,7 +19,7 @@ namespace Flash.Test.ORM
         [Test]
         public void WhereLikeTest()
         {
-            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var testDbContext = this.ServiceProvider.GetService<TestDb1Context>();
             var query = new
             {
                 CName = "系"
@@ -31,7 +31,7 @@ namespace Flash.Test.ORM
         [Test]
         public void WhereLeftLikeTest()
         {
-            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var testDbContext = this.ServiceProvider.GetService<TestDb1Context>();
             var query = new
             {
                 CName = "%"
@@ -43,7 +43,7 @@ namespace Flash.Test.ORM
         [Test]
         public void WhereRightLikeTest()
         {
-            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var testDbContext = this.ServiceProvider.GetService<TestDb1Context>();
             var query = new
             {
                 CName = "系"
@@ -55,7 +55,7 @@ namespace Flash.Test.ORM
         [Test]
         public void QueryPageTest()
         {
-            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var testDbContext = this.ServiceProvider.GetService<TestDb1Context>();
             var page = testDbContext.Set<AccountInfo>().QueryPageAsync(new PageQuery() { }, (e, p) =>
                 p.Add(OrderBy.Create(e, s => s.Id, PageOrderBy.ASC))
                 .Add(OrderBy.Create(e, s => s.EName, PageOrderBy.DESC))
@@ -67,7 +67,7 @@ namespace Flash.Test.ORM
         [Test]
         public void UpdateTrackingTest()
         {
-            var testDbContext = this.ServiceProvider.GetService<TestDbContext>();
+            var testDbContext = this.ServiceProvider.GetService<TestDb1Context>();
             var result = testDbContext.Set<AccountInfo>().FirstOrDefault();
             result.ModifiedTime = DateTime.Now;
             result.CreateName = Guid.NewGuid().ToString();
@@ -78,6 +78,27 @@ namespace Flash.Test.ORM
             result1.ModifiedTime = DateTime.Now;
             testDbContext.SaveChanges();
             Assert.IsNotNull(result1);
+        }
+
+        [Test]
+        public void GetRepositoryTest()
+        {
+            var repository = this.ServiceProvider.GetService<IRepository<AccountInfo>>();
+            Assert.IsNotNull(repository);
+            var data = repository.GetById((long)0);
+
+
+            var test1Repository = this.ServiceProvider.GetService<ITest1Repository>();
+            Assert.IsNotNull(test1Repository);
+
+            data = test1Repository.GetById((long)0);
+
+
+            var test2Repository = this.ServiceProvider.GetService<ITest2Repository>();
+            Assert.IsNotNull(test2Repository);
+
+            data = test2Repository.GetById((long)0);
+
         }
     }
 }
