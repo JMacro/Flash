@@ -1,7 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RootNamespace>Flash.AspNetCore</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
@@ -11,12 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flash.AspNetCore.WorkFlow\Flash.AspNetCore.WorkFlow.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj" />
     <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Flash.Extensions.DynamicRoute.Consul\Flash.Extensions.DynamicRoute.Consul.csproj" />
@@ -31,7 +39,8 @@
     <ProjectReference Include="..\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj" />
     <ProjectReference Include="..\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
-    <ProjectReference Include="..\Flash.Extensions.UidGenerator.Consul\Flash.Extensions.UidGenerator.Consul.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.UidGenerator.ConsulWorkId\Flash.Extensions.UidGenerator.ConsulWorkId.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.UidGenerator.RedisWorkId\Flash.Extensions.UidGenerator.RedisWorkId.csproj" />
     <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj" />
   </ItemGroup>
 

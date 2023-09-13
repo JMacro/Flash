@@ -1286,6 +1286,17 @@ namespace Flash.Extensions.Cache.Redis
         }
         #endregion
 
+        /// <summary>
+        /// 获得Key的TTL剩余时间
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public TimeSpan? KeyTimeToLive(string key)
+        {
+            key = AddSysCustomKey(key);
+            return Do(db => db.KeyTimeToLive(key));
+        }
+
         #region 辅助方法
 
         private string AddSysCustomKey(string oldKey)

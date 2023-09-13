@@ -11,5 +11,6 @@ namespace Flash.AspNetCore.Enums
         None = 0,
         StaticWorkId = 1,
         ConsulWorkId = 2,
+        RedisWorkId = 3,
     }
 }

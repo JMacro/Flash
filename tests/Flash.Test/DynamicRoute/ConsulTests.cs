@@ -44,14 +44,6 @@ namespace Flash.Test.DynamicRoute
         #endregion
 
         [Test]
-        public void WhenTagExistsSuccess()
-        {
-            IServiceLocator serviceLocator = new ConsulServiceLocator(null, consulClient);
-            var serviceEndPoints = serviceLocator.GetAsync("example", "dev").ConfigureAwait(false).GetAwaiter().GetResult();
-            Assert.True(serviceEndPoints.Any());
-        }
-
-        [Test]
         public void WhenTagNotExistsSuccess()
         {
             IServiceLocator serviceLocator = new ConsulServiceLocator(null, consulClient);

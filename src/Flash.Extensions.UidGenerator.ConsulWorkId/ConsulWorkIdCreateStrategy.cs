@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Flash.Extensions.UidGenerator.Consul
+namespace Flash.Extensions.UidGenerator.ConsulWorkId
 {
-    public class ConsulWorkIdCreateStrategy : IWorkIdCreateStrategy
+    public sealed class ConsulWorkIdCreateStrategy : IWorkIdCreateStrategy
     {
         private static readonly object _syncRoot = new object();
         private readonly IConsulClient _client;
@@ -46,7 +46,7 @@ namespace Flash.Extensions.UidGenerator.Consul
 
             try
             {
-                CreateSession();
+                GetWorkId();
 
                 AppDomain.CurrentDomain.ProcessExit += delegate
                 {
@@ -65,6 +65,8 @@ namespace Flash.Extensions.UidGenerator.Consul
 
             return CreateWorkId().ConfigureAwait(false).GetAwaiter().GetResult();
         }
+
+        public int GetCenterId() => this._centerId;
 
         private void CreateSession()
         {

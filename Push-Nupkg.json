@@ -2,6 +2,16 @@
   "Source": "http://192.168.50.228/v3/index.json",
   "Nupkgs": [
     {
+      "PackName": "Flash.Core",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.AspNetCore",
+      "TargetFrameworks": "net6.0;net7.0",
+      "IsPush": true
+    },
+    {
       "PackName": "Flash.Extensions.Cache",
       "TargetFrameworks": "netstandard2.0",
       "IsPush": true
@@ -17,6 +27,11 @@
       "IsPush": true
     },
     {
+      "PackName": "Flash.Extensions.DistributedLock",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
       "PackName": "Flash.Extensions.Configuration.Json",
       "TargetFrameworks": "netstandard2.0",
       "IsPush": true
@@ -28,7 +43,7 @@
     },
     {
       "PackName": "Flash.Extensions.EventBus",
-      "TargetFrameworks": "netstandard2.0,netcoreapp3.1",
+      "TargetFrameworks": "netstandard2.0;netcoreapp3.1",
       "IsPush": true
     },
     {
@@ -93,27 +108,27 @@
     },
     {
       "PackName": "Flash.Extensions.OpenTracting",
-      "TargetFrameworks": "",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.OpenTracting.Jaeger",
-      "TargetFrameworks": "",
-      "IsPush": false
+      "TargetFrameworks": "netstandard2.0;netcoreapp3.1",
+      "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.OpenTracting.Skywalking",
-      "TargetFrameworks": "",
+      "TargetFrameworks": "netstandard2.0;netcoreapp3.1",
       "IsPush": false
     },
     {
       "PackName": "Flash.Extensions.ORM",
-      "TargetFrameworks": "netstandard2.0,net6.0",
+      "TargetFrameworks": "netstandard2.0;net6.0",
       "IsPush": true
     },
     {
       "PackName": "Flash.Extensions.ORM.EntityFrameworkCore",
-      "TargetFrameworks": "netstandard2.0,net6.0",
+      "TargetFrameworks": "netstandard2.0;net6.0",
       "IsPush": true
     },
     {
@@ -122,8 +137,13 @@
       "IsPush": true
     },
     {
-      "PackName": "Flash.Extensions.DistributedLock",
-      "TargetFrameworks": "netstandard2.0",
+      "PackName": "Flash.Extensions.DynamicRoute.Consul",
+      "TargetFrameworks": "net5.0;netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.DynamicRoute.Nacos",
+      "TargetFrameworks": "netcoreapp3.1;net5.0;net6.0",
       "IsPush": true
     },
     {
@@ -147,6 +167,16 @@
       "IsPush": true
     },
     {
+      "PackName": "Flash.Extensions.UidGenerator.ConsulWorkId",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.UidGenerator.RedisWorkId",
+      "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
       "PackName": "Flash.LoadBalancer",
       "TargetFrameworks": "netstandard2.0",
       "IsPush": true
@@ -158,7 +188,7 @@
     },
     {
       "PackName": "Flash.Extensions.CompareObjects",
-      "TargetFrameworks": "net6.0,netstandard1.3,netstandard2.0,netstandard2.1",
+      "TargetFrameworks": "net6.0;netstandard1.3;netstandard2.0;netstandard2.1",
       "IsPush": true
     },
     {
@@ -169,6 +199,11 @@
     {
       "PackName": "Flash.Extensions.ChangeHistory.RabbitMQ",
       "TargetFrameworks": "netstandard2.0",
+      "IsPush": true
+    },
+    {
+      "PackName": "Flash.Extensions.System",
+      "TargetFrameworks": "netstandard2.0;net451",
       "IsPush": true
     }
   ]

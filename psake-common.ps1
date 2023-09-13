@@ -470,7 +470,7 @@ function Collect-AssemblyAndLocalizations($args){
 	$nupkgs = $pack_config.Nupkgs
 	foreach ($item in $nupkgs) {
 		if ($item.IsPush){
-            $targetFrameworks = $item.TargetFrameworks -Split ","
+            $targetFrameworks = $item.TargetFrameworks -Split ";"
 		    foreach ($targetFramework in $targetFrameworks) {
 			    Collect-Assembly $item.PackName $targetFramework
 			    Collect-Localizations $item.PackName $targetFramework

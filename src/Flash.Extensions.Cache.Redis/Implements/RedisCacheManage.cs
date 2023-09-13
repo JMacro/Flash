@@ -867,6 +867,11 @@ namespace Flash.Extensions.Cache.Redis
 
         #endregion
 
+        public TimeSpan? KeyTimeToLive(string cacheKey)
+        {
+            return GetPooledClientManager(cacheKey).KeyTimeToLive(cacheKey);
+        }
+
         /// <summary>
         /// 获得缓存Key名称
         /// </summary>

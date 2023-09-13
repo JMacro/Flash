@@ -5,13 +5,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using Consul;
-using Flash.Extensions.UidGenerator.Consul;
+using Flash.Extensions.UidGenerator.ConsulWorkId;
 using Flash.Extensions;
+using Flash.Extensions.Cache;
+using Flash.Extensions.UidGenerator.RedisWorkId;
+using Flash.Extensions.UidGenerator.WorkIdCreateStrategy;
+using Microsoft.Extensions.Hosting;
 
 namespace Flash.AspNetCore
 {
@@ -61,8 +64,8 @@ namespace Flash.AspNetCore
         {
             this.ConfigServices(services);
 
-            var sp = services.BuildServiceProvider();
-            var logger = sp.GetService<ILogger<BaseStartup>>();
+            var serviceProvider = services.BuildServiceProvider();
+            var logger = serviceProvider.GetService<ILogger<BaseStartup>>();
 
             services.AddFlash(flash =>
             {
@@ -85,6 +88,40 @@ namespace Flash.AspNetCore
                 }
                 #endregion
 
+                #region 缓存
+                var enableCache = this.Configuration.GetSection("FlashConfiguration:Cache:Enable").Get<bool?>();
+                var cacheType = this.Configuration.GetSection("FlashConfiguration:Cache:CacheType").Get<EFlashCache4CacheType>();
+                if (enableCache.HasValue && enableCache.Value && cacheType != EFlashCache4CacheType.None)
+                {
+                    flash.AddCache(cache =>
+                    {
+                        switch (cacheType)
+                        {
+                            case EFlashCache4CacheType.Redis:
+                                var host = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:Host").Get<string>();
+                                var password = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:Password").Get<string>();
+                                var dbNum = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:Db").Get<int>();
+                                var distributedLock = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:DistributedLock").Get<bool>();
+                                var keyPrefix = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:KeyPrefix").Get<string>();
+
+                                if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(password)) throw new ArgumentException($"appsettings.json配置文件未设置【FlashConfiguration:Cache:RedisConfig:Host 或 FlashConfiguration:Cache:RedisConfig:Password】");
+
+                                cache.UseRedis(option =>
+                                {
+                                    option.WithNumberOfConnections(5)
+                                    .WithWriteServerList(host)
+                                    .WithReadServerList(host)
+                                    .WithDb(dbNum)
+                                    .WithDistributedLock(distributedLock, distributedLock)
+                                    .WithPassword(password)
+                                    .WithKeyPrefix(keyPrefix);
+                                });
+                                break;
+                        }
+                    });
+                }
+                #endregion
+
                 #region 唯一Id生成器
                 var enableUniqueIdGenerator = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:Enable").Get<bool?>();
                 var generatorType = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:GeneratorType").Get<EFlashUniqueIdGenerator4GeneratorType>();
@@ -94,25 +131,31 @@ namespace Flash.AspNetCore
                     var centerId = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:CenterId").Get<int?>();
                     var workId = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:WorkId").Get<int?>();
 
-                    if (generatorType == EFlashUniqueIdGenerator4GeneratorType.StaticWorkId && (!centerId.HasValue || !workId.HasValue))
-                    {
-                        throw new ArgumentException("appsettings.json配置文件未设置【FlashConfiguration:UniqueIdGenerator:CenterId 与 FlashConfiguration:UniqueIdGenerator:WorkId】");
-                    }
-
                     flash.AddUniqueIdGenerator(setup =>
                     {
-                        setup.CenterId = centerId.Value;
+                        var appId = this.Configuration.GetSection("FlashConfiguration:UniqueIdGenerator:AppId").Get<string>();
                         switch (generatorType)
                         {
                             case EFlashUniqueIdGenerator4GeneratorType.StaticWorkId:
+                                if (!centerId.HasValue || !workId.HasValue) throw new ArgumentException("appsettings.json配置文件未设置【FlashConfiguration:UniqueIdGenerator:CenterId 与 FlashConfiguration:UniqueIdGenerator:WorkId】");
+                                setup.CenterId = centerId.Value;
                                 setup.UseStaticWorkIdCreateStrategy(workId.Value);
                                 break;
                             case EFlashUniqueIdGenerator4GeneratorType.ConsulWorkId:
                                 var consulClient = flash.Services.BuildServiceProvider().GetService<IConsulClient>();
                                 Check.Argument.IsNotNull(consulClient, nameof(IConsulClient), "未注册Consul组件，请添加Consul配置信息");
 
-                                var logger = sp.GetService<ILogger<ConsulWorkIdCreateStrategy>>();
-                                setup.UseConsulWorkIdCreateStrategy(consulClient, logger, centerId.Value, this.Configuration.GetSection("FlashConfiguration:Consul:Config:SERVICE_NAME").Get<string>());
+                                setup.CenterId = centerId.Value;
+                                var logger = serviceProvider.GetService<ILogger<ConsulWorkIdCreateStrategy>>();
+                                setup.UseConsulWorkIdCreateStrategy(consulClient, logger, setup.CenterId, appId);
+                                break;
+                            case EFlashUniqueIdGenerator4GeneratorType.RedisWorkId:
+                                var cacheClient = flash.Services.BuildServiceProvider().GetService<ICacheManager>();
+                                Check.Argument.IsNotNull(cacheClient, nameof(ICacheManager), "未注册Cache组件，请添加Cache配置信息");
+
+                                setup.CenterId = centerId.Value;
+                                var redisLogger = serviceProvider.GetService<ILogger<RedisWorkIdCreateStrategy>>();
+                                setup.UseRedisWorkIdCreateStrategy(cacheClient, redisLogger, setup.CenterId, appId);
                                 break;
                             default:
                                 break;
@@ -172,40 +215,6 @@ namespace Flash.AspNetCore
                 }
                 #endregion
 
-                #region 缓存
-                var enableCache = this.Configuration.GetSection("FlashConfiguration:Cache:Enable").Get<bool?>();
-                var cacheType = this.Configuration.GetSection("FlashConfiguration:Cache:CacheType").Get<EFlashCache4CacheType>();
-                if (enableCache.HasValue && enableCache.Value && cacheType != EFlashCache4CacheType.None)
-                {
-                    flash.AddCache(cache =>
-                    {
-                        switch (cacheType)
-                        {
-                            case EFlashCache4CacheType.Redis:
-                                var host = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:Host").Get<string>();
-                                var password = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:Password").Get<string>();
-                                var dbNum = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:Db").Get<int>();
-                                var distributedLock = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:DistributedLock").Get<bool>();
-                                var keyPrefix = this.Configuration.GetSection("FlashConfiguration:Cache:RedisConfig:KeyPrefix").Get<string>();
-
-                                if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(password)) throw new ArgumentException($"appsettings.json配置文件未设置【FlashConfiguration:Cache:RedisConfig:Host 或 FlashConfiguration:Cache:RedisConfig:Password】");
-
-                                cache.UseRedis(option =>
-                                {
-                                    option.WithNumberOfConnections(5)
-                                    .WithWriteServerList(host)
-                                    .WithReadServerList(host)
-                                    .WithDb(dbNum)
-                                    .WithDistributedLock(distributedLock, distributedLock)
-                                    .WithPassword(password)
-                                    .WithKeyPrefix(keyPrefix);
-                                });
-                                break;
-                        }
-                    });
-                }
-                #endregion
-
                 #region HealthCheck
                 var enableHealthCheck = this.Configuration.GetSection("FlashConfiguration:HealthCheck:Enable").Get<bool?>();
                 var healthCheckTypes = this.Configuration.GetSection("FlashConfiguration:HealthCheck:CheckType").Get<List<EFlashHealthCheck4CheckType>>();
@@ -235,7 +244,7 @@ namespace Flash.AspNetCore
                                     }
                                     break;
                                 case EFlashHealthCheck4CheckType.RabbitMQ:
-                                    var mqOption = sp.GetService<Microsoft.Extensions.DependencyInjection.RabbitMQOption>();
+                                    var mqOption = serviceProvider.GetService<Microsoft.Extensions.DependencyInjection.RabbitMQOption>();
                                     if (mqOption != null)
                                     {
                                         check.AddRabbitMQCheck(mqOption.HostName, setup =>
@@ -278,7 +287,7 @@ namespace Flash.AspNetCore
                 app.UseLoggerTracingMiddleware();
             }
 
-            this.ConfigApplication(app, this.Env);            
+            this.ConfigApplication(app, this.Env);
 
             app.UseEndpoints(endpoints =>
             {

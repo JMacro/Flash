@@ -3,12 +3,14 @@
     public class StaticWorkIdCreateStrategy : IWorkIdCreateStrategy
     {
         private readonly int _WorkId;
-        public StaticWorkIdCreateStrategy(int WorkId)
+        private readonly int _CenterId;
+
+        public StaticWorkIdCreateStrategy(int WorkId, int CenterId = 0)
         {
             _WorkId = WorkId;
-
+            _CenterId = CenterId;
         }
-        
+
         /// <summary>
         /// 获取1~32之间的数字
         /// </summary>
@@ -17,5 +19,7 @@
         {
             return _WorkId;
         }
+
+        public int GetCenterId() => _CenterId;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Consul;
 using Flash.Extensions.Cache;
 using Flash.Extensions.UidGenerator;
-using Flash.Extensions.UidGenerator.Consul;
+using Flash.Extensions.UidGenerator.ConsulWorkId;
 using Flash.Extensions.UidGenerator.WorkIdCreateStrategy;
 using Flash.Test.StartupTests;
 using Google.Protobuf.WellKnownTypes;
