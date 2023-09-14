@@ -15,6 +15,7 @@ using Flash.Extensions.Cache;
 using Flash.Extensions.UidGenerator.RedisWorkId;
 using Flash.Extensions.UidGenerator.WorkIdCreateStrategy;
 using Microsoft.Extensions.Hosting;
+using static System.Net.WebRequestMethods;
 
 namespace Flash.AspNetCore
 {
@@ -22,31 +23,8 @@ namespace Flash.AspNetCore
     /// 应用启动配置入口
     /// </summary>
     /// <remarks>
-    /// <para>appsettings.json配置描述</para>
-    /// <para>FlashConfiguration:UniqueIdGenerator:Enable => 是否启用，false|true</para>
-    /// <para>FlashConfiguration:UniqueIdGenerator:GeneratorType => <see cref="EFlashUniqueIdGenerator4GeneratorType"/></para>
-    /// <para>FlashConfiguration:UniqueIdGenerator:CenterId => 数据中心Id，默认值0</para>
-    /// <para>FlashConfiguration:UniqueIdGenerator:WorkId => 工作Id，一般指应用实例数</para>
-    /// <para>-----------------------------------------------------------------------------------------------------</para>
-    /// <para>FlashConfiguration:LoggerTracing:Enable => 是否启用，false|true</para>
-    /// <para>FlashConfiguration:LoggerTracing:TracerType => <see cref="EFlashLoggerTracing4TracerType"/></para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:Open => 是否启用日志链路追踪，false|true</para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:AgentHost => 代理主机，默认值localhost</para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:AgentPort => 代理端口，默认值5775</para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:SerivceName => 服务名称，默认值Example</para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:SamplerType => 采样类型，默认值const</para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:FlushIntervalSeconds => 刷新周期，默认值15</para>
-    /// <para>FlashConfiguration:LoggerTracing:JaegerConfig:LogSpans => 是否记录日志，默认值true</para>
-    /// <para>-----------------------------------------------------------------------------------------------------</para>
-    /// <para>FlashConfiguration:Cache:Enable => 是否启用，false|true</para>
-    /// <para>FlashConfiguration:Cache:CacheType => <see cref="EFlashCache4CacheType"/></para>
-    /// <para>FlashConfiguration:Cache:RedisConfig:Host => 主机:端口</para>
-    /// <para>FlashConfiguration:Cache:RedisConfig:Password => 密码</para>
-    /// <para>FlashConfiguration:Cache:RedisConfig:Db => Db，默认值0</para>
-    /// <para>FlashConfiguration:Cache:RedisConfig:DistributedLock => 分布式锁，false|true，默认值false</para>
-    /// <para>FlashConfiguration:Cache:RedisConfig:KeyPrefix => 缓存前缀</para>
+    /// See <see href="https://github.com/JMacro/Flash/blob/master/README/README.AspNetCore.md">AspNetCore configuration</see> for more information.
     /// </remarks>
-    /// <param name="services"></param>
     public abstract class BaseStartup
     {
         #region 属性
@@ -260,7 +238,6 @@ namespace Flash.AspNetCore
                     });
                 }
                 #endregion
-
 
             });
         }

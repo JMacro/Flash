@@ -9,6 +9,7 @@
 		- [Redis 分布式缓存](#redis-分布式缓存)
 		- [唯一Id生成器](#唯一id生成器)
 		- [Jaeger 日志链路](#jaeger-日志链路)
+		- [HealthCheck 健康检查](#healthcheck-健康检查)
 
 ## 介绍
 |                        组件 |                  说明 |                   |
@@ -164,6 +165,57 @@
 		}
 	}
 }
+```
+
+###  `HealthCheck` 健康检查
+
+```
+{
+	"FlashConfiguration": {
+		"HealthCheck": {
+			"Enable": true,
+			"CheckType": [ "Redis", "MySql", "RabbitMQ" ]
+		}
+	}
+}
+```
+
+注意：
+1.	当CheckType设置为Redis时，需添加Cache配置信息，可参考[Cache配置](#redis-分布式缓存)，其中CacheType应设置为Redis。
+2.	当CheckType设置为MySql时，需添加DbConnectionString配置信息。
+```
+{
+	"DbConnectionString": {
+		"MySqlDB1": "Server=192.168.50.110;Port=63306;Database=ls_school_dev;User=root;Password=123456;pooling=True;minpoolsize=1;maxpoolsize=100;connectiontimeout=180"
+	}
+}
+```
+3.	当CheckType设置为RabbitMQ时，需注入EventBus组件。
+```
+services.AddFlash(flash =>
+{
+	flash.AddEventBus(bus =>
+	{
+		bus.UseRabbitMQ(rabbitmq =>
+		{
+			var hostName = Environment.GetEnvironmentVariable("RabbitMQ:HostName", EnvironmentVariableTarget.Machine);
+			var port = Environment.GetEnvironmentVariable("RabbitMQ:Port", EnvironmentVariableTarget.Machine);
+			var userName = Environment.GetEnvironmentVariable("RabbitMQ:UserName", EnvironmentVariableTarget.Machine);
+			var password = Environment.GetEnvironmentVariable("RabbitMQ:Password", EnvironmentVariableTarget.Machine);
+			var virtualHost = Environment.GetEnvironmentVariable("RabbitMQ:VirtualHost", EnvironmentVariableTarget.Machine);
+
+			rabbitmq.WithEndPoint(hostName ?? "localhost", int.Parse(port ?? "5672"))
+			.WithPrefixName("自定义前缀")
+			.WithAuth(userName ?? "guest", password ?? "guest")
+			.WithExchange(virtualHost ?? "/", Exchange: $"{GetType().FullName}")
+			.WithSender(int.Parse(Configuration["RabbitMQ:SenderMaxConnections"] ?? "10"), int.Parse(Configuration["RabbitMQ:SenderAcquireRetryAttempts"] ?? "3"))
+			.WithReceiver(
+				ReceiverMaxConnections: int.Parse(Configuration["RabbitMQ:ReceiverMaxConnections"] ?? "5"),
+				ReveiverMaxDegreeOfParallelism: int.Parse(Configuration["RabbitMQ:ReveiverMaxDegreeOfParallelism"] ?? "5"),
+				ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
+		});
+	});
+});
 ```
 
 ![img-source-from-https://github.com/docker/dockercraft](https://github.com/docker/dockercraft/raw/master/docs/img/contribute.png?raw=true)
