@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Flash.Test.ORM.Base
 {
-    public class TestDbContext : BaseDbContext
+    public class TestDb1Context : BaseDbContext<TestDb1Context>
     {
-        public TestDbContext(DbContextOptions options, ILoggerFactory loggerFactory, IRegisterEvents registerEvents) : base(options, loggerFactory, registerEvents)
+        public TestDb1Context(DbContextOptions<TestDb1Context> options, ILoggerFactory loggerFactory, IRegisterEvents registerEvents) : base(options, loggerFactory, registerEvents)
         {
         }
 

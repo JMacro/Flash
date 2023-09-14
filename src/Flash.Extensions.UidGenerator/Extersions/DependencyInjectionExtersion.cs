@@ -10,6 +10,10 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public class IdGeneratorOption
     {
+        /// <summary>
+        /// 服务集合
+        /// </summary>
+        public IServiceCollection Services { get; set; }
 
         /// <summary>
         /// 数据中心ID(默认0)
@@ -19,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 工作进程ID初始化策略
         /// </summary>
-        internal IWorkIdCreateStrategy WorkIdCreateStrategy { get; set; }
+        public IWorkIdCreateStrategy WorkIdCreateStrategy { get; set; }
     }
 
     public static partial class DependencyInjectionExtersion
@@ -45,13 +49,22 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddUniqueIdGenerator(this IServiceCollection services, Action<IdGeneratorOption> setup)
         {
             var option = new IdGeneratorOption();
+            option.Services = services;
             setup(option);
 
             services.TryAddSingleton<IUniqueIdGenerator>(sp =>
             {
-                var workId = option.WorkIdCreateStrategy.NextId();
+                var workId = option.WorkIdCreateStrategy.GetWorkId();
                 return new SnowflakeUniqueIdGenerator(workId, option.CenterId);
             });
+
+            if (option.WorkIdCreateStrategy != null)
+            {
+                services.AddSingleton<IWorkIdCreateStrategy>((sp) =>
+                {
+                    return option.WorkIdCreateStrategy;
+                });
+            }
             return services;
         }
 
@@ -62,12 +75,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="WorkId"></param>
         public static void UseStaticWorkIdCreateStrategy(this IdGeneratorOption option, int WorkId)
         {
-            option.WorkIdCreateStrategy = new StaticWorkIdCreateStrategy(WorkId);
+            option.WorkIdCreateStrategy = new StaticWorkIdCreateStrategy(WorkId, option.CenterId);
         }
     }
-
 }
-
-
-//TODO 动态获取机器标识码
-//TODO 版本号提升并发布

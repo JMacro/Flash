@@ -76,25 +76,45 @@ namespace Flash.Extensions.UidGenerator
 
     public class IdWorker
     {
-        //基准时间
+        /// <summary>
+        /// 基准时间
+        /// </summary>
         public const long Twepoch = 1288834974657L;
-        //机器标识位数
+        /// <summary>
+        /// 机器标识位数
+        /// </summary>
         const int WorkerIdBits = 5;
-        //数据标志位数
+        /// <summary>
+        /// 数据标志位数
+        /// </summary>
         const int DatacenterIdBits = 5;
-        //序列号识位数
+        /// <summary>
+        /// 序列号识位数
+        /// </summary>
         const int SequenceBits = 12;
-        //机器ID最大值
-        const long MaxWorkerId = -1L ^ (-1L << WorkerIdBits);
-        //数据标志ID最大值
-        const long MaxDatacenterId = -1L ^ (-1L << DatacenterIdBits);
-        //序列号ID最大值
+        /// <summary>
+        /// 机器ID最大值
+        /// </summary>
+        public const long MaxWorkerId = -1L ^ (-1L << WorkerIdBits);
+        /// <summary>
+        /// 数据标志ID最大值
+        /// </summary>
+        public const long MaxDatacenterId = -1L ^ (-1L << DatacenterIdBits);
+        /// <summary>
+        /// 序列号ID最大值
+        /// </summary>
         private const long SequenceMask = -1L ^ (-1L << SequenceBits);
-        //机器ID偏左移12位
+        /// <summary>
+        /// 机器ID偏左移12位
+        /// </summary>
         private const int WorkerIdShift = SequenceBits;
-        //数据ID偏左移17位
+        /// <summary>
+        /// 数据ID偏左移17位
+        /// </summary>
         private const int DatacenterIdShift = SequenceBits + WorkerIdBits;
-        //时间毫秒左移22位
+        /// <summary>
+        /// 时间毫秒左移22位
+        /// </summary>
         public const int TimestampLeftShift = SequenceBits + WorkerIdBits + DatacenterIdBits;
 
         private long _sequence = 0L;

@@ -114,7 +114,7 @@ namespace Flash.Extensions.Cache
         #region LOCK
 
         /// <summary>
-        /// 设置Key的时间
+        /// 上锁
         /// </summary>
         /// <param name="key">redis key</param>
         /// <param name="lockValue"></param>
@@ -123,7 +123,7 @@ namespace Flash.Extensions.Cache
         bool LockTake(string key, string lockValue, TimeSpan expiry);
 
         /// <summary>
-        /// 设置Key的时间
+        /// 查询锁
         /// </summary>
         /// <param name="key">redis key</param>
         /// <param name="expiry"></param>
@@ -131,7 +131,7 @@ namespace Flash.Extensions.Cache
         string LockQuery(string key);
 
         /// <summary>
-        /// 设置Key的时间
+        /// 释放锁
         /// </summary>
         /// <param name="key">redis key</param>
         /// <param name="lockValue"></param>
@@ -425,6 +425,13 @@ namespace Flash.Extensions.Cache
         /// <returns></returns>
         Task<bool> BF4EXISTSAsync(string bloomFilterName, string value);
         #endregion
+
+        /// <summary>
+        /// 获得Key的TTL剩余时间
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        TimeSpan? KeyTimeToLive(string cacheKey);
 
         /// <summary>
         /// 获得缓存Key名称

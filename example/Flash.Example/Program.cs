@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Flash.Extensions.HealthChecks;
 
 namespace Flash.Example
 {
@@ -27,7 +28,8 @@ namespace Flash.Example
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                        .UseHealthChecks("/healthcheck");
                 }).ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.ClearProviders();

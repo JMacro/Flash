@@ -4,6 +4,7 @@ using Flash.Extensions.EventBus.RabbitMQ;
 using Flash.Extensions.ORM;
 using Flash.Test.EntityChange.Events;
 using Flash.Test.Events.Messages;
+using Flash.Test.ORM;
 using Flash.Test.ORM.Base;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -67,7 +68,8 @@ namespace Flash.Test.StartupTests
                     orm.UseEntityFramework(option =>
                     {
                         var connection = Environment.GetEnvironmentVariable("MySQL_Connection", EnvironmentVariableTarget.Machine);
-                        option.RegisterDbContexts<TestDbContext, MigrationAssembly>(connection, Configuration);
+                        option.RegisterDbContexts<TestDb1Context, MigrationAssembly>(connection, Configuration);
+                        option.RegisterDbContexts<TestDb2Context, MigrationAssembly>(connection, Configuration);
                         option.RegisterGlobalEvents(events =>
                         {
                             events.StateChanged = (EntityChangeTracker entityChangeTracker) =>

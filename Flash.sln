@@ -111,6 +111,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C25D9C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6DC0BA-E40A-4693-9DC3-8C68EAB32AD2}"
 	ProjectSection(SolutionItems) = preProject
+		nuspecs\Flash.AspNetCore.nuspec = nuspecs\Flash.AspNetCore.nuspec
+		nuspecs\Flash.Core.nuspec = nuspecs\Flash.Core.nuspec
 		nuspecs\Flash.DynamicRoute.nuspec = nuspecs\Flash.DynamicRoute.nuspec
 		nuspecs\Flash.Extensions.Cache.nuspec = nuspecs\Flash.Extensions.Cache.nuspec
 		nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec = nuspecs\Flash.Extensions.Cache.Redis.DependencyInjection.nuspec
@@ -121,6 +123,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.Configuration.Apollo.nuspec = nuspecs\Flash.Extensions.Configuration.Apollo.nuspec
 		nuspecs\Flash.Extensions.Configuration.Json.nuspec = nuspecs\Flash.Extensions.Configuration.Json.nuspec
 		nuspecs\Flash.Extensions.DistributedLock.nuspec = nuspecs\Flash.Extensions.DistributedLock.nuspec
+		nuspecs\Flash.Extensions.DynamicRoute.Consul.nuspec = nuspecs\Flash.Extensions.DynamicRoute.Consul.nuspec
+		nuspecs\Flash.Extensions.DynamicRoute.Nacos.nuspec = nuspecs\Flash.Extensions.DynamicRoute.Nacos.nuspec
 		nuspecs\Flash.Extensions.Email.nuspec = nuspecs\Flash.Extensions.Email.nuspec
 		nuspecs\Flash.Extensions.EventBus.nuspec = nuspecs\Flash.Extensions.EventBus.nuspec
 		nuspecs\Flash.Extensions.EventBus.RabbitMQ.nuspec = nuspecs\Flash.Extensions.EventBus.RabbitMQ.nuspec
@@ -141,7 +145,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{9E6D
 		nuspecs\Flash.Extensions.ORM.nuspec = nuspecs\Flash.Extensions.ORM.nuspec
 		nuspecs\Flash.Extensions.Resilience.Http.nuspec = nuspecs\Flash.Extensions.Resilience.Http.nuspec
 		nuspecs\Flash.Extensions.Security.nuspec = nuspecs\Flash.Extensions.Security.nuspec
+		nuspecs\Flash.Extensions.System.nuspec = nuspecs\Flash.Extensions.System.nuspec
+		nuspecs\Flash.Extensions.UidGenerator.ConsulWorkId.nuspec = nuspecs\Flash.Extensions.UidGenerator.ConsulWorkId.nuspec
 		nuspecs\Flash.Extensions.UidGenerator.nuspec = nuspecs\Flash.Extensions.UidGenerator.nuspec
+		nuspecs\Flash.Extensions.UidGenerator.RedisWorkId.nuspec = nuspecs\Flash.Extensions.UidGenerator.RedisWorkId.nuspec
 		nuspecs\Flash.LoadBalancer.nuspec = nuspecs\Flash.LoadBalancer.nuspec
 	EndProjectSection
 EndProject
@@ -175,7 +182,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChangeHistory", "ChangeHist
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{E23ED3AA-1580-40A2-9CB9-2E58310059DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Example", "example\Flash.Example\Flash.Example.csproj", "{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Example", "example\Flash.Example\Flash.Example.csproj", "{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.AspNetCore", "src\Flash.AspNetCore\Flash.AspNetCore.csproj", "{36D74BAC-E0D2-4399-A2ED-ED2F4F748EFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DynamicRoute", "DynamicRoute", "{45A98276-A276-4C52-B238-80912A2D515A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.DynamicRoute.Consul", "src\Flash.Extensions.DynamicRoute.Consul\Flash.Extensions.DynamicRoute.Consul.csproj", "{7986B01F-6D2F-407F-B694-D5B748A93FDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.DynamicRoute.Nacos", "src\Flash.Extensions.DynamicRoute.Nacos\Flash.Extensions.DynamicRoute.Nacos.csproj", "{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UidGenerator", "UidGenerator", "{BE6611EA-EF4D-4914-BB20-1FE62D559BE5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.AspNetCore.WorkFlow", "src\Flash.AspNetCore.WorkFlow\Flash.AspNetCore.WorkFlow.csproj", "{5C0E2E46-6EEF-4255-9C51-86E7407BD543}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Extensions.UidGenerator.ConsulWorkId", "src\Flash.Extensions.UidGenerator.ConsulWorkId\Flash.Extensions.UidGenerator.ConsulWorkId.csproj", "{932052BC-E3E9-417F-9A81-FF7033971572}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.UidGenerator.RedisWorkId", "src\Flash.Extensions.UidGenerator.RedisWorkId\Flash.Extensions.UidGenerator.RedisWorkId.csproj", "{014CEF72-29FE-48E5-B43F-ACFFD25E6B65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -363,6 +386,30 @@ Global
 		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36D74BAC-E0D2-4399-A2ED-ED2F4F748EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36D74BAC-E0D2-4399-A2ED-ED2F4F748EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36D74BAC-E0D2-4399-A2ED-ED2F4F748EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36D74BAC-E0D2-4399-A2ED-ED2F4F748EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7986B01F-6D2F-407F-B694-D5B748A93FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7986B01F-6D2F-407F-B694-D5B748A93FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7986B01F-6D2F-407F-B694-D5B748A93FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7986B01F-6D2F-407F-B694-D5B748A93FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{932052BC-E3E9-417F-9A81-FF7033971572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932052BC-E3E9-417F-9A81-FF7033971572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932052BC-E3E9-417F-9A81-FF7033971572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932052BC-E3E9-417F-9A81-FF7033971572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{014CEF72-29FE-48E5-B43F-ACFFD25E6B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014CEF72-29FE-48E5-B43F-ACFFD25E6B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014CEF72-29FE-48E5-B43F-ACFFD25E6B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014CEF72-29FE-48E5-B43F-ACFFD25E6B65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -370,7 +417,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AB151676-5329-47DD-974B-646648B41FD7} = {2135864E-CF17-4FBC-9A91-DC817A54C90A}
 		{57A3EB9F-AA0F-4498-9C58-333F0F960BB7} = {AB151676-5329-47DD-974B-646648B41FD7}
-		{3DE4A972-9B5E-425E-9191-65E6A0B394C3} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{3DE4A972-9B5E-425E-9191-65E6A0B394C3} = {BE6611EA-EF4D-4914-BB20-1FE62D559BE5}
 		{34A716D5-DAA3-4095-8695-3A5816BAB769} = {2135864E-CF17-4FBC-9A91-DC817A54C90A}
 		{922DA73E-44DF-4712-9E5E-7A03006976B8} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{0465F8BB-9A86-4CF8-A48C-A8F93DC349E2} = {AB151676-5329-47DD-974B-646648B41FD7}
@@ -396,7 +443,7 @@ Global
 		{F2F50A64-9A99-40B3-99D1-2CA92A067E73} = {9F8830DB-09C6-4933-9F9D-A3C27A7F96C7}
 		{EF98BFD2-081E-4927-A175-1166DE0D1505} = {D8BACD0E-04E8-4ECE-992C-0C1681059B50}
 		{92D25397-906B-46C4-ACA5-A965B901F7EA} = {AB151676-5329-47DD-974B-646648B41FD7}
-		{3835F567-CC21-48C4-A384-BDD0FB0E8202} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{3835F567-CC21-48C4-A384-BDD0FB0E8202} = {45A98276-A276-4C52-B238-80912A2D515A}
 		{09D439B3-D696-45A7-90C2-0547C20EBA4A} = {CA8B169F-048A-4B5A-AA07-FEF81F565CF2}
 		{B2600AD2-E311-4956-BE21-9BD329AB3398} = {E1525F10-B944-400A-8176-051416C14CC7}
 		{F543F481-9FF9-45E8-A620-5D238412A4D9} = {E1525F10-B944-400A-8176-051416C14CC7}
@@ -423,6 +470,14 @@ Global
 		{FCFEB339-41A2-4398-8290-3D8B36791411} = {C87D6E62-C635-4395-B702-C9DD8483C205}
 		{C87D6E62-C635-4395-B702-C9DD8483C205} = {AB151676-5329-47DD-974B-646648B41FD7}
 		{38FC6245-3E66-49A9-9FB9-B0DEBF0945F0} = {E23ED3AA-1580-40A2-9CB9-2E58310059DF}
+		{36D74BAC-E0D2-4399-A2ED-ED2F4F748EFA} = {2135864E-CF17-4FBC-9A91-DC817A54C90A}
+		{45A98276-A276-4C52-B238-80912A2D515A} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{7986B01F-6D2F-407F-B694-D5B748A93FDA} = {45A98276-A276-4C52-B238-80912A2D515A}
+		{7CC388E0-D5BA-4DBD-B7A5-769EDB12B61F} = {45A98276-A276-4C52-B238-80912A2D515A}
+		{BE6611EA-EF4D-4914-BB20-1FE62D559BE5} = {AB151676-5329-47DD-974B-646648B41FD7}
+		{5C0E2E46-6EEF-4255-9C51-86E7407BD543} = {2135864E-CF17-4FBC-9A91-DC817A54C90A}
+		{932052BC-E3E9-417F-9A81-FF7033971572} = {BE6611EA-EF4D-4914-BB20-1FE62D559BE5}
+		{014CEF72-29FE-48E5-B43F-ACFFD25E6B65} = {BE6611EA-EF4D-4914-BB20-1FE62D559BE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}

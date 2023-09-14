@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Flash.Extensions.DynamicRoute.Consul</id>
+    <version>0.0.0</version>
+    <title>Flash DynamicRoute Components</title>
+    <authors>JMacro</authors>
+    <owners>JMacro</owners>
+    <projectUrl>https://github.com/JMacro/Flash</projectUrl>
+    <repository type="git" url="https://github.com/JMacro/Flash" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/JMacro/Flash/master/LICENSE.md</licenseUrl>
+    <summary></summary>
+    <iconUrl>https://raw.githubusercontent.com/JMacro/Flash/master/src/icon.png</iconUrl>
+    <description>DynamicRoute</description>
+    <copyright>Copyright © 2013-2021 JMacro</copyright>
+    <tags>DynamicRoute</tags>
+    <releaseNotes>
+    </releaseNotes>
+    <dependencies>
+      <group>
+        <dependency id="Consul" version="1.6.10.9" />
+        <dependency id="Polly" version="7.2.1" />
+        <dependency id="Microsoft.Extensions.Caching.Memory" version="7.0.0" />
+        <dependency id="Flash.Core" version="0.0.0" />
+        <dependency id="Flash.DynamicRoute" version="0.0.0" />
+        <dependency id="Flash.Extensions.HealthChecks" version="0.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="net5.0\Flash.Extensions.DynamicRoute.Consul.dll" target="lib\net5.0" />
+    <file src="net5.0\Flash.Extensions.DynamicRoute.Consul.xml" target="lib\net5.0" />
+    <file src="net5.0\Flash.Extensions.DynamicRoute.Consul.pdb" target="lib\net5.0" />
+
+    <file src="netstandard2.0\Flash.Extensions.DynamicRoute.Consul.dll" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.DynamicRoute.Consul.xml" target="lib\netstandard2.0" />
+    <file src="netstandard2.0\Flash.Extensions.DynamicRoute.Consul.pdb" target="lib\netstandard2.0" />
+
+    <file src="LICENSE.md" />
+    <file src="NOTICES" />
+    <file src="COPYING" />
+    <file src="COPYING.LESSER" />
+    <file src="LICENSE_STANDARD" />
+    <file src="LICENSE_ROYALTYFREE" />
+  </files>
+</package>

@@ -1,4 +1,5 @@
 ﻿using Flash.Extensions.Tracting;
+using Flash.Extensions.UidGenerator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenTracing.Util;
@@ -11,18 +12,22 @@ namespace Flash.Example.Controllers
     public class JaegerController : ControllerBase
     {
         private readonly ITracerFactory _tracerFactory;
+        private readonly IUniqueIdGenerator _uniqueIdGenerator;
 
-        public JaegerController(ITracerFactory tracerFactory)
+        public JaegerController(ITracerFactory tracerFactory,IUniqueIdGenerator uniqueIdGenerator)
         {
             this._tracerFactory = tracerFactory;
+            this._uniqueIdGenerator = uniqueIdGenerator;
         }
 
-        [HttpGet("AddLogRequest")]
-        public void AddLogRequest()
+        [HttpPost("AddLogRequest")]
+        public long AddLogRequest()
         {
             using (var tracer = this._tracerFactory.CreateTracer("JaegerController"))
             {
-                tracer.LogRequest(Guid.NewGuid().ToString());
+                var id = _uniqueIdGenerator.NewId();
+                tracer.LogRequest(id);
+                return id;
             }
         }
     }
