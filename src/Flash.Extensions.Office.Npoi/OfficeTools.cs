@@ -26,7 +26,7 @@ namespace Flash.Extensions.Office.Npoi
         {
             var entitys = new List<T>();
             var dataType = typeof(T);
-            var properties = EntityPropertyCaches.TryGetOrAddByProperties(dataType);
+            var properties = EntityTypeCaches.TryGetOrAddByProperties(dataType);
 
             using (var memoryStream = new MemoryStream(bytes))
             {
@@ -83,7 +83,7 @@ namespace Flash.Extensions.Office.Npoi
         {
             var entitys = new List<T>();
             var dataType = typeof(T);
-            var properties = EntityPropertyCaches.TryGetOrAddByProperties(dataType);
+            var properties = EntityTypeCaches.TryGetOrAddByProperties(dataType);
 
             using (var memoryStream = new MemoryStream(bytes))
             {
@@ -223,7 +223,7 @@ namespace Flash.Extensions.Office.Npoi
                     }
 
                     var dataType = sheetInfo.DataSourceType;
-                    var properties = EntityPropertyCaches.TryGetOrAddByProperties(dataType);
+                    var properties = EntityTypeCaches.TryGetOrAddByProperties(dataType);
 
                     var dataformat = workbook.CreateDataFormat();
 

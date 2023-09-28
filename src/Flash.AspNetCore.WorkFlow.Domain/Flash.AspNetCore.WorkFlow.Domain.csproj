@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.AspNetCore.WorkFlow.Infrastructure\Flash.AspNetCore.WorkFlow.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Rules\WorkFlowTypes\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+</Project>

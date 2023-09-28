@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flash.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Data;
 using System.Threading.Tasks;
@@ -8,14 +11,18 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly DbContext _context;
+        private readonly BaseDbContext _context;
         private IDbContextTransaction _dbContextTransaction;
         private bool _disposed = false;
         public bool IsTransaction { get; private set; }
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(BaseDbContext context)
         {
             _context = context;
+#if DEBUG
+            var logger = MicrosoftContainer.Instance.GetService<ILogger<UnitOfWork>>();
+            logger.LogInformation($"DbContextId:{_context.ContextId}");
+#endif
         }
 
         public bool SaveChanges()
@@ -88,6 +95,13 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 await this._dbContextTransaction.RollbackAsync();
                 return false;
             }
+        }
+    }
+
+    public class UnitOfWork<TDbContext> : UnitOfWork, IUnitOfWork<TDbContext> where TDbContext : BaseDbContext
+    {
+        public UnitOfWork(TDbContext context) : base(context)
+        {
         }
     }
 }

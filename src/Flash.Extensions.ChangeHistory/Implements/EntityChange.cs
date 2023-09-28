@@ -43,7 +43,7 @@ namespace Flash.Extensions.ChangeHistory
                 HistoryPropertys = new List<ChangeHistoryPropertyInfo>()
             };
 
-            var propertyInfos = EntityPropertyCaches.TryGetOrAddByProperties(typeChangeObject);
+            var propertyInfos = EntityTypeCaches.TryGetOrAddByProperties(typeChangeObject);
             foreach (var propertyInfo in propertyInfos)
             {
                 if (propertyInfo.CustomAttributes.Is<IgnoreCheckAttribute>())

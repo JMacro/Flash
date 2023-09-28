@@ -1,4 +1,6 @@
-﻿using Flash.Core;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Flash.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -12,10 +14,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <param name="setup"></param>
-        public static IServiceCollection AddFlash(this IServiceCollection services, Action<IFlashHostBuilder> setup)
+        /// <param name="containerBuilder"></param>
+        public static IServiceCollection AddFlash(this IServiceCollection services, Action<IFlashHostBuilder> setup, ContainerBuilder containerBuilder = null)
         {
-            var builder = new FlashHostBuilder(services);
+            var builder = new FlashHostBuilder(services, containerBuilder);
             setup(builder);
+            MicrosoftContainer.Instance = services.BuildServiceProvider();
+            builder.Container.Populate(services);
+            AutofacContainer.Instance = builder.Container.Build();
             return services;
         }
 

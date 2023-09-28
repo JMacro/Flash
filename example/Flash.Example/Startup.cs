@@ -1,16 +1,13 @@
+using Autofac;
 using Flash.AspNetCore;
+using Flash.AspNetCore.WorkFlow.Application.Abastracts.Services;
+using Flash.AspNetCore.WorkFlow.Application.Dtos.FlowConfigs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using OpenTracing.Util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Flash.Example
 {
@@ -24,6 +21,7 @@ namespace Flash.Example
         // This method gets called by the runtime. Use this method to add services to the container.
         public override void ConfigServices(IServiceCollection services)
         {
+            ContainerBuilder containerBuilder = new ContainerBuilder();
             services.AddControllers();
             services.AddFlash(flash =>
             {
@@ -48,13 +46,28 @@ namespace Flash.Example
                             ReceiverAcquireRetryAttempts: int.Parse(Configuration["RabbitMQ:ReceiverAcquireRetryAttempts"] ?? "3"));
                     });
                 });
-            });
+
+                flash.AddWorkFlow(workFlow =>
+                {
+                    var connection = Environment.GetEnvironmentVariable("MySQL_Connection_Workflow", EnvironmentVariableTarget.Machine);
+                    workFlow.RegisterDbContext<MigrationAssembly>(connection);
+                });
+            }, containerBuilder);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public override void ConfigApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthorization();
+
+            var dd = MicrosoftContainer.Instance.GetService<IFlowConfigService>();
+            dd.Init(() =>
+            {
+                return new List<FlowConfigRequestDto>
+                {
+                    new FlowConfigRequestDto { Id = 1,Name="sdf" }
+                };
+            });
         }
     }
 }

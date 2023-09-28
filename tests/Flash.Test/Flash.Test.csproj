@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
@@ -21,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Flash.AspNetCore.WorkFlow\Flash.AspNetCore.WorkFlow.csproj" />
     <ProjectReference Include="..\..\src\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.AppMetrics\Flash.Extensions.AppMetrics.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Cache.Redis.DependencyInjection\Flash.Extensions.Cache.Redis.DependencyInjection.csproj" />
@@ -64,6 +64,10 @@
     <None Update="Lua\get-tree-childs.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WorkFlow\Base\" />
   </ItemGroup>
 
 </Project>
