@@ -1,16 +1,16 @@
-﻿using Flash.AspNetCore.WorkFlow.Infrastructure.Exceptions;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Flash.AspNetCore.WorkFlow.Infrastructure.Exceptions;
 using Flash.Extensions.ORM;
 using Flash.Extensions.UidGenerator;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Flash.AspNetCore.WorkFlow.Infrastructure.Core
 {
     /// <summary>
     /// 聚合根
     /// </summary>
-    public abstract class AggregateRoot
+    public abstract class AggregateRoot : BaseEntity<long>
     {
         private readonly List<IDomainEvent> _domainEvents;
 
@@ -18,6 +18,8 @@ namespace Flash.AspNetCore.WorkFlow.Infrastructure.Core
         public bool Removed { get; protected set; }
         [NotMapped]
         public int Version { get; protected set; }
+        [NotMapped]
+        public long AggregateId { get; protected set; }
 
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
         protected readonly IUniqueIdGenerator _uniqueIdGenerator;
@@ -25,15 +27,16 @@ namespace Flash.AspNetCore.WorkFlow.Infrastructure.Core
         protected AggregateRoot()
         {
             _domainEvents = new List<IDomainEvent>();
-            Version = -1;
             _uniqueIdGenerator = MicrosoftContainer.Instance.GetService<IUniqueIdGenerator>();
+            Version = -1;
+            AggregateId = _uniqueIdGenerator.NewId();
         }
 
-        public void Load(IEnumerable<IDomainEvent> history)
+        public void Load(params IDomainEvent[] history)
         {
             foreach (var e in history)
             {
-                Apply(e);
+                Apply(e, false);
                 Version++;
             }
         }

@@ -1,8 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Flash.AspNetCore.WorkFlow.Application.Abastracts.Services;
 using Flash.AspNetCore.WorkFlow.Application.Dtos.FlowFieldConfigs;
-using Flash.AspNetCore.WorkFlow.Domain;
 using Flash.AspNetCore.WorkFlow.Domain.Abastracts.Repositories;
+using Flash.AspNetCore.WorkFlow.Infrastructure;
 using Flash.AspNetCore.WorkFlow.Infrastructure.PO;
 using Flash.Core;
 using Flash.Extensions;
@@ -10,11 +15,6 @@ using Flash.Extensions.ORM.EntityFrameworkCore;
 using Flash.Extensions.UidGenerator;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Flash.AspNetCore.WorkFlow.Application.Services
 {

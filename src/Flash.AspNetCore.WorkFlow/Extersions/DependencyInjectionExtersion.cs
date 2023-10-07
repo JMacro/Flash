@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Flash.AspNetCore.WorkFlow;
 using Flash.AspNetCore.WorkFlow.Application.Abastracts.Services;
-using Flash.AspNetCore.WorkFlow.Application.Services;
 using Flash.AspNetCore.WorkFlow.Domain;
 using Flash.AspNetCore.WorkFlow.Domain.Services;
 using Flash.AspNetCore.WorkFlow.Infrastructure;
 using Flash.AspNetCore.WorkFlow.Infrastructure.Core;
+using Flash.AspNetCore.WorkFlow.Infrastructure.DomainEventsDispatching;
 using Flash.Core;
 using Flash.Extensions;
 using Flash.Extensions.ORM;
@@ -37,8 +37,13 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 config.AddProfile<MapperToEntity>();
             });
+
+            hostBuilder.Services.TryAddScoped<IWorkFlowUnitOfWork, WorkFlowUnitOfWork>();
+            hostBuilder.Services.TryAddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
+            hostBuilder.Services.TryAddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
+
             //hostBuilder.Services.TryAddScoped<IFlowConfigService, FlowConfigService>();
-            hostBuilder.Services.TryAddScoped<IFlowFieldConfigService, FlowFieldConfigService>();
+            //hostBuilder.Services.TryAddScoped<IFlowFieldConfigService, FlowFieldConfigService>();
             hostBuilder.Services.TryAddScoped<Flash.AspNetCore.WorkFlow.Domain.Abastracts.Services.IFlowConfigService, FlowConfigService>();
 
             hostBuilder.Services.AddMediatR(mediatR =>

@@ -39,7 +39,7 @@ namespace Flash.Test.StartupTests
 
                 flash.AddWorkFlow(workFlow =>
                 {
-                    var connection = Environment.GetEnvironmentVariable("MySQL_Connection_Workflow", EnvironmentVariableTarget.Machine);
+                    var connection = "Server=192.168.50.110;Port=63306;Database=workflow_dev;User=root;Password=admin@8225950;pooling=True;minpoolsize=1;maxpoolsize=100;connectiontimeout=180";
                     workFlow.RegisterDbContext<MigrationAssembly>(connection);
                 });
             }, containerBuilder);

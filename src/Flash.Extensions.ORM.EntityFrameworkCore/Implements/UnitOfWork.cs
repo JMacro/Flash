@@ -9,28 +9,28 @@ using System.Threading.Tasks;
 
 namespace Flash.Extensions.ORM.EntityFrameworkCore
 {
-    public class UnitOfWork : IUnitOfWork
+    public abstract class UnitOfWorkBase: IUnitOfWork
     {
         private readonly BaseDbContext _context;
         private IDbContextTransaction _dbContextTransaction;
         private bool _disposed = false;
         public bool IsTransaction { get; private set; }
 
-        public UnitOfWork(BaseDbContext context)
+        public UnitOfWorkBase(BaseDbContext context)
         {
             _context = context;
 #if DEBUG
-            var logger = MicrosoftContainer.Instance.GetService<ILogger<UnitOfWork>>();
+            var logger = MicrosoftContainer.Instance.GetService<ILogger<UnitOfWorkBase>>();
             logger.LogInformation($"DbContextId:{_context.ContextId}");
 #endif
         }
 
-        public bool SaveChanges()
+        public virtual bool SaveChanges()
         {
             return _context.SaveChanges() > 0;
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public virtual async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }
@@ -69,7 +69,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             return _context.Database.GetDbConnection();
         }
 
-        public bool Commit()
+        public virtual bool Commit()
         {
             try
             {
@@ -83,7 +83,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             }
         }
 
-        public async Task<bool> CommitAsync()
+        public virtual async Task<bool> CommitAsync()
         {
             try
             {
@@ -98,7 +98,21 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         }
     }
 
-    public class UnitOfWork<TDbContext> : UnitOfWork, IUnitOfWork<TDbContext> where TDbContext : BaseDbContext
+    public abstract class UnitOfWorkBase<TDbContext> : UnitOfWorkBase, IUnitOfWork<TDbContext> where TDbContext : BaseDbContext
+    {
+        public UnitOfWorkBase(TDbContext context) : base(context)
+        {
+        }
+    }
+
+    public class UnitOfWork : UnitOfWorkBase,IUnitOfWork
+    {
+        public UnitOfWork(BaseDbContext context) : base(context)
+        {
+        }
+    }
+
+    public class UnitOfWork<TDbContext> : UnitOfWorkBase<TDbContext>, IUnitOfWork<TDbContext> where TDbContext : BaseDbContext
     {
         public UnitOfWork(TDbContext context) : base(context)
         {

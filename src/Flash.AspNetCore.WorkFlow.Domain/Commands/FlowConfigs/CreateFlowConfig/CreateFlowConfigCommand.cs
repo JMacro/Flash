@@ -7,7 +7,6 @@ namespace Flash.AspNetCore.WorkFlow.Domain.Commands.FlowConfigs.CreateFlowConfig
 {
     internal class CreateFlowConfigCommand : IRequest
     {
-        public List<FlowConfigCreateData> FlowConfigs { get; set; }
-        public List<FieldConfigSaveData> FieldConfigs { get; set; }
+        public List<FlowConfigSaveData> FlowConfigs { get; set; }
     }
 }

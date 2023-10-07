@@ -2,6 +2,7 @@
 using Flash.AspNetCore.WorkFlow.Domain.Commands.FlowForms.DefineFlowForm;
 using Flash.AspNetCore.WorkFlow.Domain.Commands.FlowForms.GetFlowFormDetial;
 using Flash.AspNetCore.WorkFlow.Domain.DO;
+using Flash.AspNetCore.WorkFlow.Domain.Entitys.FieldConfigs;
 using Flash.AspNetCore.WorkFlow.Domain.Entitys.FlowConfigs;
 using Flash.AspNetCore.WorkFlow.Infrastructure.Enums;
 using Flash.AspNetCore.WorkFlow.Infrastructure.PO;
@@ -51,7 +52,7 @@ namespace Flash.AspNetCore.WorkFlow.Domain
         /// <summary>
         /// 字段
         /// </summary>
-        public IList<FlowFieldConfigPO> Fields { get; private set; }
+        public IList<FieldConfig> Fields { get; private set; }
 
         /// <summary>
         /// 表单数据
@@ -134,7 +135,7 @@ namespace Flash.AspNetCore.WorkFlow.Domain
             .ToDictionary(x => x.Key, x => FieldDataTypeMapString(x.Value));
         }
 
-        private List<FlowFieldConfigPO> GetFields(params long[] fieldIds)
+        private List<FieldConfig> GetFields(params long[] fieldIds)
         {
             return this._workFlowFieldConfigRepository.TableNoTracking.Where(p => fieldIds.Contains(p.Id)).ToList();
         }

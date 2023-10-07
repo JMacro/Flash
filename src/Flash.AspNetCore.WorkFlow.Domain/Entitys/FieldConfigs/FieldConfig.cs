@@ -1,19 +1,25 @@
-﻿using Flash.AspNetCore.WorkFlow.Domain.Entitys.FlowConfigs;
+﻿using System;
+using System.Collections.Concurrent;
+using System.ComponentModel;
+using System.Linq;
 using Flash.AspNetCore.WorkFlow.Domain.Events;
 using Flash.AspNetCore.WorkFlow.Infrastructure.Core;
 using Flash.AspNetCore.WorkFlow.Infrastructure.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+using Flash.Core;
+using Flash.Extensions;
+using Flash.Extensions.ORM;
+using MediatR;
 
 namespace Flash.AspNetCore.WorkFlow.Domain.Entitys.FieldConfigs
 {
-    public partial class FieldConfig : AggregateRoot
+    public partial class FieldConfig : AggregateRoot, IEntity
     {
+        private static object _Lock = new object();
+        private static ConcurrentDictionary<string, IBaseRequest> CacheCommandHandleTypes = new ConcurrentDictionary<string, IBaseRequest>();
+
         /// <summary>
         /// 工作流模块与场景配置Id
-        /// <see cref="FlowConfigPO"/>
+        /// <see cref="FlowConfig"/>
         /// </summary>
         [Description("工作流模块与场景配置Id")]
         public long WorkFlowModuleSceneConfigId { get; private set; }
@@ -68,21 +74,19 @@ namespace Flash.AspNetCore.WorkFlow.Domain.Entitys.FieldConfigs
         [Description("排序")]
         public int Sort { get; private set; }
 
-        public long Id { get; private set; }
-        public bool IsDelete { get; private set; }
-        public DateTime CreateTime { get; private set; }
-        public long CreateUserId { get; private set; }
-        public DateTime LastModifyTime { get; private set; }
-        public long LastModifyUserId { get; private set; }
+        public static FieldConfig New()
+        {
+            return new FieldConfig();
+        }
 
         /// <summary>
         /// 创建
         /// </summary>
         /// <param name="fieldConfigData"></param>
-        public static FieldConfig Save(FieldConfigSaveData fieldConfigData)
+        public static FieldConfig Create(FieldConfigSaveData fieldConfigData)
         {
             var fieldConfig = new FieldConfig();
-            var @event = new FieldConfigSaveEvent
+            var @event = new FieldConfigCreateEvent
             {
                 Id = fieldConfigData.Id,
                 AggregateId = fieldConfig.Id,
@@ -101,6 +105,67 @@ namespace Flash.AspNetCore.WorkFlow.Domain.Entitys.FieldConfigs
             };
             fieldConfig.Apply(@event);
             return fieldConfig;
+        }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="fieldConfigData"></param>
+        public static FieldConfig Update(FieldConfigSaveData fieldConfigData)
+        {
+            var fieldConfig = new FieldConfig();
+            var @event = new FieldConfigUpdateEvent
+            {
+                Id = fieldConfigData.Id,
+                AggregateId = fieldConfig.Id,
+                WorkFlowModuleSceneConfigId = fieldConfigData.WorkFlowModuleSceneConfigId,
+                Name = fieldConfigData.Name,
+                TableName = fieldConfigData.TableName,
+                Type = fieldConfigData.Type,
+                DisplayName = fieldConfigData.DisplayName,
+                Unit = fieldConfigData.Unit,
+                IsSingleSelect = fieldConfigData.IsSingleSelect,
+                Enable = fieldConfigData.Enable,
+                ExecuteMethod = fieldConfigData.ExecuteMethod,
+                ResultType = fieldConfigData.ResultType,
+                Sort = fieldConfigData.Sort,
+                Version = -1
+            };
+            fieldConfig.Apply(@event);
+            return fieldConfig;
+        }
+
+        /// <summary>
+        /// 检查字段值获取的执行方法是否异常
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="BusinessException"></exception>
+        public (bool Result, IBaseRequest BaseRequest) CheckExecuteMethodImplemented()
+        {
+            if (string.IsNullOrWhiteSpace(ExecuteMethod)) return (false, null);
+
+            var executeCommandHandleType = EntityTypeCaches.TryGetOrAddByType(ExecuteMethod);
+            if (executeCommandHandleType == null) throw new BusinessException($"无法找到类型{ExecuteMethod}");
+
+            var commandHandleType = executeCommandHandleType.GetInterfaces().FirstOrDefault(p => p.HasImplementedRawGeneric(typeof(IRequestHandler<,>)));
+            if (commandHandleType == null)
+                throw new BusinessException($"{executeCommandHandleType.Name}未继承{typeof(IRequestHandler<,>).FullName}");
+
+            var executeCommandType = commandHandleType.GetGenericArguments().First();
+            lock (_Lock)
+            {
+                var result = CacheCommandHandleTypes.TryGetValue(ExecuteMethod, out IBaseRequest objCommandHandle);
+                if (!result)
+                {
+                    if (Activator.CreateInstance(executeCommandType) is IBaseRequest baseRequest)
+                    {
+                        objCommandHandle = baseRequest;
+                        CacheCommandHandleTypes.TryAdd(ExecuteMethod, objCommandHandle);
+                        return (true, objCommandHandle);
+                    }
+                }
+                return (result, objCommandHandle);
+            }
         }
     }
 }

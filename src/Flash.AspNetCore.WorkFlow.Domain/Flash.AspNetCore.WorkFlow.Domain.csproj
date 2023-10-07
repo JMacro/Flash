@@ -11,6 +11,12 @@
   <ItemGroup>
     <Folder Include="Rules\WorkFlowTypes\" />
     <Folder Include="Queries\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Commands\FlowConfigs\UpdateFlowConfig\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Notifications\" />
+    <None Remove="Commands\FlowConfigs\UpdateFlowConfig\" />
+  </ItemGroup>
 </Project>

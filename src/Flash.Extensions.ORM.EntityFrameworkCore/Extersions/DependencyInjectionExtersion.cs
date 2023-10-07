@@ -103,14 +103,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashOrmDbContextBuilder RegisterGlobalEvents(this IFlashOrmDbContextBuilder builder, Action<IRegisterEvents> options)
         {
-            var sp = builder.Services.BuildServiceProvider();
-            var registerEvents = sp.GetService<IRegisterEvents>();
+            var registerEvents = builder.Services.BuildServiceProvider().GetService<IRegisterEvents>();
             if (registerEvents == null)
             {
                 registerEvents = new RegisterEvents();
             }
             options(registerEvents);
-            builder.Services.TryAdd(ServiceDescriptor.Singleton<IRegisterEvents>(registerEvents));
+            builder.Services.TryAdd(ServiceDescriptor.Scoped<IRegisterEvents>(sp => { return registerEvents; }));
             return builder;
         }
 

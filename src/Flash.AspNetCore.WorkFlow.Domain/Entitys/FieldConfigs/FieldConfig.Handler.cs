@@ -6,9 +6,25 @@ using System.Text;
 
 namespace Flash.AspNetCore.WorkFlow.Domain.Entitys.FieldConfigs
 {
-    public partial class FieldConfig : IAggregateRootHandler<FieldConfigSaveEvent>
+    public partial class FieldConfig : IAggregateRootHandler<FieldConfigCreateEvent>
     {
-        public void Handle(FieldConfigSaveEvent @event)
+        public void Handle(FieldConfigCreateEvent @event)
+        {
+            Id = @event.Id;
+            WorkFlowModuleSceneConfigId = @event.WorkFlowModuleSceneConfigId;
+            Name = @event.Name;
+            TableName = @event.TableName;
+            Type = @event.Type;
+            DisplayName = @event.DisplayName;
+            Unit = @event.Unit;
+            IsSingleSelect = @event.IsSingleSelect;
+            Enable = @event.Enable;
+            ExecuteMethod = @event.ExecuteMethod;
+            ResultType = @event.ResultType;
+            Sort = @event.Sort;
+        }
+
+        public void Handle(FieldConfigUpdateEvent @event)
         {
             Id = @event.Id;
             WorkFlowModuleSceneConfigId = @event.WorkFlowModuleSceneConfigId;

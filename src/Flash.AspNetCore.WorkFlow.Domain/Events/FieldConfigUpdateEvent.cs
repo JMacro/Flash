@@ -1,14 +1,10 @@
-﻿using Flash.AspNetCore.WorkFlow.Domain.Core;
+﻿using System.ComponentModel;
+using Flash.AspNetCore.WorkFlow.Domain.Core;
 using Flash.AspNetCore.WorkFlow.Infrastructure.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Flash.AspNetCore.WorkFlow.Domain.Events
 {
-    public class FieldConfigSaveEvent : DomainEventBase
+    public class FieldConfigUpdateEvent : DomainEventBase
     {
         /// <summary>
         /// 工作流模块与场景配置Id
@@ -66,3 +62,4 @@ namespace Flash.AspNetCore.WorkFlow.Domain.Events
         public int Sort { get; set; }
     }
 }
+

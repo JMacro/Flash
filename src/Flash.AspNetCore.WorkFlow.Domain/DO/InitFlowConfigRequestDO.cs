@@ -1,4 +1,5 @@
-﻿using Flash.AspNetCore.WorkFlow.Domain.Entitys.FlowConfigs;
+﻿using Flash.AspNetCore.WorkFlow.Domain.Entitys.FieldConfigs;
+using Flash.AspNetCore.WorkFlow.Domain.Entitys.FlowConfigs;
 using Flash.AspNetCore.WorkFlow.Infrastructure.Enums;
 using Flash.Extensions;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Flash.AspNetCore.WorkFlow.Domain.DO
 {
-    [AutoMapperTo(typeof(FlowConfigCreateData))]
+    [AutoMapperTo(typeof(FlowConfigSaveData))]
     public class InitFlowConfigRequestDO
     {
         public long Id { get; set; }
@@ -54,12 +55,9 @@ namespace Flash.AspNetCore.WorkFlow.Domain.DO
         public List<InitFlowFieldConfigRequestDO> FieldConfigs { get; set; } = new List<InitFlowFieldConfigRequestDO>();
     }
 
+    [AutoMapperTo(typeof(FieldConfigSaveData))]
     public class InitFlowFieldConfigRequestDO
     {
-        /// <summary>
-        /// 工作流模块与场景配置Id
-        /// </summary>
-        public long WorkFlowModuleSceneConfigId { get; set; }
         /// <summary>
         /// 字段名
         /// </summary>
