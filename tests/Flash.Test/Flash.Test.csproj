@@ -45,6 +45,7 @@
     <ProjectReference Include="..\..\src\Flash.Extensions.OpenTracting.Skywalking\Flash.Extensions.OpenTracting.Skywalking.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj" />
+    <ProjectReference Include="..\..\src\Flash.Extensions.RuleEngine\Flash.Extensions.RuleEngine.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.Security\Flash.Extensions.Security.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.System\Flash.Extensions.System.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.UidGenerator.ConsulWorkId\Flash.Extensions.UidGenerator.ConsulWorkId.csproj" />
@@ -64,10 +65,78 @@
     <None Update="Lua\get-tree-childs.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="RuleEngine\Config\rule1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\01.EXP_RECE_CREATE_ORDER.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\02.order.query.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\03.order.confirm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\04.order.filter.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\05.route_query_by_MailNo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\05.route_query_by_OrderNo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\07.sub.mailno.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\09.waybills_fee.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\12.register_route.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\13.reverse_order.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\14.cancel_reverse_order.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\15.delivery_notice.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\16.register_waybill_picture.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\18.wanted_intercept.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\19.query_delivertm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\20.cloud_print_waybills.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\21.upload_route.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\22.search_promitm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\23.check_pickup_time.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\25.COM_RECE_CLOUD_PRINT_WAYBILLS.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ShunFen\Config\24.validate_waybillno.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="WorkFlow\Base\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties ruleengine_4config_4rule1_1json__JsonSchema="" shunfen_4config_401_1exp_3rece_3create_3order_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

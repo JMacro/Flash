@@ -1,8 +1,11 @@
 ﻿using Flash.Test.StartupTests;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Test
 {
@@ -19,7 +22,7 @@ namespace Flash.Test
 
     public abstract class BaseTest<TStartupType> : BaseTest where TStartupType : class
     {
-        #region Setup/Teardown
+        #region OneTimeSetUp/Teardown
 
         /// <summary>
         /// Code that is run before each test
@@ -28,6 +31,12 @@ namespace Flash.Test
         public virtual void Initialize()
         {
             var webHostBuilder = new WebHostBuilder()
+             .ConfigureAppConfiguration(config =>
+             {
+                 config.SetBasePath(Directory.GetCurrentDirectory());
+                 config.AddEnvironmentVariables();
+                 config.AddJsonFileEx(Path.Combine("RuleEngine", "Config", "rule1.json"));
+             })
              .UseStartup<TStartupType>();
 
             this.TestServer = new TestServer(webHostBuilder);

@@ -49,7 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
             hostBuilder.Services.AddMediatR(mediatR =>
             {
                 mediatR.RegisterServicesFromAssembly(typeof(IMediator).GetTypeInfo().Assembly);
-                mediatR.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetCurrentPathAssembly().ToArray());
+                mediatR.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetCurrentAssemblys("Microsoft", "System").ToArray());
             });
             return hostBuilder;
         }
@@ -72,24 +72,6 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             return builder;
-        }
-
-        private static IEnumerable<Assembly> GetCurrentPathAssembly(this AppDomain domain)
-        {
-            List<CompilationLibrary> list = DependencyContext.Default.CompileLibraries.Where((CompilationLibrary x) =>
-                !x.Name.StartsWith("Microsoft") &&
-                !x.Name.StartsWith("System") ).ToList();
-
-            if (list.Any())
-            {
-                foreach (CompilationLibrary item in list)
-                {
-                    if (item.Type == "project")
-                    {
-                        yield return Assembly.Load(item.Name);
-                    }
-                }
-            }
         }
     }
 }

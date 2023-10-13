@@ -1,0 +1,18 @@
+{
+    "businessType": "2",
+    "consignedTime": "2020-09-30 17: 01: 48",
+    "destAddress": {
+        "address": "北京街道西湖路38号首层102号东南铺江博士",
+        "city": "广州市",
+        "district": "越秀区",
+        "province": "广东省"
+    },
+    "searchPrice": "1",
+    "srcAddress": {
+        "address": "琶洲街道琶洲蟠龙新街2号保利广场购物中心3层3036号江博士专卖铺",
+        "city": "广州市",
+        "district": "海珠区",
+        "province": "广东省"
+    },
+    "weight": 1
+}

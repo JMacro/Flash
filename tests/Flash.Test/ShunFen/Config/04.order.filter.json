@@ -1,0 +1,21 @@
+[{
+	"contactInfos": [{
+		"address": "广东省深圳市南山区粤海街道创智天地大厦B栋27楼南区",
+		"city": "深圳市",
+		"contactType": 1,
+		"country": "中国",
+		"county": "",
+		"province": "广东省",
+		"tel": "4001118851"
+	}, {
+		"address": "南朗镇翠亨村101",
+		"city": "中山市",
+		"contactType": 2,
+		"country": "中国",
+		"county": "",
+		"province": "广东省",
+		"tel": "15888888111"
+	}],
+	"filterType": 1,
+	"orderId": "QIAO-20200618-001"
+}]

@@ -1,0 +1,19 @@
+ {
+    "cancel":false,
+    "deliverDate":"2020-04-30",
+    "deliverTimeMax":"12:00",
+    "deliverTimeMin":"09:00",
+    "monthlyCardNo":"9999999999",
+    "newDestAddress":{
+        "address":"粤海街道海阔天空雅居B栋16B",
+        "city":"深圳市",
+        "contact":"牟星",
+        "county":"南山区",
+        "phone":"15922226666",
+        "province":"广东省"
+    },
+    "payMode":"3",
+    "role":"1",
+    "serviceCode":"7",
+    "waybillNo":"SF444201931741"
+}

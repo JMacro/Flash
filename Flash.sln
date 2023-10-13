@@ -204,11 +204,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCore", "AspNetCore", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkFlow", "WorkFlow", "{4481B599-D401-400A-8836-83DDFE5E2FDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.AspNetCore.WorkFlow.Infrastructure", "src\Flash.AspNetCore.WorkFlow.Infrastructure\Flash.AspNetCore.WorkFlow.Infrastructure.csproj", "{A888ECD6-9FEF-4B98-960B-B39DC81A55CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.AspNetCore.WorkFlow.Infrastructure", "src\Flash.AspNetCore.WorkFlow.Infrastructure\Flash.AspNetCore.WorkFlow.Infrastructure.csproj", "{A888ECD6-9FEF-4B98-960B-B39DC81A55CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.AspNetCore.WorkFlow.Domain", "src\Flash.AspNetCore.WorkFlow.Domain\Flash.AspNetCore.WorkFlow.Domain.csproj", "{1E3F5F8A-ACC4-4143-94EC-43F3132272B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.AspNetCore.WorkFlow.Domain", "src\Flash.AspNetCore.WorkFlow.Domain\Flash.AspNetCore.WorkFlow.Domain.csproj", "{1E3F5F8A-ACC4-4143-94EC-43F3132272B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.AspNetCore.WorkFlow.Application", "src\Flash.AspNetCore.WorkFlow.Application\Flash.AspNetCore.WorkFlow.Application.csproj", "{CEFD9ACC-86DB-46F8-AD50-DF9F984EFEA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.AspNetCore.WorkFlow.Application", "src\Flash.AspNetCore.WorkFlow.Application\Flash.AspNetCore.WorkFlow.Application.csproj", "{CEFD9ACC-86DB-46F8-AD50-DF9F984EFEA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flash.Extensions.RuleEngine", "src\Flash.Extensions.RuleEngine\Flash.Extensions.RuleEngine.csproj", "{742F66C7-690B-4BA0-96BB-2AE907C13A77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -432,6 +434,10 @@ Global
 		{CEFD9ACC-86DB-46F8-AD50-DF9F984EFEA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEFD9ACC-86DB-46F8-AD50-DF9F984EFEA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEFD9ACC-86DB-46F8-AD50-DF9F984EFEA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742F66C7-690B-4BA0-96BB-2AE907C13A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742F66C7-690B-4BA0-96BB-2AE907C13A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742F66C7-690B-4BA0-96BB-2AE907C13A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742F66C7-690B-4BA0-96BB-2AE907C13A77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -505,6 +511,7 @@ Global
 		{A888ECD6-9FEF-4B98-960B-B39DC81A55CF} = {4481B599-D401-400A-8836-83DDFE5E2FDE}
 		{1E3F5F8A-ACC4-4143-94EC-43F3132272B3} = {4481B599-D401-400A-8836-83DDFE5E2FDE}
 		{CEFD9ACC-86DB-46F8-AD50-DF9F984EFEA3} = {4481B599-D401-400A-8836-83DDFE5E2FDE}
+		{742F66C7-690B-4BA0-96BB-2AE907C13A77} = {AB151676-5329-47DD-974B-646648B41FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {789F62BD-437C-461F-9EB7-7A1B19BFAE4E}
