@@ -1,0 +1,537 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="layui-v2.7.6/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+    </style>
+    <script src="layui-v2.7.6/layui/layui.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="layui/config.js"></script>
+</head>
+<body>
+    <div class="layui-upload" style="margin-top: 5px; margin-left: 5px">
+        <div style="margin-left: 5px">
+            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+            <button type="button" class="layui-btn layui-btn-disabled" id="batchContrast">批量对比</button>
+            <!--<button type="button" class="layui-btn layui-btn-disabled" id="batchViewProperty">批量查看属性</button>-->
+        </div>
+        <div class="layui-upload-list" style="max-width: 1000px;">
+            <form class="layui-form" action="">
+                <table class="layui-table" id="tab_Upload" lay-filter="tab_Upload"></table>
+                <div class="layui-tab layui-tab-card layui-hide" id="tab" lay-filter="tab" lay-allowclose="true">
+                    <ul class="layui-tab-title"></ul>
+                    <div class="layui-tab-content"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        //Demo
+        layui.use(['upload', 'element', 'layer', 'form', 'table'], function () {
+            var $ = layui.jquery
+                , upload = layui.upload
+                , element = layui.element
+                , layer = layui.layer
+                , form = layui.form
+                , table = layui.table;
+
+            form.on('checkbox(all)', function (data) {
+                var cname = data.value;
+                var child = $("." + cname + " input[type='checkbox']");
+                var checkIndex = 0;
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                    if (item.checked) {
+                        checkIndex++;
+                    }
+                });
+
+                if (data.elem.checked) {
+                    if (checkIndex >= 2) {
+                        $('#batchContrast').removeClass("layui-btn-disabled").attr("disabled", false);
+                    } else {
+                        $('#batchContrast').addClass("layui-btn-disabled").attr("disabled", true);
+                    }
+                } else {
+                    $('#batchContrast').addClass("layui-btn-disabled").attr("disabled", true);
+                }
+
+                //刷新checkbox渲染
+                form.render('checkbox');
+            });
+            var files = {};
+            var uploadList = [];
+            var resList = {};
+
+            bindTabUpload(uploadList);
+
+            //多文件列表
+            var uploadListIns = upload.render({
+                elem: '#testList'
+                , elemList: $('#tab_Upload') //列表元素对象
+                , url: '/api/UploadFileMD5/GetImagePropertyInfo' //此处用的是第三方的 http 请求演示，实际使用时改成您自己的上传接口即可。
+                , accept: 'file'
+                , multiple: true
+                , choose: function (obj) {
+                    var that = this;
+                    files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function (index, file, result) {
+                        file["index"] = index;
+                        file["result"] = result;
+                        file["md5"] = "";
+                        uploadList.push(file);
+                        bindTabUpload(uploadList)
+
+                        element.render('progress'); //渲染新加的进度条组件
+                        form.render('checkbox');
+                    });
+                    $("#testListAction").removeClass("layui-btn-disabled");
+                }
+                , done: function (res, index, upload) { //成功的回调
+                    var that = this;
+                    if (res.IsSuccess) { //上传成功
+                        $.each(uploadList, function (i, item) {
+                            if (item.index == index) {
+                                item["md5"] = res.Data.FileIdentityInfo.Hash;
+                                item["responseData"] = res.Data;
+                            }
+                        });
+                        bindTabUpload(uploadList);
+                        delete this.files[index]; //删除文件队列已经上传成功的文件
+                        resList[index] = res.Data;
+                        return;
+                    }
+                    this.error(index, upload);
+                }
+                , allDone: function (obj) { //多文件上传完毕后的状态回调
+                    console.log(obj)
+                    $("#batchViewProperty").removeClass("layui-btn-disabled").attr("disabled", false);
+                }
+                , error: function (index, upload) { //错误回调
+                    var that = this;
+                    var tr = that.elemList.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tds.eq(5).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+                , progress: function (n, elem, e, index) { //注意：index 参数为 layui 2.6.6 新增
+                    element.progress('progress-demo-' + index, n + '%'); //执行进度条。n 即为返回的进度百分比
+                }
+            });
+
+            $("#batchViewProperty").on('click', function () {
+                var checkStatus = table.checkStatus("tab_Upload");
+                $.each(checkStatus.data, function (index2, item2) {
+                    setTimeout(function () {
+                        console.log(item2)
+                        viewProperty(item2);
+                    }, 500);
+                    
+                });
+            });
+
+            var tableContrastData = [];
+            var tableContrastCols = [];
+
+            $("#batchContrast").on('click', function () {
+                var openIndex = layer.open({
+                    type: 1,
+                    title: '批量对比',
+                    maxmin: true,
+                    offset: 'lt',
+                    content: $('#div_Contrast'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    success: function (layero, index) {
+                        var checkStatus = table.checkStatus("tab_Upload");
+                        ajaxPost("/api/UploadFileMD5/GetExifTagList", {}, function (result) {
+                            tableContrastData = [];
+                            tableContrastCols = [];
+                            console.log(checkStatus.data)
+
+                            $.each(checkStatus.data, function (index2, item2) {
+                                var field = "Value_" + item2.index;
+                                var colObj = { field: field, title: item2.name, width: 250 };
+                                tableContrastCols.push(colObj);
+                            });
+
+                            var newRow = {};
+                            $.each(result.Data, function (index1, item1) {
+                                var dataObj = {};
+                                $.each(checkStatus.data, function (index2, item2) {
+                                    var field = "Value_" + item2.index;
+                                    dataObj["Key"] = item1.Tag;
+                                    dataObj["Description"] = item1.Description;
+                                    dataObj["Type"] = "Text";
+
+                                    newRow["Key"] = "Image";
+                                    newRow["Description"] = "图片";
+                                    newRow[field] = item2.result;
+                                    newRow["Type"] = "Image";
+
+                                    $.each(item2.responseData.ExifInfoList, function (index3, item3) {
+                                        if (item3.Key == item1.Tag) {
+                                            dataObj[field] = item3.Value;
+                                            return;
+                                        }
+                                    });
+                                });
+                                tableContrastData.push(dataObj);
+                            });
+
+                            $.each(["Hash", "CRC32", "CRC64", "SHA256"], function (index1, item1) { 
+                                var fileIdentity = {};
+                                $.each(checkStatus.data, function (index2, item2) {
+                                    var field = "Value_" + item2.index;
+                                    fileIdentity["Key"] = item1;
+                                    fileIdentity["Description"] = item1;
+                                    fileIdentity["Type"] = "Text";
+                                    $.each(item2.responseData.FileIdentityInfo, function (k, v) {
+                                        if (k == item1) {
+                                            fileIdentity[field] = v;
+                                        }
+                                    });
+                                });
+                                tableContrastData.push(fileIdentity);
+                            });
+
+                            //console.log(tableContrastData);
+                            //console.log(newRow);
+
+                            table.render({
+                                elem: '#tab_Contrast',
+                                id: 'tab_Contrast',
+                                limit: 10000,
+                                data: tableContrastData,
+                                cols: [[
+                                    { field: 'Key', title: 'Key', hide: true },
+                                    { field: 'Description', title: '文件名', fixed: 'left', align: 'right', width: 150 },
+                                    ...tableContrastCols
+                                ]]
+                            });
+                        }, function () { }, false);
+
+                        $("#div_Contrast").removeClass("layui-hide");
+                    },
+                    end: function () {
+                        $("#div_Contrast").addClass("layui-hide");
+                    }
+                });
+                layer.full(openIndex);
+            });
+
+
+            table.on('checkbox(tab_Upload)', function (obj) {
+                var checkStatus = table.checkStatus("tab_Upload");
+                if (checkStatus.data.length >= 2) {
+                    $('#batchContrast').removeClass("layui-btn-disabled").attr("disabled", false);
+                } else {
+                    $('#batchContrast').addClass("layui-btn-disabled").attr("disabled", true);
+                }
+            });
+
+            //监听行工具事件
+            table.on('tool(tab_Upload)', function (obj) {
+                var data = obj.data
+                var index = data.index;
+                switch (obj.event) {
+                    case "reload":
+                        break;
+                    case "property":
+                        $('#tab').removeClass("layui-hide");
+                        var exist = $("li[lay-id='" + index + "']").length;
+                        if (exist == 0) {
+                            console.log(data)
+                            viewProperty(data)
+                        } else {
+                            element.tabChange('tab', index);
+                        }
+                        break;
+                    case "delete":
+                        delete files[index]; //删除对应的文件
+                        obj.del();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        element.tabDelete('tab', index); //删除：“商品管理”
+                        $.each(uploadList, function (n, item) {
+                            if (item.index == index) {
+                                uploadList.splice(n, 1)
+                                return;
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            //
+            form.on('switch(hideSameData)', function (data) {
+                //tableContrastData
+                //tableContrastCols
+                //相同数据处理
+                //var checkStatus = table.checkStatus("tab_Upload");
+                //var notSameData = [];
+                //$.each(checkStatus.data, function (idx1, item1) {
+                //    $.each(tableContrastData, function (idx2, item2) {
+                //        $.each(tableContrastData, function (idx3, item3) {
+                //            if (item2["Value_" + item1.index] != item3["Value_" + item1.index]) {
+                                
+                //            }
+                //        });
+                //    });
+                //});
+                //console.log(notSameData)
+                //table.render({
+                //    elem: '#tab_Contrast',
+                //    id: 'tab_Contrast',
+                //    limit: 10000,
+                //    data: tableContrastData,
+                //    cols: [[
+                //        { field: 'Key', title: 'Key', hide: true },
+                //        { field: 'Description', title: '文件名', fixed: 'left', align: 'right', width: 150 },
+                //        ...tableContrastCols
+                //    ]]
+                //});
+
+                layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+            });
+
+            function bindTabUpload(data) {
+                table.render({
+                    elem: '#tab_Upload',
+                    id: 'tab_Upload',
+                    limit: 10000,
+                    data: data,
+                    cols: [[
+                        { type: 'checkbox', fixed: 'left' },
+                        { field: 'name', title: '文件名' },
+                        {
+                            field: 'size', title: '大小', templet: function (res) {
+                                return (res.size / 1014).toFixed(1) + "kb"
+                            }, width: 100
+                        },
+                        {
+                            title: '分析状态', templet: function (res) {
+                                return res.md5 == "" ? "分析中" : "已完成";
+                            }, width:100
+                        },
+                        { field: 'md5', title: 'MD5', width: 300 },
+                        { title: '操作', toolbar: "#barOperate", width: 150 },
+                    ]]
+                });
+            }
+
+            function viewProperty(data) {
+                element.tabAdd('tab', {
+                    title: data.name //用于演示
+                    , content: '<table class="layui-table" id="tabMD5_' + data.index + '" lay-filter="tabMD5_' + data.index + '"></table><button type="button" data-index=' + data.index + ' id="down_' + data.index + '" lay-filter="down_' + data.index + '" class="layui-btn layui-btn-fluid layui-hide">图片下载</button><img class="layui-upload-img layui-hide" src="' + data.result + '" id="img_' + data.index + '"><img class="layui-upload-img layui-hide" src="' + data.result + '" id="tmpImg_' + data.index + '"><table class="layui-table" id="tab_' + data.index + '" lay-filter="tab_' + data.index + '"></table><button type="button" data-index=' + data.index + ' id="modify_' + data.index + '" lay-filter="modify_' + data.index + '" class="layui-btn layui-btn-fluid">修改属性</button>'
+                    , id: data.index //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+                element.tabChange('tab', data.index);
+
+                table.render({
+                    elem: '#tab_' + data.index,
+                    id: 'tab_' + data.index,
+                    limit: 10000,
+                    data: resList[data.index].ExifInfoList,
+                    cols: [[
+                        { field: 'Key', title: 'Key', hide: true },
+                        { field: 'Description', title: '属性名', align: 'right' },
+                        { field: 'Value', title: '属性值', edit: 'text' }
+                    ]]
+                });
+
+                var col_tabMD5 = [[
+                    { field: 'Type', title: '修改前|后', align: 'right', width: 100 },
+                    { field: 'MD5', title: 'MD5', width: 300 },
+                    { field: 'CRC32', title: 'CRC32', width: 100 },
+                    { field: 'CRC64', title: 'CRC64', width: 170 },
+                    { field: 'SHA256', title: 'SHA256' }
+                ]]
+
+                col_tabMD5 = [[
+                    { field: 'Type', title: '类型', align: 'right', width: 100 },
+                    { field: 'OldValue', title: '修改前', align: 'right' },
+                    { field: 'NewValue', title: '修改后', align: 'right' },
+                ]]
+
+                var tabMD5List = [];
+
+                $.each(resList[data.index].FileIdentityInfo, function (k, v) {
+                    var obj = {};
+                    obj["Type"] = k;
+                    obj["OldValue"] = v;
+                    obj["NewValue"] = "";
+                    tabMD5List.push(obj)
+                })
+                
+                table.render({
+                    elem: '#tabMD5_' + data.index,
+                    id: 'tabMD5_' + data.index,
+                    limit: 10000,
+                    data: tabMD5List,
+                    cols: col_tabMD5
+                });
+
+                $('#modify_' + data.index).on('click', function () {
+                    $('#modify_' + data.index).addClass("layui-btn-disabled").attr("disabled", true);
+
+                    var rowIndex = $(this).attr("data-index");
+                    var tabData = table.getData('tab_' + rowIndex)
+                    var modifyObj = {};
+                    $.each(tabData, function (index, item) {
+                        modifyObj[item.Key] = item.Value;
+                    });
+                    var requestData = {
+                        Image4Base64: $("#img_" + rowIndex).attr("src"),
+                        Propertys: modifyObj
+                    };
+
+                    ajaxPost("/api/UploadFileMD5/WriteProperty", requestData, function (result) {
+                        $('#modify_' + data.index).removeClass("layui-btn-disabled").attr("disabled", false);
+                        layer.msg('修改成功', { icon: 1 });
+                        $("#tmpImg_" + rowIndex).attr("src", result.Image4Base64);
+
+                        $.each(tabMD5List, function (k1, item) {
+                            $.each(result.Data.FileIdentityInfo, function (k2, v2) {
+                                if (item["Type"] == k2) {
+                                    item["NewValue"] = v2;
+                                    return;
+                                }
+                            });
+                        });
+
+                        table.render({
+                            elem: '#tabMD5_' + data.index,
+                            id: 'tabMD5_' + data.index,
+                            limit: 10000,
+                            data: tabMD5List,
+                            cols: col_tabMD5
+                        });
+                        $('#down_' + data.index).removeClass("layui-hide")
+                    }, function () {
+                        $('#modify_' + data.index).removeClass("layui-btn-disabled").attr("disabled", false);
+                    });
+                });
+
+                $('#down_' + data.index).on('click', function () {
+                    var rowIndex = $(this).attr("data-index");
+                    var base64Image = $("#tmpImg_" + rowIndex).attr("src");
+                    //downloadIamge(base64Image, data.index)
+                    download(base64Image);
+                });
+            }
+        });
+
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return (false);
+        }
+
+        function ajaxPost(url, data, success, complete = null, isAjax = true) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType: "json",
+                async: isAjax,
+                success: function (res) {
+                    if (res.IsSuccess) {
+                        succress(res)
+                    } else {
+                        layer.msg('失败啦！', { icon: 5 });
+                    }
+                },
+                error: function () {
+                    layer.msg('失败啦！', { icon: 5 });
+                },
+                complete: function (data) {
+                    if (complete) {
+                        complete(data);
+                    }
+                }
+            });
+        }
+
+        function downloadIamge(imgsrc, name) {
+            let image = new Image();
+            // 解决跨域 Canvas 污染问题
+            image.setAttribute("crossOrigin", "anonymous");
+            image.onload = function () {
+                let canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+                let context = canvas.getContext("2d");
+                context.drawImage(image, 0, 0, image.width, image.height);
+
+                var baseSplit = imgsrc.split(',');
+                var base64Info = baseSplit[0].split(';');
+                //let url = canvas.toDataURL("image/jpg"); //得到图片的base64编码数据
+                let url = canvas.toDataURL(base64Info[0].replace('data:', "")); //得到图片的base64编码数据
+                let a = document.createElement("a"); // 生成一个a元素
+                let event = new MouseEvent("click"); // 创建一个单击事件
+                a.download = name || "photo"; // 设置图片名称
+                a.href = url; // 将生成的URL设置为a.href属性
+                a.dispatchEvent(event); // 触发a的单击事件
+            }
+            image.src = imgsrc;
+        }
+        function download(base64) {
+            var date = new Date();
+            if (!base64) {
+                return;
+            }
+            var aLink = document.createElement("a"); // 创建一个a标签
+            var blob = base64ToBlob(base64);
+            var event = document.createEvent("HTMLEvents");
+            event.initEvent("click", true, true);
+            aLink.download = date.getTime() + "." + blob.type.split("/")[1]; // 使用时间戳给文件命名
+            aLink.href = URL.createObjectURL(blob);
+            aLink.click();
+        }
+
+        // base64转Blob对象
+        function base64ToBlob(code) {
+            var parts = code.split(";base64,");
+            var contentType = parts[0].split(":")[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+            var uint8Array = new Uint8Array(rawLength);
+            for (var i = 0; i < rawLength; i++) {
+                uint8Array[i] = raw.charCodeAt(i);
+            }
+            return new Blob([uint8Array], { type: contentType });
+        }
+    </script>
+    <script type="text/html" id="barOperate">
+        <button type="button" class="layui-btn layui-btn-xs demo-reload layui-hide" data-index="{{d.index}}" lay-event="reload">重传</button>
+        <button type="button" class="layui-btn layui-btn-xs demo-property" data-index="{{d.index}}" lay-filter="btn_{{d.index}}" lay-event="property">查看属性</button>
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger demo-delete" data-index="{{d.index}}" lay-event="delete">删除</button>
+    </script>
+    <div class="layui-hide" id="div_Contrast">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">隐藏相同项</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="close" lay-skin="switch" lay-filter="hideSameData" lay-text="ON|OFF">
+                    </div>
+                </div>
+            </div>
+            <table class="layui-table" id="tab_Contrast" lay-filter="tab_Contrast"></table>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="layui-v2.7.6/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+    </style>
+    <script src="layui-v2.7.6/layui/layui.js"></script>
+    <script src="jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.fileDownload/1.4.2/jquery.fileDownload.min.js"></script>
+    <script src="layui/config.js"></script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend>代发订单解析</legend>
+        <div class="layui-field-box">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        数量来源
+                        <i class="layui-icon layui-icon-tips tooltip" data-content="微信格式：</br>联系人姓名，联系人手机号，联系人地址</br></br>口味备注</br>-----------------------分割线-------------------------</br>千牛格式：</br>订单号</br></br>联系人姓名，联系人手机号，联系人地址</br></br>口味备注"></i>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="data-type" value="weichar" title="微信" checked="checked">
+                        <input type="radio" name="data-type" value="qianniu" title="千牛">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">订单信息</label>
+                    <div class="layui-input-block">
+                        <textarea id="txt_OrderInfo" placeholder="请输入代发订单信息" style="height:180px" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </form>
+            <table class="layui-hide" id="table_OrderPrint" lay-filter="table_OrderPrint"></table>
+        </div>
+    </fieldset>
+    <script>
+        layui.use(['form', 'laydate', 'util', 'table'], function () {
+            var upload = layui.upload;
+            var element = layui.element;
+            var table = layui.table;
+            var $ = layui.$;
+            var laydate = layui.laydate;
+            var util = layui.util;
+
+            var currentYear = new Date().getFullYear(); // 获取当前年份
+            var currentMonth = new Date().getMonth() + 1; // 获取当前月份（注意要加上1）
+            var currentDay = new Date().getDate(); // 获取当前天数
+
+            var tips;
+            $('.tooltip').on({
+                mouseenter: function () {
+                    var that = this;
+                    var content = $(this).data('content');
+                    if (!content) return;
+                    var maxWidth = $(this).data('width') || 300;
+                    tips = layer.tips("<span style='color:#000;'>" + content + "</span>",
+                        that,
+                        { tips: [1, '#fff'], time: 0, area: 'auto', maxWidth: parseInt(maxWidth) }
+                    );
+
+                },
+                mouseleave: function () {
+                    layer.close(tips);
+                }
+            });
+
+            var orderPrintList = new Array();
+            loadTable(orderPrintList)
+
+            //头工具栏事件
+            table.on('toolbar(table_OrderPrint)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'exoprtOrderInfo':
+                        console.log(orderPrintList)
+                        $.fileDownload("/api/TaobaoUtils/ExprotDaiFaOrderList", {
+                            httpMethod: 'POST',
+                            data: { "Items": orderPrintList },
+                            successCallback: function () {
+                                layer.closeAll('loading');
+                            },
+                            failCallback: function (responseHtml, url) {
+                                layer.msg('加载中..');
+                            }
+                        });
+                        break;
+                    case 'getOrderInfo':
+                        var orderInfo = jiexi_OrderInfo();
+                        if (orderInfo == null) {
+                            return;
+                        }
+                        orderPrintList.push({
+                            "Recipient": orderInfo.Recipient,
+                            "PhoneNumber": orderInfo.PhoneNumber,
+                            "Address": orderInfo.Address,
+                            "PlatformOrderNumber": orderInfo.PlatformOrderNumber,
+                            "Commodity": orderInfo.Commodity,
+                            "Specification": orderInfo.Specification,
+                            "CommodityNumber": orderInfo.CommodityNumber,
+                            "CommodityWeight": orderInfo.CommodityWeight,
+                            "Remarks": orderInfo.Remarks,
+                        });
+
+                        loadTable(orderPrintList)
+                        break
+                };
+            });
+
+            function loadTable(list) {
+                //展示已知数据
+                table.render({
+                    elem: '#table_OrderPrint'
+                    , toolbar: '#toolbarDemo'
+                    , escape: true
+                    , cols: [[ //标题栏
+                        { field: 'number', title: '序号', align: 'center', type: 'numbers' }
+                        , { field: 'Recipient', title: '收件人(必填)', sort: true }
+                        , { field: 'PhoneNumber', title: '手机号(必填)', edit: 'text' }
+                        , { field: 'Address', title: '收货地址(必填)', edit: 'text' }
+                        , { field: 'PlatformOrderNumber', title: '平台订单号（非必填）', edit: 'text',width: 200 }
+                        , { field: 'Commodity', title: '商品信息(非必填)', edit: 'text' }
+                        , { field: 'Specification', title: '规格信息(非必填)', edit: 'text' }
+                        , { field: 'CommodityNumber', title: '商品数量(非必填)', edit: 'text' }
+                        , { field: 'CommodityWeight', title: '重量kg(非必填)', edit: 'text' }
+                        , { field: 'Remarks', title: '备注(非必填)', edit: 'text' }
+                    ]]
+                    , data: list
+                    , even: true
+                });
+            }
+            function jiexi_OrderInfo() {
+                var data_type = $('input[name="data-type"]:checked').val();
+                var txt_OrderInfo = $("#txt_OrderInfo").val();
+                var data = null;
+                if (data_type == 'qianniu') {
+
+                    var list_OrderInfo = txt_OrderInfo.split("\n");
+                    if (list_OrderInfo.length < 5) {
+                        layer.msg('解析失败啦！', { icon: 5 });
+                        return;
+                    }
+
+                    var tmp = list_OrderInfo[2].split("，");
+                    if (tmp.length < 3) {
+                        layer.msg('联系人信息解析失败啦！', { icon: 5 });
+                        return;
+                    }
+
+                    var hasOrderPrintInfo = $.grep(orderPrintList, function (orderPrintInfo) {
+                        return orderPrintInfo.Commodity == list_OrderInfo[0];
+                    });
+                    if (hasOrderPrintInfo.length >= 1) {
+                        layer.msg('数据已存在，请勿重复解析添加！', { icon: 5 });
+                        return;
+                    }
+
+                    var remarks = "";
+                    for (var i = 4; i < list_OrderInfo.length; i++) {
+                        if (remarks.length == 0) {
+                            remarks = list_OrderInfo[i];
+                        } else {
+                            remarks = (remarks + "\n" + list_OrderInfo[i]);
+                        }
+                    }
+
+                    data = {
+                        "Recipient": tmp[0],
+                        "PhoneNumber": tmp[1],
+                        "Address": tmp[2],
+                        "PlatformOrderNumber": list_OrderInfo[0],
+                        "Commodity": list_OrderInfo[0],
+                        "Specification": "代",
+                        "CommodityNumber": 1,
+                        "CommodityWeight": "0",
+                        "Remarks": remarks,
+                    };
+                } else {
+                    var list_OrderInfo = txt_OrderInfo.split("\n");
+                    if (list_OrderInfo.length < 3) {
+                        layer.msg('解析失败啦！', { icon: 5 });
+                        return;
+                    }
+
+                    var tmp = list_OrderInfo[0].split("，");
+                    if (tmp.length < 3) {
+                        layer.msg('联系人信息解析失败啦！', { icon: 5 });
+                        return;
+                    }
+
+                    var hasOrderPrintInfo = $.grep(orderPrintList, function (orderPrintInfo) {
+                        return orderPrintInfo.Commodity == list_OrderInfo[0];
+                    });
+                    if (hasOrderPrintInfo.length >= 1) {
+                        layer.msg('数据已存在，请勿重复解析添加！', { icon: 5 });
+                        return;
+                    }
+
+                    var remarks = "";
+                    for (var i = 2; i < list_OrderInfo.length; i++) {
+                        if (remarks.length == 0) {
+                            remarks = list_OrderInfo[i];
+                        } else {
+                            remarks = (remarks + "\n" + list_OrderInfo[i]);
+                        }
+                    }
+
+                    var platformOrderNumber = guidShort();
+                    data = {
+                        "Recipient": tmp[0],
+                        "PhoneNumber": tmp[1],
+                        "Address": tmp[2],
+                        "PlatformOrderNumber": platformOrderNumber,
+                        "Commodity": platformOrderNumber,
+                        "Specification": "代",
+                        "CommodityNumber": 1,
+                        "CommodityWeight": "0",
+                        "Remarks": remarks,
+                    };
+
+                }
+
+                return data;
+            }
+
+            function guid() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    var r = Math.random() * 16 | 0
+                    var v = c === 'x' ? r : (r & 0x3 | 0x8)
+                    return v.toString(16)
+                })
+            }
+
+            function guidShort() {
+                return guid().replace('-', '');
+            }
+        });
+    </script>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="getOrderInfo">解析代发订单信息</button>
+            <button class="layui-btn layui-btn-sm" lay-event="exoprtOrderInfo">导出代发订单信息</button>
+        </div>
+    </script>
+</body>
+</html>

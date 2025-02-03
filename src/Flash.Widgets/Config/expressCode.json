@@ -1,0 +1,36 @@
+﻿{
+  "ExpressCodes": [
+    {
+      "ExpressName": "中通快递",
+      "KuaiDi100Code": "zhongtong"
+    },
+    {
+      "ExpressName": "圆通速递",
+      "KuaiDi100Code": "yuantong"
+    },
+    {
+      "ExpressName": "顺丰速运",
+      "KuaiDi100Code": "shunfeng"
+    },
+    {
+      "ExpressName": "韵达快递",
+      "KuaiDi100Code": "yunda"
+    },
+    {
+      "ExpressName": "极兔速递",
+      "KuaiDi100Code": "jtexpress"
+    },
+    {
+      "ExpressName": "菜鸟速递",
+      "KuaiDi100Code": "cainiaozhisong"
+    },
+    {
+      "ExpressName": "申通快递",
+      "KuaiDi100Code": "shentong"
+    },
+    {
+      "ExpressName": "EMS",
+      "KuaiDi100Code": "ems"
+    }
+  ]
+}

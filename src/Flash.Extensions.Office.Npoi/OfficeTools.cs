@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Flash.Extensions;
 using Flash.Core;
+using NPOI.XSSF.UserModel;
 
 namespace Flash.Extensions.Office.Npoi
 {
@@ -32,7 +33,7 @@ namespace Flash.Extensions.Office.Npoi
             {
                 var columnMapsDic = columnMaps.ToDictionary(p => p.ColumnMap.ExcelColumnName, p => p);
 
-                var xssWorkbook = new HSSFWorkbook(memoryStream);
+                var xssWorkbook = new XSSFWorkbook(memoryStream);
                 var sheet = xssWorkbook.GetSheetAt(0);
                 IRow headerRow = sheet.GetRow(0);
                 int cellCount = headerRow.LastCellNum;
@@ -61,13 +62,15 @@ namespace Flash.Extensions.Office.Npoi
 
                             if (!string.IsNullOrWhiteSpace(cellValue))
                             {
-                                var tmp = columnMapsDic[excelColumns[j]];
-                                var property = dataType.GetProperty(tmp.ColumnMap.EntityFieldName);
-                                if (property != null)
+                                if (columnMapsDic.TryGetValue(excelColumns[j], out var tmp))
                                 {
-                                    if (TryConvertType(cellValue, property.PropertyType, out dynamic result))
+                                    var property = dataType.GetProperty(tmp.ColumnMap.EntityFieldName);
+                                    if (property != null)
                                     {
-                                        property.SetValue(entity, result);
+                                        if (TryConvertType(cellValue, property.PropertyType, out dynamic result))
+                                        {
+                                            property.SetValue(entity, result);
+                                        }
                                     }
                                 }
                             }
@@ -89,8 +92,11 @@ namespace Flash.Extensions.Office.Npoi
             {
                 var columnMapsDic = columnMaps.ToDictionary(p => p.ColumnMap.ExcelColumnName, p => p);
 
-                var xssWorkbook = new HSSFWorkbook(memoryStream);
-                var sheet = xssWorkbook.GetSheet(sheetName);
+                var xssWorkbook = new XSSFWorkbook(memoryStream);
+                var sheet = default(ISheet);
+                if (!string.IsNullOrEmpty(sheetName)) sheet = xssWorkbook.GetSheet(sheetName);
+                else sheet = xssWorkbook.GetSheetAt(0);
+
                 if (sheet == null) return entitys;
 
                 IRow headerRow = sheet.GetRow(0);
@@ -120,13 +126,16 @@ namespace Flash.Extensions.Office.Npoi
 
                             if (!string.IsNullOrWhiteSpace(cellValue))
                             {
-                                var tmp = columnMapsDic[excelColumns[j]];
-                                var property = dataType.GetProperty(tmp.ColumnMap.EntityFieldName);
-                                if (property != null)
+                                if (columnMapsDic.Any(p => p.Key == excelColumns[j]))
                                 {
-                                    if (TryConvertType(cellValue, property.PropertyType, out dynamic result))
+                                    var tmp = columnMapsDic[excelColumns[j]];
+                                    var property = dataType.GetProperty(tmp.ColumnMap.EntityFieldName);
+                                    if (property != null)
                                     {
-                                        property.SetValue(entity, result);
+                                        if (TryConvertType(cellValue, property.PropertyType, out dynamic result))
+                                        {
+                                            property.SetValue(entity, result);
+                                        }
                                     }
                                 }
                             }
@@ -147,7 +156,7 @@ namespace Flash.Extensions.Office.Npoi
         {
             using (var memoryStream = new MemoryStream())
             {
-                HSSFWorkbook workbook = new HSSFWorkbook();
+                XSSFWorkbook workbook = new XSSFWorkbook();
 
                 ICellStyle style = workbook.CreateCellStyle();
                 style.BorderBottom = BorderStyle.Thin;
@@ -407,10 +416,10 @@ namespace Flash.Extensions.Office.Npoi
 
             if (excelComment != null)
             {
-                var comment = patriarch.CreateCellComment(new HSSFClientAnchor());
+                var comment = patriarch.CreateCellComment(new XSSFClientAnchor());
                 if (string.IsNullOrEmpty(excelComment.Author)) excelComment.Author = "System";
                 comment.Author = excelComment.Author;
-                comment.String = new HSSFRichTextString($"{excelComment.Author}:{Environment.NewLine}{excelComment.Content ?? ""}");
+                comment.String = new XSSFRichTextString($"{excelComment.Author}:{Environment.NewLine}{excelComment.Content ?? ""}");
                 comment.Visible = excelComment.DefaultVisible;
                 cell.CellComment = comment;
             }

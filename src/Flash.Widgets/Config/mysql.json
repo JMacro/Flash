@@ -1,0 +1,5 @@
+{
+  "ConnectionString": {
+    "TaoBao": "Server=192.168.50.110;Port=63306;Database=taobao_${Environment};User=root;Password=admin@8225950;pooling=True;minpoolsize=1;maxpoolsize=100;connectiontimeout=180"
+  }
+}

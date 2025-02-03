@@ -1,0 +1,424 @@
+﻿{
+  "SkuCodes": [
+    {
+      "SkuCode": "YITONG02-BH",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 薄荷"
+    },
+    {
+      "SkuCode": "YITONG02-XG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 西瓜"
+    },
+    {
+      "SkuCode": "YITONG02-HY",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 海盐"
+    },
+    {
+      "SkuCode": "YITONG02-XY",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 香芋"
+    },
+    {
+      "SkuCode": "YITONG02-QT",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 青提"
+    },
+    {
+      "SkuCode": "YITONG02-TGY",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 铁观音"
+    },
+    {
+      "SkuCode": "YITONG02-LZ",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 荔枝"
+    },
+    {
+      "SkuCode": "YITONG02-KL",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 可乐"
+    },
+    {
+      "SkuCode": "YITONG02-LJ",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 龙井"
+    },
+    {
+      "SkuCode": "YITONG02-MG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 芒果"
+    },
+    {
+      "SkuCode": "YITONG02-CM",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "一同二代 草莓"
+    },
+    {
+      "SkuCode": "ANYI01-LJ",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易一代 龙井"
+    },
+    {
+      "SkuCode": "ANYI01-XG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易一代 西瓜"
+    },
+    {
+      "SkuCode": "ANYI01-BH",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易一代 薄荷"
+    },
+    {
+      "SkuCode": "ANYI01-PT",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易一代 葡萄"
+    },
+    {
+      "SkuCode": "ANYI02-LJ",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 龙井"
+    },
+    {
+      "SkuCode": "ANYI02-XG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 西瓜"
+    },
+    {
+      "SkuCode": "ANYI02-BH",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 薄荷"
+    },
+    {
+      "SkuCode": "ANYI02-MTWL",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 蜜桃乌龙"
+    },
+    {
+      "SkuCode": "ANYI02-XY",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 西柚"
+    },
+    {
+      "SkuCode": "ANYI02-BXG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 百香果"
+    },
+    {
+      "SkuCode": "ANYI02-PT",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 葡萄"
+    },
+    {
+      "SkuCode": "ANYI02-NM",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 柠檬"
+    },
+    {
+      "SkuCode": "ANYI02-LD",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 绿豆"
+    },
+    {
+      "SkuCode": "ANYI02-MLH",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 茉莉花"
+    },
+    {
+      "SkuCode": "ANYI02-BG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 冰棍"
+    },
+    {
+      "SkuCode": "ANYI02-BL",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 菠萝"
+    },
+    {
+      "SkuCode": "ANYI02-CP",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "安易二代 陈皮"
+    },
+    {
+      "SkuCode": "YUJIAN02-YQLJ",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 雨前龙井"
+    },
+    {
+      "SkuCode": "YUJIAN02-QLYX",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 清凉一夏"
+    },
+    {
+      "SkuCode": "YUJIAN02-RSBH",
+      "AliasCodes": [ "YUJIAN02-RSBH", "YUJIAN02-RXBH" ],
+      "AliasCodesStr": "YUJIAN02-RSBH,YUJIAN02-RXBH",
+      "SkuName": "遇健二代 润爽薄荷"
+    },
+    {
+      "SkuCode": "YUJIAN02-LXNC",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 林香拧萃"
+    },
+    {
+      "SkuCode": "YUJIAN02-QSQS",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 清山泉水"
+    },
+    {
+      "SkuCode": "YUJIAN02-SLXG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 顺凉西瓜"
+    },
+    {
+      "SkuCode": "YUJIAN02-HGBX",
+      "AliasCodes": [ "YUJIAN02-HGBX", "YUJIAN02-HXBG", "YUJIAN02-BXG" ],
+      "AliasCodesStr": "YUJIAN02-HGBX,YUJIAN02-HXBG,YUJIAN02-BXG",
+      "SkuName": "遇健二代 花果百香"
+    },
+    {
+      "SkuCode": "YUJIAN02-YSBL",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 盐水菠萝"
+    },
+    {
+      "SkuCode": "YUJIAN02-SSMG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 酸酸莓果"
+    },
+    {
+      "SkuCode": "YUJIAN02-JFPT",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "遇健二代 巨峰葡萄"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-PT",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 葡萄"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-LMC",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 柠檬茶"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-BC",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 冰川"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-BH",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 薄荷"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-BL",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 菠萝"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-BXG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 百香果"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-LJ",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 龙井"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-BTXL",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 冰糖雪梨"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-KF",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 咖啡"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-LD",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 绿豆"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-XG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 西瓜"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-BH",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 薄荷"
+    },
+    {
+      "SkuCode": "CAOBENXINGQIU02-MT",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "草本星球二代 水蜜桃"
+    },
+    {
+      "SkuCode": "YIJIAN02-QG",
+      "AliasCodes": [],
+      "AliasCodesStr": "",
+      "SkuName": "颐健本草 青果"
+    },
+    {
+      "SkuCode": "XIGUA01-MT",
+      "AliasCodes": [ "YITONG03-MT" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 蜜桃"
+    },
+    {
+      "SkuCode": "XIGUA01-XG",
+      "AliasCodes": [ "YITONG03-XG" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 西瓜"
+    },
+    {
+      "SkuCode": "XIGUA01-LZ",
+      "AliasCodes": [ "YITONG03-LZ" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 荔枝"
+    },
+    {
+      "SkuCode": "XIGUA01-PT",
+      "AliasCodes": [ "YITONG03-PT" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 葡萄"
+    },
+    {
+      "SkuCode": "XIGUA01-LJ",
+      "AliasCodes": [ "YITONG03-LJ" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 龙井"
+    },
+    {
+      "SkuCode": "XIGUA01-KL",
+      "AliasCodes": [ "YITONG03-KL" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 可乐"
+    },
+    {
+      "SkuCode": "XIGUA01-CM",
+      "AliasCodes": [ "YITONG03-CM" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 草莓"
+    },
+    {
+      "SkuCode": "XIGUA01-NT",
+      "AliasCodes": [ "YITONG03-NT" ],
+      "AliasCodesStr": "",
+      "SkuName": "吸呱本草 拿铁"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-BL",
+      "AliasCodes": [ "YUJIANSHENGSHI-BL" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 菠萝"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-HHSG",
+      "AliasCodes": [ "YUJIANSHENGSHI-HHSG" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 混合水果"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-LM",
+      "AliasCodes": [ "YUJIANSHENGSHI-LM" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 蓝莓"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-LJ",
+      "AliasCodes": [ "YUJIANSHENGSHI-LJ" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 龙井"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-MG",
+      "AliasCodes": [ "YUJIANSHENGSHI-MG" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 莓果"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-MT",
+      "AliasCodes": [ "YUJIANSHENGSHI-MT" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 蜜桃"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-BH",
+      "AliasCodes": [ "YUJIANSHENGSHI-BH" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 薄荷"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-PT",
+      "AliasCodes": [ "YUJIANSHENGSHI-PT" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 葡萄"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-QYG",
+      "AliasCodes": [ "YUJIANSHENGSHI-QYG" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 奇异果"
+    },
+    {
+      "SkuCode": "YUJIANSHENGSHI-XY",
+      "AliasCodes": [ "YUJIANSHENGSHI-XY" ],
+      "AliasCodesStr": "",
+      "SkuName": "遇健盛世 西柚"
+    }
+  ]
+}

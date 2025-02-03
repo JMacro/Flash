@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="layui-v2.7.6/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+    </style>
+    <script src="layui-v2.7.6/layui/layui.js"></script>
+    <script src="jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.fileDownload/1.4.2/jquery.fileDownload.min.js"></script>
+    <script src="layui/config.js"></script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend>步骤一</legend>
+        <div class="layui-field-box">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">交易文件</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <button type="button" class="layui-btn" id="test3"><i class="layui-icon"></i>上传文件</button>
+                    </div>
+                    <div class="layui-form-label">交易文件Id</div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="date" id="fileid-jiaoyao" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">统计日期</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="date-start" id="date-start" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="date-end" id="date-end" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+            <table class="layui-hide" id="table_sku" lay-filter="table_sku"></table>
+        </div>
+    </fieldset>
+    <script>
+        layui.use(['laydate', 'util', 'table'], function () {
+            var upload = layui.upload;
+            var element = layui.element;
+            var table = layui.table;
+            var $ = layui.$;
+            var laydate = layui.laydate;
+            var util = layui.util;
+
+            var currentYear = new Date().getFullYear(); // 获取当前年份
+            var currentMonth = new Date().getMonth() + 1; // 获取当前月份（注意要加上1）
+            var currentDay = new Date().getDate(); // 获取当前天数
+
+            // 日期
+            laydate.render({
+                elem: '#date-start'
+            });
+
+            // 日期
+            laydate.render({
+                elem: '#date-end'
+            });
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#test3'
+                , url: '/api/TaobaoUtils/Upload' //此处配置你自己的上传接口即可
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    $("#fileid-jiaoyao").val(res)
+                }
+            });
+
+
+            //展示已知数据
+            table.render({
+                elem: '#table_sku'
+                , escape: true
+                , toolbar: '#toolbarDemo'
+                , cols: [[ //标题栏
+                    { field: 'ShopName', title: 'SKU名称', width: 400, sort: true }
+                    , { field: 'ShopCode', title: 'SKU编码', width: 400, edit: 'text' }
+                    , { field: 'Number', title: '数量', width: 400, edit: 'text' }
+                ]]
+                , data: []
+                , even: true
+                , limit: 100
+            });
+
+            //头工具栏事件
+            table.on('toolbar(table_sku)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'exoprtSkuInfo':
+                        var shopId = $('body', window.parent.document).find('#ShopId').val();
+                        if (shopId == "") {
+                            layer.msg('请填写店铺ID！', { icon: 5 });
+                            return;
+                        }
+                        var data = {
+                            ShopId: shopId,
+                            FileIdByExportOrderInfo: $("#fileid-jiaoyao").val(),
+                            StartTime: $("#date-start").val(),
+                            EndTime: $("#date-end").val()
+                        };
+                        layer.msg('加载中..');
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/TaobaoUtils/ExportShopStatic",
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: true,
+                            success: function (res) {
+                                //展示已知数据
+                                table.render({
+                                    elem: '#table_sku'
+                                    , escape: true
+                                    , toolbar: '#toolbarDemo'
+                                    , cols: [[ //标题栏
+                                        { field: 'ShopName', title: 'SKU名称', width: 400, sort: true }
+                                        , { field: 'ShopCode', title: 'SKU编码', width: 400, edit: 'text' }
+                                        , { field: 'Number', title: '数量', width: 400, edit: 'text' }
+                                    ]]
+                                    , data: res
+                                    , even: true
+                                    , limit: 100
+                                    , height: 450
+                                });
+                                layer.closeAll('loading');
+                            },
+                            error: function () {
+                                layer.msg('失败啦！', { icon: 5 });
+                            },
+                            complete: function (data) {
+                            }
+                        });
+                        break;
+                };
+            });
+        });
+    </script>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="exoprtSkuInfo">开始计算SKU统计</button>
+        </div>
+    </script>
+</body>
+</html>
