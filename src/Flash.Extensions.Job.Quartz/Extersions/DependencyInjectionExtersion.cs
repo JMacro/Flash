@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionExtersion
     {
         /// <summary>
-        /// 添加Quartz组件
+        /// 添加Quartz组件，Job类需继承<see cref="BaseQuartzJob"/>
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -105,7 +105,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 使用Hangfire组件
+        /// 使用Quartz组件，Job类需继承<see cref="BaseQuartzJob"/>
         /// </summary>
         /// <param name="jobBuilder"></param>
         /// <param name="setup"></param>
@@ -117,7 +117,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 使用Quartz组件
+        /// 使用Quartz组件，Job类需继承<see cref="BaseQuartzJob"/>
         /// </summary>
         /// <param name="jobBuilder"></param>
         /// <returns></returns>
@@ -133,7 +133,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 使用Quartz组件
+        /// 使用Quartz组件，Job类需继承<see cref="BaseQuartzJob"/>
         /// </summary>
         /// <param name="jobBuilder"></param>
         /// <returns></returns>

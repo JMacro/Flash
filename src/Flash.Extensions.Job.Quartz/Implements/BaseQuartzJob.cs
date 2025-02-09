@@ -7,6 +7,7 @@ namespace Flash.Extensions.Job.Quartz
     /// <summary>
     /// Quartz组件抽象基类
     /// </summary>
+    [DisallowConcurrentExecution]
     public abstract class BaseQuartzJob : BaseJob<IJobExecutionContext>, IJob
     {
         public ILogger _logger { get; private set; }

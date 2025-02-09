@@ -1,4 +1,5 @@
-﻿using Hangfire.States;
+﻿using Hangfire.Server;
+using Hangfire.States;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -73,9 +74,8 @@ namespace Flash.Extensions.Job.Hangfire
             {
                 return null;
             }
-            var method = Type.GetType(option.JobType).GetTypeInfo().GetMethods().FirstOrDefault(p => p.ReturnType == typeof(void) && p.Name == nameof(IRecurringJob.Execute));
-
-            var df = Type.GetType(option.JobType).GetTypeInfo().GetDeclaredMethod(nameof(IRecurringJob.Execute));
+            //var method = Type.GetType(option.JobType).GetTypeInfo().GetMethods().FirstOrDefault(p => p.ReturnType == typeof(void) && p.Name == nameof(IRecurringJob.Execute));
+            var method = Type.GetType(option.JobType).GetTypeInfo().GetMethod(nameof(IRecurringJob.Execute), new Type[] { typeof(PerformContext) });
 
             return new RecurringJobInfo
             {
@@ -89,7 +89,8 @@ namespace Flash.Extensions.Job.Hangfire
                 Queue = option.JobGroup ?? EnqueuedState.DefaultQueue,
                 TimeZone = option.TimeZone ?? TimeZoneInfo.Utc,
                 JobData = option.JobData,
-                Enable = option.Enable ?? true
+                Enable = option.Enable ?? true,
+                IsSimpleSchedule = option.IsSimpleSchedule
             };
         }
 
