@@ -1,0 +1,49 @@
+{
+  "RulesEngine": [
+    {
+      "WorkflowName": "Test1",
+      "WorkflowDescription": "Test1 Description",
+      "Rules": [
+        {
+          "RuleName": "CheckAuthenticated",
+          "Expression": "buyer.Authenticated == true",
+          "ErrorMessage": "用户未认证."
+        },
+        {
+          "RuleName": "CheckAge",
+          "Expression": "buyer.Age >= 18",
+          "ErrorMessage": "年龄必须大于等于18岁."
+        }
+      ]
+    },
+    {
+      "WorkflowName": "Test2",
+      "WorkflowDescription": "Test2 Description",
+      "Rules": [
+        {
+          "RuleName": "buyer.Authenticated",
+          "Expression": "buyer.Authenticated == true",
+          "ErrorMessage": "用户未认证."
+        },
+        {
+          "RuleName": "buyer.Buyer2.Age",
+          "Expression": "buyer.Buyer2.Age >= 18",
+          "ErrorMessage": "年龄必须大于等于18岁."
+        },
+        {
+          "RuleName": "buyer2.Age",
+          "Expression": "buyer2.Age >= 18",
+          "ErrorMessage": "年龄必须大于等于18岁.",
+          "Actions": {
+            "OnSuccess": {
+              "Name": "OutputExpression",
+              "Context": {
+                "Expression": "buyer2.Value * 0.8"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

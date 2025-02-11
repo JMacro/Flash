@@ -8,11 +8,6 @@
             "command": "cmd",
             "args": ["/c", "echo Husky.Net is awesome!" ]
          }
-      },
-	  {
-		 "name": "commit-message-linter",
-		 "command": "husky",
-		 "args": ["exec", "script/commit-lint.csx", "--args", "${args}"]
-	  }
+      }
    ]
 }

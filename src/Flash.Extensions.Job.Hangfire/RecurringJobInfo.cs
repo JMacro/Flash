@@ -40,5 +40,14 @@ namespace Flash.Extensions.Job.Hangfire
 		/// default value is true, if false it will be deleted automatically.
 		/// </summary>
 		public bool Enable { get; set; }
-	}
+
+        /// <summary>
+        /// 是否为简单Job
+        /// </summary>
+        public bool IsSimpleSchedule { get; set; }
+        /// <summary>
+        /// 延迟时间(单位秒)
+        /// </summary>
+        public int DelayTime { get; set; }
+    }
 }

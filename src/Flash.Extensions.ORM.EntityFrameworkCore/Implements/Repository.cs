@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flash.Core;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,7 +13,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
     /// 仓储
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         private readonly BaseDbContext _context;
         private DbSet<TEntity> _entities;
@@ -23,6 +26,10 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         public Repository(BaseDbContext context)
         {
             this._context = context;
+#if DEBUG
+            var logger = MicrosoftContainer.Instance.GetService<ILogger<Repository<TEntity>>>();
+            logger.LogInformation($"DbContextId:{_context.ContextId}");
+#endif
         }
 
         public TEntity GetById(object id)
@@ -32,7 +39,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 throw new ArgumentNullException("id");
             }
 
-            return Entities.Find(id);
+            return Entities.Find(new object[] { id });
         }
 
         public ValueTask<TEntity> GetByIdAsync(object id)
@@ -42,7 +49,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 throw new ArgumentNullException("id");
             }
 
-            return Entities.FindAsync(id);
+            return Entities.FindAsync(new object[] { id });
         }
 
         public void Insert(TEntity entity)
@@ -51,7 +58,8 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             {
                 throw new ArgumentNullException("entity");
             }
-
+            SetCreateTime(entity);
+            SetModifyTime(entity);
             Entities.Add(entity);
         }
 
@@ -62,6 +70,11 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 throw new ArgumentNullException("entities");
             }
 
+            foreach (var entity in entities)
+            {
+                SetCreateTime(entity);
+                SetModifyTime(entity);
+            }
             Entities.AddRange(entities);
         }
 
@@ -72,6 +85,11 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 throw new ArgumentNullException("entities");
             }
 
+            foreach (var entity in entities)
+            {
+                SetCreateTime(entity);
+                SetModifyTime(entity);
+            }
             return Entities.AddRangeAsync(entities);
         }
 
@@ -81,7 +99,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             {
                 throw new ArgumentNullException("entity");
             }
-
+            SetModifyTime(entity);
             Entities.Attach(entity);
             _context.Update(entity);
         }
@@ -92,7 +110,10 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             {
                 throw new ArgumentNullException("entities");
             }
-
+            foreach (var entity in entities)
+            {
+                SetModifyTime(entity);
+            }
             _context.UpdateRange(entities);
         }
 
@@ -105,7 +126,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 {
                     text = GetPropertyName(expression.Body.ToString());
                 }
-
+                SetModifyTime(entity);
                 _context.Entry(entity).Property(text).IsModified = true;
             }
         }
@@ -113,6 +134,17 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         private string GetPropertyName(string str)
         {
             return str.Split(',')[0].Split('.')[1];
+        }
+
+        public void Delete(object id)
+        {
+            var entity = GetById(id);
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            _context.Remove(entity);
         }
 
         public void Delete(TEntity entity)
@@ -143,6 +175,22 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
             }
 
             _context.RemoveRange(Entities.Where(predicate));
+        }
+
+        private void SetCreateTime(IEntity value)
+        {
+            if (value is IEntity2CreateTime entity)
+            {
+                entity.CreateTime = DateTime.Now;
+            }
+        }
+
+        private void SetModifyTime(IEntity value)
+        {
+            if (value is IEntity2ModifyTime entity)
+            {
+                entity.LastModifyTime = DateTime.Now;
+            }
         }
     }
 }

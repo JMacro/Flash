@@ -70,6 +70,10 @@ namespace Flash.Extensions.Job
         /// <summary>
         /// 是否为简单Job
         /// </summary>
-        public bool IsSimpleSchedule { get; set; }
+        public bool IsSimpleSchedule { get; set; } = false;
+        /// <summary>
+        /// 延迟时间(单位秒)
+        /// </summary>
+        public int DelayTime { get; set; }
     }
 }

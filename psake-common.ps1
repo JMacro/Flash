@@ -67,7 +67,8 @@ Task Version -Description "Patch AssemblyInfo and AppVeyor version files." {
 
 Task Nupkg-Push -Description "Push NuGet packages." {
     $nuget_source = $pack_config.Source
-    if(!(BeginEnter "Whether to publish to the local server.")) {
+    $is_push_local = BeginEnter "Whether to publish to the local server."
+    if(!$is_push_local) {
         $nuget_source = "https://api.nuget.org/v3/index.json"
     }
 
@@ -119,7 +120,10 @@ Task Nupkg-Push -Description "Push NuGet packages." {
     }
 
     $push_str = $push_list -join [Environment]::NewLine
-    $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+
+    if(!$is_push_local) {
+        $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+    }
 }
 
 Task Nupkg-Delete -Description "Delete NuGet packages." {
@@ -127,7 +131,8 @@ Task Nupkg-Delete -Description "Delete NuGet packages." {
     Write-Host "The nuget version number you entered is '$version'" -ForegroundColor "Green"
 
     $nuget_source = $pack_config.Source
-    if(!(BeginEnter "Whether to delete to the local server.")) {
+    $is_push_local = BeginEnter "Whether to delete to the local server."
+    if(!$is_push_local) {
         $nuget_source = "https://api.nuget.org/v3/index.json"
     }
     Write-Host "Delete source to '$nuget_source'" -ForegroundColor "Green"
@@ -175,7 +180,10 @@ Task Nupkg-Delete -Description "Delete NuGet packages." {
     }
 
     $push_str = $push_list -join [Environment]::NewLine
-    $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+
+    if(!$is_push_local) {
+        $push_str | Add-Content "$base_dir\PushDetails.Nuget"
+    }
 }
 
 ## Functions

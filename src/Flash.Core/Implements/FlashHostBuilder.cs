@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Flash.Core
@@ -7,10 +8,12 @@ namespace Flash.Core
     {
         private readonly IServiceCollection _services;
         private readonly IWebHostBuilder _builder;
+        private readonly ContainerBuilder _container;
 
-        public FlashHostBuilder(IServiceCollection services)
+        public FlashHostBuilder(IServiceCollection services, ContainerBuilder container = null)
         {
             this._services = services;
+            this._container = container ?? new ContainerBuilder();
         }
 
         public FlashHostBuilder(IWebHostBuilder builder)
@@ -19,7 +22,9 @@ namespace Flash.Core
         }
 
         public IServiceCollection Services => this._services;
-        public IWebHostBuilder HostBuilder => _builder;
+        public IWebHostBuilder HostBuilder => this._builder;
+
+        public ContainerBuilder Container => this._container;
     }
 }
 

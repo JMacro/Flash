@@ -33,10 +33,18 @@ namespace Flash.Extensions.Job.Hangfire
 		/// </summary>
 		public bool Enabled { get; set; } = true;
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RecurringJobAttribute"/>
+		/// 是否为简单的一次性任务
 		/// </summary>
-		/// <param name="cron">Cron expressions</param>
-		public RecurringJobAttribute(string cron) : this(cron, EnqueuedState.DefaultQueue) { }
+        public bool IsSimpleSchedule { get; set; } = false;
+		/// <summary>
+		/// 延迟时间(单位秒)
+		/// </summary>
+		public int DelayTime { get; set; } = 0;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecurringJobAttribute"/>
+        /// </summary>
+        /// <param name="cron">Cron expressions</param>
+        public RecurringJobAttribute(string cron) : this(cron, EnqueuedState.DefaultQueue) { }
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RecurringJobAttribute"/>
 		/// </summary>

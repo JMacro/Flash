@@ -1,0 +1,545 @@
+﻿        <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="layui-v2.7.6/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+
+        ul li {
+            margin: 10px;
+        }
+    </style>
+    <script src="layui-v2.7.6/layui/layui.js"></script>
+    <script src="jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.fileDownload/1.4.2/jquery.fileDownload.min.js"></script>
+    <script src="layui/config.js"></script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend>销售订单物流跟踪</legend>
+        <div class="layui-field-box">
+            <form class="layui-form" lay-filter="example" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">销售订单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="MainOrderNumber" id="MainOrderNumber" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">物流公司</label>
+                    <div class="layui-input-inline">
+                        <select name="ExpressName" lay-verify="required" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                        </select>
+                    </div>
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <select name="State" lay-verify="required" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                            <option value="0">待处理</option>
+                            <option value="1">系统跟进中</option>
+                            <option value="2">完成签收</option>
+                            <option value="3">停滞</option>
+                            <option value="4">已完成</option>
+                            <option value="5">异常</option>
+                        </select>
+                    </div>
+                    <label class="layui-form-label">物流单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="ExpressNumber" id="ExpressNumber" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <button type="button" class="layui-btn" id="search">搜索</button>
+                    </div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <button type="button" class="layui-btn" id="test3"><i class="layui-icon"></i>导入</button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="FileIdByExportOrderInfo" id="FileIdByExportOrderInfo" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <table class="layui-hide" id="table_list" lay-filter="table_list"></table>
+            </form>
+        </div>
+    </fieldset>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+        </div>
+    </script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="Edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="Delete">删除</a>
+        {{#  if(d.State !== 4){ }}
+        <a class="layui-btn layui-btn-xs" lay-event="Completed">标记已处理</a>
+        {{#  } else { }}
+        <a class="layui-btn layui-btn-xs layui-btn-disabled">标记已处理</a>
+        {{#  } }}
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="LookExpress">查看物流轨迹</a>
+    </script>
+    <script type="text/html" id="MainOrderNumberTpl">
+        <i class="layui-icon layui-icon-form" onclick="onCopy('{{ d.MainOrderNumber }}')" title="点击复制"></i>
+        <a href="https://qn.taobao.com/home.htm/trade-platform/tp/detail?bizOrderId={{ d.MainOrderNumber }}" class="layui-table-link" target="_blank">{{ d.MainOrderNumber }}</a>
+    </script>
+    <script type="text/html" id="ExpressNumberTpl">
+        <i class="layui-icon layui-icon-form" onclick="onCopy('{{ d.ExpressNumber }}')" title="点击复制"></i>
+        <span>{{ d.ExpressNumber }}</span>
+    </script>
+    <script type="text/html" id="StateTpl">
+        {{#  if(d.State === 0){ }}
+        <span style="color: #F581B1;">{{ d.StateStr }}</span>
+        {{#  } else if(d.State === 3) { }}
+        <span style="color: red;">{{ d.StateStr }}</span>
+        {{#  } else if(d.State === 4) { }}
+        <span style="color: green;">{{ d.StateStr }}</span>
+        {{#  } else if(d.State === 5) { }}
+        <span style="color: orange;">{{ d.StateStr }}</span>
+        {{#  } else { }}
+        {{ d.StateStr }}
+        {{#  } }}
+    </script>
+    <script>var table, form;
+        layui.use(['form', 'laydate', 'util', 'table', 'layedit'], function () {
+            var upload = layui.upload;
+            var element = layui.element;
+            table = layui.table;
+            var $ = layui.$;
+            var laydate = layui.laydate;
+            var util = layui.util;
+            form = layui.form;
+
+            var currentYear = new Date().getFullYear(); // 获取当前年份
+            var currentMonth = new Date().getMonth() + 1; // 获取当前月份（注意要加上1）
+            var currentDay = new Date().getDate(); // 获取当前天数
+
+            // 日期
+            laydate.render({
+                elem: '#StartDate'
+            });
+
+            // 日期
+            laydate.render({
+                elem: '#EndDate'
+            });
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#test3'
+                , url: '/api/TaobaoUtils/Upload' //此处配置你自己的上传接口即可
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    var shopId = $('body', window.parent.document).find('#ShopId').val();
+                    if (shopId == "") {
+                        layer.msg('请填写店铺ID！', { icon: 5 });
+                        return;
+                    }
+                    var index = layer.load();
+                    layer.msg('上传成功，正在导入物流单号跟踪');
+
+                    $("#FileIdByExportOrderInfo").val(res);
+                    var data = form.val('example');
+                    data["ShopId"] = shopId;
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/TaobaoUtils/SellOrder2LogisticsTrackingImport",
+                        data: JSON.stringify(data),
+                        contentType: "application/json",
+                        dataType: "json",
+                        async: true,
+                        success: function (res2) {
+                            layer.closeAll('loading');
+                            search();
+                        },
+                        error: function () {
+                            layer.msg('失败啦！', { icon: 5 });
+                        },
+                        complete: function (data) {
+                        }
+                    });
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/api/TaobaoUtils/ExpressList",
+                data: {},
+                contentType: "application/json",
+                dataType: "json",
+                async: true,
+                success: function (res2) {
+                    $.each($("select[name='ExpressName']"), function (index, elm) {
+                        var optionStr = '';
+                        $.each(res2.Data, function(index2, item) {
+                            optionStr += '<option value="'+item + '">' + item + '</option>';
+                        });
+                        $(optionStr).appendTo(elm)
+                    });
+                    layui.form.render('select');
+                },
+                error: function () {
+
+                },
+                complete: function (data) {
+                }
+            });
+            
+
+            search();
+            //表单赋值
+            layui.$('#search').on('click', function () {
+                search();
+            });
+
+
+            //头工具栏事件
+            table.on('toolbar(table_list)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'add':
+                        showViewAddOrEdit()
+                        break;
+                    case 'import':
+
+                        break;
+                };
+            });
+
+            //监听行工具事件
+            table.on('tool(table_list)', function (obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'Edit') {
+                    showViewAddOrEdit(data);
+                }
+
+                if (obj.event === 'Delete') {
+                    layer.confirm('是否删除物流单号[' + data.ExpressNumber + ']记录', function (index) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/TaobaoUtils/SellOrder2LogisticsTrackingSetDelete",
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: true,
+                            success: function (res2) {
+                                if (res2.Result == true) {
+                                    layer.closeAll();
+                                    layer.msg(res2.Msg, { icon: 1 });
+                                    search();
+                                } else {
+                                    layer.msg(res2.Msg, { icon: 5 });
+                                }
+                            },
+                            error: function () {
+                                layer.msg('失败啦！', { icon: 5 });
+                            },
+                            complete: function (data) {
+                            }
+                        });
+                    });
+                }
+
+                if (obj.event === 'Completed') {
+                    layer.confirm('是否标记物流单号[' + data.ExpressNumber + ']为已处理', function (index) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/TaobaoUtils/SellOrder2LogisticsTrackingSetCompleted",
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: true,
+                            success: function (res2) {
+                                if (res2.Result == true) {
+                                    layer.closeAll();
+                                    layer.msg(res2.Msg, { icon: 1 });
+                                    search();
+                                } else {
+                                    layer.msg(res2.Msg, { icon: 5 });
+                                }
+                            },
+                            error: function () {
+                                layer.msg('失败啦！', { icon: 5 });
+                            },
+                            complete: function (data) {
+                            }
+                        });
+                    });
+                }
+
+                if (obj.event === 'LookExpress') {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/TaobaoUtils/SellOrder2LogisticsTrackingSearch",
+                        data: JSON.stringify(data),
+                        contentType: "application/json",
+                        dataType: "json",
+                        async: true,
+                        success: function (res2) {
+                            if (res2.data == undefined) {
+                                layer.msg(res2.message, { icon: 5 });
+                                return;
+                            }
+
+                            var $ul = $('<ul></ul>');
+                            $.each(res2.data, function (index, value) {
+                                $ul.append('<li>' + value.time + '</br>' + value.context + '</li>')
+                            });
+
+                            //多窗口模式，层叠置顶
+                            layer.open({
+                                type: 1 //此处以iframe举例
+                                , title: '物流单号：' + data.ExpressNumber
+                                , area: ['500px', '600px']
+                                , offset: 't'
+                                , shade: 0.3
+                                , shadeClose: true
+                                , maxmin: true
+                                , content: '<ul>' + $ul.html() + '</ul>'
+                                , btn: ['全部关闭'] //只是为了演示
+                                , yes: function () {
+                                    layer.closeAll();
+                                }
+                                , zIndex: layer.zIndex //重点1
+                                , success: function (layero, index) {
+                                    layer.setTop(layero); //重点2. 保持选中窗口置顶
+
+                                    //记录索引，以便按 esc 键关闭。事件见代码最末尾处。
+                                    layer.escIndex = layer.escIndex || [];
+                                    layer.escIndex.unshift(index);
+                                    //选中当前层时，将当前层索引放置在首位
+                                    layero.on('mousedown', function () {
+                                        var _index = layer.escIndex.indexOf(index);
+                                        if (_index !== -1) {
+                                            layer.escIndex.splice(_index, 1); //删除原有索引
+                                        }
+                                        layer.escIndex.unshift(index); //将索引插入到数组首位
+                                    });
+                                }
+                                , end: function () {
+                                    //更新索引
+                                    if (typeof layer.escIndex === 'object') {
+                                        layer.escIndex.splice(0, 1);
+                                    }
+                                }
+                            });
+                        },
+                        error: function () {
+                            layer.msg('失败啦！', { icon: 5 });
+                        },
+                        complete: function (data) {
+                        }
+                    });
+
+
+                }
+            });
+
+            function showViewAddOrEdit(data) {
+                var shopId = $('body', window.parent.document).find('#ShopId').val();
+                if (shopId == "") {
+                    layer.msg('请填写店铺ID！', { icon: 5 });
+                    return;
+                }
+                var addData = { MainOrderNumber: "", ExpressNumber: "", MerchantRemarks: "", Phone: "" };
+
+                if (data === undefined) {
+                    addData = { MainOrderNumber: null, ExpressNumber: null, MerchantRemarks: null, Phone: null }
+                } else {
+                    addData = data;
+                }
+                form.val('addInfo', addData);
+                addData["ShopId"] = shopId;
+
+                // 默认选中第二个选项
+                form.render('select', {
+                    'select': '#ExpressName',
+                    'value': '圆通速递' // 这里的1是你想要默认选中的option的value值
+                });
+                layer.open({
+                    type: 1
+                    , offset: 't'
+                    , id: 'layerDemoauto'
+                    , area: ['390px', '560px']
+                    , title: '新增销售订单物流跟踪记录'
+                    , content: $('#addDiv')
+                    , btn: ['继续提交', '提交并关闭']
+                    , btnAlign: 'r' //按钮居中
+                    , shade: 0.3 //不显示遮罩
+                    , shadeClose: true
+                    , yes: function () {
+                        addOrEdit(form.val('addInfo'));
+                        form.val('addInfo', { MainOrderNumber: null, ExpressNumber: null, MerchantRemarks: null });
+
+                    }
+                    , btn2: function () {
+                        addOrEdit(form.val('addInfo'));
+                        layer.closeAll();
+                    }
+                    , success: function (layero, index) {
+                        $('#addDiv').removeClass('layui-hide');
+                    }
+                    , end: function () {
+                        $('#addDiv').addClass('layui-hide');
+                        search();
+                    }
+                });
+            }
+
+            function addOrEdit(addData) {
+                var shopId = $('body', window.parent.document).find('#ShopId').val();
+                if (shopId == "") {
+                    layer.msg('请填写店铺ID！', { icon: 5 });
+                    return;
+                }
+
+                addData["ShopId"] = shopId;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/TaobaoUtils/SellOrder2LogisticsTrackingAddInfo",
+                    data: JSON.stringify(addData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    async: true,
+                    success: function (res2) {
+                        if (res2.Result == true) {
+                            layer.msg(res2.Msg, { icon: 1 });
+                        } else {
+                            layer.msg(res2.Msg, { icon: 5 });
+                        }
+                    },
+                    error: function (xhr, status) {
+                        layer.msg(status, { icon: 5 });
+                    },
+                    complete: function (data) {
+
+                    }
+                });
+            }
+        });
+
+        function search() {
+            var shopId = $('body', window.parent.document).find('#ShopId').val();
+            if (shopId == "") {
+                layer.msg('请填写店铺ID！', { icon: 5 });
+                return;
+            }
+
+            var whereData = form.val('example');
+            whereData["ShopId"] = shopId;
+
+            //展示已知数据
+            table.render({
+                elem: '#table_list'
+                , toolbar: '#toolbarDemo'
+                , method: 'post'
+                , contentType: "application/json"
+                , dataType: "json"
+                , url: '/api/TaobaoUtils/SellOrder2LogisticsTrackingGetList'
+                , where: whereData
+                , request: {
+                    pageName: 'PageIndex',
+                    limitName: 'PageSize'
+                }
+                , parseData: function (res) {
+                    return {
+                        "code": 0,
+                        "data": res.List,
+                        "count": res.Total
+                    }
+                }
+                , cols: [[ //标题栏
+                    { field: 'number', title: '序号', align: 'center', type: 'numbers', fixed: 'left' }
+                    , { fixed: 'right', title: '操作', width: 300, toolbar: '#barDemo', fixed: 'left' }
+                    , { field: 'MainOrderNumber', title: '销售订单号', width: 200, templet: '#MainOrderNumberTpl', fixed: 'left' }
+                    , { field: 'ExpressNumber', title: '物流单号', width: 185, templet: '#ExpressNumberTpl', fixed: 'left' }
+                    , { field: 'ExpressName', title: '物流公司', width: 100 }
+                    , { field: 'Phone', title: '收件手机号', width: 100 }
+                    , { field: 'MerchantRemarks', title: '商家备注', width: 120 }
+                    , { field: 'CreateTime', title: '创建时间', width: 170 }
+                    , { field: 'BusinessTime', title: '业务发生时间', width: 170 }
+                    , { field: 'RetryCount', title: '重试天数', width: 90 }
+                    , { field: 'SystemRemarks', title: '系统备注', minWidth: 90 }
+                    , { field: 'StateStr', title: '状态', width: 120, templet: '#StateTpl' }
+                    
+                ]]
+                , even: true
+                , loading: true
+                , limit: 10
+                , width: '100%'
+                , height: window.parent.window.screen.availHeight-300
+                , size: 'lg'
+                , page: true
+            });
+
+        }
+
+        function onCopy(data) {
+            var $temp = $("<textarea>");
+            $("body").append($temp);
+            $temp.val(data).select();
+            document.execCommand("copy");
+            $temp.remove();
+            layer.msg('复制成功');
+        }</script>
+</body>
+<div class="layui-hide" id="addDiv">
+    <div style="margin:5px">
+        <form class="layui-form layui-form-pane" id="addInfo" lay-filter="addInfo" action="">
+            <input type="hidden" name="Id" autocomplete="off" class="layui-input">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">销售订单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="MainOrderNumber" lay-verify="required" placeholder="请输入销售订单号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <span style="color:red">必填</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">物流公司</label>
+                    <div class="layui-input-inline">
+                        <select name="ExpressName" id="ExpressName" lay-verify="required" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <span style="color:red">必填</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">物流单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="ExpressNumber" lay-verify="required" placeholder="请输入物流单号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <span style="color:red">必填</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">收件手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="Phone" lay-verify="required" placeholder="请输入收件手机号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入备注" class="layui-textarea" name="MerchantRemarks"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</html>

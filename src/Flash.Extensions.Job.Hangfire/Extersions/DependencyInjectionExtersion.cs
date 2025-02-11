@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionExtersion
     {
         /// <summary>
-        /// 添加Hangfire组件
+        /// 添加Hangfire组件，Job类需继承<see cref="BaseHangfireJob"/>
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -31,34 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         throw new ArgumentNullException("请配置持久化连接字符串[Hangfire:PersistenceConnection]");
                     }
-                                        
-                    switch (config.PersistenceType)
-                    {
-                        case "Redis":
-                            if (string.IsNullOrEmpty(config.PersistencePrefix)) config.PersistencePrefix = "Hangfire:";
-                            opts.UseRedisStorage(config.PersistenceConnection, new RedisStorageOptions
-                            {
-                                Prefix = config.PersistencePrefix,
-                            });
-                            break;
-                        case "MySQL":
-                            if (string.IsNullOrEmpty(config.PersistencePrefix)) config.PersistencePrefix = "Hangfire";
-                            opts.UseStorage(new MySqlStorage(config.PersistenceConnection,
-                                new MySqlStorageOptions
-                                {
-                                    TransactionIsolationLevel = IsolationLevel.ReadCommitted,
-                                    QueuePollInterval = TimeSpan.FromSeconds(15),
-                                    JobExpirationCheckInterval = TimeSpan.FromHours(1),
-                                    CountersAggregateInterval = TimeSpan.FromMinutes(5),
-                                    PrepareSchemaIfNecessary = true,
-                                    DashboardJobListLimit = 50000,
-                                    TransactionTimeout = TimeSpan.FromMinutes(1),
-                                    TablesPrefix = config.PersistencePrefix,
-                                }));
-                            break;
-                        default:
-                            throw new ArgumentNullException("无法识别Hangfire持久化类型，请确认配置文件是否配置无误");
-                    }
+                    opts.UseStorage(GetStorage(config));
                 }
                 else
                 {
@@ -70,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddHangfireServer(options =>
             {
-                options.ServerName = String.Format("{0}.{1}", Environment.MachineName, Guid.NewGuid().ToString()); //服务器唯一的标识符
+                options.ServerName = $"{Environment.MachineName}.{Guid.NewGuid()}"; //服务器唯一的标识符
             });
 
             services.AddSingleton<ICornJobScheduler>((c) =>
@@ -84,8 +57,34 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
+        private static JobStorage GetStorage(JobConfiguration config)
+        {
+            switch (config.PersistenceType)
+            {
+                case "Redis":
+                    return new RedisStorage(config.PersistenceConnection, new RedisStorageOptions
+                    {
+                        Prefix = string.IsNullOrEmpty(config.PersistencePrefix) ? "Hangfire:" : config.PersistencePrefix,
+                    });
+                case "MySQL":
+                    return new MySqlStorage(config.PersistenceConnection, new MySqlStorageOptions
+                    {
+                        TransactionIsolationLevel = IsolationLevel.ReadCommitted,
+                        QueuePollInterval = TimeSpan.FromSeconds(15),
+                        JobExpirationCheckInterval = TimeSpan.FromHours(1),
+                        CountersAggregateInterval = TimeSpan.FromMinutes(5),
+                        PrepareSchemaIfNecessary = true,
+                        DashboardJobListLimit = 50000,
+                        TransactionTimeout = TimeSpan.FromMinutes(1),
+                        TablesPrefix = string.IsNullOrEmpty(config.PersistencePrefix) ? "Hangfire" : config.PersistencePrefix,
+                    });
+                default:
+                    throw new ArgumentException("无法识别Hangfire持久化类型，请确认配置文件是否配置无误", nameof(config.PersistenceType));
+            }
+        }
+
         /// <summary>
-        /// 使用Hangfire组件
+        /// 使用Hangfire组件，Job类需继承<see cref="BaseHangfireJob"/>
         /// </summary>
         /// <param name="jobBuilder"></param>
         /// <param name="setup"></param>

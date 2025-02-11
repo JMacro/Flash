@@ -22,6 +22,7 @@ namespace Flash.Extensions.ORM
         void Update(TEntity entity);
         void Update(params TEntity[] entities);
         void Update(TEntity entity, params Expression<Func<TEntity, object>>[] properties);
+        void Delete(object id);
         void Delete(TEntity entity);
         void Delete(params TEntity[] entities);
         void Delete(Expression<Func<TEntity, bool>> predicate);

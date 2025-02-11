@@ -20,11 +20,11 @@
     <dependencies>
       <group targetFramework="netstandard2.0">
         <dependency id="HangFire.Autofac" version="2.3.1" />
-        <dependency id="Hangfire.AspNetCore" version="1.7.30" />
-        <dependency id="Hangfire.Console" version="1.4.2" />
-        <dependency id="Hangfire.Core" version="1.7.30" />
+        <dependency id="Hangfire.AspNetCore" version="1.8.17" />
+        <dependency id="Hangfire.Console" version="1.4.3" />
+        <dependency id="Hangfire.Core" version="1.8.17" />
         <dependency id="Hangfire.MySqlStorage" version="2.0.3" />
-        <dependency id="Hangfire.MemoryStorage" version="1.7.0" />
+        <dependency id="Hangfire.MemoryStorage" version="1.8.1.1" />
         <dependency id="HangFire.Redis.StackExchange" version="1.8.2" />
         <dependency id="Flash.Extensions.Job" version="0.0.0" />
       </group>

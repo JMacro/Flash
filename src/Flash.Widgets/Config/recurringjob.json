@@ -1,0 +1,34 @@
+﻿{
+  "CornJobScheduler": {
+    "Open": true,
+    //是否持久化
+    "IsPersistence": false,
+    //持久化方式
+    "PersistenceType": "Redis",
+    "PersistenceConnection": "192.168.50.110:63100,password=tY7cRu9HG_jyDw2r",
+    "PersistencePrefix": "JMacro:Flash.Widgets:${Environment}:hangfire:",
+    "CronTriggers": [
+      {
+        "Enable": true,
+        "Expression": "0 0 8 * * ? ",
+        "JobName": "淘宝销售订单物流跟踪",
+        "JobType": "Flash.Widgets.Jobs.TaoBaoSellLogisticsTrackingJob,Flash.Widgets",
+        "JobGroup": "default"
+      },
+      {
+        "Enable": true,
+        "Expression": "0 0 23 * * ? ",
+        "JobName": "淘宝销售订单导入计算",
+        "JobType": "Flash.Widgets.Jobs.TaoBaoSellItemImportJob,Flash.Widgets",
+        "JobGroup": "default"
+      },
+      {
+        "Enable": true,
+        "Expression": "0 0 23 * * ? ",
+        "JobName": "淘宝推广费用明细导入计算",
+        "JobType": "Flash.Widgets.Jobs.TaoBaoPromotionFreeItemImportJob,Flash.Widgets",
+        "JobGroup": "default"
+      }
+    ]
+  }
+}

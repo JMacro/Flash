@@ -116,7 +116,7 @@ namespace Flash.Extensions.Office
         public static List<ExcelHeaderColumn> Create<T>() where T : class, new()
         {
             var objType = typeof(T);
-            var properties = EntityPropertyCaches.TryGetOrAddByProperties(objType);
+            var properties = EntityTypeCaches.TryGetOrAddByProperties(objType);
             var sortField = new List<string>();
 
             Func<Attribute[], Tuple<bool, ExcelHeaderAttribute>> IsMyAttribute = o =>

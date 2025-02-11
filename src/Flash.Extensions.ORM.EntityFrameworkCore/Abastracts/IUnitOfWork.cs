@@ -14,4 +14,8 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         bool Commit();
         Task<bool> CommitAsync();
     }
+
+    public interface IUnitOfWork<TDbContext> : IUnitOfWork where TDbContext : BaseDbContext
+    {
+    }
 }

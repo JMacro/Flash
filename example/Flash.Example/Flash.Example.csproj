@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Flash.AspNetCore.WorkFlow\Flash.AspNetCore.WorkFlow.csproj" />
     <ProjectReference Include="..\..\src\Flash.AspNetCore\Flash.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\..\src\Flash.Extensions.OpenTracting.Jaeger\Flash.Extensions.OpenTracting.Jaeger.csproj" />

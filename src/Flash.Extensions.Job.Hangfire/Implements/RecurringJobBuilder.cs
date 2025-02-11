@@ -57,7 +57,9 @@ namespace Flash.Extensions.Job.Hangfire
 					_registry.Register(
 						attribute.RecurringJobId,
 						method,
-						attribute.Cron,
+						attribute.IsSimpleSchedule,
+						attribute.DelayTime,
+                        attribute.Cron,
 						string.IsNullOrEmpty(attribute.TimeZone) ? TimeZoneInfo.Utc : TimeZoneInfo.FindSystemTimeZoneById(attribute.TimeZone),
 						attribute.Queue ?? EnqueuedState.DefaultQueue);
 				}

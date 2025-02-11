@@ -14,18 +14,62 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Q.Masuit.Tools.Core" Version="2.4.4.4" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
     <PackageReference Include="System.IO.Packaging" Version="7.0.0" />
     <PackageReference Include="System.Speech" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Flash.Core\Flash.Core.csproj" />
     <ProjectReference Include="..\Flash.Extensions.System\Flash.Extensions.System.csproj" />
+    <ProjectReference Include="..\Flash.Extensions.UidGenerator\Flash.Extensions.UidGenerator.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Office\Flash.Extensions.Office.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Office.Npoi\Flash.Extensions.Office.Npoi.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Cache.Redis\Flash.Extensions.Cache.Redis.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Cache\Flash.Extensions.Cache.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Configuration.Json\Flash.Extensions.Configuration.Json.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Job.Hangfire\Flash.Extensions.Job.Hangfire.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Job\Flash.Extensions.Job.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.ORM.EntityFrameworkCore\Flash.Extensions.ORM.EntityFrameworkCore.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.ORM\Flash.Extensions.ORM.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Resilience.Http\Flash.Extensions.Resilience.Http.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Flash.Extensions.Job.Hangfire.AspNetCore\Flash.Extensions.Job.Hangfire.AspNetCore.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Config\" />
+    <None Remove="Models\TaobaoUtils\" />
+    <None Remove="DbContexts\" />
+    <None Remove="Jobs\" />
+    <None Remove="Configures\" />
+  </ItemGroup>
   <ItemGroup>
     <None Update="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -35,4 +79,53 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="wwwroot\jquery\" />
+    <Folder Include="wwwroot\jquery.fileDownload\" />
+    <Folder Include="wwwroot\jquery.fileDownload\1.4.2\" />
+    <Folder Include="wwwroot\jquery\3.5.1\" />
+    <Folder Include="Models\TaobaoUtils\" />
+    <Folder Include="DbContexts\" />
+    <Folder Include="Jobs\" />
+    <Folder Include="Configures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\jquery\" />
+    <Content Remove="wwwroot\jquery.fileDownload\" />
+    <Content Remove="wwwroot\jquery.fileDownload\1.4.2\" />
+    <Content Remove="wwwroot\jquery\3.5.1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Config\redis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\redis %28复制%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\kuaidi100.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\kuaidi100 %28复制%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\expressCode.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\expressCode %28复制%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\recurringjob.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\skuCodes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\skuCode.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Condition="'$(ExcludeConfigFilesFromBuildOutput)'!='true'" Update="Config\brandUnitPrice.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

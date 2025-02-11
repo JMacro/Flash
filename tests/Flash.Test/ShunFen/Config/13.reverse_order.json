@@ -1,0 +1,52 @@
+{
+	"language": "zh_CN",
+	"orderId": "F2_20200604180946",
+	"cargoDetails": [{
+		"amount": 100.5111,
+		"count": 2.365,
+		"currency": "HKD",
+		"cargoSku": "AAAA004",
+		"name": "护肤品1",
+		"unit": "个",
+		"weight": 6.1
+	}],
+	"serviceList": [{
+		"name": "INSURE",
+		"value": "3000"
+	}],
+	"contactInfoList": [{
+			"address": "软件产业基地11栋",
+			"city": "深圳市",
+			"contact": "小曾",
+			"contactType": 1,
+			"country": "CN",
+			"county": "南山区",
+			"mobile": "13480155048",
+			"postCode": "580058",
+			"province": "广东省",
+			"tel": "4006789888"
+		},
+		{
+			"address": "广东省广州市白云区湖北大厦",
+			"city": "",
+			"company": "顺丰速运",
+			"contact": "小邱",
+			"contactType": 2,
+			"country": "CN",
+			"county": "",
+			"mobile": "13925211148",
+			"postCode": "580058",
+			"province": "",
+			"tel": "18688806057"
+		}
+	],
+	"monthlyCard": "",
+	"payMethod": 1,
+	"expressTypeId": 1,
+	"volume": 8.0,
+	"sendStartTm": "2020-03-10 10:00:00",
+	"refundAmount": 8.0,
+	"isCheck": "1",
+	"bizTemplateCode": "2020312_order"
+
+}

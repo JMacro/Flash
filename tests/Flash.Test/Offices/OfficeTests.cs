@@ -1,11 +1,11 @@
-﻿using Flash.Extensions.Email;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Flash.Extensions.Office;
 using Flash.Test.StartupTests;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Flash.Test.Offices
 {
@@ -97,6 +97,52 @@ namespace Flash.Test.Offices
             var datas = tool.ReadExcel<StudentInfo>(buffer, "Sheet2", headerColumns2);
             Assert.IsNotNull(datas);
         }
+
+        [Test]
+        public void ReadExcelByExportOrderInfo()
+        {
+            var tool = ServiceProvider.GetService<IOfficeTools>();
+            var headerColumns = new List<ExcelHeaderColumn>();
+            headerColumns.Add(ExcelHeaderColumn.Create("主订单编号", nameof(ExportOrderInfo.MainOrderNumber)));
+            headerColumns.Add(ExcelHeaderColumn.Create("购买数量", nameof(ExportOrderInfo.BuyNumber)));
+            headerColumns.Add(ExcelHeaderColumn.Create("订单状态", nameof(ExportOrderInfo.OrderStatus)));
+            headerColumns.Add(ExcelHeaderColumn.Create("商家编码", nameof(ExportOrderInfo.ShopCode)));
+            headerColumns.Add(ExcelHeaderColumn.Create("买家实际支付金额", nameof(ExportOrderInfo.BuyActualAmount)));
+            headerColumns.Add(ExcelHeaderColumn.Create("退款状态", nameof(ExportOrderInfo.RefundStatus)));
+            headerColumns.Add(ExcelHeaderColumn.Create("订单创建时间", nameof(ExportOrderInfo.OrderCreateTime)));
+            headerColumns.Add(ExcelHeaderColumn.Create("订单付款时间", nameof(ExportOrderInfo.OrderPaymentTime)));
+            headerColumns.Add(ExcelHeaderColumn.Create("商家备注", nameof(ExportOrderInfo.MerchantRemarks)));
+            headerColumns.Add(ExcelHeaderColumn.Create("发货时间", nameof(ExportOrderInfo.DeliveryTime)));
+
+            var excelPath = Path.Combine(Directory.GetCurrentDirectory(), "ExportOrderList18035658052.xlsx");
+            var file = File.ReadAllBytes(excelPath);
+            var excelList = tool.ReadExcel<ExportOrderInfo>(file, headerColumns);
+
+            var deliveryDate = new DateTime(2024, 1, 1);
+            var tmp = excelList.Where(p=> p.DeliveryDate == deliveryDate).ToList();
+
+        }
+
+        [Test]
+        public void ReadExcelByOrderPrintLogger()
+        {
+            var tool = ServiceProvider.GetService<IOfficeTools>();
+            var headerColumns = new List<ExcelHeaderColumn>();
+            headerColumns.Add(ExcelHeaderColumn.Create("订单编号", nameof(OrderPrintLogger.OrderNumber)));
+            headerColumns.Add(ExcelHeaderColumn.Create("打印时间", nameof(OrderPrintLogger.PrintTime)));
+            headerColumns.Add(ExcelHeaderColumn.Create("打印类型", nameof(OrderPrintLogger.PrintType)));
+
+            var excelPath = Path.Combine(Directory.GetCurrentDirectory(), "OrderPrintLogger.xlsx");
+            var file = File.ReadAllBytes(excelPath);
+            var excelList = tool.ReadExcel<OrderPrintLogger>(file, headerColumns);
+
+            var printDate = new DateTime(2024, 1, 1);
+            var tmp = excelList
+                .Where(p => p.PrintDate == printDate)
+                .SelectMany(p => string.IsNullOrWhiteSpace(p.OrderNumber) ? new string[0] : (p.OrderNumber.Split(",\n")))
+                .ToList();
+
+        }
     }
 
     public class StudentInfo
@@ -123,5 +169,73 @@ namespace Flash.Test.Offices
     {
         All,
         TT
+    }
+
+    public class ExportOrderInfo
+    {
+        /// <summary>
+        /// 主订单编号
+        /// </summary>
+        public string MainOrderNumber { get; set; }
+        /// <summary>
+        /// 购买数量
+        /// </summary>
+        public int BuyNumber { get; set; }
+        /// <summary>
+        /// 订单状态
+        /// </summary>
+        public string OrderStatus { get; set; }
+        /// <summary>
+        /// 商家编码(商品编码)
+        /// </summary>
+        public string ShopCode { get; set; }	
+        /// <summary>
+        /// 买家实际支付金额
+        /// </summary>
+        public decimal BuyActualAmount { get; set; }
+        /// <summary>
+        /// 退款状态
+        /// </summary>
+        public string RefundStatus { get; set; }
+        /// <summary>
+        /// 订单创建时间
+        /// </summary>
+        public DateTime OrderCreateTime { get; set; }
+        /// <summary>
+        /// 订单付款时间
+        /// </summary>
+        public DateTime OrderPaymentTime { get; set; }
+        /// <summary>
+        /// 商家备注
+        /// </summary>
+        public string MerchantRemarks { get; set; }
+        /// <summary>
+        /// 发货时间
+        /// </summary>
+        public DateTime DeliveryTime { get; set; }
+        /// <summary>
+        /// 发货日期
+        /// </summary>
+        public DateTime DeliveryDate => DeliveryTime.Date;
+    }
+
+    public class OrderPrintLogger
+    {
+        /// <summary>
+        /// 订单编号
+        /// </summary>
+        public string OrderNumber { get; set; }
+        /// <summary>
+        /// 打印时间
+        /// </summary>
+        public DateTime PrintTime { get; set; }
+        /// <summary>
+        /// 打印日期
+        /// </summary>
+        public DateTime PrintDate => PrintTime.Date;
+        /// <summary>
+        /// 打印类型
+        /// </summary>
+        public string PrintType { get; set; }
     }
 }

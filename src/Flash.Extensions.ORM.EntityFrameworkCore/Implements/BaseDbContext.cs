@@ -48,6 +48,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
                 IEnumerable<Type> enumerable = from type in item.GetTypes()
                                                where !string.IsNullOrWhiteSpace(type.Namespace)
                                                where type.IsClass
+                                               where !type.IsGenericType
                                                where type.BaseType != null
                                                where !type.Name.StartsWith("EntityBase")
                                                where typeof(IEntity).IsAssignableFrom(type)
@@ -137,7 +138,7 @@ namespace Flash.Extensions.ORM.EntityFrameworkCore
         {
             if (entity == null) return;
 
-            foreach (var item in EntityPropertyCaches.TryGetOrAddByProperties(entityType))
+            foreach (var item in EntityTypeCaches.TryGetOrAddByProperties(entityType))
             {
                 item.SetValue(entity, values[item.Name]);
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Flash.Extensions
@@ -41,6 +42,40 @@ namespace Flash.Extensions
         public static bool IsNullableType(this Type theType)
         {
             return (theType.IsGenericType && theType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
+        }
+
+        public static bool HasImplementedRawGeneric(this Type type, Type generic)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            if (generic == null)
+            {
+                throw new ArgumentNullException("generic");
+            }
+
+            if (type.GetInterfaces().Any(IsTheRawGenericType))
+            {
+                return true;
+            }
+
+            while (type != null && type != typeof(object))
+            {
+                if (IsTheRawGenericType(type))
+                {
+                    return true;
+                }
+
+                type = type.BaseType;
+            }
+
+            return false;
+            bool IsTheRawGenericType(Type test)
+            {
+                return generic == (test.IsGenericType ? test.GetGenericTypeDefinition() : test);
+            }
         }
     }
 }

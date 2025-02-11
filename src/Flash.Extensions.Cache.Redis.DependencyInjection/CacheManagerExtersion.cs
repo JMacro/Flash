@@ -204,7 +204,7 @@ namespace Flash.Extensions.Cache.Redis
             }
 
             var type = typeof(TResult);
-            var properties = EntityPropertyCaches.TryGetOrAddByProperties(type);
+            var properties = EntityTypeCaches.TryGetOrAddByProperties(type);
             var propertie = properties.FirstOrDefault(p => p.Name == dataKeyFieldName);
             if (propertie is null)
             {
@@ -245,7 +245,7 @@ namespace Flash.Extensions.Cache.Redis
             }
 
             var type = typeof(TResult);
-            var properties = EntityPropertyCaches.TryGetOrAddByProperties(type).ToList();
+            var properties = EntityTypeCaches.TryGetOrAddByProperties(type).ToList();
             var propertie = properties.FirstOrDefault(p => p.Name == dataKeyFieldName);
             if (propertie is null)
             {

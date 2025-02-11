@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="layui-v2.7.6/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+    </style>
+    <script src="layui-v2.7.6/layui/layui.js"></script>
+    <script src="jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.fileDownload/1.4.2/jquery.fileDownload.min.js"></script>
+    <script src="layui/config.js"></script>
+</head>
+<body>
+    <fieldset class="layui-elem-field">
+        <legend>步骤一</legend>
+        <div class="layui-field-box">
+            <form class="layui-form-item" action="">
+                <div class="layui-inline">
+                    <label class="layui-form-label">计算日期</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">快递单价</div>
+                    <div class="layui-input-inline">
+                        <input type="text" id="KUAIDI_Pric" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+            <table class="layui-hide" id="table_UnitPrice" lay-filter="table_UnitPrice"></table>
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend>步骤二</legend>
+        <form class="layui-form-item" action="">
+            <div class="layui-inline">
+                <label class="layui-form-label">交易文件</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <button type="button" class="layui-btn" id="jiaoyao-upload"><i class="layui-icon"></i>上传文件</button>
+                    <input type="hidden" name="date" id="fileid-jiaoyao" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">打印日志</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <button type="button" class="layui-btn" id="printlogger-upload"><i class="layui-icon"></i>上传文件</button>
+                    <input type="hidden" name="date" id="fileid-printlogger" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+        <div class="layui-field-box">
+            <button type="button" class="layui-btn" lay-on="export">导出Sku统一编码</button>
+            <button type="button" class="layui-btn" lay-on="calculate">对账计算并下载(日对账)</button>
+            <button type="button" class="layui-btn" lay-on="CalculateByRealTimeReconciliation">对账计算并下载(实时)</button>
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+        <legend>顺丰快递对账单</legend>
+        <form class="layui-form-item" action="">
+            <div class="layui-inline">
+                <label class="layui-form-label">打印日志</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <button type="button" class="layui-btn" id="printlogger-2"><i class="layui-icon"></i>上传文件</button>
+                    <input type="hidden" name="date" id="fileid-printlogger-2" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">顺丰快递对账单</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <button type="button" class="layui-btn" id="shunfen-2"><i class="layui-icon"></i>上传文件</button>
+                    <input type="hidden" name="date" id="fileid-shunfen-2" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+        <div class="layui-field-box">
+            <button type="button" class="layui-btn" lay-on="ShunfenReconciliation">顺丰快递对账单</button>
+        </div>
+    </fieldset>
+    <script>layui.use(['laydate', 'util', 'table'], function () {
+            var upload = layui.upload;
+            var element = layui.element;
+            var table = layui.table;
+            var $ = layui.$;
+            var laydate = layui.laydate;
+            var util = layui.util;
+
+            var currentYear = new Date().getFullYear(); // 获取当前年份
+            var currentMonth = new Date().getMonth() + 1; // 获取当前月份（注意要加上1）
+            var currentDay = new Date().getDate(); // 获取当前天数
+
+            // 日期
+            laydate.render({
+                elem: '#date'
+            });
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#jiaoyao-upload'
+                , url: '/api/TaobaoUtils/Upload' //此处配置你自己的上传接口即可
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    $("#fileid-jiaoyao").val(res);
+                }
+            });
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#printlogger-upload'
+                , url: '/api/TaobaoUtils/Upload' //此处配置你自己的上传接口即可
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    $("#fileid-printlogger").val(res);
+                }
+            });
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#printlogger-2'
+                , url: '/api/TaobaoUtils/Upload' //此处配置你自己的上传接口即可
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    $("#fileid-printlogger-2").val(res);
+                }
+            });
+
+            //指定允许上传的文件类型
+            upload.render({
+                elem: '#shunfen-2'
+                , url: '/api/TaobaoUtils/Upload' //此处配置你自己的上传接口即可
+                , accept: 'file' //普通文件
+                , done: function (res) {
+                    layer.msg('上传成功');
+                    $("#fileid-shunfen-2").val(res);
+                }
+            });
+
+            // 普通事件
+            util.on('lay-on', {
+                //
+                "calculate": function (othis) {
+                    var shopId = $('body', window.parent.document).find('#ShopId').val();
+                    if (shopId == "") {
+                        layer.msg('请填写店铺ID！', { icon: 5 });
+                        return;
+                    }
+                    var data = { ShopId: shopId, FileIdByOrderPrintLogger: $("#fileid-printlogger").val(), FileIdByExportOrderInfo: $("#fileid-jiaoyao").val(), OrderPrintDate: $("#date").val() };
+                    $.fileDownload("/api/TaobaoUtils/CalculateByDailyReconciliation", {
+                        httpMethod: 'POST',
+                        data: data,
+                        successCallback: function () {
+                            layer.closeAll('loading');
+                        },
+                        failCallback: function (responseHtml, url) {
+                            layer.msg('加载中..');
+                        }
+                    });
+                },
+                "export": function (othis) {
+                    $.fileDownload("/api/TaobaoUtils/ExportSkuCode", {
+                        httpMethod: 'POST',
+                        data: {},
+                        successCallback: function () {
+                            layer.closeAll('loading');
+                        },
+                        failCallback: function (responseHtml, url) {
+                            layer.msg('加载中..');
+                        }
+                    });
+                },
+                "CalculateByRealTimeReconciliation": function (othis) {
+                    var shopId = $('body', window.parent.document).find('#ShopId').val();
+                    if (shopId == "") {
+                        layer.msg('请填写店铺ID！', { icon: 5 });
+                        return;
+                    }
+                    var data = { ShopId: shopId, FileIdByOrderPrintLogger: $("#fileid-printlogger").val(), FileIdByExportOrderInfo: $("#fileid-jiaoyao").val(), OrderPrintDate: $("#date").val() };
+                    $.fileDownload("/api/TaobaoUtils/CalculateByRealTimeReconciliation", {
+                        httpMethod: 'POST',
+                        data: data,
+                        successCallback: function () {
+                            layer.closeAll('loading');
+                        },
+                        failCallback: function (responseHtml, url) {
+                            layer.msg('加载中..');
+                        }
+                    });
+                },
+                "ShunfenReconciliation": function (othis) {
+                    var shopId = $('body', window.parent.document).find('#ShopId').val();
+                    if (shopId == "") {
+                        layer.msg('请填写店铺ID！', { icon: 5 });
+                        return;
+                    }
+                    var data = { ShopId: shopId, FileIdByOrderPrintLogger: $("#fileid-printlogger-2").val(), FileIdByShunfen: $("#fileid-shunfen-2").val() };
+                    $.fileDownload("/api/TaobaoUtils/ShunfenReconciliation", {
+                        httpMethod: 'POST',
+                        data: data,
+                        successCallback: function () {
+                            layer.closeAll('loading');
+                        },
+                        failCallback: function (responseHtml, url) {
+                            layer.msg('加载中..');
+                        }
+                    });
+                }
+            });
+
+            //展示已知数据
+            table.render({
+                elem: '#table_UnitPrice'
+                , toolbar: '#toolbarDemo'
+                , escape: true
+                , cols: [[ //标题栏
+                    { field: 'BrandCode', title: '品牌编码', width: 400, sort: true }
+                    , { field: 'Price', title: '单价', width: 400, edit: 'text' }
+                ]]
+                , data: []
+                , even: true
+            });
+
+            var oldBrandUnitPrice = {};
+
+            //头工具栏事件
+            table.on('toolbar(table_UnitPrice)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'saveBrandPrice':
+                        var shopId = $('body', window.parent.document).find('#ShopId').val();
+                        if (shopId == "") {
+                            layer.msg('请填写店铺ID！', { icon: 5 });
+                            return;
+                        }
+
+                        oldBrandUnitPrice["ShopId"] = shopId;
+                        oldBrandUnitPrice["Date"] = $("#date").val();
+                        oldBrandUnitPrice["ExpressDelivery"] = $("#KUAIDI_Pric").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/TaobaoUtils/SetBrandUnitPrice",
+                            data: JSON.stringify(oldBrandUnitPrice),
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: true,
+                            success: function (res) {
+                                if (res.Result === "YES") {
+                                    layer.msg('修改成功！');
+                                } else {
+                                    layer.msg('失败啦！', { icon: 5 });
+                                }
+                            },
+                            error: function () {
+                                layer.msg('失败啦！', { icon: 5 });
+                            },
+                            complete: function (data) {
+
+                            }
+                        });
+                        break;
+                    case 'getBrandPrice':
+                        var shopId = $('body', window.parent.document).find('#ShopId').val();
+                        if (shopId == "") {
+                            layer.msg('请填写店铺ID！', { icon: 5 });
+                            return;
+                        }
+                        var getBrandUnitPriceRequestData = { "ShopId": shopId, "Date": $("#date").val(), "CacheName": "DUIZHANG" };
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/TaobaoUtils/GetBrandUnitPrice",
+                            data: JSON.stringify(getBrandUnitPriceRequestData),
+                            contentType: "application/json",
+                            dataType: "json",
+                            async: true,
+                            success: function (res) {
+                                oldBrandUnitPrice = res;
+                                $("#KUAIDI_Pric").val(oldBrandUnitPrice.ExpressDelivery);
+                                //展示已知数据
+                                table.render({
+                                    elem: '#table_UnitPrice'
+                                    , toolbar: '#toolbarDemo'
+                                    , escape: true
+                                    , cols: [[ //标题栏
+                                        { field: 'BrandCode', title: '品牌编码', width: 400, sort: true }
+                                        , { field: 'Price', title: '单价', width: 400, edit: 'text' }
+                                    ]]
+                                    , data: oldBrandUnitPrice.BrandUnitPriceItems
+                                    , even: true
+                                });
+                            },
+                            error: function () {
+                                layer.msg('失败啦！', { icon: 5 });
+                            },
+                            complete: function (data) {
+
+                            }
+                        });
+                        break
+                };
+            });
+        });</script>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="getBrandPrice">获得品牌单价信息</button>
+            <button class="layui-btn layui-btn-sm" lay-event="saveBrandPrice">保存品牌单价信息</button>
+        </div>
+    </script>
+</body>
+</html>

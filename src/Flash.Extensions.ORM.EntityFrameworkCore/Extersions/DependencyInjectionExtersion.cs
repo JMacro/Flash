@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IFlashOrmBuilder UseEFCore<TDbContext>(this IFlashOrmBuilder ormBuilder, Action<DbContextOptionsBuilder> options) where TDbContext : BaseDbContext
         {
             ormBuilder.Services.AddDbContext<TDbContext>(options);
-            ormBuilder.Services.AddScoped<BaseDbContext, TDbContext>();
+            ormBuilder.Services.AddScoped<DbContext, TDbContext>();
             AddDefault(ormBuilder.Services);
             return ormBuilder;
         }
@@ -91,7 +91,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 default:
                     throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
             }
-            builder.Services.TryAddScoped<TDbContext>();
             builder.Services.AddScoped<BaseDbContext, TDbContext>();
             return builder;
         }
@@ -104,22 +103,22 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IFlashOrmDbContextBuilder RegisterGlobalEvents(this IFlashOrmDbContextBuilder builder, Action<IRegisterEvents> options)
         {
-            var sp = builder.Services.BuildServiceProvider();
-            var registerEvents = sp.GetService<IRegisterEvents>();
+            var registerEvents = builder.Services.BuildServiceProvider().GetService<IRegisterEvents>();
             if (registerEvents == null)
             {
                 registerEvents = new RegisterEvents();
             }
             options(registerEvents);
-            builder.Services.TryAdd(ServiceDescriptor.Singleton<IRegisterEvents>(registerEvents));
+            builder.Services.TryAdd(ServiceDescriptor.Scoped<IRegisterEvents>(sp => { return registerEvents; }));
             return builder;
         }
 
         private static void AddDefault(IServiceCollection services)
         {
-            services.TryAddScoped<IUnitOfWork, UnitOfWork>();
-            AutoDi(services);
             services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+            services.TryAddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            AutoDi(services);
         }
 
         private static IServiceCollection AutoDi(this IServiceCollection services)
@@ -139,7 +138,6 @@ namespace Microsoft.Extensions.DependencyInjection
                         type3 = type2;
                     }
 
-                    var item = new ServiceDescriptor(type3, type2, ServiceLifetime.Scoped);
                     services.TryAdd(new ServiceDescriptor(type3, type2, ServiceLifetime.Scoped));
                 }
             }

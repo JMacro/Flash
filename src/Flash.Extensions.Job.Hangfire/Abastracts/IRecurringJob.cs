@@ -1,4 +1,5 @@
 ﻿using Hangfire.Server;
+using System.Threading.Tasks;
 
 namespace Flash.Extensions.Job.Hangfire
 {
@@ -11,6 +12,6 @@ namespace Flash.Extensions.Job.Hangfire
 		/// Execute the <see cref="RecurringJob"/>.
 		/// </summary>
 		/// <param name="context">The context to <see cref="PerformContext"/>.</param>
-		void Execute(PerformContext context);
+		Task Execute(PerformContext context);
 	}
 }
